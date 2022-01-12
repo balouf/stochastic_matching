@@ -50,7 +50,7 @@ def create_prob_alias(mu):
     >>> probas
     array([1. , 1. , 1. , 0.5])
     >>> aliases
-    array([0, 0, 0, 2], dtype=uint32)
+    array([0, 0, 0, 2])
     """
     cmu = np.array(mu)
     n = len(cmu)
