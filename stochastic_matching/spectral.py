@@ -312,7 +312,7 @@ class Spectral:
 
     However, the kernel is degenerated.
 
-    >>> spec.kernel
+    >>> spec.kernel*np.sign(spec.kernel[0, 0])
     array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])
 
     As a consequence, stability is False.
