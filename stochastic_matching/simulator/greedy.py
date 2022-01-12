@@ -378,8 +378,9 @@ def hyper_state_choicer(neighbors, node, queue_start, queue_end):
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
     >>> from stochastic_matching import hyper_dumbbells
-    >>> hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
+    >>> choices = hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
     ...                     np.array([21, 10, 7, 4, 3, 2, 50]), np.array([22, 10, 7, 5, 4, 2, 50]))
+    >>> [(e, n.astype(int)) for e, n in choices]
     [(1, array([0])), (6, array([3, 4]))]
     """
     # noinspection PyUnresolvedReferences
