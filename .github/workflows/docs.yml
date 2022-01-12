@@ -29,6 +29,7 @@ jobs:
       - name: Build Sphinx documentation
         run: |
           sphinx-build -a -E -b html docs build
+          pytest --cov-report html:build/_static/cov --cov=stochastic_matching
 
       - name: Deploy Sphinx documentation on Github Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
