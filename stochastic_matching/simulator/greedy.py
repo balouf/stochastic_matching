@@ -61,7 +61,8 @@ def hyper_choicer(neighbors, node, queue_size):
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
     >>> from stochastic_matching import hyper_dumbbells
-    >>> hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))
+    >>> choices = hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))
+    >>> [(e, n.astype(int)) for e, n in choices]
     [(1, array([0])), (6, array([3, 4]))]
     """
     # noinspection PyUnresolvedReferences
