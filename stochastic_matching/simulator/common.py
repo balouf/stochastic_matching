@@ -119,7 +119,8 @@ def graph_neighbors_list(graph):
 
     With hypergraph notation, the second term of the tuples is an array instead of an integer.
 
-    >>> graph_neighbors_list(braess.to_hypergraph()) # doctest: +NORMALIZE_WHITESPACE
+    >>> g = graph_neighbors_list(braess.to_hypergraph())
+    >>> [ [(e, a.astype(int)) for e, a in n] for n in g ] # doctest: +NORMALIZE_WHITESPACE
     [[(0, array([1])), (1, array([2]))],
     [(0, array([0])), (2, array([2])), (3, array([3]))],
     [(1, array([0])), (2, array([1])), (4, array([3]))],
