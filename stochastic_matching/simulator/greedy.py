@@ -544,15 +544,21 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
     >>> start = np.array([0, 0, 0, 0, 0, 0, 0])
     >>> end = np.array([1, 0, 0, 1, 1, 0, 0])
     >>> items_list = np.array([[2, 0], [0, 0], [0, 0], [1, 0], [3, 0], [0, 0], [0, 0]])
-    >>> fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
+    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
     ...                                             start, end),
     ...                        2, start, end, items_list)
-    (6, array([3, 4]))
+    >>> e
+    6
+    >>> n.astype(int)
+    array([3, 4])
     >>> items_list = np.array([[1, 0], [0, 0], [0, 0], [2, 0], [3, 0], [0, 0], [0, 0]])
-    >>> fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
+    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
     ...                                             start, end),
     ...                        2, start, end, items_list)
-    (1, array([0]))
+    >>> e
+    1
+    >>> n.astype(int)
+    array([0])
     """
     i = 0
     targets = choices[0][1]
