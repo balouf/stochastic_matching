@@ -1,6 +1,9 @@
 numpy
 scipy
 numba
+matplotlib
+ipython
+pyqt5
 sphinx>=1.4
 nbsphinx
 ipykernel
