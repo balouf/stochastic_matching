@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.graphs.classes &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.graphs.classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.graphs.classes</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span> <span class="n">csc_matrix</span>
+
+<span class="kn">from</span> <span class="nn">stochastic_matching.graphs.display</span> <span class="kn">import</span> <span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="n">vis_display</span>
+
+
+<div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_matrix</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return neighbors of a node/edge with respect to an incident matrix.</span>
+<span class="sd">    Neighborhood is defined on hypergraph level:</span>
+<span class="sd">    neighbors of a node are edges, neighbors of an edge are nodes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    i: :class:`int`</span>
+<span class="sd">        Index of the node/edge to probe.</span>
+<span class="sd">    compressed_matrix: :class:`~scipy.sparse.csr_matrix` or :class:`~scipy.sparse.csc_matrix`</span>
+<span class="sd">        Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Neighbors of *i*.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A hypergraph with 4 nodes, 2 regular edges and one 4-edge.</span>
+
+<span class="sd">    &gt;&gt;&gt; incidence = np.array([[1, 1, 1],</span>
+<span class="sd">    ...                       [1, 0, 1],</span>
+<span class="sd">    ...                       [0, 1, 1],</span>
+<span class="sd">    ...                       [0, 0, 1]])</span>
+
+<span class="sd">    Edges of node 1:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(0, csr_matrix(incidence))</span>
+<span class="sd">    array([0, 1, 2], dtype=int32)</span>
+
+<span class="sd">    Egde of node 3:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(3, csr_matrix(incidence))</span>
+<span class="sd">    array([2], dtype=int32)</span>
+
+<span class="sd">    Nodes of edge 1:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(0, csc_matrix(incidence))</span>
+<span class="sd">    array([0, 1], dtype=int32)</span>
+
+<span class="sd">    Nodes of hyperedge 2:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(2, csc_matrix(incidence))</span>
+<span class="sd">    array([0, 1, 2, 3], dtype=int32)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">compressed_matrix</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_matrix</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_matrix</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="adjacency_to_incidence"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.adjacency_to_incidence">[docs]</a><span class="k">def</span> <span class="nf">adjacency_to_incidence</span><span class="p">(</span><span class="n">adjacency</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts adjacency matrix to indidence matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adjacency: :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a simple graph (symmetric matrix with 0&#39;s and 1&#39;s, null diagonal)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Incidence matrix between nodes and edges.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Convert a Braess graph from adjacency to incidence.</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">    &gt;&gt;&gt; braess = bicycle().adjacency</span>
+<span class="sd">    &gt;&gt;&gt; braess</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 1, 1, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; adjacency_to_incidence(braess)</span>
+<span class="sd">    array([[1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">adjacency</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">adjacency</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+    <span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">incidence</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">incidence</span></div>
+
+
+<div class="viewcode-block" id="incidence_to_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.incidence_to_adjacency">[docs]</a><span class="k">def</span> <span class="nf">incidence_to_adjacency</span><span class="p">(</span><span class="n">incidence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts incidence matrix to adjacency matrix.</span>
+<span class="sd">    If the incidence matrix does not corresponds to a simple graph, an error is thrown.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    incidence: :class:`~numpy.ndarray`</span>
+<span class="sd">        Incidence matrix of a simple graph (matrix with 0&#39;s and 1&#39;s, two 1&#39;s per column).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Convert a Braess graph from incidence to adjacency.</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">    &gt;&gt;&gt; braess = bicycle().incidence.toarray()</span>
+<span class="sd">    &gt;&gt;&gt; braess</span>
+<span class="sd">    array([[1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1]], dtype=int32)</span>
+<span class="sd">    &gt;&gt;&gt; incidence_to_adjacency(braess)</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 1, 1, 0]])</span>
+
+<span class="sd">    An error occurs if one tries to convert a hypergraph.</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; candy = hyper_dumbbells().incidence.toarray()</span>
+<span class="sd">    &gt;&gt;&gt; candy</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+<span class="sd">    &gt;&gt;&gt; incidence_to_adjacency(candy)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ...</span>
+<span class="sd">    ValueError: The incidence matrix does not correspond to a simple graph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># noinspection PyUnresolvedReferences</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">incidence</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The incidence matrix does not correspond to a simple graph.&quot;</span><span class="p">)</span>
+    <span class="n">incidence</span> <span class="o">=</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">)</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">incidence</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">adjacency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">incidence</span><span class="p">)</span>
+        <span class="n">adjacency</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">adjacency</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adjacency</span></div>
+
+
+<div class="viewcode-block" id="CharMaker"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.CharMaker">[docs]</a><span class="k">class</span> <span class="nc">CharMaker</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class that acts as an infinite list of letters. Used to provide letter-labels to nodes</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; names = CharMaker()</span>
+<span class="sd">    &gt;&gt;&gt; names[0]</span>
+<span class="sd">    &#39;A&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[7]</span>
+<span class="sd">    &#39;H&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[26]</span>
+<span class="sd">    &#39;AA&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[38982989]</span>
+<span class="sd">    &#39;CGGYCT&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">26</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">26</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}{</span><span class="n">res</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="GenericGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph">[docs]</a><span class="k">class</span> <span class="nc">GenericGraph</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class for graphs. Should not be directly used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    incidence: :class:`~numpy.ndarray`</span>
+<span class="sd">        Incidence matrix</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Number of edges.</span>
+<span class="sd">    incidence: :class:`~scipy.sparse.csr_matrix`</span>
+<span class="sd">        :class:`~scipy.sparse.csr_matrix` view of the incidence matrix.</span>
+<span class="sd">    co_incidence: :class:`~scipy.sparse.csc_matrix`</span>
+<span class="sd">        :class:`~scipy.sparse.csc_matrix` view of the incidence matrix.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">incidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">co_incidence</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incidence</span> <span class="o">=</span> <span class="n">incidence</span>
+        <span class="k">if</span> <span class="n">names</span> <span class="o">==</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">CharMaker</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">incidence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__incidence</span>
+
+    <span class="nd">@incidence</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">incidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">incidence</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">incidence</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__incidence</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">incidence</span><span class="o">.</span><span class="n">shape</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__incidence</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">co_incidence</span> <span class="o">=</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">int_2_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">default_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">,</span> <span class="n">edges_dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="GenericGraph.display"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the simple graph.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        options: :class:`dict`</span>
+<span class="sd">            Additional / overriding options to pass to the vis engine.</span>
+<span class="sd">        nodes_dict: :class:`list` of :class:`dict`</span>
+<span class="sd">            Additional / overriding attributes for the nodes.</span>
+<span class="sd">        edges_dict: :class:`list` of :class:`dict`</span>
+<span class="sd">            Additional / overriding attributes for the edges.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        ---------</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import pan</span>
+<span class="sd">        &gt;&gt;&gt; pan().display()</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_vis</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+                                                             <span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_dict</span><span class="p">,</span>
+                                                             <span class="n">edges_dict</span><span class="o">=</span><span class="n">edges_dict</span><span class="p">)</span>
+        <span class="n">vis_display</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HyperGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph">[docs]</a><span class="k">class</span> <span class="nc">HyperGraph</span><span class="p">(</span><span class="n">GenericGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hypergraphs handling.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    incidence: :class:`~numpy.ndarray`</span>
+<span class="sd">        Incidence matrix</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Number of edges.</span>
+<span class="sd">    incidence: :class:`~scipy.sparse.csr_matrix`</span>
+<span class="sd">        :class:`~scipy.sparse.csr_matrix` view of the incidence matrix.</span>
+<span class="sd">    co_incidence: :class:`~scipy.sparse.csc_matrix`</span>
+<span class="sd">        :class:`~scipy.sparse.csc_matrix` view of the incidence matrix.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">incidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HyperGraph.to_simplegraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph.to_simplegraph">[docs]</a>    <span class="k">def</span> <span class="nf">to_simplegraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts to simple graph. Raises an error if not possible.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle, hyper_dumbbells</span>
+<span class="sd">        &gt;&gt;&gt; braess = HyperGraph(bicycle().incidence).to_simplegraph()</span>
+<span class="sd">        &gt;&gt;&gt; type(braess)</span>
+<span class="sd">        &lt;class &#39;stochastic_matching.graphs.classes.SimpleGraph&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; braess.adjacency</span>
+<span class="sd">        array([[0, 1, 1, 0],</span>
+<span class="sd">               [1, 0, 1, 1],</span>
+<span class="sd">               [1, 1, 0, 1],</span>
+<span class="sd">               [0, 1, 1, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; candy = hyper_dumbbells()</span>
+<span class="sd">        &gt;&gt;&gt; candy.to_simplegraph()</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        ValueError: The incidence matrix does not correspond to a simple graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">incidence</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HyperGraph.default_vis"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph.default_vis">[docs]</a>    <span class="k">def</span> <span class="nf">default_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        options: :class:`dict`</span>
+<span class="sd">            Additional / overriding options to pass to the vis engine.</span>
+<span class="sd">            One specific key, *bipartite_display*, tells if the bipartite structure should be explicitly shown.</span>
+<span class="sd">        nodes_dict: :class:`list` of :class:`dict`</span>
+<span class="sd">            Additional / overriding attributes for the nodes.</span>
+<span class="sd">        edges_dict: :class:`list` of :class:`dict`</span>
+<span class="sd">            Additional / overriding attributes for the edges.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`tuple`</span>
+<span class="sd">            Inputs for the vis engine.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        ---------</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import hyper_dumbbells</span>
+<span class="sd">        &gt;&gt;&gt; hyper_dumbbells().default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 3, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;3&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 4, &#39;label&#39;: &#39;4&#39;, &#39;title&#39;: &#39;4&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 5, &#39;label&#39;: &#39;5&#39;, &#39;title&#39;: &#39;5&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 6, &#39;label&#39;: &#39;6&#39;, &#39;title&#39;: &#39;6&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 7, &#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="sd">        {&#39;id&#39;: 8, &#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="sd">        {&#39;id&#39;: 9, &#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="sd">        {&#39;id&#39;: 10, &#39;title&#39;: &#39;3: (4, 5)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="sd">        {&#39;id&#39;: 11, &#39;title&#39;: &#39;4: (4, 6)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="sd">        {&#39;id&#39;: 12, &#39;title&#39;: &#39;5: (5, 6)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="sd">        {&#39;id&#39;: 13, &#39;title&#39;: &#39;6: (2, 3, 4)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480}],</span>
+<span class="sd">        [{&#39;from&#39;: 0, &#39;to&#39;: 7, &#39;title&#39;: &#39;0 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 0, &#39;to&#39;: 8, &#39;title&#39;: &#39;0 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 1, &#39;to&#39;: 7, &#39;title&#39;: &#39;1 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 1, &#39;to&#39;: 9, &#39;title&#39;: &#39;1 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 2, &#39;to&#39;: 8, &#39;title&#39;: &#39;2 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 2, &#39;to&#39;: 9, &#39;title&#39;: &#39;2 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 2, &#39;to&#39;: 13, &#39;title&#39;: &#39;2 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 3, &#39;to&#39;: 13, &#39;title&#39;: &#39;3 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 4, &#39;to&#39;: 10, &#39;title&#39;: &#39;4 &lt;-&gt; 3: (4, 5)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 4, &#39;to&#39;: 11, &#39;title&#39;: &#39;4 &lt;-&gt; 4: (4, 6)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 4, &#39;to&#39;: 13, &#39;title&#39;: &#39;4 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 5, &#39;to&#39;: 10, &#39;title&#39;: &#39;5 &lt;-&gt; 3: (4, 5)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 5, &#39;to&#39;: 12, &#39;title&#39;: &#39;5 &lt;-&gt; 5: (5, 6)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 6, &#39;to&#39;: 11, &#39;title&#39;: &#39;6 &lt;-&gt; 4: (4, 6)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 6, &#39;to&#39;: 12, &#39;title&#39;: &#39;6 &lt;-&gt; 5: (5, 6)&#39;}],</span>
+<span class="sd">        {&#39;groups&#39;: {&#39;HyperEdge&#39;: {&#39;fixed&#39;: {&#39;x&#39;: False}, &#39;color&#39;: {&#39;background&#39;: &#39;black&#39;}, &#39;shape&#39;: &#39;dot&#39;, &#39;size&#39;: 5},</span>
+<span class="sd">        &#39;Node&#39;: {&#39;fixed&#39;: {&#39;x&#39;: False}}},</span>
+<span class="sd">        &#39;bipartite_display&#39;: False})</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="n">vis_options</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">}</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;bipartite_display&#39;</span><span class="p">]</span>
+        <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">][</span><span class="s1">&#39;HyperEdge&#39;</span><span class="p">][</span><span class="s1">&#39;fixed&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">][</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;fixed&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">inner_width</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">.8</span><span class="o">*</span><span class="n">vis_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+
+        <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+                      <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                      <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">nodes_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">)]</span>
+
+        <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span>
+                      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">co_incidence</span><span class="p">)])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                      <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="s1">&#39;HyperEdge&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">inner_width</span><span class="p">}</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">edges_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_edges</span><span class="p">,</span> <span class="n">edges_dict</span><span class="p">)]</span>
+
+        <span class="n">vis_links</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">),</span>
+                      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2"> &lt;-&gt; </span><span class="si">{</span><span class="n">vis_edges</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">incidence</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">vis_nodes</span> <span class="o">+</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_links</span><span class="p">,</span> <span class="n">vis_options</span></div></div>
+
+
+<div class="viewcode-block" id="SimpleGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph">[docs]</a><span class="k">class</span> <span class="nc">SimpleGraph</span><span class="p">(</span><span class="n">GenericGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hypergraphs handling.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    incidence: :class:`~numpy.ndarray`</span>
+<span class="sd">        Incidence matrix</span>
+<span class="sd">    adjacency: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">        Adjacency matrix. Can be used instead of incidence (setting it automatically adjusts the other attributes).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Number of edges.</span>
+<span class="sd">    incidence: :class:`~scipy.sparse.csr_matrix`</span>
+<span class="sd">        :class:`~scipy.sparse.csr_matrix` view of the incidence matrix.</span>
+<span class="sd">    co_incidence: :class:`~scipy.sparse.csc_matrix`</span>
+<span class="sd">        :class:`~scipy.sparse.csc_matrix` view of the incidence matrix.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adjacency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">incidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span> <span class="o">=</span> <span class="n">adjacency</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">adjacency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__adjacency</span>
+
+    <span class="nd">@adjacency</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">adjacency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__adjacency</span> <span class="o">=</span> <span class="n">adjacency</span>
+        <span class="k">if</span> <span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">incidence</span> <span class="o">=</span> <span class="n">adjacency_to_incidence</span><span class="p">(</span><span class="n">adjacency</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SimpleGraph.to_hypergraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph.to_hypergraph">[docs]</a>    <span class="k">def</span> <span class="nf">to_hypergraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts to hypergraph.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~stochastic_matching.graphs.classes.HyperGraph`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle, hyper_dumbbells</span>
+<span class="sd">        &gt;&gt;&gt; braess = bicycle().to_hypergraph()</span>
+<span class="sd">        &gt;&gt;&gt; type(braess)</span>
+<span class="sd">        &lt;class &#39;stochastic_matching.graphs.classes.HyperGraph&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; braess.incidence.toarray()</span>
+<span class="sd">        array([[1, 1, 0, 0, 0],</span>
+<span class="sd">               [1, 0, 1, 1, 0],</span>
+<span class="sd">               [0, 1, 1, 0, 1],</span>
+<span class="sd">               [0, 0, 0, 1, 1]], dtype=int32)</span>
+
+<span class="sd">        Remind that HyperGraph do not have an adjacency matrix.</span>
+<span class="sd">        &gt;&gt;&gt; braess.adjacency</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        AttributeError: &#39;HyperGraph&#39; object has no attribute &#39;adjacency&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">HyperGraph</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">incidence</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SimpleGraph.default_vis"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph.default_vis">[docs]</a>    <span class="k">def</span> <span class="nf">default_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        options: :class:`dict`</span>
+<span class="sd">            Additional / overriding options to pass to the vis engine.</span>
+<span class="sd">        nodes_dict: :class:`list` of :class:`dict`</span>
+<span class="sd">            Additional / overriding attributed for the nodes.</span>
+<span class="sd">        edges_dict: :class:`list` of :class:`dict`</span>
+<span class="sd">            Additional / overriding attributed for the edges.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`tuple`</span>
+<span class="sd">            Inputs for the vis engine.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        The method provides a Vis-ready description of the graph.</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import pan</span>
+<span class="sd">        &gt;&gt;&gt; pan().default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 3, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
+<span class="sd">        [{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;(0, 1)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;(0, 2)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;(1, 2)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (2, 3)&#39;, &#39;label&#39;: &#39;(2, 3)&#39;}],</span>
+<span class="sd">        {})</span>
+
+<span class="sd">        Nodes can have names.</span>
+
+<span class="sd">        &gt;&gt;&gt; pan(names=[&#39;One&#39;, &#39;Two&#39;, &#39;Three&#39;, &#39;Four&#39;]).default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;One&#39;, &#39;title&#39;: &#39;0: One&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;Two&#39;, &#39;title&#39;: &#39;1: Two&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;Three&#39;, &#39;title&#39;: &#39;2: Three&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 3, &#39;label&#39;: &#39;Four&#39;, &#39;title&#39;: &#39;3: Four&#39;}],</span>
+<span class="sd">        [{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (One, Two)&#39;, &#39;label&#39;: &#39;(One, Two)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (One, Three)&#39;, &#39;label&#39;: &#39;(One, Three)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (Two, Three)&#39;, &#39;label&#39;: &#39;(Two, Three)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (Three, Four)&#39;, &#39;label&#39;: &#39;(Three, Four)&#39;}],</span>
+<span class="sd">        {})</span>
+
+<span class="sd">        Pass &#39;alpha&#39; to name for automatic letter labeling.</span>
+
+<span class="sd">        &gt;&gt;&gt; pan(names=&#39;alpha&#39;).default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;A&#39;, &#39;title&#39;: &#39;0: A&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;B&#39;, &#39;title&#39;: &#39;1: B&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;C&#39;, &#39;title&#39;: &#39;2: C&#39;},</span>
+<span class="sd">        {&#39;id&#39;: 3, &#39;label&#39;: &#39;D&#39;, &#39;title&#39;: &#39;3: D&#39;}],</span>
+<span class="sd">        [{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (A, B)&#39;, &#39;label&#39;: &#39;(A, B)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (A, C)&#39;, &#39;label&#39;: &#39;(A, C)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;(B, C)&#39;},</span>
+<span class="sd">        {&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (C, D)&#39;, &#39;label&#39;: &#39;(C, D)&#39;}],</span>
+<span class="sd">        {})</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)}</span>
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">nodes_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">)]</span>
+
+        <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                      <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">}</span>
+                     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">co_incidence</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)]]</span>
+        <span class="k">if</span> <span class="n">edges_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_edges</span><span class="p">,</span> <span class="n">edges_dict</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">options</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

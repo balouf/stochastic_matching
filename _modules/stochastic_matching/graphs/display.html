@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.graphs.display &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.graphs.display</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.graphs.display</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">VIS_LOCATION</span> <span class="o">=</span> <span class="s1">&#39;http://unpkg.com/vis-network/standalone/umd/vis-network.min&#39;</span>
+<span class="sd">&quot;&quot;&quot;Default location of vis-network.js .&quot;&quot;&quot;</span>
+
+<span class="n">VIS_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;interaction&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;navigationButtons&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;600px&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;600px&#39;</span>
+<span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;Default options for the vis-network engine.&quot;&quot;&quot;</span>
+
+<span class="n">HYPER_GRAPH_VIS_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;groups&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;HyperEdge&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fixed&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;background&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">},</span> <span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+        <span class="s1">&#39;Node&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fixed&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;bipartite_display&#39;</span><span class="p">:</span> <span class="kc">False</span>
+<span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;Default additional options for hypergraphs in the vis-network engine&quot;&quot;&quot;</span>
+
+<span class="n">html_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;div id=&quot;</span><span class="si">%(name)s</span><span class="s2">&quot;&gt;&lt;/div&gt;</span>
+<span class="s2">&lt;script&gt;</span>
+<span class="s2">require.config({</span>
+<span class="s2">    paths: {</span>
+<span class="s2">        vis: &#39;</span><span class="si">%(vis)s</span><span class="s2">&#39;</span>
+<span class="s2">    }</span>
+<span class="s2">});</span>
+<span class="s2">require([&#39;vis&#39;], function(vis){</span>
+<span class="s2">var nodes = </span><span class="si">%(nodes)s</span><span class="s2">;</span>
+<span class="s2">var edges = </span><span class="si">%(edges)s</span><span class="s2">;</span>
+<span class="s2">var data= {</span>
+<span class="s2">    nodes: nodes,</span>
+<span class="s2">    edges: edges,</span>
+<span class="s2">};</span>
+<span class="s2">var options = </span><span class="si">%(options)s</span><span class="s2">;</span>
+<span class="s2">var container = document.getElementById(&#39;</span><span class="si">%(name)s</span><span class="s2">&#39;);</span>
+<span class="s2">var network = new vis.Network(container, data, options);</span>
+<span class="s2">network.fit({</span>
+<span class="s2">  maxZoomLevel: 1000});</span>
+<span class="s2">});</span>
+<span class="s2">&lt;/script&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="vis_html"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.display.vis_html">[docs]</a><span class="k">def</span> <span class="nf">vis_html</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">vis</span><span class="o">=</span><span class="n">VIS_LOCATION</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create HTML to display a Vis network graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nodes: :class:`list` of :class:`dict`</span>
+<span class="sd">        List the nodes of the graph. Each node is a dictionary with mandatory key `id`.</span>
+<span class="sd">    edges: :class:`list` of :class:`dict`</span>
+<span class="sd">        List the edges of the graph. Each node is a dictionary with mandatory keys `from` and `to`.</span>
+<span class="sd">    options: :class:`dict`, optional</span>
+<span class="sd">        Options to pass to Vis.</span>
+<span class="sd">    template: :class:`str`, optional</span>
+<span class="sd">        A Vis template.</span>
+<span class="sd">    vis: :class:`str`, optional</span>
+<span class="sd">        Location of vis.js</span>
+<span class="sd">    div_name: :class:`str`, optional</span>
+<span class="sd">        Id of the div that will host the display.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`str`</span>
+<span class="sd">        HTML code.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; node_list = [{&#39;id&#39;: 0}, {&#39;id&#39;: 1}, {&#39;id&#39;: 2}, {&#39;id&#39;: 3}]</span>
+<span class="sd">    &gt;&gt;&gt; edge_list = [{&#39;from&#39;: 0, &#39;to&#39;: 1}, {&#39;from&#39;: 0, &#39;to&#39;: 2},</span>
+<span class="sd">    ...          {&#39;from&#39;: 1, &#39;to&#39;: 3}, {&#39;from&#39;: 2, &#39;to&#39;: 3}]</span>
+<span class="sd">    &gt;&gt;&gt; print(vis_html(nodes=node_list, edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &lt;div id=&quot;...&quot;&gt;&lt;/div&gt;</span>
+<span class="sd">    &lt;script&gt;</span>
+<span class="sd">    require.config({</span>
+<span class="sd">        paths: {</span>
+<span class="sd">            vis: &#39;http://unpkg.com/vis-network/standalone/umd/vis-network.min&#39;</span>
+<span class="sd">        }</span>
+<span class="sd">    });</span>
+<span class="sd">    require([&#39;vis&#39;], function(vis){</span>
+<span class="sd">    var nodes = [{&quot;id&quot;: 0}, {&quot;id&quot;: 1}, {&quot;id&quot;: 2}, {&quot;id&quot;: 3}];</span>
+<span class="sd">    var edges = [{&quot;from&quot;: 0, &quot;to&quot;: 1}, {&quot;from&quot;: 0, &quot;to&quot;: 2}, {&quot;from&quot;: 1, &quot;to&quot;: 3}, {&quot;from&quot;: 2, &quot;to&quot;: 3}];</span>
+<span class="sd">    var data= {</span>
+<span class="sd">        nodes: nodes,</span>
+<span class="sd">        edges: edges,</span>
+<span class="sd">    };</span>
+<span class="sd">    var options = {&quot;interaction&quot;: {&quot;navigationButtons&quot;: true}, &quot;width&quot;: &quot;600px&quot;, &quot;height&quot;: &quot;600px&quot;};</span>
+<span class="sd">    var container = document.getElementById(&#39;...&#39;);</span>
+<span class="sd">    var network = new vis.Network(container, data, options);</span>
+<span class="sd">    network.fit({</span>
+<span class="sd">      maxZoomLevel: 1000});</span>
+<span class="sd">    });</span>
+<span class="sd">    &lt;/script&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">div_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">div_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
+    <span class="k">if</span> <span class="n">edges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
+    <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">template</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">html_template</span>
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">div_name</span><span class="p">,</span>
+           <span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span>
+           <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">edges</span><span class="p">),</span>
+           <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="o">**</span><span class="n">VIS_OPTIONS</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">}),</span>
+           <span class="s1">&#39;vis&#39;</span><span class="p">:</span> <span class="n">vis</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">template</span> <span class="o">%</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="vis_display"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.display.vis_display">[docs]</a><span class="k">def</span> <span class="nf">vis_display</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">vis</span><span class="o">=</span><span class="n">VIS_LOCATION</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In IPython / Jupyter session, displays a Vis graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nodes: :class:`list` of :class:`dict`</span>
+<span class="sd">        List the nodes of the graph. Each node is a dictionary with mandatory key `id`.</span>
+<span class="sd">    edges: :class:`list` of :class:`dict`</span>
+<span class="sd">        List the edges of the graph. Each node is a dictionary with mandatory keys `from` and `to`.</span>
+<span class="sd">    options: :class:`dict`, optional</span>
+<span class="sd">        Options to pass to Vis.</span>
+<span class="sd">    template: :class:`str`, optional</span>
+<span class="sd">        A Vis template.</span>
+<span class="sd">    vis: :class:`str`, optional</span>
+<span class="sd">        Location of vis.js</span>
+<span class="sd">    div_name: :class:`str`, optional</span>
+<span class="sd">        Id of the div that will host the display.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~IPython.display.HTML`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; vis_display()</span>
+<span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># noinspection PyTypeChecker</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">vis_html</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
+                          <span class="n">vis</span><span class="o">=</span><span class="n">vis</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="n">div_name</span><span class="p">)))</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

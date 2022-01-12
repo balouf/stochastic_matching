@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graph tools &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Coverage" href="../coverage.html" />
+    <link rel="prev" title="Reference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Stochastic Matching
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Graph tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#graph-classes">Graph classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generators">Generators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#display">Display</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Reference</a> &raquo;</li>
+      <li>Graph tools</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/graphs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="graph-tools">
+<h1>Graph tools<a class="headerlink" href="#graph-tools" title="Permalink to this headline"></a></h1>
+<section id="graph-classes">
+<h2>Graph classes<a class="headerlink" href="#graph-classes" title="Permalink to this headline"></a></h2>
+<p>This module defines the classes to handle graphs.</p>
+<span class="target" id="module-stochastic_matching.graphs.classes"></span><dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.CharMaker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">CharMaker</span></span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#CharMaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.CharMaker" title="Permalink to this definition"></a></dt>
+<dd><p>Class that acts as an infinite list of letters. Used to provide letter-labels to nodes</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="n">CharMaker</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;A&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+<span class="go">&#39;H&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span>
+<span class="go">&#39;AA&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">38982989</span><span class="p">]</span>
+<span class="go">&#39;CGGYCT&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">GenericGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#GenericGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract class for graphs. Should not be directly used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph.n">
+<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph.n" title="Permalink to this definition"></a></dt>
+<dd><p>Number of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph.m">
+<span class="sig-name descname"><span class="pre">m</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph.m" title="Permalink to this definition"></a></dt>
+<dd><p>Number of edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph.incidence">
+<span class="sig-name descname"><span class="pre">incidence</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph.incidence" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> view of the incidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph.co_incidence">
+<span class="sig-name descname"><span class="pre">co_incidence</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph.co_incidence" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a> view of the incidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph.names">
+<span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph.names" title="Permalink to this definition"></a></dt>
+<dd><p>List of node names (e.g. for display)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.GenericGraph.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#GenericGraph.display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.GenericGraph.display" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the simple graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding options to pass to the vis engine.</p></li>
+<li><p><strong>nodes_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding attributes for the nodes.</p></li>
+<li><p><strong>edges_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding attributes for the edges.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.0.dev)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">pan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pan</span><span class="p">()</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">HyperGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#HyperGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph" title="Permalink to this definition"></a></dt>
+<dd><p>Hypergraphs handling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.n">
+<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.n" title="Permalink to this definition"></a></dt>
+<dd><p>Number of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.m">
+<span class="sig-name descname"><span class="pre">m</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.m" title="Permalink to this definition"></a></dt>
+<dd><p>Number of edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.incidence">
+<span class="sig-name descname"><span class="pre">incidence</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.incidence" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> view of the incidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.co_incidence">
+<span class="sig-name descname"><span class="pre">co_incidence</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.co_incidence" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a> view of the incidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.names">
+<span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.names" title="Permalink to this definition"></a></dt>
+<dd><p>List of node names (e.g. for display)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.default_vis">
+<span class="sig-name descname"><span class="pre">default_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#HyperGraph.default_vis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.default_vis" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding options to pass to the vis engine.
+One specific key, <em>bipartite_display</em>, tells if the bipartite structure should be explicitly shown.</p></li>
+<li><p><strong>nodes_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding attributes for the nodes.</p></li>
+<li><p><strong>edges_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding attributes for the edges.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Inputs for the vis engine.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">()</span><span class="o">.</span><span class="n">default_vis</span><span class="p">()</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 3, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;3&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 4, &#39;label&#39;: &#39;4&#39;, &#39;title&#39;: &#39;4&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 5, &#39;label&#39;: &#39;5&#39;, &#39;title&#39;: &#39;5&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 6, &#39;label&#39;: &#39;6&#39;, &#39;title&#39;: &#39;6&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">{&#39;id&#39;: 7, &#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="go">{&#39;id&#39;: 8, &#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="go">{&#39;id&#39;: 9, &#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="go">{&#39;id&#39;: 10, &#39;title&#39;: &#39;3: (4, 5)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="go">{&#39;id&#39;: 11, &#39;title&#39;: &#39;4: (4, 6)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="go">{&#39;id&#39;: 12, &#39;title&#39;: &#39;5: (5, 6)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
+<span class="go">{&#39;id&#39;: 13, &#39;title&#39;: &#39;6: (2, 3, 4)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480}],</span>
+<span class="go">[{&#39;from&#39;: 0, &#39;to&#39;: 7, &#39;title&#39;: &#39;0 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="go">{&#39;from&#39;: 0, &#39;to&#39;: 8, &#39;title&#39;: &#39;0 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="go">{&#39;from&#39;: 1, &#39;to&#39;: 7, &#39;title&#39;: &#39;1 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="go">{&#39;from&#39;: 1, &#39;to&#39;: 9, &#39;title&#39;: &#39;1 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 8, &#39;title&#39;: &#39;2 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 9, &#39;title&#39;: &#39;2 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 13, &#39;title&#39;: &#39;2 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
+<span class="go">{&#39;from&#39;: 3, &#39;to&#39;: 13, &#39;title&#39;: &#39;3 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
+<span class="go">{&#39;from&#39;: 4, &#39;to&#39;: 10, &#39;title&#39;: &#39;4 &lt;-&gt; 3: (4, 5)&#39;},</span>
+<span class="go">{&#39;from&#39;: 4, &#39;to&#39;: 11, &#39;title&#39;: &#39;4 &lt;-&gt; 4: (4, 6)&#39;},</span>
+<span class="go">{&#39;from&#39;: 4, &#39;to&#39;: 13, &#39;title&#39;: &#39;4 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
+<span class="go">{&#39;from&#39;: 5, &#39;to&#39;: 10, &#39;title&#39;: &#39;5 &lt;-&gt; 3: (4, 5)&#39;},</span>
+<span class="go">{&#39;from&#39;: 5, &#39;to&#39;: 12, &#39;title&#39;: &#39;5 &lt;-&gt; 5: (5, 6)&#39;},</span>
+<span class="go">{&#39;from&#39;: 6, &#39;to&#39;: 11, &#39;title&#39;: &#39;6 &lt;-&gt; 4: (4, 6)&#39;},</span>
+<span class="go">{&#39;from&#39;: 6, &#39;to&#39;: 12, &#39;title&#39;: &#39;6 &lt;-&gt; 5: (5, 6)&#39;}],</span>
+<span class="go">{&#39;groups&#39;: {&#39;HyperEdge&#39;: {&#39;fixed&#39;: {&#39;x&#39;: False}, &#39;color&#39;: {&#39;background&#39;: &#39;black&#39;}, &#39;shape&#39;: &#39;dot&#39;, &#39;size&#39;: 5},</span>
+<span class="go">&#39;Node&#39;: {&#39;fixed&#39;: {&#39;x&#39;: False}}},</span>
+<span class="go">&#39;bipartite_display&#39;: False})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.HyperGraph.to_simplegraph">
+<span class="sig-name descname"><span class="pre">to_simplegraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#HyperGraph.to_simplegraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.HyperGraph.to_simplegraph" title="Permalink to this definition"></a></dt>
+<dd><p>Converts to simple graph. Raises an error if not possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">HyperGraph</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span><span class="o">.</span><span class="n">to_simplegraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
+<span class="go">&lt;class &#39;stochastic_matching.graphs.classes.SimpleGraph&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">to_simplegraph</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">The incidence matrix does not correspond to a simple graph.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">SimpleGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incidence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#SimpleGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph" title="Permalink to this definition"></a></dt>
+<dd><p>Hypergraphs handling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix</p></li>
+<li><p><strong>adjacency</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Adjacency matrix. Can be used instead of incidence (setting it automatically adjusts the other attributes).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.n">
+<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.n" title="Permalink to this definition"></a></dt>
+<dd><p>Number of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.m">
+<span class="sig-name descname"><span class="pre">m</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.m" title="Permalink to this definition"></a></dt>
+<dd><p>Number of edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.incidence">
+<span class="sig-name descname"><span class="pre">incidence</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.incidence" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> view of the incidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.co_incidence">
+<span class="sig-name descname"><span class="pre">co_incidence</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.co_incidence" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a> view of the incidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.names">
+<span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.names" title="Permalink to this definition"></a></dt>
+<dd><p>List of node names (e.g. for display)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.default_vis">
+<span class="sig-name descname"><span class="pre">default_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#SimpleGraph.default_vis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.default_vis" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding options to pass to the vis engine.</p></li>
+<li><p><strong>nodes_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding attributed for the nodes.</p></li>
+<li><p><strong>edges_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Additional / overriding attributed for the edges.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Inputs for the vis engine.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>The method provides a Vis-ready description of the graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">pan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pan</span><span class="p">()</span><span class="o">.</span><span class="n">default_vis</span><span class="p">()</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;},</span>
+<span class="go">{&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;},</span>
+<span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;},</span>
+<span class="go">{&#39;id&#39;: 3, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
+<span class="go">[{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;(0, 1)&#39;},</span>
+<span class="go">{&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;(0, 2)&#39;},</span>
+<span class="go">{&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;(1, 2)&#39;},</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (2, 3)&#39;, &#39;label&#39;: &#39;(2, 3)&#39;}],</span>
+<span class="go">{})</span>
+</pre></div>
+</div>
+<p>Nodes can have names.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pan</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;One&#39;</span><span class="p">,</span> <span class="s1">&#39;Two&#39;</span><span class="p">,</span> <span class="s1">&#39;Three&#39;</span><span class="p">,</span> <span class="s1">&#39;Four&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">default_vis</span><span class="p">()</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;One&#39;, &#39;title&#39;: &#39;0: One&#39;},</span>
+<span class="go">{&#39;id&#39;: 1, &#39;label&#39;: &#39;Two&#39;, &#39;title&#39;: &#39;1: Two&#39;},</span>
+<span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;Three&#39;, &#39;title&#39;: &#39;2: Three&#39;},</span>
+<span class="go">{&#39;id&#39;: 3, &#39;label&#39;: &#39;Four&#39;, &#39;title&#39;: &#39;3: Four&#39;}],</span>
+<span class="go">[{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (One, Two)&#39;, &#39;label&#39;: &#39;(One, Two)&#39;},</span>
+<span class="go">{&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (One, Three)&#39;, &#39;label&#39;: &#39;(One, Three)&#39;},</span>
+<span class="go">{&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (Two, Three)&#39;, &#39;label&#39;: &#39;(Two, Three)&#39;},</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (Three, Four)&#39;, &#39;label&#39;: &#39;(Three, Four)&#39;}],</span>
+<span class="go">{})</span>
+</pre></div>
+</div>
+<p>Pass ‘alpha’ to name for automatic letter labeling.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pan</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">default_vis</span><span class="p">()</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;A&#39;, &#39;title&#39;: &#39;0: A&#39;},</span>
+<span class="go">{&#39;id&#39;: 1, &#39;label&#39;: &#39;B&#39;, &#39;title&#39;: &#39;1: B&#39;},</span>
+<span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;C&#39;, &#39;title&#39;: &#39;2: C&#39;},</span>
+<span class="go">{&#39;id&#39;: 3, &#39;label&#39;: &#39;D&#39;, &#39;title&#39;: &#39;3: D&#39;}],</span>
+<span class="go">[{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (A, B)&#39;, &#39;label&#39;: &#39;(A, B)&#39;},</span>
+<span class="go">{&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (A, C)&#39;, &#39;label&#39;: &#39;(A, C)&#39;},</span>
+<span class="go">{&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;(B, C)&#39;},</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (C, D)&#39;, &#39;label&#39;: &#39;(C, D)&#39;}],</span>
+<span class="go">{})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.to_hypergraph">
+<span class="sig-name descname"><span class="pre">to_hypergraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#SimpleGraph.to_hypergraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.to_hypergraph" title="Permalink to this definition"></a></dt>
+<dd><p>Converts to hypergraph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
+<span class="go">&lt;class &#39;stochastic_matching.graphs.classes.HyperGraph&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1]], dtype=int32)</span>
+</pre></div>
+</div>
+<p>Remind that HyperGraph do not have an adjacency matrix.
+&gt;&gt;&gt; braess.adjacency
+Traceback (most recent call last):
+…
+AttributeError: ‘HyperGraph’ object has no attribute ‘adjacency’</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.adjacency_to_incidence">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">adjacency_to_incidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#adjacency_to_incidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.adjacency_to_incidence" title="Permalink to this definition"></a></dt>
+<dd><p>Converts adjacency matrix to indidence matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>adjacency</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Adjacency matrix of a simple graph (symmetric matrix with 0’s and 1’s, null diagonal)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Incidence matrix between nodes and edges.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Convert a Braess graph from adjacency to incidence.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span>
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adjacency_to_incidence</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
+<span class="go">array([[1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.incidence_to_adjacency">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">incidence_to_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#incidence_to_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.incidence_to_adjacency" title="Permalink to this definition"></a></dt>
+<dd><p>Converts incidence matrix to adjacency matrix.
+If the incidence matrix does not corresponds to a simple graph, an error is thrown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix of a simple graph (matrix with 0’s and 1’s, two 1’s per column).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Adjacency matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Convert a Braess graph from incidence to adjacency.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span>
+<span class="go">array([[1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1]], dtype=int32)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>An error occurs if one tries to convert a hypergraph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span>
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">candy</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">The incidence matrix does not correspond to a simple graph.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.classes.neighbors">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressed_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.neighbors" title="Permalink to this definition"></a></dt>
+<dd><p>Return neighbors of a node/edge with respect to an incident matrix.
+Neighborhood is defined on hypergraph level:
+neighbors of a node are edges, neighbors of an edge are nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Index of the node/edge to probe.</p></li>
+<li><p><strong>compressed_matrix</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>) – Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Neighbors of <em>i</em>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A hypergraph with 4 nodes, 2 regular edges and one 4-edge.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Edges of node 1:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
+<span class="go">array([0, 1, 2], dtype=int32)</span>
+</pre></div>
+</div>
+<p>Egde of node 3:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
+<span class="go">array([2], dtype=int32)</span>
+</pre></div>
+</div>
+<p>Nodes of edge 1:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
+<span class="go">array([0, 1], dtype=int32)</span>
+</pre></div>
+</div>
+<p>Nodes of hyperedge 2:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
+<span class="go">array([0, 1, 2, 3], dtype=int32)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="generators">
+<h2>Generators<a class="headerlink" href="#generators" title="Permalink to this headline"></a></h2>
+<p>Set of methods to produce graphs in various shapes.</p>
+<span class="target" id="module-stochastic_matching.graphs.generators"></span><dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.generators.bicycle">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">bicycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#bicycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.bicycle" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>right_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
+<li><p><strong>common_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of common edges</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A graph with with two cycles sharing common edges/nodes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A <em>house</em> (a square and a triangle with one common edge).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">house</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">common_edges</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">house</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 1],</span>
+<span class="go">       [1, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A bow-tie (two triangles with only one node in common (no common edge).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bicycle</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">common_edges</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.generators.dumbbells">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">dumbbells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#dumbbells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.dumbbells" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>right_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two cycles.</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A graph with with two cycles joined by a path.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A square and a triangle joined by a path of length 3.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A bow-tie (two triangles with one node in common).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.generators.fan">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">fan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycle_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperedges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#fan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.fan" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cycles</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of cycles</p></li>
+<li><p><strong>cycle_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of cycles</p></li>
+<li><p><strong>hyperedges</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of hyperedges that connect the cycles.</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return cycles connected by one hyperedge.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A basic 3-leaves clover:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span> <span class="o">=</span> <span class="n">fan</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>  
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+</pre></div>
+</div>
+<p>Increase the hyperedge connectivity:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span> <span class="o">=</span> <span class="n">fan</span><span class="p">(</span><span class="n">hyperedges</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>  
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]], dtype=int32)</span>
+</pre></div>
+</div>
+<p>With only two cycles, we have a simple graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">fan</span><span class="p">(</span><span class="n">cycles</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cycle_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0]], dtype=int32)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">to_simplegraph</span><span class="p">()</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.generators.hyper_dumbbells">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">hyper_dumbbells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperedges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#hyper_dumbbells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.hyper_dumbbells" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>right_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
+<li><p><strong>hyperedges</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path of 3-edges that joins the two cycles.</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hypergraph of 2 regular cycles connected by a chain of 3-edges.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>The <em>candy</em>, a basic but very useful hypergraph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+</pre></div>
+</div>
+<p>A more elaborate hypergraph</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]], dtype=int32)</span>
+</pre></div>
+</div>
+<p>Warning: without any hyperedge, we have two disconnected cycles.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">(</span><span class="n">hyperedges</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<span class="go">array([[1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1]], dtype=int32)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.generators.pan">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">pan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#pan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.pan" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
+<li><p><strong>tail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A graph with tail of number_events <cite>tail</cite> attached to a cycle of number_events <cite>cycle</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A triangle with a one-edge tail:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_pan</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simple_pan</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A pentacle:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pentacle</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pentacle</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [1, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A larger pan:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">long_pan</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">long_pan</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.generators.triangle_chain">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">triangle_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">triangles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#triangle_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.triangle_chain" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>triangles</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of triangles in the chain.</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A graph made of a chain of triangles.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>The Braess graph (two triangles).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">triangle_chain</span><span class="p">(</span><span class="n">triangles</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>The <em>Olympic Rings</em> graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle_chain</span><span class="p">(</span><span class="n">triangles</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="display">
+<h2>Display<a class="headerlink" href="#display" title="Permalink to this headline"></a></h2>
+<p>Provides interface with vis-network (graph display).</p>
+<span class="target" id="module-stochastic_matching.graphs.display"></span><dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.display.HYPER_GRAPH_VIS_OPTIONS">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.display.</span></span><span class="sig-name descname"><span class="pre">HYPER_GRAPH_VIS_OPTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bipartite_display':</span> <span class="pre">False,</span> <span class="pre">'groups':</span> <span class="pre">{'HyperEdge':</span> <span class="pre">{'color':</span> <span class="pre">{'background':</span> <span class="pre">'black'},</span> <span class="pre">'fixed':</span> <span class="pre">{'x':</span> <span class="pre">False},</span> <span class="pre">'shape':</span> <span class="pre">'dot',</span> <span class="pre">'size':</span> <span class="pre">5},</span> <span class="pre">'Node':</span> <span class="pre">{'fixed':</span> <span class="pre">{'x':</span> <span class="pre">False}}}}</span></em><a class="headerlink" href="#stochastic_matching.graphs.display.HYPER_GRAPH_VIS_OPTIONS" title="Permalink to this definition"></a></dt>
+<dd><p>Default additional options for hypergraphs in the vis-network engine</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.display.VIS_LOCATION">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.display.</span></span><span class="sig-name descname"><span class="pre">VIS_LOCATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'http://unpkg.com/vis-network/standalone/umd/vis-network.min'</span></em><a class="headerlink" href="#stochastic_matching.graphs.display.VIS_LOCATION" title="Permalink to this definition"></a></dt>
+<dd><p>Default location of vis-network.js .</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.display.VIS_OPTIONS">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.display.</span></span><span class="sig-name descname"><span class="pre">VIS_OPTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'height':</span> <span class="pre">'600px',</span> <span class="pre">'interaction':</span> <span class="pre">{'navigationButtons':</span> <span class="pre">True},</span> <span class="pre">'width':</span> <span class="pre">'600px'}</span></em><a class="headerlink" href="#stochastic_matching.graphs.display.VIS_OPTIONS" title="Permalink to this definition"></a></dt>
+<dd><p>Default options for the vis-network engine.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.display.vis_display">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.display.</span></span><span class="sig-name descname"><span class="pre">vis_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://unpkg.com/vis-network/standalone/umd/vis-network.min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/display.html#vis_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.display.vis_display" title="Permalink to this definition"></a></dt>
+<dd><p>In IPython / Jupyter session, displays a Vis graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
+<li><p><strong>edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – A Vis template.</p></li>
+<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js</p></li>
+<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.0.dev)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vis_display</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.display.vis_html">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.display.</span></span><span class="sig-name descname"><span class="pre">vis_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://unpkg.com/vis-network/standalone/umd/vis-network.min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/display.html#vis_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.display.vis_html" title="Permalink to this definition"></a></dt>
+<dd><p>Create HTML to display a Vis network graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
+<li><p><strong>edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – A Vis template.</p></li>
+<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js</p></li>
+<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HTML code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">node_list</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edge_list</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+<span class="gp">... </span>         <span class="p">{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">vis_html</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">node_list</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edge_list</span><span class="p">))</span> 
+<span class="go">&lt;div id=&quot;...&quot;&gt;&lt;/div&gt;</span>
+<span class="go">&lt;script&gt;</span>
+<span class="go">require.config({</span>
+<span class="go">    paths: {</span>
+<span class="go">        vis: &#39;http://unpkg.com/vis-network/standalone/umd/vis-network.min&#39;</span>
+<span class="go">    }</span>
+<span class="go">});</span>
+<span class="go">require([&#39;vis&#39;], function(vis){</span>
+<span class="go">var nodes = [{&quot;id&quot;: 0}, {&quot;id&quot;: 1}, {&quot;id&quot;: 2}, {&quot;id&quot;: 3}];</span>
+<span class="go">var edges = [{&quot;from&quot;: 0, &quot;to&quot;: 1}, {&quot;from&quot;: 0, &quot;to&quot;: 2}, {&quot;from&quot;: 1, &quot;to&quot;: 3}, {&quot;from&quot;: 2, &quot;to&quot;: 3}];</span>
+<span class="go">var data= {</span>
+<span class="go">    nodes: nodes,</span>
+<span class="go">    edges: edges,</span>
+<span class="go">};</span>
+<span class="go">var options = {&quot;interaction&quot;: {&quot;navigationButtons&quot;: true}, &quot;width&quot;: &quot;600px&quot;, &quot;height&quot;: &quot;600px&quot;};</span>
+<span class="go">var container = document.getElementById(&#39;...&#39;);</span>
+<span class="go">var network = new vis.Network(container, data, options);</span>
+<span class="go">network.fit({</span>
+<span class="go">  maxZoomLevel: 1000});</span>
+<span class="go">});</span>
+<span class="go">&lt;/script&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../coverage.html" class="btn btn-neutral float-right" title="Coverage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
