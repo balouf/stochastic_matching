@@ -231,8 +231,11 @@ def longest_sum_queue_selector(choices, queue_size):
     --------
     >>> from stochastic_matching import hyper_dumbbells
     >>> qs = np.array([3, 0, 0, 2, 2, 0, 0])
-    >>> longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
-    (6, array([3, 4]))
+    >>> e, n = longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
+    >>> e
+    6
+    >>> n.astype(int)
+    array([3, 4])
     """
     i = 0
     # noinspection PyUnresolvedReferences
