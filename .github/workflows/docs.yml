@@ -23,12 +23,14 @@ jobs:
         run: |
           sudo apt install pandoc
           python -m pip install --upgrade pip
+          pip install flake8 tox codecov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           python setup.py install
 
       - name: Build Sphinx documentation
         run: |
           sphinx-build -a -E -b html docs build
+          tox -e py
 
       - name: Deploy Sphinx documentation on Github Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
