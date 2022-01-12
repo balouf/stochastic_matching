@@ -5,6 +5,9 @@ name: build
 
 on: [push]
 
+env:
+  NUMBA_DISABLE_JIT: 1
+
 jobs:
   build:
     runs-on: ubuntu-latest
