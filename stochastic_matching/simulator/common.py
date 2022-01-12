@@ -131,14 +131,14 @@ def graph_neighbors_list(graph):
     nodes 2, 3, and 4 together.
 
     >>> candy = hyper_dumbbells()
-    >>> candy.incidence.toarray()
+    >>> candy.incidence.toarray().astype(int)
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
            [0, 1, 1, 0, 0, 0, 1],
            [0, 0, 0, 0, 0, 0, 1],
            [0, 0, 0, 1, 1, 0, 1],
            [0, 0, 0, 1, 0, 1, 0],
-           [0, 0, 0, 0, 1, 1, 0]], dtype=int32)
+           [0, 0, 0, 0, 1, 1, 0]])
 
     This shows in the output of the function.
 
