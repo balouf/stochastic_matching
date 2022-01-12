@@ -136,7 +136,10 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Kernel is not trivial because of the bipartite degenerescence:
 
-    >>> k
+    >>> k.shape
+    (1, 5)
+
+    >>> k # doctest: +SKIP
     array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])
 
     Bipartite behavior:
