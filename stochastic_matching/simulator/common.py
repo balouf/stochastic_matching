@@ -54,7 +54,7 @@ def create_prob_alias(mu):
     """
     cmu = np.array(mu)
     n = len(cmu)
-    alias = np.zeros(n, dtype=np.uint)
+    alias = np.zeros(n, dtype=int)
     prob = np.zeros(n)
     # noinspection PyUnresolvedReferences
     normalized_intensities = cmu * n / np.sum(cmu)
