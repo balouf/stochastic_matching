@@ -788,7 +788,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <p class="rubric">Examples</p>
 <p>A basic 3-leaves clover:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span> <span class="o">=</span> <span class="n">fan</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>  
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
@@ -797,12 +797,12 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
-<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
 </pre></div>
 </div>
 <p>Increase the hyperedge connectivity:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span> <span class="o">=</span> <span class="n">fan</span><span class="p">(</span><span class="n">hyperedges</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>  
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
 <span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
@@ -811,12 +811,12 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],</span>
-<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]])</span>
 </pre></div>
 </div>
 <p>With only two cycles, we have a simple graph.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">fan</span><span class="p">(</span><span class="n">cycles</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cycle_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> 
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 1],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
@@ -824,7 +824,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 1],</span>
 <span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
-<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">to_simplegraph</span><span class="p">()</span><span class="o">.</span><span class="n">adjacency</span> 
 <span class="go">array([[0, 1, 0, 1, 1, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0, 0],</span>
@@ -860,18 +860,18 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <p class="rubric">Examples</p>
 <p>The <em>candy</em>, a basic but very useful hypergraph.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> 
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
 <span class="go">       [0, 1, 1, 0, 0, 0, 1],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
 <span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
 <span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
-<span class="go">       [0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0]])</span>
 </pre></div>
 </div>
 <p>A more elaborate hypergraph</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> 
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
@@ -883,17 +883,17 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <span class="go">       [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
 <span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],</span>
-<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]])</span>
 </pre></div>
 </div>
 <p>Warning: without any hyperedge, we have two disconnected cycles.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">(</span><span class="n">hyperedges</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> 
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hyper_dumbbells</span><span class="p">(</span><span class="n">hyperedges</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> 
 <span class="go">array([[1, 1, 0, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0],</span>
 <span class="go">       [0, 1, 1, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 1, 1, 0],</span>
 <span class="go">       [0, 0, 0, 1, 0, 1],</span>
-<span class="go">       [0, 0, 0, 0, 1, 1]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 1, 1]])</span>
 </pre></div>
 </div>
 </dd></dl>
