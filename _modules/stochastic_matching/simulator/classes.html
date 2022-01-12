@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.simulator.classes &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.simulator.classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.simulator.classes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.common</span> <span class="kn">import</span> <span class="n">create_prob_alias</span><span class="p">,</span> <span class="n">graph_neighbors_list</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.virtual_queue</span> <span class="kn">import</span> <span class="n">vq_core</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.greedy</span> <span class="kn">import</span> <span class="n">qs_core_maker</span><span class="p">,</span> <span class="n">random_node_selector</span><span class="p">,</span> <span class="n">longest_queue_selector</span><span class="p">,</span> \
+    <span class="n">longest_sum_queue_selector</span><span class="p">,</span> <span class="n">random_item_selector</span><span class="p">,</span> <span class="n">random_sum_item_selector</span><span class="p">,</span> <span class="n">qstate_core_maker</span><span class="p">,</span> <span class="n">fcfm_selector</span><span class="p">,</span> \
+    <span class="n">fcfm_hyper_selector</span>
+
+
+<div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`</span>
+<span class="sd">        Input graph.</span>
+<span class="sd">    mu: :class:`~numpy.ndarray` or :class:`list`</span>
+<span class="sd">        Arrival rates on nodes of the graph.</span>
+<span class="sd">    number_events: :class:`int`, optional</span>
+<span class="sd">        Number of arrivals to simulate.</span>
+<span class="sd">    seed: :class:`int`, optional</span>
+<span class="sd">        Seed of the random generator</span>
+<span class="sd">    max_queue: :class:`int`</span>
+<span class="sd">        Max queue size. Necessary for speed and detection of unstability.</span>
+<span class="sd">        For stable systems very close to the unstability</span>
+<span class="sd">        border, the max_queue may be reached.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    generator: :class:`dict`</span>
+<span class="sd">        Generator parameters (prob and alias vector, seed, and number of events).</span>
+<span class="sd">    inners: :class:`dict`</span>
+<span class="sd">        Inner variable (depends on the exact simulator engine used).</span>
+<span class="sd">    logs: :class:`dict`</span>
+<span class="sd">        Monitored variables (default to trafic on edges,</span>
+<span class="sd">        queue size distribution, and number of steps achieved).</span>
+<span class="sd">    core: callable</span>
+<span class="sd">        Core simulator, usually a numba function. Must return the total number of steps achieved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Name that can be used to list all non-abstract classes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span> <span class="o">=</span> <span class="n">max_queue</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_generator</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_inners</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_logs</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_core</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Simulator.set_generator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.set_generator">[docs]</a>    <span class="k">def</span> <span class="nf">set_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Populate the generator parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mu: :class:`~numpy.ndarray` or :class:`list`</span>
+<span class="sd">            Arrival rates on nodes of the graph.</span>
+<span class="sd">        number_events: :class:`int`, optional</span>
+<span class="sd">            Number of arrivals to simulate.</span>
+<span class="sd">        seed: :class:`int`, optional</span>
+<span class="sd">            Seed of the random generator</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prob</span><span class="p">,</span> <span class="n">alias</span> <span class="o">=</span> <span class="n">create_prob_alias</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;prob&#39;</span><span class="p">:</span> <span class="n">prob</span><span class="p">,</span> <span class="s1">&#39;alias&#39;</span><span class="p">:</span> <span class="n">alias</span><span class="p">,</span>
+                          <span class="s1">&#39;number_events&#39;</span><span class="p">:</span> <span class="n">number_events</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">seed</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="Simulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Populate the inner parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;neighbors&#39;</span><span class="p">:</span> <span class="n">graph_neighbors_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">),</span>
+                       <span class="p">}</span></div>
+
+<div class="viewcode-block" id="Simulator.set_logs"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.set_logs">[docs]</a>    <span class="k">def</span> <span class="nf">set_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Populate the monitored variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trafic&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">),</span>
+                     <span class="s1">&#39;queue_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">),</span>
+                     <span class="s1">&#39;steps_done&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span></div>
+
+    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Simulator.reset"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reset inner and monitored variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_inners</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_logs</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Simulator.run"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run simulation (results are stored in the attribute :attr:`~stochastic_matching.simulator.classes.Simulator.logs`).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Simulator.compute_average_queues"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.compute_average_queues">[docs]</a>    <span class="k">def</span> <span class="nf">compute_average_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Average queue sizes.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">        &gt;&gt;&gt; sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)</span>
+<span class="sd">        &gt;&gt;&gt; sim.run()</span>
+<span class="sd">        &gt;&gt;&gt; sim.compute_average_queues()</span>
+<span class="sd">        array([1.07826087, 0.26086957, 0.07391304, 0.85217391])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;queue_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Simulator.total_waiting_time"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.total_waiting_time">[docs]</a>    <span class="k">def</span> <span class="nf">total_waiting_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`float`</span>
+<span class="sd">            Average waiting time</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">        &gt;&gt;&gt; sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)</span>
+<span class="sd">        &gt;&gt;&gt; sim.run()</span>
+<span class="sd">        &gt;&gt;&gt; sim.total_waiting_time()</span>
+<span class="sd">        0.36535764375876584</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">())</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Simulator.show_average_queues"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.show_average_queues">[docs]</a>    <span class="k">def</span> <span class="nf">show_average_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        indices: :class:`list`, optional</span>
+<span class="sd">            Indices of the nodes to display</span>
+<span class="sd">        sort: :class:`bool`, optional</span>
+<span class="sd">            If True, display the nodes by decreasing average queue size</span>
+<span class="sd">        as_time: :class:`bool`, optional</span>
+<span class="sd">            If True, display the nodes by decreasing average queue size</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~matplotlib.figure.Figure`</span>
+<span class="sd">            A figure of the CCDFs of the queues.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">        &gt;&gt;&gt; sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)</span>
+<span class="sd">        &gt;&gt;&gt; sim.run()</span>
+
+<span class="sd">        On IPython, this will draw the CCDF, otherwise a fig object is returned.</span>
+
+<span class="sd">        &gt;&gt;&gt; fig = sim.show_average_queues()</span>
+<span class="sd">        &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">        &lt;Figure size ...x... with 1 Axes&gt;</span>
+
+<span class="sd">        &gt;&gt;&gt; fig = sim.show_average_queues(indices=[0, 3, 2], sort=True, as_time=True)</span>
+<span class="sd">        &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">        &lt;Figure size ...x... with 1 Axes&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">averages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">as_time</span><span class="p">:</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span>
+        <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">sort</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">averages</span><span class="p">)</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">averages</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">as_time</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Average waiting time&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Average queue occupancy&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Node&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Simulator.compute_ccdf"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.compute_ccdf">[docs]</a>    <span class="k">def</span> <span class="nf">compute_ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            CCDFs of the queues.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">        &gt;&gt;&gt; sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)</span>
+<span class="sd">        &gt;&gt;&gt; sim.run()</span>
+<span class="sd">        &gt;&gt;&gt; sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,</span>
+<span class="sd">            0.03913043, 0.00869565, 0.00434783, 0.        ],</span>
+<span class="sd">           [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,</span>
+<span class="sd">            0.        , 0.        , 0.        , 0.        ],</span>
+<span class="sd">           [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,</span>
+<span class="sd">            0.        , 0.        , 0.        , 0.        ],</span>
+<span class="sd">           [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,</span>
+<span class="sd">            0.01304348, 0.        , 0.        , 0.        ]])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span>
+        <span class="c1"># noinspection PyUnresolvedReferences</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">events</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;queue_log&#39;</span><span class="p">]]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">events</span></div>
+
+<div class="viewcode-block" id="Simulator.show_ccdf"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.Simulator.show_ccdf">[docs]</a>    <span class="k">def</span> <span class="nf">show_ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        indices: :class:`list`, optional</span>
+<span class="sd">            Indices of the nodes to display</span>
+<span class="sd">        sort: :class:`bool`, optional</span>
+<span class="sd">            If True, order the nodes by decreasing average queue size</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~matplotlib.figure.Figure`</span>
+<span class="sd">            A figure of the CCDFs of the queues.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="sd">        &gt;&gt;&gt; sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)</span>
+<span class="sd">        &gt;&gt;&gt; sim.run()</span>
+
+<span class="sd">        On IPython, this will draw the CCDF, otherwise a fig object is returned.</span>
+
+<span class="sd">        &gt;&gt;&gt; fig = sim.show_ccdf()</span>
+<span class="sd">        &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">        &lt;Figure size ...x... with 1 Axes&gt;</span>
+
+<span class="sd">        &gt;&gt;&gt; fig = sim.show_ccdf(indices=[0, 3, 2], sort=True)</span>
+<span class="sd">        &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">        &lt;Figure size ...x... with 1 Axes&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ccdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_ccdf</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ccdf</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">sort</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">averages</span><span class="p">)</span>
+            <span class="n">ccdf</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;CCDF&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Queue occupancy&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="QueueSizeSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.QueueSizeSimulator">[docs]</a><span class="k">class</span> <span class="nc">QueueSizeSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class derived from :class:`~stochastic_matching.simulator.classes.Simulator`</span>
+<span class="sd">    for greedy simulator based on the size of queues.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="QueueSizeSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.QueueSizeSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Incorporate `queue_size` to the inner variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set_inners</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QueueSizeSimulator.set_core_from_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.QueueSizeSimulator.set_core_from_selector">[docs]</a>    <span class="k">def</span> <span class="nf">set_core_from_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple_selector</span><span class="p">,</span> <span class="n">hyper_selector</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the core engine for a greedy policy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simple_selector: callable</span>
+<span class="sd">            Jitted selector function for simple graphs.</span>
+<span class="sd">        hyper_selector: callable</span>
+<span class="sd">            Jitted selector function for hypergraphs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qs_core_maker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">simple_selector</span><span class="p">,</span> <span class="n">hyper_selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RandomNode"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.RandomNode">[docs]</a><span class="k">class</span> <span class="nc">RandomNode</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.</span>
+<span class="sd">    When multiple choices are possible, one is chosen uniformly at random.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import pan, bicycle, hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomNode(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">     &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">                         [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">     &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    Sanity check: results are unchanged if the graph is treated as hypergraph.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomNode(pan(tail=0).to_hypergraph(), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">     &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">                         [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">     &#39;steps_done&#39;: 1000}</span>
+
+
+<span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomNode(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([ 7, 10,  1,  4,  7], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[22, 13,  7,  7,  5, 15,  4,  0,  0,  0],</span>
+<span class="sd">           [73,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [69,  3,  1,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 73}</span>
+
+<span class="sd">    A working candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomNode(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [313,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  13,   7,  34,  11,   2,   8,  13,</span>
+<span class="sd">             18,  12,  56,  27,   8,  24,  25,   7,   8,   3,   1,   4],</span>
+<span class="sd">           [168,  48,  35,  39,  20,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [278,  25,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 314}</span>
+
+<span class="sd">    Note that you can reset the simulator before starting another run.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.reset()</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [313,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  13,   7,  34,  11,   2,   8,  13,</span>
+<span class="sd">             18,  12,  56,  27,   8,  24,  25,   7,   8,   3,   1,   4],</span>
+<span class="sd">           [168,  48,  35,  39,  20,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [278,  25,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 314}</span>
+
+<span class="sd">    You can display the distribution of queue sizes as a ccdf:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.show_ccdf() # doctest: +ELLIPSIS</span>
+<span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_node&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be use to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RandomNode.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.RandomNode.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the core engine to choose uniformly at random amongst choices.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_core_from_selector</span><span class="p">(</span><span class="n">random_node_selector</span><span class="p">,</span> <span class="n">random_node_selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LongestQueue"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.LongestQueue">[docs]</a><span class="k">class</span> <span class="nc">LongestQueue</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.</span>
+<span class="sd">    When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import pan, bicycle, hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; sim = LongestQueue(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = LongestQueue(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([38, 38,  7, 37, 40], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],</span>
+<span class="sd">           [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 339}</span>
+
+<span class="sd">    A working candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = LongestQueue(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
+<span class="sd">             10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
+<span class="sd">           [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 292}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;longest_queue&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be use to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LongestQueue.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.LongestQueue.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the core engine to choose the longest (sum of) queue(s).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_core_from_selector</span><span class="p">(</span><span class="n">longest_queue_selector</span><span class="p">,</span> <span class="n">longest_sum_queue_selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RandomItem"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.RandomItem">[docs]</a><span class="k">class</span> <span class="nc">RandomItem</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.</span>
+<span class="sd">    When multiple choices are possible, chooses proportionally to the sizes of the queues</span>
+<span class="sd">    (or sum of queues for hyperedges).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import pan, bicycle, hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomItem(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomItem(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([12, 11,  4,  8, 10], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[39, 13, 10,  6,  3,  8, 14,  8,  3,  1],</span>
+<span class="sd">           [96,  5,  3,  1,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [97,  7,  1,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 105}</span>
+
+<span class="sd">    A working candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomItem(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[537, 135,  65,  62,  34,  20,  25,  30,  48,  12,   4,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [792, 130,  28,  14,   8,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [861,  71,  19,  15,   5,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,  31,  65,  70,  46,  56,  60,  82,  59,</span>
+<span class="sd">             49,  54,  60,  61,  42, 100,  44,  28,  10,  15,   9,   1],</span>
+<span class="sd">           [711, 127,  77,  34,  19,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [800,  97,  50,  22,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [732, 125,  74,  25,  11,   3,   2,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 972}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_item&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be use to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RandomItem.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.RandomItem.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the core engine to choose at random proportionally to the sizes of the (sum of the) queues.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_core_from_selector</span><span class="p">(</span><span class="n">random_item_selector</span><span class="p">,</span> <span class="n">random_sum_item_selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="QueueStateSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.QueueStateSimulator">[docs]</a><span class="k">class</span> <span class="nc">QueueStateSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class derived from :class:`~stochastic_matching.simulator.classes.Simulator`</span>
+<span class="sd">    for greedy simulator based on the states of queues (including age of items).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="QueueStateSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.QueueStateSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Incorporate `queue_start`, `queue_end`, and `items` to the inner variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set_inners</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QueueStateSimulator.set_core_from_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.QueueStateSimulator.set_core_from_selector">[docs]</a>    <span class="k">def</span> <span class="nf">set_core_from_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple_selector</span><span class="p">,</span> <span class="n">hyper_selector</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the core engine for a greedy policy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simple_selector: callable</span>
+<span class="sd">            Jitted selector function for simple graphs.</span>
+<span class="sd">        hyper_selector: callable</span>
+<span class="sd">            Jitted selector function for hypergraphs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qstate_core_maker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">simple_selector</span><span class="p">,</span> <span class="n">hyper_selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FCFM"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.FCFM">[docs]</a><span class="k">class</span> <span class="nc">FCFM</span><span class="p">(</span><span class="n">QueueStateSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueStateSimulator`.</span>
+<span class="sd">    When multiple choices are possible, the oldest item is chosen.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import pan, bicycle, hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; sim = FCFM(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = FCFM(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([34, 42,  7, 41, 36], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[127,  70,  22,  26,  29,  12,  23,  15,  10,   5],</span>
+<span class="sd">           [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 339}</span>
+
+<span class="sd">    A working candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = FCFM(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1],</span>
+<span class="sd">    ...            number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
+<span class="sd">             10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
+<span class="sd">           [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 292}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fcfm&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be use to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FCFM.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.FCFM.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the core engine to choose the oldest item.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_core_from_selector</span><span class="p">(</span><span class="n">fcfm_selector</span><span class="p">,</span> <span class="n">fcfm_hyper_selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="VQSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.VQSimulator">[docs]</a><span class="k">class</span> <span class="nc">VQSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.Simulator`.</span>
+<span class="sd">    Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are different from the ones common to all</span>
+<span class="sd">    greedy simulator.</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import pan, bicycle, hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">           [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 329}</span>
+
+<span class="sd">    A working candy. While candies are not good for greedy policies, the virtual queue is</span>
+<span class="sd">    designed to deal with it.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,</span>
+<span class="sd">              3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [884,  79,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [113,  44,  82, 101,  96,  99,  67,  31,  29,  50,  14,  20,  32,</span>
+<span class="sd">             31,  44,  44,  34,  30,  26,  11,   2,   0,   0,   0,   0],</span>
+<span class="sd">           [239, 154, 138, 103,  75,  69,  58,  67,  52,  33,  12,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [755, 143,  72,  30,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be use to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VQSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.VQSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines inner variables for the virtual queue core engine.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;incid_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">indptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;incid_ind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;coinc_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">co_incidence</span><span class="o">.</span><span class="n">indptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;coinc_ind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">co_incidence</span><span class="o">.</span><span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;ready_edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;vq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VQSimulator.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.VQSimulator.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plug in the virtual queue core engine.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">vq_core</span></div></div>
+
+
+<div class="viewcode-block" id="get_simulator_classes"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.classes.get_simulator_classes">[docs]</a><span class="k">def</span> <span class="nf">get_simulator_classes</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    root: :class:`~stochastic_matching.simulator.classes.Simulator`, optional</span>
+<span class="sd">        Starting class (can be abstract).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`dict`</span>
+<span class="sd">        Dictionaries of all subclasses that have a name (as in class attribute `name`).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; get_simulator_classes() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;virtual_queue&#39;: &lt;class &#39;stochastic_matching.simulator.classes.VQSimulator&#39;&gt;,</span>
+<span class="sd">     &#39;random_node&#39;: &lt;class &#39;stochastic_matching.simulator.classes.RandomNode&#39;&gt;,</span>
+<span class="sd">     &#39;longest_queue&#39;: &lt;class &#39;stochastic_matching.simulator.classes.LongestQueue&#39;&gt;,</span>
+<span class="sd">     &#39;random_item&#39;: &lt;class &#39;stochastic_matching.simulator.classes.RandomItem&#39;&gt;,</span>
+<span class="sd">     &#39;fcfm&#39;: &lt;class &#39;stochastic_matching.simulator.classes.FCFM&#39;&gt;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Simulator</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_simulator_classes</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="c1"># def display_ccdf(queue_log):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     queue_log: :class:`~numpy.ndarray`</span>
+<span class="c1">#         Queue matrix (typically the content of &#39;queue_log&#39;</span>
+<span class="c1">#         from :attr:`~stochastic_matching.simulator.classes.Simulator.logs`).</span>
+<span class="c1">#</span>
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     :class:`~matplotlib.figure.Figure`</span>
+<span class="c1">#         A figure of the CCDFs of the queues.</span>
+<span class="c1">#</span>
+<span class="c1">#     Examples</span>
+<span class="c1">#     --------</span>
+<span class="c1">#</span>
+<span class="c1">#     &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
+<span class="c1">#     &gt;&gt;&gt; sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42)</span>
+<span class="c1">#     &gt;&gt;&gt; sim.run()</span>
+<span class="c1">#</span>
+<span class="c1">#     On IPython, this will draw the CCDF, otherwise a fig object is returned.</span>
+<span class="c1">#</span>
+<span class="c1">#     &gt;&gt;&gt; fig = display_ccdf(sim.logs[&#39;queue_log&#39;])</span>
+<span class="c1">#     &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="c1">#     &lt;Figure size ...x... with 1 Axes&gt;</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     # noinspection PyUnresolvedReferences</span>
+<span class="c1">#     events = np.sum(queue_log[0, :])</span>
+<span class="c1">#     n, _ = queue_log.shape</span>
+<span class="c1">#     # noinspection PyUnresolvedReferences</span>
+<span class="c1">#     ccdf = (events - np.cumsum(np.hstack([np.zeros((n, 1)), queue_log]), axis=1)) / events</span>
+<span class="c1">#     for i in range(n):</span>
+<span class="c1">#         plt.semilogy(ccdf[i, ccdf[i, :] &gt; 0], label=f&quot;Node {i}&quot;)</span>
+<span class="c1">#     plt.legend()</span>
+<span class="c1">#     plt.xlim([0, None])</span>
+<span class="c1">#     plt.ylim([None, 1])</span>
+<span class="c1">#     plt.ylabel(&quot;CCDF&quot;)</span>
+<span class="c1">#     plt.xlabel(&quot;Queue occupancy&quot;)</span>
+<span class="c1">#     return plt.gcf()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

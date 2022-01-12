@@ -81,17 +81,17 @@
 <span class="kn">from</span> <span class="nn">stochastic_matching.graphs.display</span> <span class="kn">import</span> <span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="n">vis_display</span>
 
 
-<div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return neighbors of a node/edge with respect to an incident matrix.</span>
-<span class="sd">    Neighborhood is defined on hypergraph level:</span>
+<span class="sd">    Neighborhood is defined on hypergraph level, not on adjacency level:</span>
 <span class="sd">    neighbors of a node are edges, neighbors of an edge are nodes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    i: :class:`int`</span>
 <span class="sd">        Index of the node/edge to probe.</span>
-<span class="sd">    compressed_matrix: :class:`~scipy.sparse.csr_matrix` or :class:`~scipy.sparse.csc_matrix`</span>
+<span class="sd">    compressed_incidence: :class:`~scipy.sparse.csr_matrix` or :class:`~scipy.sparse.csc_matrix`</span>
 <span class="sd">        Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</span>
 
 <span class="sd">    Returns</span>
@@ -102,14 +102,14 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    A hypergraph with 4 nodes, 2 regular edges and one 4-edge.</span>
+<span class="sd">    A hypergraph with 4 nodes, 2 regular edges (0, 1) and (0, 2) and one 4-edge (0, 1, 2, 3).</span>
 
 <span class="sd">    &gt;&gt;&gt; incidence = np.array([[1, 1, 1],</span>
 <span class="sd">    ...                       [1, 0, 1],</span>
 <span class="sd">    ...                       [0, 1, 1],</span>
 <span class="sd">    ...                       [0, 0, 1]])</span>
 
-<span class="sd">    Edges of node 1:</span>
+<span class="sd">    Edges of node 0:</span>
 
 <span class="sd">    &gt;&gt;&gt; neighbors(0, csr_matrix(incidence))</span>
 <span class="sd">    array([0, 1, 2], dtype=int32)</span>
@@ -119,7 +119,7 @@
 <span class="sd">    &gt;&gt;&gt; neighbors(3, csr_matrix(incidence))</span>
 <span class="sd">    array([2], dtype=int32)</span>
 
-<span class="sd">    Nodes of edge 1:</span>
+<span class="sd">    Nodes of edge 0:</span>
 
 <span class="sd">    &gt;&gt;&gt; neighbors(0, csc_matrix(incidence))</span>
 <span class="sd">    array([0, 1], dtype=int32)</span>
@@ -129,17 +129,17 @@
 <span class="sd">    &gt;&gt;&gt; neighbors(2, csc_matrix(incidence))</span>
 <span class="sd">    array([0, 1, 2, 3], dtype=int32)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">compressed_matrix</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_matrix</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_matrix</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
+    <span class="k">return</span> <span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
 
 
 <div class="viewcode-block" id="adjacency_to_incidence"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.adjacency_to_incidence">[docs]</a><span class="k">def</span> <span class="nf">adjacency_to_incidence</span><span class="p">(</span><span class="n">adjacency</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts adjacency matrix to indidence matrix.</span>
+<span class="sd">    Converts adjacency matrix to incidence matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    adjacency: :class:`~numpy.ndarray`</span>
-<span class="sd">        Adjacency matrix of a simple graph (symmetric matrix with 0&#39;s and 1&#39;s, null diagonal)</span>
+<span class="sd">        Adjacency matrix of a simple graph (symmetric matrix with 0s and 1s, null diagonal).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -149,16 +149,16 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    Convert a Braess graph from adjacency to incidence.</span>
+<span class="sd">    Convert a diamond graph from adjacency to incidence.</span>
 
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; braess = bicycle().adjacency</span>
-<span class="sd">    &gt;&gt;&gt; braess</span>
+<span class="sd">    &gt;&gt;&gt; diamond = bicycle().adjacency</span>
+<span class="sd">    &gt;&gt;&gt; diamond</span>
 <span class="sd">    array([[0, 1, 1, 0],</span>
 <span class="sd">           [1, 0, 1, 1],</span>
 <span class="sd">           [1, 1, 0, 1],</span>
 <span class="sd">           [0, 1, 1, 0]])</span>
-<span class="sd">    &gt;&gt;&gt; adjacency_to_incidence(braess)</span>
+<span class="sd">    &gt;&gt;&gt; adjacency_to_incidence(diamond)</span>
 <span class="sd">    array([[1, 1, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 1, 0],</span>
 <span class="sd">           [0, 1, 1, 0, 1],</span>
@@ -182,7 +182,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    incidence: :class:`~numpy.ndarray`</span>
-<span class="sd">        Incidence matrix of a simple graph (matrix with 0&#39;s and 1&#39;s, two 1&#39;s per column).</span>
+<span class="sd">        Incidence matrix of a simple graph (matrix with 0s and 1s, two 1s per column).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -192,16 +192,16 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    Convert a Braess graph from incidence to adjacency.</span>
+<span class="sd">    Convert a diamond graph from incidence to adjacency.</span>
 
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; braess = bicycle().incidence.toarray().astype(&#39;int&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; braess</span>
+<span class="sd">    &gt;&gt;&gt; diamond = bicycle().incidence.toarray().astype(&#39;int&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; diamond</span>
 <span class="sd">    array([[1, 1, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 1, 0],</span>
 <span class="sd">           [0, 1, 1, 0, 1],</span>
 <span class="sd">           [0, 0, 0, 1, 1]])</span>
-<span class="sd">    &gt;&gt;&gt; incidence_to_adjacency(braess)</span>
+<span class="sd">    &gt;&gt;&gt; incidence_to_adjacency(diamond)</span>
 <span class="sd">    array([[0, 1, 1, 0],</span>
 <span class="sd">           [1, 0, 1, 1],</span>
 <span class="sd">           [1, 1, 0, 1],</span>
@@ -251,8 +251,8 @@
 <span class="sd">    &#39;H&#39;</span>
 <span class="sd">    &gt;&gt;&gt; names[26]</span>
 <span class="sd">    &#39;AA&#39;</span>
-<span class="sd">    &gt;&gt;&gt; names[38982989]</span>
-<span class="sd">    &#39;CGGYCT&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[107458610947716]</span>
+<span class="sd">    &#39;STOCHASTIC&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
@@ -276,7 +276,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    incidence: :class:`~numpy.ndarray`</span>
-<span class="sd">        Incidence matrix</span>
+<span class="sd">        Incidence matrix.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>

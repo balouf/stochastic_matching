@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulator &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MatchingQueues" href="mq.html" />
+    <link rel="prev" title="Spectral" href="spectral.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Stochastic Matching
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graphs.html">Graph tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectral.html">Spectral</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simulator-classes">Simulator Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#greedy-tools">Greedy tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-queue-tools">Virtual Queue tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common">Common</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mq.html">MatchingQueues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Reference</a> &raquo;</li>
+      <li>Simulator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/simulator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="simulator">
+<h1>Simulator<a class="headerlink" href="#simulator" title="Permalink to this headline"></a></h1>
+<section id="simulator-classes">
+<h2>Simulator Classes<a class="headerlink" href="#simulator-classes" title="Permalink to this headline"></a></h2>
+<p>Defines a hierarchy of simulator classes</p>
+<span class="target" id="module-stochastic_matching.simulator.classes"></span><dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.FCFM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">FCFM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#FCFM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.FCFM" title="Permalink to this definition"></a></dt>
+<dd><p>Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.QueueStateSimulator" title="stochastic_matching.simulator.classes.QueueStateSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueStateSimulator</span></code></a>.
+When multiple choices are possible, the oldest item is chosen.</p>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>A ill braess graph (simulation ends before completion due to drift).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([34, 42,  7, 41, 36], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[127,  70,  22,  26,  29,  12,  23,  15,  10,   5],</span>
+<span class="go">       [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 339}</span>
+</pre></div>
+</div>
+<p>A working candy (but candies are not good for greedy policies).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>           <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
+<span class="go">         10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
+<span class="go">       [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 292}</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.FCFM.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fcfm'</span></em><a class="headerlink" href="#stochastic_matching.simulator.classes.FCFM.name" title="Permalink to this definition"></a></dt>
+<dd><p>String that can be use to refer to that simulator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.FCFM.set_core">
+<span class="sig-name descname"><span class="pre">set_core</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#FCFM.set_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.FCFM.set_core" title="Permalink to this definition"></a></dt>
+<dd><p>Build the core engine to choose the oldest item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.LongestQueue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">LongestQueue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#LongestQueue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.LongestQueue" title="Permalink to this definition"></a></dt>
+<dd><p>Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.QueueSizeSimulator" title="stochastic_matching.simulator.classes.QueueSizeSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueSizeSimulator</span></code></a>.
+When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.</p>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">LongestQueue</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>A ill braess graph (simulation ends before completion due to drift).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">LongestQueue</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([38, 38,  7, 37, 40], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],</span>
+<span class="go">       [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 339}</span>
+</pre></div>
+</div>
+<p>A working candy (but candies are not good for greedy policies).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">LongestQueue</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
+<span class="go">         10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
+<span class="go">       [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 292}</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.LongestQueue.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'longest_queue'</span></em><a class="headerlink" href="#stochastic_matching.simulator.classes.LongestQueue.name" title="Permalink to this definition"></a></dt>
+<dd><p>String that can be use to refer to that simulator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.LongestQueue.set_core">
+<span class="sig-name descname"><span class="pre">set_core</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#LongestQueue.set_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.LongestQueue.set_core" title="Permalink to this definition"></a></dt>
+<dd><p>Build the core engine to choose the longest (sum of) queue(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.QueueSizeSimulator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">QueueSizeSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#QueueSizeSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.QueueSizeSimulator" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract class derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.Simulator" title="stochastic_matching.simulator.classes.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>
+for greedy simulator based on the size of queues.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.QueueSizeSimulator.set_core_from_selector">
+<span class="sig-name descname"><span class="pre">set_core_from_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simple_selector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyper_selector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#QueueSizeSimulator.set_core_from_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.QueueSizeSimulator.set_core_from_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the core engine for a greedy policy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simple_selector</strong> (<em>callable</em>) – Jitted selector function for simple graphs.</p></li>
+<li><p><strong>hyper_selector</strong> (<em>callable</em>) – Jitted selector function for hypergraphs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.QueueSizeSimulator.set_inners">
+<span class="sig-name descname"><span class="pre">set_inners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#QueueSizeSimulator.set_inners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.QueueSizeSimulator.set_inners" title="Permalink to this definition"></a></dt>
+<dd><p>Incorporate <cite>queue_size</cite> to the inner variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.QueueStateSimulator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">QueueStateSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#QueueStateSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.QueueStateSimulator" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract class derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.Simulator" title="stochastic_matching.simulator.classes.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>
+for greedy simulator based on the states of queues (including age of items).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.QueueStateSimulator.set_core_from_selector">
+<span class="sig-name descname"><span class="pre">set_core_from_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simple_selector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyper_selector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#QueueStateSimulator.set_core_from_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.QueueStateSimulator.set_core_from_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the core engine for a greedy policy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simple_selector</strong> (<em>callable</em>) – Jitted selector function for simple graphs.</p></li>
+<li><p><strong>hyper_selector</strong> (<em>callable</em>) – Jitted selector function for hypergraphs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.QueueStateSimulator.set_inners">
+<span class="sig-name descname"><span class="pre">set_inners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#QueueStateSimulator.set_inners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.QueueStateSimulator.set_inners" title="Permalink to this definition"></a></dt>
+<dd><p>Incorporate <cite>queue_start</cite>, <cite>queue_end</cite>, and <cite>items</cite> to the inner variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.RandomItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">RandomItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#RandomItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.RandomItem" title="Permalink to this definition"></a></dt>
+<dd><p>Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.QueueSizeSimulator" title="stochastic_matching.simulator.classes.QueueSizeSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueSizeSimulator</span></code></a>.
+When multiple choices are possible, chooses proportionally to the sizes of the queues
+(or sum of queues for hyperedges).</p>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItem</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>A ill braess graph (simulation ends before completion due to drift).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItem</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([12, 11,  4,  8, 10], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[39, 13, 10,  6,  3,  8, 14,  8,  3,  1],</span>
+<span class="go">       [96,  5,  3,  1,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [97,  7,  1,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 105}</span>
+</pre></div>
+</div>
+<p>A working candy (but candies are not good for greedy policies).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItem</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[537, 135,  65,  62,  34,  20,  25,  30,  48,  12,   4,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [792, 130,  28,  14,   8,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [861,  71,  19,  15,   5,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 10,   1,   7,   9,   3,  31,  65,  70,  46,  56,  60,  82,  59,</span>
+<span class="go">         49,  54,  60,  61,  42, 100,  44,  28,  10,  15,   9,   1],</span>
+<span class="go">       [711, 127,  77,  34,  19,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [800,  97,  50,  22,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [732, 125,  74,  25,  11,   3,   2,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 972}</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.RandomItem.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'random_item'</span></em><a class="headerlink" href="#stochastic_matching.simulator.classes.RandomItem.name" title="Permalink to this definition"></a></dt>
+<dd><p>String that can be use to refer to that simulator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.RandomItem.set_core">
+<span class="sig-name descname"><span class="pre">set_core</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#RandomItem.set_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.RandomItem.set_core" title="Permalink to this definition"></a></dt>
+<dd><p>Build the core engine to choose at random proportionally to the sizes of the (sum of the) queues.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.RandomNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">RandomNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#RandomNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.RandomNode" title="Permalink to this definition"></a></dt>
+<dd><p>Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.QueueSizeSimulator" title="stochastic_matching.simulator.classes.QueueSizeSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueSizeSimulator</span></code></a>.
+When multiple choices are possible, one is chosen uniformly at random.</p>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNode</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go"> &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">                     [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">                     [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go"> &#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>Sanity check: results are unchanged if the graph is treated as hypergraph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNode</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go"> &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">                     [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">                     [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go"> &#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>A ill braess graph (simulation ends before completion due to drift).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNode</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([ 7, 10,  1,  4,  7], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[22, 13,  7,  7,  5, 15,  4,  0,  0,  0],</span>
+<span class="go">       [73,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [69,  3,  1,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 73}</span>
+</pre></div>
+</div>
+<p>A working candy (but candies are not good for greedy policies).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNode</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [313,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 10,   1,   7,   9,   3,   3,  13,   7,  34,  11,   2,   8,  13,</span>
+<span class="go">         18,  12,  56,  27,   8,  24,  25,   7,   8,   3,   1,   4],</span>
+<span class="go">       [168,  48,  35,  39,  20,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [278,  25,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 314}</span>
+</pre></div>
+</div>
+<p>Note that you can reset the simulator before starting another run.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [313,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 10,   1,   7,   9,   3,   3,  13,   7,  34,  11,   2,   8,  13,</span>
+<span class="go">         18,  12,  56,  27,   8,  24,  25,   7,   8,   3,   1,   4],</span>
+<span class="go">       [168,  48,  35,  39,  20,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [278,  25,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 314}</span>
+</pre></div>
+</div>
+<p>You can display the distribution of queue sizes as a ccdf:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span> 
+<span class="go">&lt;Figure size ...x... with 1 Axes&gt;</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.RandomNode.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'random_node'</span></em><a class="headerlink" href="#stochastic_matching.simulator.classes.RandomNode.name" title="Permalink to this definition"></a></dt>
+<dd><p>String that can be use to refer to that simulator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.RandomNode.set_core">
+<span class="sig-name descname"><span class="pre">set_core</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#RandomNode.set_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.RandomNode.set_core" title="Permalink to this definition"></a></dt>
+<dd><p>Build the core engine to choose uniformly at random amongst choices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>) – Input graph.</p></li>
+<li><p><strong>mu</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Arrival rates on nodes of the graph.</p></li>
+<li><p><strong>number_events</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of arrivals to simulate.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Seed of the random generator</p></li>
+<li><p><strong>max_queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Max queue size. Necessary for speed and detection of unstability.
+For stable systems very close to the unstability
+border, the max_queue may be reached.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.generator">
+<span class="sig-name descname"><span class="pre">generator</span></span><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.generator" title="Permalink to this definition"></a></dt>
+<dd><p>Generator parameters (prob and alias vector, seed, and number of events).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.inners">
+<span class="sig-name descname"><span class="pre">inners</span></span><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.inners" title="Permalink to this definition"></a></dt>
+<dd><p>Inner variable (depends on the exact simulator engine used).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.logs">
+<span class="sig-name descname"><span class="pre">logs</span></span><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.logs" title="Permalink to this definition"></a></dt>
+<dd><p>Monitored variables (default to trafic on edges,
+queue size distribution, and number of steps achieved).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.core">
+<span class="sig-name descname"><span class="pre">core</span></span><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.core" title="Permalink to this definition"></a></dt>
+<dd><p>Core simulator, usually a numba function. Must return the total number of steps achieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.compute_average_queues">
+<span class="sig-name descname"><span class="pre">compute_average_queues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.compute_average_queues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.compute_average_queues" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Average queue sizes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
+<span class="go">array([1.07826087, 0.26086957, 0.07391304, 0.85217391])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.compute_ccdf">
+<span class="sig-name descname"><span class="pre">compute_ccdf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.compute_ccdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.compute_ccdf" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>CCDFs of the queues.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_ccdf</span><span class="p">()</span> 
+<span class="go">array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,</span>
+<span class="go">    0.03913043, 0.00869565, 0.00434783, 0.        ],</span>
+<span class="go">   [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,</span>
+<span class="go">    0.        , 0.        , 0.        , 0.        ],</span>
+<span class="go">   [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,</span>
+<span class="go">    0.        , 0.        , 0.        , 0.        ],</span>
+<span class="go">   [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,</span>
+<span class="go">    0.01304348, 0.        , 0.        , 0.        ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.name" title="Permalink to this definition"></a></dt>
+<dd><p>Name that can be used to list all non-abstract classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.reset" title="Permalink to this definition"></a></dt>
+<dd><p>Reset inner and monitored variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run simulation (results are stored in the attribute <a class="reference internal" href="#stochastic_matching.simulator.classes.Simulator.logs" title="stochastic_matching.simulator.classes.Simulator.logs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">logs</span></code></a>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.set_generator">
+<span class="sig-name descname"><span class="pre">set_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.set_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.set_generator" title="Permalink to this definition"></a></dt>
+<dd><p>Populate the generator parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Arrival rates on nodes of the graph.</p></li>
+<li><p><strong>number_events</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of arrivals to simulate.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Seed of the random generator</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.set_inners">
+<span class="sig-name descname"><span class="pre">set_inners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.set_inners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.set_inners" title="Permalink to this definition"></a></dt>
+<dd><p>Populate the inner parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.set_logs">
+<span class="sig-name descname"><span class="pre">set_logs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.set_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.set_logs" title="Permalink to this definition"></a></dt>
+<dd><p>Populate the monitored variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.show_average_queues">
+<span class="sig-name descname"><span class="pre">show_average_queues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.show_average_queues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.show_average_queues" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, optional) – Indices of the nodes to display</p></li>
+<li><p><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If True, display the nodes by decreasing average queue size</p></li>
+<li><p><strong>as_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If True, display the nodes by decreasing average queue size</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A figure of the CCDFs of the queues.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>On IPython, this will draw the CCDF, otherwise a fig object is returned.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> 
+<span class="go">&lt;Figure size ...x... with 1 Axes&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> 
+<span class="go">&lt;Figure size ...x... with 1 Axes&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.show_ccdf">
+<span class="sig-name descname"><span class="pre">show_ccdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.show_ccdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.show_ccdf" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, optional) – Indices of the nodes to display</p></li>
+<li><p><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If True, order the nodes by decreasing average queue size</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A figure of the CCDFs of the queues.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>On IPython, this will draw the CCDF, otherwise a fig object is returned.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> 
+<span class="go">&lt;Figure size ...x... with 1 Axes&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> 
+<span class="go">&lt;Figure size ...x... with 1 Axes&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.Simulator.total_waiting_time">
+<span class="sig-name descname"><span class="pre">total_waiting_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#Simulator.total_waiting_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.Simulator.total_waiting_time" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Average waiting time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">total_waiting_time</span><span class="p">()</span>
+<span class="go">0.36535764375876584</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.VQSimulator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">VQSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#VQSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.VQSimulator" title="Permalink to this definition"></a></dt>
+<dd><p>Non-Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.classes.Simulator" title="stochastic_matching.simulator.classes.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>.
+Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).</p>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle. One can notice the results are different from the ones common to all
+greedy simulator.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VQSimulator</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">       [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">       [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>A ill braess graph (simulation ends before completion due to drift).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VQSimulator</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],</span>
+<span class="go">       [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 329}</span>
+</pre></div>
+</div>
+<p>A working candy. While candies are not good for greedy policies, the virtual queue is
+designed to deal with it.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VQSimulator</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),</span>
+<span class="go">&#39;queue_log&#39;: array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,</span>
+<span class="go">          3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [884,  79,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [113,  44,  82, 101,  96,  99,  67,  31,  29,  50,  14,  20,  32,</span>
+<span class="go">         31,  44,  44,  34,  30,  26,  11,   2,   0,   0,   0,   0],</span>
+<span class="go">       [239, 154, 138, 103,  75,  69,  58,  67,  52,  33,  12,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [755, 143,  72,  30,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint32),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.VQSimulator.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'virtual_queue'</span></em><a class="headerlink" href="#stochastic_matching.simulator.classes.VQSimulator.name" title="Permalink to this definition"></a></dt>
+<dd><p>String that can be use to refer to that simulator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.VQSimulator.set_core">
+<span class="sig-name descname"><span class="pre">set_core</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#VQSimulator.set_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.VQSimulator.set_core" title="Permalink to this definition"></a></dt>
+<dd><p>Plug in the virtual queue core engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.VQSimulator.set_inners">
+<span class="sig-name descname"><span class="pre">set_inners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#VQSimulator.set_inners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.VQSimulator.set_inners" title="Permalink to this definition"></a></dt>
+<dd><p>Defines inner variables for the virtual queue core engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.classes.get_simulator_classes">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.classes.</span></span><span class="sig-name descname"><span class="pre">get_simulator_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/classes.html#get_simulator_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.classes.get_simulator_classes" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="#stochastic_matching.simulator.classes.Simulator" title="stochastic_matching.simulator.classes.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>, optional) – Starting class (can be abstract).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionaries of all subclasses that have a name (as in class attribute <cite>name</cite>).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_simulator_classes</span><span class="p">()</span> 
+<span class="go">{&#39;virtual_queue&#39;: &lt;class &#39;stochastic_matching.simulator.classes.VQSimulator&#39;&gt;,</span>
+<span class="go"> &#39;random_node&#39;: &lt;class &#39;stochastic_matching.simulator.classes.RandomNode&#39;&gt;,</span>
+<span class="go"> &#39;longest_queue&#39;: &lt;class &#39;stochastic_matching.simulator.classes.LongestQueue&#39;&gt;,</span>
+<span class="go"> &#39;random_item&#39;: &lt;class &#39;stochastic_matching.simulator.classes.RandomItem&#39;&gt;,</span>
+<span class="go"> &#39;fcfm&#39;: &lt;class &#39;stochastic_matching.simulator.classes.FCFM&#39;&gt;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="greedy-tools">
+<h2>Greedy tools<a class="headerlink" href="#greedy-tools" title="Permalink to this headline"></a></h2>
+<p>Defines functions used by greedy simulators.</p>
+<span class="target" id="module-stochastic_matching.simulator.greedy"></span><dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.fcfm_hyper_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">fcfm_hyper_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#fcfm_hyper_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.fcfm_hyper_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select the edge with oldest item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbors) list to choose from.</p></li>
+<li><p><strong>max_queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Max queue size.</p></li>
+<li><p><strong>queue_start</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Starting queue pointers.</p></li>
+<li><p><strong>queue_end</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Ending queue pointers.</p></li>
+<li><p><strong>items</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Ages of items (current items are accessed through queue pointers).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbors)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">fcfm_hyper_selector</span><span class="p">(</span><span class="n">hyper_state_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span>
+<span class="gp">... </span>                       <span class="mi">2</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">items_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([3, 4])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">fcfm_hyper_selector</span><span class="p">(</span><span class="n">hyper_state_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span>
+<span class="gp">... </span>                       <span class="mi">2</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">items_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([0])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.fcfm_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">fcfm_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#fcfm_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.fcfm_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select the edge with oldest item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbors) list to choose from.</p></li>
+<li><p><strong>max_queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Max queue size.</p></li>
+<li><p><strong>queue_start</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Starting queue pointers.</p></li>
+<li><p><strong>queue_end</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Ending queue pointers.</p></li>
+<li><p><strong>items</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Ages of items (current items are accessed through queue pointers).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbors)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fcfm_selector</span><span class="p">(</span><span class="n">simple_state_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span>
+<span class="gp">... </span>                       <span class="mi">5</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">items_list</span><span class="p">)</span>
+<span class="go">(4, 3)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.hyper_choicer">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">hyper_choicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#hyper_choicer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.hyper_choicer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neighbors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>) – Output of <a class="reference internal" href="#stochastic_matching.simulator.common.graph_neighbors_list" title="stochastic_matching.simulator.common.graph_neighbors_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a>
+(with <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a> input).</p></li>
+<li><p><strong>node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Starting node (the node that just got an arrival).</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of the different queues.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The (edge, neighbors) tuples of a given node that can be greedily activated in a hypergraph.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
+an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choices</span> <span class="o">=</span> <span class="n">hyper_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">]</span>
+<span class="go">[(1, array([0])), (6, array([3, 4]))]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.hyper_state_choicer">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">hyper_state_choicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#hyper_state_choicer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.hyper_state_choicer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neighbors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>) – Output of <a class="reference internal" href="#stochastic_matching.simulator.common.graph_neighbors_list" title="stochastic_matching.simulator.common.graph_neighbors_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a>
+(with <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a> input).</p></li>
+<li><p><strong>node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Starting node (the node that just got an arrival).</p></li>
+<li><p><strong>queue_start</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Starting queue pointers.</p></li>
+<li><p><strong>queue_end</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Ending queue pointers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The (edge, neighbors) tuples of a given node that can be greedily activated in a hypergraph.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
+an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choices</span> <span class="o">=</span> <span class="n">hyper_state_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">21</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">]</span>
+<span class="go">[(1, array([0])), (6, array([3, 4]))]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.longest_queue_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">longest_queue_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#longest_queue_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.longest_queue_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select a choice with longest queue size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbors) list to choose from.</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of queue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbors)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">longest_queue_selector</span><span class="p">(</span><span class="n">simple_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qs</span><span class="p">),</span> <span class="n">qs</span><span class="p">)</span>
+<span class="go">(4, 3)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.longest_sum_queue_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">longest_sum_queue_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#longest_sum_queue_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.longest_sum_queue_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select a choice with longest sum of queues.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbors) list to choose from</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of queue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbors)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">longest_sum_queue_selector</span><span class="p">(</span><span class="n">hyper_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qs</span><span class="p">),</span> <span class="n">qs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([3, 4])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.qs_core_maker">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">qs_core_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simple_selector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyper_selector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#qs_core_maker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.qs_core_maker" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>) – The graph for which the simulation is intended.</p></li>
+<li><p><strong>simple_selector</strong> (<em>callable</em>) – Jitted function that extracts one choice amongst several for simple graphs.
+Input signature is (neighbors list, queue_size).</p></li>
+<li><p><strong>hyper_selector</strong> (<em>callable</em>) – Jitted function that extracts one choice amongst several for hypergraphs.
+Input signature is (neighbors list, queue_size)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A jitted function that will be the core engine of a greedy policy based on the sizes of queues.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.qstate_core_maker">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">qstate_core_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simple_selector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyper_selector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#qstate_core_maker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.qstate_core_maker" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>) – The graph for which the simulation is intended.</p></li>
+<li><p><strong>simple_selector</strong> (<em>callable</em>) – Jitted function that extracts one choice amongst several for simple graphs.
+Input signature is (neighbors list, queue_size).</p></li>
+<li><p><strong>hyper_selector</strong> (<em>callable</em>) – Jitted function that extracts one choice amongst several for hypergraphs.
+Input signature is (neighbors list, queue_size)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A jitted function that will be the core engine of a greedy policy based on the states of queues.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.random_item_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">random_item_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#random_item_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.random_item_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select proportionally to queue sizes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbors) list to choose from.</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of queue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbors)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_item_selector</span><span class="p">(</span><span class="n">simple_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qs</span><span class="p">),</span> <span class="n">qs</span><span class="p">)</span>
+<span class="go">(4, 3)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.random_node_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">random_node_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#random_node_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.random_node_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select a choice at random.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbor(s)) list to choose from</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of queue (not used for this specific selector).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbor(s))</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_node_selector</span><span class="p">(</span><span class="n">simple_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qs</span><span class="p">),</span> <span class="n">qs</span><span class="p">)</span>
+<span class="go">(1, 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">random_node_selector</span><span class="p">(</span><span class="n">hyper_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qs</span><span class="p">),</span> <span class="n">qs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([3, 4])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.random_sum_item_selector">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">random_sum_item_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#random_sum_item_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.random_sum_item_selector" title="Permalink to this definition"></a></dt>
+<dd><p>Select proportionally to sum of adjacent queues (e.g. sum of queues of nodes that belong to a given edge).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – (edge, neighbors) list to choose from</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of queue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Selected (edge, neighbors)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">random_sum_item_selector</span><span class="p">(</span><span class="n">hyper_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qs</span><span class="p">),</span> <span class="n">qs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([3, 4])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.simple_choicer">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">simple_choicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#simple_choicer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.simple_choicer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neighbors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>) – Output of <a class="reference internal" href="#stochastic_matching.simulator.common.graph_neighbors_list" title="stochastic_matching.simulator.common.graph_neighbors_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a>
+(with <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> input).</p></li>
+<li><p><strong>node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Starting node (the node that just got an arrival).</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Sizes of the different queues.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The (edge, neighbor) tuples of a given node that can be greedily activated in a simple graph.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>In a Braess graph with non-empty queues in nodes 3 and 0,
+an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simple_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="go">[(1, 0), (4, 3)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.greedy.simple_state_choicer">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.greedy.</span></span><span class="sig-name descname"><span class="pre">simple_state_choicer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/greedy.html#simple_state_choicer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.greedy.simple_state_choicer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neighbors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>) – Output of <a class="reference internal" href="#stochastic_matching.simulator.common.graph_neighbors_list" title="stochastic_matching.simulator.common.graph_neighbors_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a>
+(with <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> input).</p></li>
+<li><p><strong>node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Starting node (the node that just got an arrival).</p></li>
+<li><p><strong>queue_start</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Starting queue pointers.</p></li>
+<li><p><strong>queue_end</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Ending queue pointers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The (edge, neighbor) tuples of a given node that can be greedily activated in a simple graph.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>In a Braess graph with non-empty queues in nodes 3 and 0,
+an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simple_state_choicer</span><span class="p">(</span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">bicycle</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">11</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+<span class="go">[(1, 0), (4, 3)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="virtual-queue-tools">
+<h2>Virtual Queue tools<a class="headerlink" href="#virtual-queue-tools" title="Permalink to this headline"></a></h2>
+<p>Defines functions used by virtual queue simulator.</p>
+<span class="target" id="module-stochastic_matching.simulator.virtual_queue"></span><dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.vq_core">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.virtual_queue.</span></span><span class="sig-name descname"><span class="pre">vq_core</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incid_ptr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incid_ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coinc_ptr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coinc_ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ready_edges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trafic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps_done</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/virtual_queue.html#vq_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.vq_core" title="Permalink to this definition"></a></dt>
+<dd><p>Core virtual queue simulator. Currently fully monobloc for performance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prob</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Probabilities to stay in the drawn bucket</p></li>
+<li><p><strong>alias</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Redirection array</p></li>
+<li><p><strong>number_events</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of arrivals to simulate.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed of the random generator</p></li>
+<li><p><strong>incid_ptr</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Pointers of the incidence matrix.</p></li>
+<li><p><strong>incid_ind</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the incidence matrix.</p></li>
+<li><p><strong>coinc_ptr</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Pointers of the co-incidence matrix.</p></li>
+<li><p><strong>coinc_ind</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the co-incidence matrix.</p></li>
+<li><p><strong>ready_edges</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Boolen array of edges physically ready for activation.</p></li>
+<li><p><strong>scores</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Scores of edges.</p></li>
+<li><p><strong>vq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Current virtual queue size (can be negative)</p></li>
+<li><p><strong>queue_size</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Current queue sizes.</p></li>
+<li><p><strong>trafic</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Monitor trafic on edges.</p></li>
+<li><p><strong>queue_log</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Monitor queue sizes.</p></li>
+<li><p><strong>steps_done</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of arrivals processed so far.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of steps processed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="common">
+<h2>Common<a class="headerlink" href="#common" title="Permalink to this headline"></a></h2>
+<p>Defines various functions used by simulators</p>
+<span class="target" id="module-stochastic_matching.simulator.common"></span><dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.common.create_prob_alias">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.common.</span></span><span class="sig-name descname"><span class="pre">create_prob_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/common.html#create_prob_alias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.common.create_prob_alias" title="Permalink to this definition"></a></dt>
+<dd><p>Prepare vector to draw a distribution with the alias method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Arrival intensities.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>prob</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Probabilities to stay in the drawn bucket</p></li>
+<li><p><strong>alias</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Redirection array</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">probas</span><span class="p">,</span> <span class="n">aliases</span> <span class="o">=</span> <span class="n">create_prob_alias</span><span class="p">([</span><span class="mi">2</span> <span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probas</span>
+<span class="go">array([1. , 1. , 1. , 0.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aliases</span>
+<span class="go">array([0, 0, 0, 2])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.common.graph_neighbors_list">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.common.</span></span><span class="sig-name descname"><span class="pre">graph_neighbors_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/common.html#graph_neighbors_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.common.graph_neighbors_list" title="Permalink to this definition"></a></dt>
+<dd><p>Extract Numba-compatible neighboring structures from a <code class="xref py py-class docutils literal notranslate"><span class="pre">GenericGraph</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>) – Graph to transform.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of neighbors for each node. For one given node yields a list of tuples where the first element is the edge
+and the second element the neighbor (for <cite>SimpleGraph</cite>) / array of neighbors (for <cite>HyperGraph</cite>).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Consider a Braess graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([[1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1]])</span>
+</pre></div>
+</div>
+<p>Node 0 is connected with edge 0 to node 1 and with edge 1 to node 2.</p>
+<p>Node 1 is connected with edge 0 to node 0, with edge 2 to node 2, and with edge 3 to node 3.</p>
+<p>Node 2 is connected with edge 1 to node 0, with edge 2 to node 1, and with edge 4 to node 3.</p>
+<p>Node 3 is connected with edge 3 to node 1 and with edge 4 to node 2.</p>
+<p>This is exactly what <cite>graph_neighbors_list</cite> outputs, in a numba-compatible way.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span> 
+<span class="go">[[(0, 1), (1, 2)],</span>
+<span class="go">[(0, 0), (2, 2), (3, 3)],</span>
+<span class="go">[(1, 0), (2, 1), (4, 3)],</span>
+<span class="go">[(3, 1), (4, 2)]]</span>
+</pre></div>
+</div>
+<p>With hypergraph notation, the second term of the tuples is an array instead of an integer.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">braess</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">]</span> 
+<span class="go">[[(0, array([1])), (1, array([2]))],</span>
+<span class="go">[(0, array([0])), (2, array([2])), (3, array([3]))],</span>
+<span class="go">[(1, array([0])), (2, array([1])), (4, array([3]))],</span>
+<span class="go">[(3, array([1])), (4, array([2]))]]</span>
+</pre></div>
+</div>
+<p>Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links
+nodes 2, 3, and 4 together.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>This shows in the output of the function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">candy</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">]</span> 
+<span class="go">[[(0, array([1])), (1, array([2]))],</span>
+<span class="go">[(0, array([0])), (2, array([2]))],</span>
+<span class="go">[(1, array([0])), (2, array([1])), (6, array([3, 4]))],</span>
+<span class="go">[(6, array([2, 4]))],</span>
+<span class="go">[(3, array([5])), (4, array([6])), (6, array([2, 3]))],</span>
+<span class="go">[(3, array([4])), (5, array([6]))],</span>
+<span class="go">[(4, array([4])), (5, array([5]))]]</span>
+</pre></div>
+</div>
+<p>Trying the function on something that is not SimpleGraph or HyperGraph raises an error.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">TypeError</span>: <span class="n">graph must be of type SimpleGraph of HyperGraph.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.common.set_seed">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.common.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/common.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.common.set_seed" title="Permalink to this definition"></a></dt>
+<dd><p>Change the random generator seed inside numba jitted scope.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spectral.html" class="btn btn-neutral float-left" title="Spectral" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mq.html" class="btn btn-neutral float-right" title="MatchingQueues" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

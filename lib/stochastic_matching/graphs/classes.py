@@ -4,17 +4,17 @@ from scipy.sparse import csr_matrix, csc_matrix
 from stochastic_matching.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_display
 
 
-def neighbors(i, compressed_matrix):
+def neighbors(i, compressed_incidence):
     """
     Return neighbors of a node/edge with respect to an incident matrix.
-    Neighborhood is defined on hypergraph level:
+    Neighborhood is defined on hypergraph level, not on adjacency level:
     neighbors of a node are edges, neighbors of an edge are nodes.
 
     Parameters
     ----------
     i: :class:`int`
         Index of the node/edge to probe.
-    compressed_matrix: :class:`~scipy.sparse.csr_matrix` or :class:`~scipy.sparse.csc_matrix`
+    compressed_incidence: :class:`~scipy.sparse.csr_matrix` or :class:`~scipy.sparse.csc_matrix`
         Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).
 
     Returns
@@ -25,14 +25,14 @@ def neighbors(i, compressed_matrix):
     Examples
     --------
 
-    A hypergraph with 4 nodes, 2 regular edges and one 4-edge.
+    A hypergraph with 4 nodes, 2 regular edges (0, 1) and (0, 2) and one 4-edge (0, 1, 2, 3).
 
     >>> incidence = np.array([[1, 1, 1],
     ...                       [1, 0, 1],
     ...                       [0, 1, 1],
     ...                       [0, 0, 1]])
 
-    Edges of node 1:
+    Edges of node 0:
 
     >>> neighbors(0, csr_matrix(incidence))
     array([0, 1, 2], dtype=int32)
@@ -42,7 +42,7 @@ def neighbors(i, compressed_matrix):
     >>> neighbors(3, csr_matrix(incidence))
     array([2], dtype=int32)
 
-    Nodes of edge 1:
+    Nodes of edge 0:
 
     >>> neighbors(0, csc_matrix(incidence))
     array([0, 1], dtype=int32)
@@ -52,17 +52,17 @@ def neighbors(i, compressed_matrix):
     >>> neighbors(2, csc_matrix(incidence))
     array([0, 1, 2, 3], dtype=int32)
     """
-    return compressed_matrix.indices[compressed_matrix.indptr[i]:compressed_matrix.indptr[i + 1]]
+    return compressed_incidence.indices[compressed_incidence.indptr[i]:compressed_incidence.indptr[i + 1]]
 
 
 def adjacency_to_incidence(adjacency):
     """
-    Converts adjacency matrix to indidence matrix.
+    Converts adjacency matrix to incidence matrix.
 
     Parameters
     ----------
     adjacency: :class:`~numpy.ndarray`
-        Adjacency matrix of a simple graph (symmetric matrix with 0's and 1's, null diagonal)
+        Adjacency matrix of a simple graph (symmetric matrix with 0s and 1s, null diagonal).
 
     Returns
     -------
@@ -72,16 +72,16 @@ def adjacency_to_incidence(adjacency):
     Examples
     --------
 
-    Convert a Braess graph from adjacency to incidence.
+    Convert a diamond graph from adjacency to incidence.
 
     >>> from stochastic_matching.graphs.generators import bicycle
-    >>> braess = bicycle().adjacency
-    >>> braess
+    >>> diamond = bicycle().adjacency
+    >>> diamond
     array([[0, 1, 1, 0],
            [1, 0, 1, 1],
            [1, 1, 0, 1],
            [0, 1, 1, 0]])
-    >>> adjacency_to_incidence(braess)
+    >>> adjacency_to_incidence(diamond)
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
            [0, 1, 1, 0, 1],
@@ -105,7 +105,7 @@ def incidence_to_adjacency(incidence):
     Parameters
     ----------
     incidence: :class:`~numpy.ndarray`
-        Incidence matrix of a simple graph (matrix with 0's and 1's, two 1's per column).
+        Incidence matrix of a simple graph (matrix with 0s and 1s, two 1s per column).
 
     Returns
     -------
@@ -115,16 +115,16 @@ def incidence_to_adjacency(incidence):
     Examples
     --------
 
-    Convert a Braess graph from incidence to adjacency.
+    Convert a diamond graph from incidence to adjacency.
 
     >>> from stochastic_matching.graphs.generators import bicycle
-    >>> braess = bicycle().incidence.toarray().astype('int')
-    >>> braess
+    >>> diamond = bicycle().incidence.toarray().astype('int')
+    >>> diamond
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
            [0, 1, 1, 0, 1],
            [0, 0, 0, 1, 1]])
-    >>> incidence_to_adjacency(braess)
+    >>> incidence_to_adjacency(diamond)
     array([[0, 1, 1, 0],
            [1, 0, 1, 1],
            [1, 1, 0, 1],
@@ -174,8 +174,8 @@ class CharMaker:
     'H'
     >>> names[26]
     'AA'
-    >>> names[38982989]
-    'CGGYCT'
+    >>> names[107458610947716]
+    'STOCHASTIC'
     """
     def __init__(self):
         pass
@@ -199,7 +199,7 @@ class GenericGraph:
     Parameters
     ----------
     incidence: :class:`~numpy.ndarray`
-        Incidence matrix
+        Incidence matrix.
 
     Attributes
     ----------

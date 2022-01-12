@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Coverage" href="../coverage.html" />
+    <link rel="next" title="Spectral" href="spectral.html" />
     <link rel="prev" title="Reference" href="index.html" /> 
 </head>
 
@@ -53,6 +53,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#display">Display</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="spectral.html">Spectral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html">Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mq.html">MatchingQueues</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
@@ -127,8 +130,8 @@
 <span class="go">&#39;H&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span>
 <span class="go">&#39;AA&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">38982989</span><span class="p">]</span>
-<span class="go">&#39;CGGYCT&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span><span class="p">[</span><span class="mi">107458610947716</span><span class="p">]</span>
+<span class="go">&#39;STOCHASTIC&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -139,7 +142,7 @@
 <dd><p>Abstract class for graphs. Should not be directly used.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix</p>
+<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix.</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -545,10 +548,10 @@ AttributeError: ‘HyperGraph’ object has no attribute ‘adjacency’</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.graphs.classes.adjacency_to_incidence">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">adjacency_to_incidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#adjacency_to_incidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.adjacency_to_incidence" title="Permalink to this definition"></a></dt>
-<dd><p>Converts adjacency matrix to indidence matrix.</p>
+<dd><p>Converts adjacency matrix to incidence matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>adjacency</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Adjacency matrix of a simple graph (symmetric matrix with 0’s and 1’s, null diagonal)</p>
+<dd class="field-odd"><p><strong>adjacency</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Adjacency matrix of a simple graph (symmetric matrix with 0s and 1s, null diagonal).</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Incidence matrix between nodes and edges.</p>
@@ -558,15 +561,15 @@ AttributeError: ‘HyperGraph’ object has no attribute ‘adjacency’</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert a Braess graph from adjacency to incidence.</p>
+<p>Convert a diamond graph from adjacency to incidence.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">adjacency</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span>
 <span class="go">array([[0, 1, 1, 0],</span>
 <span class="go">       [1, 0, 1, 1],</span>
 <span class="go">       [1, 1, 0, 1],</span>
 <span class="go">       [0, 1, 1, 0]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adjacency_to_incidence</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adjacency_to_incidence</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
 <span class="go">array([[1, 1, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 1, 0],</span>
 <span class="go">       [0, 1, 1, 0, 1],</span>
@@ -582,7 +585,7 @@ AttributeError: ‘HyperGraph’ object has no attribute ‘adjacency’</p>
 If the incidence matrix does not corresponds to a simple graph, an error is thrown.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix of a simple graph (matrix with 0’s and 1’s, two 1’s per column).</p>
+<dd class="field-odd"><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix of a simple graph (matrix with 0s and 1s, two 1s per column).</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Adjacency matrix.</p>
@@ -592,15 +595,15 @@ If the incidence matrix does not corresponds to a simple graph, an error is thro
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert a Braess graph from incidence to adjacency.</p>
+<p>Convert a diamond graph from incidence to adjacency.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span>
 <span class="go">array([[1, 1, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 1, 0],</span>
 <span class="go">       [0, 1, 1, 0, 1],</span>
 <span class="go">       [0, 0, 0, 1, 1]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
 <span class="go">array([[0, 1, 1, 0],</span>
 <span class="go">       [1, 0, 1, 1],</span>
 <span class="go">       [1, 1, 0, 1],</span>
@@ -628,15 +631,15 @@ If the incidence matrix does not corresponds to a simple graph, an error is thro
 
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.graphs.classes.neighbors">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressed_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.neighbors" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.classes.</span></span><span class="sig-name descname"><span class="pre">neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressed_incidence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.neighbors" title="Permalink to this definition"></a></dt>
 <dd><p>Return neighbors of a node/edge with respect to an incident matrix.
-Neighborhood is defined on hypergraph level:
+Neighborhood is defined on hypergraph level, not on adjacency level:
 neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Index of the node/edge to probe.</p></li>
-<li><p><strong>compressed_matrix</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>) – Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</p></li>
+<li><p><strong>compressed_incidence</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>) – Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -647,14 +650,14 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>A hypergraph with 4 nodes, 2 regular edges and one 4-edge.</p>
+<p>A hypergraph with 4 nodes, 2 regular edges (0, 1) and (0, 2) and one 4-edge (0, 1, 2, 3).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
 <span class="gp">... </span>                      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
 <span class="gp">... </span>                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
 <span class="gp">... </span>                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
 </pre></div>
 </div>
-<p>Edges of node 1:</p>
+<p>Edges of node 0:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
 <span class="go">array([0, 1, 2], dtype=int32)</span>
 </pre></div>
@@ -664,7 +667,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <span class="go">array([2], dtype=int32)</span>
 </pre></div>
 </div>
-<p>Nodes of edge 1:</p>
+<p>Nodes of edge 0:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
 <span class="go">array([0, 1], dtype=int32)</span>
 </pre></div>
@@ -1099,7 +1102,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../coverage.html" class="btn btn-neutral float-right" title="Coverage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="spectral.html" class="btn btn-neutral float-right" title="Spectral" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
