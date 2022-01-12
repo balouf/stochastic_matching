@@ -170,8 +170,11 @@ def random_node_selector(choices, queue_size):
     >>> random_node_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)
     (1, 0)
     >>> qs = np.array([1, 0, 0, 1, 1, 0, 0])
-    >>> random_node_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
-    (6, array([3, 4]))
+    >>> e, n = random_node_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
+    >>> e
+    6
+    >>> n.astype(int)
+    array([3, 4])
     """
     return choices[np.random.randint(len(choices))]
 
@@ -308,8 +311,11 @@ def random_sum_item_selector(choices, queue_size):
     --------
     >>> from stochastic_matching import hyper_dumbbells
     >>> qs = np.array([3, 0, 0, 2, 2, 0, 0])
-    >>> random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
-    (6, array([3, 4]))
+    >>> e, n = random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
+    >>> e
+    6
+    >>> n.astype(int)
+    array([3, 4])
     """
     # noinspection PyUnresolvedReferences
     cumsizes = np.cumsum(np.array([np.sum(queue_size[choices[i][1]]) for i in range(len(choices))]))
