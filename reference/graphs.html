@@ -526,11 +526,11 @@ One specific key, <em>bipartite_display</em>, tells if the bipartite structure s
 <span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
 <span class="go">&lt;class &#39;stochastic_matching.graphs.classes.HyperGraph&#39;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
 <span class="go">array([[1, 1, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 1, 0],</span>
 <span class="go">       [0, 1, 1, 0, 1],</span>
-<span class="go">       [0, 0, 0, 1, 1]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 1, 1]])</span>
 </pre></div>
 </div>
 <p>Remind that HyperGraph do not have an adjacency matrix.
@@ -594,12 +594,12 @@ If the incidence matrix does not corresponds to a simple graph, an error is thro
 <p class="rubric">Examples</p>
 <p>Convert a Braess graph from incidence to adjacency.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span>
 <span class="go">array([[1, 1, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 1, 0],</span>
 <span class="go">       [0, 1, 1, 0, 1],</span>
-<span class="go">       [0, 0, 0, 1, 1]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 1, 1]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">braess</span><span class="p">)</span>
 <span class="go">array([[0, 1, 1, 0],</span>
 <span class="go">       [1, 0, 1, 1],</span>
@@ -609,7 +609,7 @@ If the incidence matrix does not corresponds to a simple graph, an error is thro
 </div>
 <p>An error occurs if one tries to convert a hypergraph.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span>
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
@@ -617,7 +617,7 @@ If the incidence matrix does not corresponds to a simple graph, an error is thro
 <span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
 <span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
 <span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
-<span class="go">       [0, 0, 0, 0, 1, 1, 0]], dtype=int32)</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">candy</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>

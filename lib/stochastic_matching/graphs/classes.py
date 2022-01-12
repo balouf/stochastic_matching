@@ -118,12 +118,12 @@ def incidence_to_adjacency(incidence):
     Convert a Braess graph from incidence to adjacency.
 
     >>> from stochastic_matching.graphs.generators import bicycle
-    >>> braess = bicycle().incidence.toarray()
+    >>> braess = bicycle().incidence.toarray().astype('int')
     >>> braess
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
            [0, 1, 1, 0, 1],
-           [0, 0, 0, 1, 1]], dtype=int32)
+           [0, 0, 0, 1, 1]])
     >>> incidence_to_adjacency(braess)
     array([[0, 1, 1, 0],
            [1, 0, 1, 1],
@@ -133,7 +133,7 @@ def incidence_to_adjacency(incidence):
     An error occurs if one tries to convert a hypergraph.
 
     >>> from stochastic_matching.graphs.generators import hyper_dumbbells
-    >>> candy = hyper_dumbbells().incidence.toarray()
+    >>> candy = hyper_dumbbells().incidence.toarray().astype('int')
     >>> candy
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
@@ -141,7 +141,7 @@ def incidence_to_adjacency(incidence):
            [0, 0, 0, 0, 0, 0, 1],
            [0, 0, 0, 1, 1, 0, 1],
            [0, 0, 0, 1, 0, 1, 0],
-           [0, 0, 0, 0, 1, 1, 0]], dtype=int32)
+           [0, 0, 0, 0, 1, 1, 0]])
     >>> incidence_to_adjacency(candy)
     Traceback (most recent call last):
     ...
@@ -461,11 +461,11 @@ class SimpleGraph(GenericGraph):
         >>> braess = bicycle().to_hypergraph()
         >>> type(braess)
         <class 'stochastic_matching.graphs.classes.HyperGraph'>
-        >>> braess.incidence.toarray()
+        >>> braess.incidence.toarray().astype('int')
         array([[1, 1, 0, 0, 0],
                [1, 0, 1, 1, 0],
                [0, 1, 1, 0, 1],
-               [0, 0, 0, 1, 1]], dtype=int32)
+               [0, 0, 0, 1, 1]])
 
         Remind that HyperGraph do not have an adjacency matrix.
         >>> braess.adjacency
