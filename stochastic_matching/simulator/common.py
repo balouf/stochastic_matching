@@ -142,7 +142,8 @@ def graph_neighbors_list(graph):
 
     This shows in the output of the function.
 
-    >>> graph_neighbors_list(candy)  # doctest: +NORMALIZE_WHITESPACE
+    >>> g = graph_neighbors_list(candy)
+    >>> [ [(e, a.astype(int)) for e, a in n] for n in g ] # doctest: +NORMALIZE_WHITESPACE
     [[(0, array([1])), (1, array([2]))],
     [(0, array([0])), (2, array([2]))],
     [(1, array([0])), (2, array([1])), (6, array([3, 4]))],
