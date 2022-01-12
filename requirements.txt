@@ -1,0 +1,7 @@
+numpy
+scipy
+numba
+sphinx>=1.4
+nbsphinx
+ipykernel
+sphinx-rtd-theme
