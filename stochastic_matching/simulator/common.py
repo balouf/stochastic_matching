@@ -95,11 +95,11 @@ def graph_neighbors_list(graph):
 
     >>> from stochastic_matching import bicycle, hyper_dumbbells
     >>> braess = bicycle()
-    >>> braess.incidence.toarray()
+    >>> braess.incidence.toarray().astype(int)
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
            [0, 1, 1, 0, 1],
-           [0, 0, 0, 1, 1]], dtype=int32)
+           [0, 0, 0, 1, 1]])
 
     Node 0 is connected with edge 0 to node 1 and with edge 1 to node 2.
 
