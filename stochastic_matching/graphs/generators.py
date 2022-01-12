@@ -232,18 +232,18 @@ def hyper_dumbbells(left_cycle=3, right_cycle=3, hyperedges=1, names=None):
     The *candy*, a basic but very useful hypergraph.
 
     >>> candy = hyper_dumbbells()
-    >>> candy.incidence.toarray() # doctest: +NORMALIZE_WHITESPACE
+    >>> candy.incidence.toarray().astype('int') # doctest: +NORMALIZE_WHITESPACE
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
            [0, 1, 1, 0, 0, 0, 1],
            [0, 0, 0, 0, 0, 0, 1],
            [0, 0, 0, 1, 1, 0, 1],
            [0, 0, 0, 1, 0, 1, 0],
-           [0, 0, 0, 0, 1, 1, 0]], dtype=int32)
+           [0, 0, 0, 0, 1, 1, 0]])
 
     A more elaborate hypergraph
 
-    >>> hyper_dumbbells(left_cycle=5, right_cycle=4, hyperedges=3).incidence.toarray() # doctest: +NORMALIZE_WHITESPACE
+    >>> hyper_dumbbells(left_cycle=5, right_cycle=4, hyperedges=3).incidence.toarray().astype('int') # doctest: +NORMALIZE_WHITESPACE
     array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
            [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -255,17 +255,17 @@ def hyper_dumbbells(left_cycle=3, right_cycle=3, hyperedges=1, names=None):
            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
            [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]], dtype=int32)
+           [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]])
 
     Warning: without any hyperedge, we have two disconnected cycles.
 
-    >>> hyper_dumbbells(hyperedges=0).incidence.toarray() # doctest: +NORMALIZE_WHITESPACE
+    >>> hyper_dumbbells(hyperedges=0).incidence.toarray().astype('int') # doctest: +NORMALIZE_WHITESPACE
     array([[1, 1, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0],
            [0, 1, 1, 0, 0, 0],
            [0, 0, 0, 1, 1, 0],
            [0, 0, 0, 1, 0, 1],
-           [0, 0, 0, 0, 1, 1]], dtype=int32)
+           [0, 0, 0, 0, 1, 1]])
     """
     n = left_cycle + right_cycle + hyperedges
     incidence = np.zeros((n, n), dtype=int)
@@ -302,7 +302,7 @@ def fan(cycles=3, cycle_size=3, hyperedges=1, names=None):
     A basic 3-leaves clover:
 
     >>> clover = fan()
-    >>> clover.incidence.toarray()  # doctest: +NORMALIZE_WHITESPACE
+    >>> clover.incidence.toarray().astype('int')  # doctest: +NORMALIZE_WHITESPACE
     array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
            [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -311,12 +311,12 @@ def fan(cycles=3, cycle_size=3, hyperedges=1, names=None):
            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0, 1, 1, 0, 1],
            [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]], dtype=int32)
+           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])
 
     Increase the hyperedge connectivity:
 
     >>> connected = fan(hyperedges=2)
-    >>> connected.incidence.toarray()  # doctest: +NORMALIZE_WHITESPACE
+    >>> connected.incidence.toarray().astype('int')  # doctest: +NORMALIZE_WHITESPACE
     array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
            [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -325,12 +325,12 @@ def fan(cycles=3, cycle_size=3, hyperedges=1, names=None):
            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],
            [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]], dtype=int32)
+           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]])
 
     With only two cycles, we have a simple graph.
 
     >>> db = fan(cycles=2, cycle_size=4)
-    >>> db.incidence.toarray() # doctest: +NORMALIZE_WHITESPACE
+    >>> db.incidence.toarray().astype('int') # doctest: +NORMALIZE_WHITESPACE
     array([[1, 1, 0, 0, 0, 0, 0, 0, 1],
            [1, 0, 1, 0, 0, 0, 0, 0, 0],
            [0, 0, 1, 1, 0, 0, 0, 0, 0],
@@ -338,7 +338,7 @@ def fan(cycles=3, cycle_size=3, hyperedges=1, names=None):
            [0, 0, 0, 0, 1, 1, 0, 0, 1],
            [0, 0, 0, 0, 1, 0, 1, 0, 0],
            [0, 0, 0, 0, 0, 0, 1, 1, 0],
-           [0, 0, 0, 0, 0, 1, 0, 1, 0]], dtype=int32)
+           [0, 0, 0, 0, 0, 1, 0, 1, 0]])
     >>> db.to_simplegraph().adjacency # doctest: +NORMALIZE_WHITESPACE
     array([[0, 1, 0, 1, 1, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0, 0],
