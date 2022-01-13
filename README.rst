@@ -33,7 +33,23 @@ Stochastic Matching provides tools to analyze the behavior of stochastic matchin
 Features
 --------
 
-* TODO
+* Compatibility graph creation (from scratch, from one of the provided generator, or by some combination).
+* Theoretical analysis:
+  * Injectivity/surjectivity of the graph, kernel description.
+  * Polytope description of positive solutions.
+* Fast simulator.
+  * Provided with a large set of greedy / non-greedy policies.
+  * Adding new policies is feasible out-of-the-box.
+* Lot of display features, including `Vis JS Network`_.
+
+---------------------------
+Acknowledging package
+---------------------------
+
+If you publish results based on `Stochastic Matching`_, **please acknowledge** the usage of the package by quoting the following paper.
+
+* Céline Comte, Fabien Mathieu, Ana Bušić. `Stochastic dynamic matching: A mixed graph-theory and linear-algebra approach <https://hal.archives-ouvertes.fr/hal-03502084>`_. 2022.
+
 
 -------
 Credits
@@ -43,3 +59,6 @@ This package was created with Cookiecutter_ and the `francois-durand/package_hel
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`francois-durand/package_helper_2`: https://github.com/francois-durand/package_helper_2
+.. _`Vis JS Network`: https://visjs.github.io/vis-network/docs/network/
+.. _`Stochastic Matching`: https://balouf.github.io/stochastic_matching/
+

@@ -40,8 +40,8 @@ class MQ:
 
         Consider the following Braess example.
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> braess = bicycle()
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> braess = bicycle_graph()
         >>> mq = MQ(braess, [1, 3, 2, 2])
 
         Let us see the base flow.
@@ -56,7 +56,7 @@ class MQ:
 
         Another similar example.
 
-        >>> braess = bicycle(right_cycle=4)
+        >>> braess = bicycle_graph(right_cycle=4)
         >>> mq = MQ(braess, [7, 4, 4, 2, 2])
 
         Let us see the base flow. It has a negative value!
@@ -72,8 +72,8 @@ class MQ:
 
         Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.
 
-        >>> from stochastic_matching.graphs.generators import hyper_dumbbells
-        >>> candy = hyper_dumbbells()
+        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> candy = hyper_paddle()
         >>> mq = MQ(candy, [1, 1, 2, 1, 2, 1, 1])
 
         Let us *maximin* the flow.
@@ -99,8 +99,8 @@ class MQ:
 
         Consider the following Braess example.
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> braess = bicycle()
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> braess = bicycle_graph()
         >>> mq = MQ(braess, [1, 3, 2, 2])
 
         Let us see the base flow.
@@ -115,7 +115,7 @@ class MQ:
 
         Another similar example.
 
-        >>> braess = bicycle(right_cycle=4)
+        >>> braess = bicycle_graph(right_cycle=4)
         >>> mq = MQ(braess, [7, 4, 4, 2, 2])
 
         Let us see the base flow. It has a negative value!
@@ -130,8 +130,8 @@ class MQ:
 
         Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.
 
-        >>> from stochastic_matching.graphs.generators import hyper_dumbbells
-        >>> candy = hyper_dumbbells()
+        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> candy = hyper_paddle()
         >>> mq = MQ(candy, [1, 1, 2, 1, 2, 1, 1])
 
         Let us *maximin* the flow.
@@ -163,8 +163,8 @@ class MQ:
 
         Consider the following Braess example.
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> braess = bicycle()
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> braess = bicycle_graph()
         >>> mq = MQ(braess, [1, 2, 2, 1])
 
         All border edges can vary between 0 and 1. Let us maximize the first edge.
@@ -179,8 +179,8 @@ class MQ:
 
         Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.
 
-        >>> from stochastic_matching.graphs.generators import hyper_dumbbells
-        >>> candy = hyper_dumbbells()
+        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> candy = hyper_paddle()
         >>> mq = MQ(candy, [1, 1, 2, 1, 2, 1, 1])
 
         Let us *maximize* the first edge.
@@ -220,11 +220,11 @@ class MQ:
         Examples
         --------
 
-        >>> from stochastic_matching import pan, fan, bicycle
+        >>> from stochastic_matching import tadpole_graph, fan, bicycle_graph
 
         Example with a red (negative) edge.
 
-        >>> mq = MQ(bicycle(right_cycle=4), mu=[7, 4, 4, 2, 2])
+        >>> mq = MQ(bicycle_graph(right_cycle=4), mu=[7, 4, 4, 2, 2])
         >>> mq.spectral.base_flow
         array([ 3.5  ,  3.5  , -0.125,  0.625,  0.625,  1.375])
         >>> mq.show_flow()
@@ -232,7 +232,7 @@ class MQ:
 
         Example with an orange (null) edge.
 
-        >>> mq = MQ(pan())
+        >>> mq = MQ(tadpole_graph())
         >>> mq.spectral.base_flow
         array([1., 0., 0., 1.])
         >>> mq.show_flow()
@@ -240,7 +240,7 @@ class MQ:
 
         Example with red nodes (broken conservation law).
 
-        >>> mq = MQ(pan(cycle=4))
+        >>> mq = MQ(tadpole_graph(m=4))
 
         If conservation law holds, the following should be made of 1's.
 
@@ -271,7 +271,7 @@ class MQ:
                     edges_dict[j]['color'] = 'red'
                 elif flow[j] == 0:
                     edges_dict[j]['color'] = 'orange'
-        self.graph.display(options=options, nodes_dict=nodes_dict, edges_dict=edges_dict, )
+        self.graph.show(options=options, nodes_dict=nodes_dict, edges_dict=edges_dict, )
 
     def fit(self, graph=None, mu=None):
         """
@@ -320,8 +320,8 @@ class MQ:
 
         Examples
         --------
-        >>> from stochastic_matching import bicycle
-        >>> mq = MQ(bicycle())
+        >>> from stochastic_matching import bicycle_graph
+        >>> mq = MQ(bicycle_graph())
         >>> mq.set_simulator('something')  # doctest: +NORMALIZE_WHITESPACE
         Traceback (most recent call last):
         ...
@@ -337,7 +337,7 @@ class MQ:
         >>> mq.simulator.inners.keys()
         dict_keys(['neighbors', 'queue_size'])
 
-        >>> mq.set_simulator(RandomNode(bicycle(), [1, 1, 1, 1]))
+        >>> mq.set_simulator(RandomNode(bicycle_graph(), [1, 1, 1, 1]))
         Traceback (most recent call last):
         ...
         TypeError: simulator must be string or Simulator class (not instance).
@@ -393,8 +393,8 @@ class MQ:
 
         Let start with a working triangle and a greedy simulator.
 
-        >>> from stochastic_matching import pan, bicycle, hyper_dumbbells
-        >>> mq = MQ(pan(tail=0), mu=[3, 4, 5])
+        >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+        >>> mq = MQ(tadpole_graph(n=0), mu=[3, 4, 5])
         >>> mq.spectral.base_flow
         array([1., 2., 3.])
         >>> mq.run('random_node', seed=42, number_events=20000)
@@ -406,7 +406,7 @@ class MQ:
 
         Note that the drift is slow, so if the number of steps is low the simulation may complete without overflowing.
 
-        >>> mq.fit(bicycle(), mu=[1, 1, 1, 1])
+        >>> mq.fit(bicycle_graph(), mu=[1, 1, 1, 1])
         >>> mq.spectral.base_flow
         array([0.5, 0.5, 0. , 0.5, 0.5])
 
@@ -418,7 +418,7 @@ class MQ:
         A working candy. While candies are not good for greedy policies, the virtual queue is
         designed to deal with it.
 
-        >>> mq.fit(hyper_dumbbells(), mu=[1, 1, 1.1, 1, 1.1, 1, 1])
+        >>> mq.fit(hyper_paddle(), mu=[1, 1, 1.1, 1, 1.1, 1, 1])
         >>> mq.spectral.base_flow
         array([0.95, 0.05, 0.05, 0.05, 0.05, 0.95, 1.  ])
 

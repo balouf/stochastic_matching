@@ -29,8 +29,8 @@ def simple_choicer(neighbors, node, queue_size):
     In a Braess graph with non-empty queues in nodes 3 and 0,
     an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).
 
-    >>> from stochastic_matching import bicycle
-    >>> simple_choicer(graph_neighbors_list(bicycle()), 2, np.array([1, 0, 0, 1]))
+    >>> from stochastic_matching import bicycle_graph
+    >>> simple_choicer(graph_neighbors_list(bicycle_graph()), 2, np.array([1, 0, 0, 1]))
     [(1, 0), (4, 3)]
     """
     return [ej for ej in neighbors[node] if queue_size[ej[1]] > 0]
@@ -60,8 +60,8 @@ def hyper_choicer(neighbors, node, queue_size):
     In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
-    >>> from stochastic_matching import hyper_dumbbells
-    >>> choices = hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))
+    >>> from stochastic_matching import hyper_paddle
+    >>> choices = hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))
     >>> [(e, n.astype(int)) for e, n in choices]
     [(1, array([0])), (6, array([3, 4]))]
     """
@@ -125,21 +125,18 @@ def qs_core_maker(graph, simple_selector, hyper_selector):
                 queue_size[node] += 1
                 if queue_size[node] == max_queue:
                     return steps_done + age + 1
-                continue
-
-            # Otherwise, we can check for feasible edges
-            choices = choicer(neighbors, node, queue_size)
-            if choices:  # At least one possibility
-                if len(choices) == 1:  # Exactly one -> take it.
-                    e, j = choices[0]
-                else:  # More than one -> call the selector
-                    e, j = selector(choices, queue_size)
-                trafic[e] += 1  # Add trafic for the selected edge
-                queue_size[j] = queue_size[j] - 1  # Decrease queue for neighbor(s)
-            else:  # No choice -> update and move on unless queue overflows.
-                queue_size[node] += 1
-                if queue_size[node] == max_queue:
-                    return steps_done + age + 1
+            else:
+                # Otherwise, we can check for feasible edges
+                choices = choicer(neighbors, node, queue_size)
+                if choices:  # At least one possibility
+                    if len(choices) == 1:  # Exactly one -> take it.
+                        e, j = choices[0]
+                    else:  # More than one -> call the selector
+                        e, j = selector(choices, queue_size)
+                    trafic[e] += 1  # Add trafic for the selected edge
+                    queue_size[j] = queue_size[j] - 1  # Decrease queue for neighbor(s)
+                else:  # No choice -> update and move on unless queue overflows.
+                    queue_size[node] = 1
         return steps_done + age + 1  # Return the updated number of steps achieved.
 
     return njit(core_simulator, cache=True)  # Return the jitted core engine.
@@ -164,13 +161,13 @@ def random_node_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle, hyper_dumbbells
+    >>> from stochastic_matching import bicycle_graph, hyper_paddle
     >>> set_seed(42)
     >>> qs = np.array([1, 0, 0, 1])
-    >>> random_node_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)
+    >>> random_node_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)
     (1, 0)
     >>> qs = np.array([1, 0, 0, 1, 1, 0, 0])
-    >>> e, n = random_node_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
+    >>> e, n = random_node_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)
     >>> e
     6
     >>> n.astype(int)
@@ -198,9 +195,9 @@ def longest_queue_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle
+    >>> from stochastic_matching import bicycle_graph
     >>> qs = np.array([1, 0, 0, 2])
-    >>> longest_queue_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)
+    >>> longest_queue_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)
     (4, 3)
     """
     i = 0
@@ -232,9 +229,9 @@ def longest_sum_queue_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import hyper_dumbbells
+    >>> from stochastic_matching import hyper_paddle
     >>> qs = np.array([3, 0, 0, 2, 2, 0, 0])
-    >>> e, n = longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
+    >>> e, n = longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)
     >>> e
     6
     >>> n.astype(int)
@@ -271,10 +268,10 @@ def random_item_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle
+    >>> from stochastic_matching import bicycle_graph
     >>> set_seed(42)
     >>> qs = np.array([1, 0, 0, 2])
-    >>> random_item_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)
+    >>> random_item_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)
     (4, 3)
     """
     total = 0
@@ -309,9 +306,9 @@ def random_sum_item_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import hyper_dumbbells
+    >>> from stochastic_matching import hyper_paddle
     >>> qs = np.array([3, 0, 0, 2, 2, 0, 0])
-    >>> e, n = random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)
+    >>> e, n = random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)
     >>> e
     6
     >>> n.astype(int)
@@ -352,8 +349,8 @@ def simple_state_choicer(neighbors, node, queue_start, queue_end):
     In a Braess graph with non-empty queues in nodes 3 and 0,
     an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).
 
-    >>> from stochastic_matching import bicycle
-    >>> simple_state_choicer(graph_neighbors_list(bicycle()), 2,
+    >>> from stochastic_matching import bicycle_graph
+    >>> simple_state_choicer(graph_neighbors_list(bicycle_graph()), 2,
     ...                      np.array([10, 14, 7, 8]), np.array([11, 14, 7, 9]))
     [(1, 0), (4, 3)]
     """
@@ -386,8 +383,8 @@ def hyper_state_choicer(neighbors, node, queue_start, queue_end):
     In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
-    >>> from stochastic_matching import hyper_dumbbells
-    >>> choices = hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
+    >>> from stochastic_matching import hyper_paddle
+    >>> choices = hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,
     ...                     np.array([21, 10, 7, 4, 3, 2, 50]), np.array([22, 10, 7, 5, 4, 2, 50]))
     >>> [(e, n.astype(int)) for e, n in choices]
     [(1, array([0])), (6, array([3, 4]))]
@@ -456,22 +453,20 @@ def qstate_core_maker(graph, simple_selector, hyper_selector):
                 queue_end[node] += 1
                 if (queue_end[node] - queue_start[node]) == max_queue:
                     return steps_done + age + 1
-                continue
 
-            # Otherwise, we can check for feasible edges
-            choices = choicer(neighbors, node, queue_start, queue_end)
-            if choices:  # At least one possibility
-                if len(choices) == 1:  # Exactly one -> take it.
-                    e, j = choices[0]
-                else:  # More than one -> call the selector
-                    e, j = selector(choices, max_queue, queue_start, queue_end, items)
-                trafic[e] += 1  # Add trafic for the selected edge
-                queue_start[j] = queue_start[j] + 1  # "Pop" oldest item(s) from selected edge.
-            else:  # No choice -> update and move on unless queue overflows.
-                items[node, queue_end[node] % max_queue] = age
-                queue_end[node] += 1
-                if (queue_end[node] - queue_start[node]) == max_queue:
-                    return steps_done + age + 1
+            else:
+                # Otherwise, we can check for feasible edges
+                choices = choicer(neighbors, node, queue_start, queue_end)
+                if choices:  # At least one possibility
+                    if len(choices) == 1:  # Exactly one -> take it.
+                        e, j = choices[0]
+                    else:  # More than one -> call the selector
+                        e, j = selector(choices, max_queue, queue_start, queue_end, items)
+                    trafic[e] += 1  # Add trafic for the selected edge
+                    queue_start[j] = queue_start[j] + 1  # "Pop" oldest item(s) from selected edge.
+                else:  # No choice -> update and move on unless queue overflows.
+                    items[node, queue_end[node] % max_queue] = age
+                    queue_end[node] += 1
         return steps_done + age + 1  # Return the updated number of steps achieved.
 
     return njit(core_simulator, cache=True)  # Return the jitted core engine.
@@ -502,14 +497,14 @@ def fcfm_selector(choices, max_queue, queue_start, queue_end, items):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle
+    >>> from stochastic_matching import bicycle_graph
     >>> start = np.array([1, 0, 0, 2])
     >>> end = np.array([2, 0, 0, 4])
     >>> items_list = np.array([[1, 5, 6, 0, 0],
     ...                   [0, 0, 0, 0, 0],
     ...                   [0, 0, 0, 0, 0],
     ...                   [2, 3, 4, 7, 8],])
-    >>> fcfm_selector(simple_state_choicer(graph_neighbors_list(bicycle()), 2,
+    >>> fcfm_selector(simple_state_choicer(graph_neighbors_list(bicycle_graph()), 2,
     ...                                             start, end),
     ...                        5, start, end, items_list)
     (4, 3)
@@ -551,11 +546,11 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
 
     Examples
     --------
-    >>> from stochastic_matching import hyper_dumbbells
+    >>> from stochastic_matching import hyper_paddle
     >>> start = np.array([0, 0, 0, 0, 0, 0, 0])
     >>> end = np.array([1, 0, 0, 1, 1, 0, 0])
     >>> items_list = np.array([[2, 0], [0, 0], [0, 0], [1, 0], [3, 0], [0, 0], [0, 0]])
-    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
+    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,
     ...                                             start, end),
     ...                        2, start, end, items_list)
     >>> e
@@ -563,7 +558,7 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
     >>> n.astype(int)
     array([3, 4])
     >>> items_list = np.array([[1, 0], [0, 0], [0, 0], [2, 0], [3, 0], [0, 0], [0, 0]])
-    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,
+    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,
     ...                                             start, end),
     ...                        2, start, end, items_list)
     >>> e

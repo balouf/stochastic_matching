@@ -93,8 +93,8 @@ def graph_neighbors_list(graph):
 
     Consider a Braess graph.
 
-    >>> from stochastic_matching import bicycle, hyper_dumbbells
-    >>> braess = bicycle()
+    >>> from stochastic_matching import bicycle_graph, hyper_paddle
+    >>> braess = bicycle_graph()
     >>> braess.incidence.toarray().astype(int)
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
@@ -130,7 +130,7 @@ def graph_neighbors_list(graph):
     Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links
     nodes 2, 3, and 4 together.
 
-    >>> candy = hyper_dumbbells()
+    >>> candy = hyper_paddle()
     >>> candy.incidence.toarray().astype(int)
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
