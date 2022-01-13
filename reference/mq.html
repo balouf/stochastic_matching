@@ -174,8 +174,8 @@ by minimizing every edges.</p>
 </dl>
 <p class="rubric">Examples</p>
 <p>Consider the following Braess example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle_graph</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">braess</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -190,7 +190,7 @@ by minimizing every edges.</p>
 </pre></div>
 </div>
 <p>Another similar example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">(</span><span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle_graph</span><span class="p">(</span><span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">braess</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -205,8 +205,8 @@ by minimizing every edges.</p>
 </pre></div>
 </div>
 <p>Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_paddle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_paddle</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">candy</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -231,8 +231,8 @@ by minimizing every edges.</p>
 </dl>
 <p class="rubric">Examples</p>
 <p>Consider the following Braess example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle_graph</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">braess</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -247,7 +247,7 @@ by minimizing every edges.</p>
 </pre></div>
 </div>
 <p>Another similar example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">(</span><span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle_graph</span><span class="p">(</span><span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">braess</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -263,8 +263,8 @@ by minimizing every edges.</p>
 </pre></div>
 </div>
 <p>Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_paddle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_paddle</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">candy</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -295,8 +295,8 @@ by minimizing every edges.</p>
 </dl>
 <p class="rubric">Examples</p>
 <p>Consider the following Braess example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle_graph</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">braess</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -311,8 +311,8 @@ by minimizing every edges.</p>
 </pre></div>
 </div>
 <p>Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_dumbbells</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_dumbbells</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">hyper_paddle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">hyper_paddle</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">candy</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -350,8 +350,8 @@ by minimizing every edges.</p>
 </dl>
 <p class="rubric">Examples</p>
 <p>Let start with a working triangle and a greedy simulator.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">bicycle</span><span class="p">,</span> <span class="n">hyper_dumbbells</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">tadpole_graph</span><span class="p">,</span> <span class="n">bicycle_graph</span><span class="p">,</span> <span class="n">hyper_paddle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">spectral</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([1., 2., 3.])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_node&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
@@ -362,7 +362,7 @@ by minimizing every edges.</p>
 </div>
 <p>A ill braess graph (simulation ends before completion due to drift).</p>
 <p>Note that the drift is slow, so if the number of steps is low the simulation may complete without overflowing.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bicycle_graph</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">spectral</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([0.5, 0.5, 0. , 0.5, 0.5])</span>
 </pre></div>
@@ -375,7 +375,7 @@ by minimizing every edges.</p>
 </div>
 <p>A working candy. While candies are not good for greedy policies, the virtual queue is
 designed to deal with it.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">hyper_dumbbells</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">hyper_paddle</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">spectral</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([0.95, 0.05, 0.05, 0.05, 0.05, 0.95, 1.  ])</span>
 </pre></div>
@@ -421,8 +421,8 @@ designed to deal with it.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">bicycle</span><span class="p">())</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">bicycle_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">bicycle_graph</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">set_simulator</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">)</span>  
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
@@ -441,7 +441,7 @@ designed to deal with it.</p>
 <span class="go">dict_keys([&#39;neighbors&#39;, &#39;queue_size&#39;])</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">set_simulator</span><span class="p">(</span><span class="n">RandomNode</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">set_simulator</span><span class="p">(</span><span class="n">RandomNode</span><span class="p">(</span><span class="n">bicycle_graph</span><span class="p">(),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
 <span class="gr">TypeError</span>: <span class="n">simulator must be string or Simulator class (not instance).</span>
@@ -467,15 +467,15 @@ negative edges will be red, null edges will be orange.</p></li>
 <dd class="field-even"><p>Displayed graph.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.0.dev)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span><span class="p">,</span> <span class="n">fan</span><span class="p">,</span> <span class="n">bicycle</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">tadpole_graph</span><span class="p">,</span> <span class="n">fan</span><span class="p">,</span> <span class="n">bicycle_graph</span>
 </pre></div>
 </div>
 <p>Example with a red (negative) edge.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">bicycle</span><span class="p">(</span><span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">bicycle_graph</span><span class="p">(</span><span class="n">right_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">spectral</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([ 3.5  ,  3.5  , -0.125,  0.625,  0.625,  1.375])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -483,7 +483,7 @@ negative edges will be red, null edges will be orange.</p></li>
 </pre></div>
 </div>
 <p>Example with an orange (null) edge.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">pan</span><span class="p">())</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">tadpole_graph</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">spectral</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([1., 0., 0., 1.])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -491,7 +491,7 @@ negative edges will be red, null edges will be orange.</p></li>
 </pre></div>
 </div>
 <p>Example with red nodes (broken conservation law).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mq</span> <span class="o">=</span> <span class="n">MQ</span><span class="p">(</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>If conservation law holds, the following should be made of 1’s.</p>

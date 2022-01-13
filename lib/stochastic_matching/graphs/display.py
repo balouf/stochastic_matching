@@ -20,9 +20,9 @@ HYPER_GRAPH_VIS_OPTIONS = {
     },
     'bipartite_display': False
 }
-"""Default additional options for hypergraphs in the vis-network engine"""
+"""Default additional options for hypergraphs in the vis-network engine."""
 
-html_template = """
+HTML_TEMPLATE = """
 <div id="%(name)s"></div>
 <script>
 require.config({
@@ -45,10 +45,11 @@ network.fit({
 });
 </script>
 """
+"""Default template."""
 
 
-def vis_html(nodes=None, edges=None, options=None, template=None,
-             vis=VIS_LOCATION, div_name=None):
+def vis_code(nodes=None, edges=None, options=None, template=None,
+             vis=None, div_name=None):
     """
     Create HTML to display a Vis network graph.
 
@@ -61,23 +62,23 @@ def vis_html(nodes=None, edges=None, options=None, template=None,
     options: :class:`dict`, optional
         Options to pass to Vis.
     template: :class:`str`, optional
-        A Vis template.
+        Template to use. Default to :obj:`~stochastic_matching.graphs.display.HTML_TEMPLATE`.
     vis: :class:`str`, optional
-        Location of vis.js
+        Location of vis.js. Default to :obj:`~stochastic_matching.graphs.display.VIS_LOCATION`
     div_name: :class:`str`, optional
         Id of the div that will host the display.
 
     Returns
     -------
     :class:`str`
-        HTML code.
+        Vis code (HTML by default).
 
     Examples
     --------
     >>> node_list = [{'id': 0}, {'id': 1}, {'id': 2}, {'id': 3}]
     >>> edge_list = [{'from': 0, 'to': 1}, {'from': 0, 'to': 2},
     ...          {'from': 1, 'to': 3}, {'from': 2, 'to': 3}]
-    >>> print(vis_html(nodes=node_list, edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> print(vis_code(nodes=node_list, edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <div id="..."></div>
     <script>
     require.config({
@@ -109,7 +110,9 @@ def vis_html(nodes=None, edges=None, options=None, template=None,
     if options is None:
         options = dict()
     if template is None:
-        template = html_template
+        template = HTML_TEMPLATE
+    if vis is None:
+        vis = VIS_LOCATION
     dic = {'name': div_name,
            'nodes': json.dumps(nodes),
            'edges': json.dumps(edges),
@@ -118,10 +121,10 @@ def vis_html(nodes=None, edges=None, options=None, template=None,
     return template % dic
 
 
-def vis_display(nodes=None, edges=None, options=None, template=None,
-                vis=VIS_LOCATION, div_name=None):
+def vis_show(nodes=None, edges=None, options=None, template=None,
+             vis=None, div_name=None):
     """
-    In IPython / Jupyter session, displays a Vis graph.
+    Display a Vis graph (within a IPython / Jupyter session).
 
     Parameters
     ----------
@@ -132,9 +135,9 @@ def vis_display(nodes=None, edges=None, options=None, template=None,
     options: :class:`dict`, optional
         Options to pass to Vis.
     template: :class:`str`, optional
-        A Vis template.
+        Template to use. Default to :obj:`~stochastic_matching.graphs.display.HTML_TEMPLATE`.
     vis: :class:`str`, optional
-        Location of vis.js
+        Location of vis.js. Default to :obj:`~stochastic_matching.graphs.display.VIS_LOCATION`
     div_name: :class:`str`, optional
         Id of the div that will host the display.
 
@@ -145,9 +148,9 @@ def vis_display(nodes=None, edges=None, options=None, template=None,
     Examples
     --------
 
-    >>> vis_display()
+    >>> vis_show()
     <IPython.core.display.HTML object>
     """
     # noinspection PyTypeChecker
-    display(HTML(vis_html(nodes=nodes, edges=edges, options=options, template=template,
+    display(HTML(vis_code(nodes=nodes, edges=edges, options=options, template=template,
                           vis=vis, div_name=div_name)))

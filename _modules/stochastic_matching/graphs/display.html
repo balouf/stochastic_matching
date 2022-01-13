@@ -97,9 +97,9 @@
     <span class="p">},</span>
     <span class="s1">&#39;bipartite_display&#39;</span><span class="p">:</span> <span class="kc">False</span>
 <span class="p">}</span>
-<span class="sd">&quot;&quot;&quot;Default additional options for hypergraphs in the vis-network engine&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Default additional options for hypergraphs in the vis-network engine.&quot;&quot;&quot;</span>
 
-<span class="n">html_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">HTML_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">&lt;div id=&quot;</span><span class="si">%(name)s</span><span class="s2">&quot;&gt;&lt;/div&gt;</span>
 <span class="s2">&lt;script&gt;</span>
 <span class="s2">require.config({</span>
@@ -122,10 +122,11 @@
 <span class="s2">});</span>
 <span class="s2">&lt;/script&gt;</span>
 <span class="s2">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Default template.&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="vis_html"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.display.vis_html">[docs]</a><span class="k">def</span> <span class="nf">vis_html</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">vis</span><span class="o">=</span><span class="n">VIS_LOCATION</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="vis_code"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.display.vis_code">[docs]</a><span class="k">def</span> <span class="nf">vis_code</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">vis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create HTML to display a Vis network graph.</span>
 
@@ -138,23 +139,23 @@
 <span class="sd">    options: :class:`dict`, optional</span>
 <span class="sd">        Options to pass to Vis.</span>
 <span class="sd">    template: :class:`str`, optional</span>
-<span class="sd">        A Vis template.</span>
+<span class="sd">        Template to use. Default to :obj:`~stochastic_matching.graphs.display.HTML_TEMPLATE`.</span>
 <span class="sd">    vis: :class:`str`, optional</span>
-<span class="sd">        Location of vis.js</span>
+<span class="sd">        Location of vis.js. Default to :obj:`~stochastic_matching.graphs.display.VIS_LOCATION`</span>
 <span class="sd">    div_name: :class:`str`, optional</span>
 <span class="sd">        Id of the div that will host the display.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`str`</span>
-<span class="sd">        HTML code.</span>
+<span class="sd">        Vis code (HTML by default).</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; node_list = [{&#39;id&#39;: 0}, {&#39;id&#39;: 1}, {&#39;id&#39;: 2}, {&#39;id&#39;: 3}]</span>
 <span class="sd">    &gt;&gt;&gt; edge_list = [{&#39;from&#39;: 0, &#39;to&#39;: 1}, {&#39;from&#39;: 0, &#39;to&#39;: 2},</span>
 <span class="sd">    ...          {&#39;from&#39;: 1, &#39;to&#39;: 3}, {&#39;from&#39;: 2, &#39;to&#39;: 3}]</span>
-<span class="sd">    &gt;&gt;&gt; print(vis_html(nodes=node_list, edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &gt;&gt;&gt; print(vis_code(nodes=node_list, edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    &lt;div id=&quot;...&quot;&gt;&lt;/div&gt;</span>
 <span class="sd">    &lt;script&gt;</span>
 <span class="sd">    require.config({</span>
@@ -186,7 +187,9 @@
     <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">template</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">template</span> <span class="o">=</span> <span class="n">html_template</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">HTML_TEMPLATE</span>
+    <span class="k">if</span> <span class="n">vis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vis</span> <span class="o">=</span> <span class="n">VIS_LOCATION</span>
     <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">div_name</span><span class="p">,</span>
            <span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span>
            <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">edges</span><span class="p">),</span>
@@ -195,10 +198,10 @@
     <span class="k">return</span> <span class="n">template</span> <span class="o">%</span> <span class="n">dic</span></div>
 
 
-<div class="viewcode-block" id="vis_display"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.display.vis_display">[docs]</a><span class="k">def</span> <span class="nf">vis_display</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">vis</span><span class="o">=</span><span class="n">VIS_LOCATION</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="vis_show"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.display.vis_show">[docs]</a><span class="k">def</span> <span class="nf">vis_show</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">vis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    In IPython / Jupyter session, displays a Vis graph.</span>
+<span class="sd">    Display a Vis graph (within a IPython / Jupyter session).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -209,9 +212,9 @@
 <span class="sd">    options: :class:`dict`, optional</span>
 <span class="sd">        Options to pass to Vis.</span>
 <span class="sd">    template: :class:`str`, optional</span>
-<span class="sd">        A Vis template.</span>
+<span class="sd">        Template to use. Default to :obj:`~stochastic_matching.graphs.display.HTML_TEMPLATE`.</span>
 <span class="sd">    vis: :class:`str`, optional</span>
-<span class="sd">        Location of vis.js</span>
+<span class="sd">        Location of vis.js. Default to :obj:`~stochastic_matching.graphs.display.VIS_LOCATION`</span>
 <span class="sd">    div_name: :class:`str`, optional</span>
 <span class="sd">        Id of the div that will host the display.</span>
 
@@ -222,11 +225,11 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; vis_display()</span>
+<span class="sd">    &gt;&gt;&gt; vis_show()</span>
 <span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># noinspection PyTypeChecker</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">vis_html</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">vis_code</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
                           <span class="n">vis</span><span class="o">=</span><span class="n">vis</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="n">div_name</span><span class="p">)))</span></div>
 </pre></div>
 

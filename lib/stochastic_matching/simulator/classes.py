@@ -142,8 +142,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.compute_average_queues()
         array([1.07826087, 0.26086957, 0.07391304, 0.85217391])
@@ -160,8 +160,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.total_waiting_time()
         0.36535764375876584
@@ -187,8 +187,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
 
         On IPython, this will draw the CCDF, otherwise a fig object is returned.
@@ -231,8 +231,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
         array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,
@@ -267,8 +267,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle
-        >>> sim = FCFM(bicycle(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
 
         On IPython, this will draw the CCDF, otherwise a fig object is returned.
@@ -351,8 +351,8 @@ class RandomNode(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import pan, bicycle, hyper_dumbbells
-    >>> sim = RandomNode(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> sim = RandomNode(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -363,7 +363,7 @@ class RandomNode(QueueSizeSimulator):
 
     Sanity check: results are unchanged if the graph is treated as hypergraph.
 
-    >>> sim = RandomNode(pan(tail=0).to_hypergraph(), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> sim = RandomNode(tadpole_graph(n=0).to_hypergraph(), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -375,7 +375,7 @@ class RandomNode(QueueSizeSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = RandomNode(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = RandomNode(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([ 7, 10,  1,  4,  7], dtype=uint32),
@@ -387,7 +387,7 @@ class RandomNode(QueueSizeSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = RandomNode(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = RandomNode(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),
@@ -464,8 +464,8 @@ class LongestQueue(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import pan, bicycle, hyper_dumbbells
-    >>> sim = LongestQueue(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> sim = LongestQueue(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -476,7 +476,7 @@ class LongestQueue(QueueSizeSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = LongestQueue(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = LongestQueue(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([38, 38,  7, 37, 40], dtype=uint32),
@@ -488,7 +488,7 @@ class LongestQueue(QueueSizeSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = LongestQueue(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = LongestQueue(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),
@@ -538,8 +538,8 @@ class RandomItem(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import pan, bicycle, hyper_dumbbells
-    >>> sim = RandomItem(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> sim = RandomItem(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -550,7 +550,7 @@ class RandomItem(QueueSizeSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = RandomItem(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = RandomItem(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([12, 11,  4,  8, 10], dtype=uint32),
@@ -562,7 +562,7 @@ class RandomItem(QueueSizeSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = RandomItem(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = RandomItem(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),
@@ -648,8 +648,8 @@ class FCFM(QueueStateSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import pan, bicycle, hyper_dumbbells
-    >>> sim = FCFM(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> sim = FCFM(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -660,7 +660,7 @@ class FCFM(QueueStateSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = FCFM(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = FCFM(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([34, 42,  7, 41, 36], dtype=uint32),
@@ -672,7 +672,7 @@ class FCFM(QueueStateSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = FCFM(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1],
+    >>> sim = FCFM(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1],
     ...            number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -722,8 +722,8 @@ class VQSimulator(Simulator):
     Let start with a working triangle. One can notice the results are different from the ones common to all
     greedy simulator.
 
-    >>> from stochastic_matching import pan, bicycle, hyper_dumbbells
-    >>> sim = VQSimulator(pan(tail=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> sim = VQSimulator(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -734,7 +734,7 @@ class VQSimulator(Simulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = VQSimulator(bicycle(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = VQSimulator(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([35, 43,  7, 39, 34], dtype=uint32),
@@ -747,7 +747,7 @@ class VQSimulator(Simulator):
     A working candy. While candies are not good for greedy policies, the virtual queue is
     designed to deal with it.
 
-    >>> sim = VQSimulator(hyper_dumbbells(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = VQSimulator(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),

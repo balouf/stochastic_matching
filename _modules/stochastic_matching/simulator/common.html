@@ -170,8 +170,8 @@
 
 <span class="sd">    Consider a Braess graph.</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle, hyper_dumbbells</span>
-<span class="sd">    &gt;&gt;&gt; braess = bicycle()</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph, hyper_paddle</span>
+<span class="sd">    &gt;&gt;&gt; braess = bicycle_graph()</span>
 <span class="sd">    &gt;&gt;&gt; braess.incidence.toarray().astype(int)</span>
 <span class="sd">    array([[1, 1, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 1, 0],</span>
@@ -207,7 +207,7 @@
 <span class="sd">    Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links</span>
 <span class="sd">    nodes 2, 3, and 4 together.</span>
 
-<span class="sd">    &gt;&gt;&gt; candy = hyper_dumbbells()</span>
+<span class="sd">    &gt;&gt;&gt; candy = hyper_paddle()</span>
 <span class="sd">    &gt;&gt;&gt; candy.incidence.toarray().astype(int)</span>
 <span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>

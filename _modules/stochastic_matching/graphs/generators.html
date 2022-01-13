@@ -78,37 +78,131 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">stochastic_matching.graphs.classes</span> <span class="kn">import</span> <span class="n">SimpleGraph</span><span class="p">,</span> <span class="n">HyperGraph</span>
 
-<div class="viewcode-block" id="pan"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.pan">[docs]</a><span class="k">def</span> <span class="nf">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="adja_maker_to_simple_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.adja_maker_to_simple_graph">[docs]</a><span class="k">def</span> <span class="nf">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">maker</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    cycle: :class:`int`</span>
-<span class="sd">        Length of the cycle.</span>
-<span class="sd">    tail: :class:`int`</span>
-<span class="sd">        Length of the tail</span>
+<span class="sd">    maker: callable</span>
+<span class="sd">        Function that creates an adjacency matrix.</span>
+<span class="sd">    args: :class:`list`</span>
+<span class="sd">        Arguments of the maker.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+<span class="sd">    kwargs: :class:`dict`</span>
+<span class="sd">        Keyword arguments of the maker.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        Simple graph based on the adjacency matrix produced by the maker.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">maker</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="path_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.path_adjacency">[docs]</a><span class="k">def</span> <span class="nf">path_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a path graph :math:`P_n` (cf https://mathworld.wolfram.com/PathGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="path_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.path_graph">[docs]</a><span class="k">def</span> <span class="nf">path_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
 <span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
 <span class="sd">        List of node names (e.g. for display)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
-<span class="sd">        A graph with tail of number_events `tail` attached to a cycle of number_events `cycle`.</span>
+<span class="sd">        A path graph :math:`P_n` (cf https://mathworld.wolfram.com/PathGraph.html).</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    A triangle with a one-edge tail:</span>
+<span class="sd">    Default is a two nodes line:</span>
 
-<span class="sd">    &gt;&gt;&gt; simple_pan = pan(cycle=3, tail=1)</span>
-<span class="sd">    &gt;&gt;&gt; simple_pan.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    array([[0, 1, 1, 0],</span>
-<span class="sd">           [1, 0, 1, 0],</span>
-<span class="sd">           [1, 1, 0, 1],</span>
-<span class="sd">           [0, 0, 1, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; p2 = path_graph()</span>
+<span class="sd">    &gt;&gt;&gt; p2.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1],</span>
+<span class="sd">           [1, 0]])</span>
+
+<span class="sd">    A five nodes line:</span>
+
+<span class="sd">    &gt;&gt;&gt; p5 = path_graph(5)</span>
+<span class="sd">    &gt;&gt;&gt; p5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">path_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cycle_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.cycle_adjacency">[docs]</a><span class="k">def</span> <span class="nf">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a cycle graph :math:`C_n` (cf https://mathworld.wolfram.com/CycleGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">adja</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">adja</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="cycle_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.cycle_graph">[docs]</a><span class="k">def</span> <span class="nf">cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        A cycle graph :math:`C_n` (cf https://mathworld.wolfram.com/CycleGraph.html).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle:</span>
+
+<span class="sd">    &gt;&gt;&gt; triangle = cycle_graph()</span>
+<span class="sd">    &gt;&gt;&gt; triangle.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1],</span>
+<span class="sd">           [1, 0, 1],</span>
+<span class="sd">           [1, 1, 0]])</span>
 
 <span class="sd">    A pentacle:</span>
 
-<span class="sd">    &gt;&gt;&gt; pentacle = pan(cycle=5, tail=0)</span>
+<span class="sd">    &gt;&gt;&gt; pentacle = cycle_graph(n=5)</span>
 <span class="sd">    &gt;&gt;&gt; pentacle.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 0, 0, 1],</span>
 <span class="sd">           [1, 0, 1, 0, 0],</span>
@@ -116,9 +210,204 @@
 <span class="sd">           [0, 0, 1, 0, 1],</span>
 <span class="sd">           [1, 0, 0, 1, 0]])</span>
 
-<span class="sd">    A larger pan:</span>
+<span class="sd">    A square:</span>
 
-<span class="sd">    &gt;&gt;&gt; long_pan = pan(cycle=4, tail=3)</span>
+<span class="sd">    &gt;&gt;&gt; square = cycle_graph(4)</span>
+<span class="sd">    &gt;&gt;&gt; square.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0],</span>
+<span class="sd">           [0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">cycle_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="complete_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.complete_adjacency">[docs]</a><span class="k">def</span> <span class="nf">complete_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a complete graph :math:`K_n` (cf https://mathworld.wolfram.com/CompleteGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="complete_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.complete_graph">[docs]</a><span class="k">def</span> <span class="nf">complete_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        A complete graph :math:`K_n` (cf https://mathworld.wolfram.com/CompleteGraph.html).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle:</span>
+
+<span class="sd">    &gt;&gt;&gt; triangle = complete_graph()</span>
+<span class="sd">    &gt;&gt;&gt; triangle.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1],</span>
+<span class="sd">           [1, 0, 1],</span>
+<span class="sd">           [1, 1, 0]])</span>
+
+<span class="sd">    :math:`K_5`:</span>
+
+<span class="sd">    &gt;&gt;&gt; k5 = complete_graph(n=5)</span>
+<span class="sd">    &gt;&gt;&gt; k5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 1, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 1, 0, 1],</span>
+<span class="sd">           [1, 1, 1, 1, 0]])</span>
+
+<span class="sd">    :math:`K_4`:</span>
+
+<span class="sd">    &gt;&gt;&gt; k4 = complete_graph(4)</span>
+<span class="sd">    &gt;&gt;&gt; k4.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [1, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">complete_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="concatenate_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.concatenate_adjacency">[docs]</a><span class="k">def</span> <span class="nf">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adja_list: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        The adjacency matrices that one wants to merge.</span>
+<span class="sd">    overlap: :class:`int` or :class:`list` of :class:`int`, optional</span>
+<span class="sd">        Number of nodes that are common to two consecutive graphs. Default to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Concatenated adjacency.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A codomino adjacency:</span>
+
+<span class="sd">    &gt;&gt;&gt; concatenate_adjacency([cycle_adjacency(), cycle_adjacency(4), cycle_adjacency()], 2) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">adja_list</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">na</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">adja_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">overlap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">overlap</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">overlap</span> <span class="o">=</span> <span class="p">[</span><span class="n">overlap</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">na</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">adja</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">adja</span> <span class="ow">in</span> <span class="n">adja_list</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">c_a</span> <span class="o">=</span> <span class="n">adja_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">c_n</span> <span class="o">=</span> <span class="n">c_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">adja</span><span class="p">[:</span><span class="n">c_n</span><span class="p">,</span> <span class="p">:</span><span class="n">c_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_a</span>
+    <span class="n">pointer</span> <span class="o">=</span> <span class="n">c_n</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">overlap</span><span class="p">):</span>
+        <span class="n">pointer</span> <span class="o">-=</span> <span class="n">o</span>
+        <span class="n">c_a</span> <span class="o">=</span> <span class="n">adja_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">c_n</span> <span class="o">=</span> <span class="n">c_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">pointer</span><span class="p">:</span><span class="n">pointer</span><span class="o">+</span><span class="n">c_n</span><span class="p">,</span> <span class="n">pointer</span><span class="p">:</span><span class="n">pointer</span><span class="o">+</span><span class="n">c_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_a</span>
+        <span class="n">pointer</span> <span class="o">+=</span> <span class="n">c_n</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="concatenate"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.concatenate">[docs]</a><span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">graph_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph_list: :class:`list` of :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        The graphs that one want to merge.</span>
+<span class="sd">    overlap: :class:`int` or :class:`list` of :class:`int`, optional</span>
+<span class="sd">        Number of nodes that are common to two consecutive graphs. Default to 1.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        Concatenated graph.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A codomino graph:</span>
+
+<span class="sd">    &gt;&gt;&gt; codomino = concatenate([cycle_graph(), cycle_graph(4), cycle_graph()], 2)</span>
+<span class="sd">    &gt;&gt;&gt; codomino.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">adjacency</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">graph_list</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">concatenate_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">adja_list</span><span class="o">=</span><span class="n">adja_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="tadpole_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.tadpole_graph">[docs]</a><span class="k">def</span> <span class="nf">tadpole_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the tail.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        A graph with tail of length *n* attached to a cycle of length *m*, aka a tadpole graph :math:`T_(m, n)`</span>
+<span class="sd">        (cf https://mathworld.wolfram.com/TadpoleGraph.html).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle with a one-edge tail (paw graph):</span>
+
+<span class="sd">    &gt;&gt;&gt; paw = tadpole_graph()</span>
+<span class="sd">    &gt;&gt;&gt; paw.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 0]])</span>
+
+<span class="sd">    A pentacle:</span>
+
+<span class="sd">    &gt;&gt;&gt; c5 = tadpole_graph(m=5, n=0)</span>
+<span class="sd">    &gt;&gt;&gt; c5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 0, 1, 0]])</span>
+
+<span class="sd">    A larger tadpole:</span>
+
+<span class="sd">    &gt;&gt;&gt; long_pan = tadpole_graph(m=4, n=3)</span>
 <span class="sd">    &gt;&gt;&gt; long_pan.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 0, 1, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
@@ -128,18 +417,58 @@
 <span class="sd">           [0, 0, 0, 0, 1, 0, 1],</span>
 <span class="sd">           [0, 0, 0, 0, 0, 1, 0]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">cycle</span> <span class="o">+</span> <span class="n">tail</span>
-    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cycle</span><span class="p">):</span>
-        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">cycle</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">cycle</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tail</span><span class="p">):</span>
-        <span class="n">adja</span><span class="p">[</span><span class="n">cycle</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cycle</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">adja</span><span class="p">[</span><span class="n">cycle</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">cycle</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="o">=</span><span class="p">[</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="bicycle"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.bicycle">[docs]</a><span class="k">def</span> <span class="nf">bicycle</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">common_edges</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="lollipop_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.lollipop_graph">[docs]</a><span class="k">def</span> <span class="nf">lollipop_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Length of the complete graph.</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the tail.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        A tail of length *n* attached to a complete graph of size *m*, aka a lollipop graph</span>
+<span class="sd">        (cf https://mathworld.wolfram.com/LollipopGraph.html).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle with a one-edge tail (paw graph):</span>
+
+<span class="sd">    &gt;&gt;&gt; l_3_1 = lollipop_graph()</span>
+<span class="sd">    &gt;&gt;&gt; l_3_1.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 0]])</span>
+
+
+<span class="sd">    A larger lollipop:</span>
+
+<span class="sd">    &gt;&gt;&gt; l_5_3 = lollipop_graph(m=5, n=3)</span>
+<span class="sd">    &gt;&gt;&gt; l_5_3.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="o">=</span><span class="p">[</span><span class="n">complete_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bicycle_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.bicycle_graph">[docs]</a><span class="k">def</span> <span class="nf">bicycle_graph</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">common_edges</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -162,7 +491,7 @@
 
 <span class="sd">    A *house* (a square and a triangle with one common edge).</span>
 
-<span class="sd">    &gt;&gt;&gt; house = bicycle(left_cycle=4, right_cycle=3, common_edges=1)</span>
+<span class="sd">    &gt;&gt;&gt; house = bicycle_graph(left_cycle=4, right_cycle=3, common_edges=1)</span>
 <span class="sd">    &gt;&gt;&gt; house.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 0, 1, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0],</span>
@@ -172,7 +501,7 @@
 
 <span class="sd">    A bow-tie (two triangles with only one node in common (no common edge).</span>
 
-<span class="sd">    &gt;&gt;&gt; bicycle(left_cycle=3, right_cycle=3, common_edges=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; bicycle_graph(left_cycle=3, right_cycle=3, common_edges=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 1, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0],</span>
 <span class="sd">           [1, 1, 0, 1, 1],</span>
@@ -180,22 +509,19 @@
 <span class="sd">           [0, 0, 1, 1, 0]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="p">(</span><span class="n">left_cycle</span> <span class="o">-</span> <span class="n">common_edges</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">right_cycle</span> <span class="o">-</span> <span class="n">common_edges</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">left_cycle</span> <span class="o">+</span> <span class="n">right_cycle</span> <span class="o">-</span> <span class="n">common_edges</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">adja</span><span class="p">[:</span><span class="n">left_cycle</span><span class="p">,</span> <span class="p">:</span><span class="n">left_cycle</span><span class="p">]</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">left_cycle</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span>
-    <span class="n">adja</span><span class="p">[(</span><span class="n">n</span> <span class="o">-</span> <span class="n">right_cycle</span><span class="p">):,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">right_cycle</span><span class="p">):]</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">right_cycle</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">left_cycle</span><span class="p">),</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">right_cycle</span><span class="p">)],</span> <span class="n">overlap</span><span class="o">=</span><span class="p">(</span><span class="n">common_edges</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="dumbbells"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.dumbbells">[docs]</a><span class="k">def</span> <span class="nf">dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="kayak_paddle_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.kayak_paddle_graph">[docs]</a><span class="k">def</span> <span class="nf">kayak_paddle_graph</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    left_cycle: :class:`int`</span>
+<span class="sd">    k: :class:`int`</span>
 <span class="sd">        Size of the first cycle.</span>
-<span class="sd">    right_cycle: :class:`int`</span>
+<span class="sd">    m: :class:`int`</span>
 <span class="sd">        Size of the second cycle.</span>
-<span class="sd">    center: :class:`int`</span>
+<span class="sd">    l: :class:`int`</span>
 <span class="sd">        Length of the path that joins the two cycles.</span>
 <span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
 <span class="sd">        List of node names (e.g. for display)</span>
@@ -203,14 +529,15 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
-<span class="sd">        A graph with with two cycles joined by a path.</span>
+<span class="sd">        A graph with with two cycles joined by a path, aka a kayak paddle graph :math:`KP(k, m, l)`</span>
+<span class="sd">        (cf https://mathworld.wolfram.com/KayakPaddleGraph.html).</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
 <span class="sd">    A square and a triangle joined by a path of length 3.</span>
 
-<span class="sd">    &gt;&gt;&gt; graph = dumbbells(left_cycle=4, right_cycle=3, center=3)</span>
+<span class="sd">    &gt;&gt;&gt; graph = kayak_paddle_graph(k=4, m=3, l=3)</span>
 <span class="sd">    &gt;&gt;&gt; graph.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
@@ -224,17 +551,148 @@
 
 <span class="sd">    A bow-tie (two triangles with one node in common).</span>
 
-<span class="sd">    &gt;&gt;&gt; dumbbells(left_cycle=3, right_cycle=3, center=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; kayak_paddle_graph(k=3, m=3, l=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 1, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0],</span>
 <span class="sd">           [1, 1, 0, 1, 1],</span>
 <span class="sd">           [0, 0, 1, 0, 1],</span>
 <span class="sd">           [0, 0, 1, 1, 0]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">left_cycle</span> <span class="o">+</span> <span class="n">center</span> <span class="o">+</span> <span class="n">right_cycle</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">adja</span><span class="p">[:(</span><span class="n">left_cycle</span> <span class="o">+</span> <span class="n">center</span><span class="p">),</span> <span class="p">:(</span><span class="n">left_cycle</span> <span class="o">+</span> <span class="n">center</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">left_cycle</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="n">center</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span>
-    <span class="n">adja</span><span class="p">[(</span><span class="n">n</span> <span class="o">-</span> <span class="n">right_cycle</span><span class="p">):,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">right_cycle</span><span class="p">):]</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">right_cycle</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="barbell_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.barbell_graph">[docs]</a><span class="k">def</span> <span class="nf">barbell_graph</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k: :class:`int`</span>
+<span class="sd">        Size of the first complete graph.</span>
+<span class="sd">    m: :class:`int`, optional</span>
+<span class="sd">        Size of the second complete graph. Default to the size of the first complete graph.</span>
+<span class="sd">    l: :class:`int`</span>
+<span class="sd">        Length of the path that joins the two complete graphs.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        A barbell graph, aka two complete graphs bridged by a path</span>
+<span class="sd">        (cf https://mathworld.wolfram.com/BarbellGraph.html).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Traditional barbel graph with complete graphs of same size and unit bridge.</span>
+
+<span class="sd">    &gt;&gt;&gt; barbel_5 = barbell_graph(5)</span>
+<span class="sd">    &gt;&gt;&gt; barbel_5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])</span>
+
+<span class="sd">    A bow-tie (two triangles with one node in common).</span>
+
+<span class="sd">    &gt;&gt;&gt; barbell_graph(l=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    Something more elaborated.</span>
+
+<span class="sd">    &gt;&gt;&gt; barbell_graph(k=3, m=5, l=4).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">k</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">complete_adjacency</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">complete_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="chained_cycle_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.chained_cycle_graph">[docs]</a><span class="k">def</span> <span class="nf">chained_cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Size of the cycles.</span>
+<span class="sd">    c: :class:`int`</span>
+<span class="sd">        Number of copies.</span>
+<span class="sd">    o: :class:`int`</span>
+<span class="sd">        Overlap between cycles.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        Concatenate *c* copies of :math:`C_n`, with *o* overlapping nodes between two consecutive cycles.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    The diamond graph (two triangles).</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond = chained_cycle_graph(n=3, c=2)</span>
+<span class="sd">    &gt;&gt;&gt; diamond.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 1, 1, 0]])</span>
+
+<span class="sd">    The *triamond* graph.</span>
+
+<span class="sd">    &gt;&gt;&gt; chained_cycle_graph(n=3, c=3).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    The triangular snake graph :math:`TS_9` (cf https://mathworld.wolfram.com/TriangularSnakeGraph.html)</span>
+
+<span class="sd">    &gt;&gt;&gt; chained_cycle_graph(n=3, c=4, o=1).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 1, 0, 1, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    The domino graph, or 3-ladder graph (cf https://mathworld.wolfram.com/LadderGraph.html)</span>
+
+<span class="sd">    &gt;&gt;&gt; chained_cycle_graph(n=4, c=2).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span><span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="n">o</span> <span class="p">)</span>
     <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
 
 
@@ -255,10 +713,10 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    The Braess graph (two triangles).</span>
+<span class="sd">    The diamond graph (two triangles).</span>
 
-<span class="sd">    &gt;&gt;&gt; braess = triangle_chain(triangles=2)</span>
-<span class="sd">    &gt;&gt;&gt; braess.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; diamond = triangle_chain(triangles=2)</span>
+<span class="sd">    &gt;&gt;&gt; diamond.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[0, 1, 1, 0],</span>
 <span class="sd">           [1, 0, 1, 1],</span>
 <span class="sd">           [1, 1, 0, 1],</span>
@@ -285,7 +743,7 @@
     <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="hyper_dumbbells"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.hyper_dumbbells">[docs]</a><span class="k">def</span> <span class="nf">hyper_dumbbells</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="hyper_paddle"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.hyper_paddle">[docs]</a><span class="k">def</span> <span class="nf">hyper_paddle</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">right_cycle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -308,7 +766,7 @@
 
 <span class="sd">    The *candy*, a basic but very useful hypergraph.</span>
 
-<span class="sd">    &gt;&gt;&gt; candy = hyper_dumbbells()</span>
+<span class="sd">    &gt;&gt;&gt; candy = hyper_paddle()</span>
 <span class="sd">    &gt;&gt;&gt; candy.incidence.toarray().astype(&#39;int&#39;) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
@@ -320,7 +778,7 @@
 
 <span class="sd">    A more elaborate hypergraph</span>
 
-<span class="sd">    &gt;&gt;&gt; hyper_dumbbells(left_cycle=5, right_cycle=4, hyperedges=3).incidence.toarray().astype(&#39;int&#39;) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; hyper_paddle(left_cycle=5, right_cycle=4, hyperedges=3).incidence.toarray().astype(&#39;int&#39;) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
@@ -336,7 +794,7 @@
 
 <span class="sd">    Warning: without any hyperedge, we have two disconnected cycles.</span>
 
-<span class="sd">    &gt;&gt;&gt; hyper_dumbbells(hyperedges=0).incidence.toarray().astype(&#39;int&#39;) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; hyper_paddle(hyperedges=0).incidence.toarray().astype(&#39;int&#39;) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    array([[1, 1, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0],</span>
 <span class="sd">           [0, 1, 1, 0, 0, 0],</span>
@@ -346,9 +804,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">left_cycle</span> <span class="o">+</span> <span class="n">right_cycle</span> <span class="o">+</span> <span class="n">hyperedges</span>
     <span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">left_cycle</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">left_cycle</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
     <span class="n">incidence</span><span class="p">[:</span><span class="n">left_cycle</span><span class="p">,</span> <span class="p">:</span><span class="n">left_cycle</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">right_cycle</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">right_cycle</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
     <span class="n">incidence</span><span class="p">[(</span><span class="n">n</span> <span class="o">-</span> <span class="n">right_cycle</span><span class="p">):,</span> <span class="n">left_cycle</span><span class="p">:(</span><span class="n">left_cycle</span> <span class="o">+</span> <span class="n">right_cycle</span><span class="p">)]</span> <span class="o">=</span> <span class="n">right</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hyperedges</span><span class="p">):</span>
         <span class="n">incidence</span><span class="p">[(</span><span class="n">left_cycle</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">):(</span><span class="n">left_cycle</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span> <span class="n">n</span> <span class="o">-</span> <span class="n">hyperedges</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -428,9 +886,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">cycles</span> <span class="o">*</span> <span class="n">cycle_size</span>
     <span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">hyperedges</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">cycle_incidence</span> <span class="o">=</span> <span class="n">cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">cycle_size</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cycles</span><span class="p">):</span>
         <span class="n">incidence</span><span class="p">[(</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">):((</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">):((</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="n">cycle_size</span><span class="p">,</span> <span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">):((</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">)]</span> <span class="o">=</span> <span class="n">cycle_incidence</span>
         <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hyperedges</span><span class="p">):</span>
             <span class="n">incidence</span><span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">hyperedges</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">HyperGraph</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span></div>

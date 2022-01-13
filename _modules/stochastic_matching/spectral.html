@@ -154,8 +154,8 @@
 
 <span class="sd">    Consider a fully inversible incidence (n=m, non bipartite).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import pan</span>
-<span class="sd">    &gt;&gt;&gt; p = pan()</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import tadpole_graph</span>
+<span class="sd">    &gt;&gt;&gt; p = tadpole_graph()</span>
 <span class="sd">    &gt;&gt;&gt; inv, k, b  =inverse_incidence(p.incidence)</span>
 
 <span class="sd">    The inverse is:</span>
@@ -188,7 +188,7 @@
 
 <span class="sd">    Now consider a bipartite version :</span>
 
-<span class="sd">    &gt;&gt;&gt; p = pan(cycle=4)</span>
+<span class="sd">    &gt;&gt;&gt; p = tadpole_graph(m=4)</span>
 <span class="sd">    &gt;&gt;&gt; inv, k, b  = inverse_incidence(p.incidence)</span>
 
 <span class="sd">    The pseudo-inverse is:</span>
@@ -226,8 +226,8 @@
 
 <span class="sd">    Consider now the braess graph (n&lt;m, non bipartite).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; braess = bicycle()</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle_graph</span>
+<span class="sd">    &gt;&gt;&gt; braess = bicycle_graph()</span>
 <span class="sd">    &gt;&gt;&gt; inv, k, b  =inverse_incidence(braess.incidence)</span>
 
 <span class="sd">    The inverse is:</span>
@@ -369,8 +369,8 @@
 
 <span class="sd">    Is a triangle that checks triangular inequality stable?</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import pan</span>
-<span class="sd">    &gt;&gt;&gt; spec = Spectral(pan(tail=0), [3, 4, 5])</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import tadpole_graph</span>
+<span class="sd">    &gt;&gt;&gt; spec = Spectral(tadpole_graph(n=0), [3, 4, 5])</span>
 <span class="sd">    &gt;&gt;&gt; spec.is_stable</span>
 <span class="sd">    True</span>
 
@@ -382,7 +382,7 @@
 
 <span class="sd">    Now a bipartite example.</span>
 
-<span class="sd">    &gt;&gt;&gt; spec.fit(graph=pan(cycle=4))</span>
+<span class="sd">    &gt;&gt;&gt; spec.fit(graph=tadpole_graph(m=4))</span>
 <span class="sd">    &gt;&gt;&gt; spec.fit(mu=[1, 1, 1, 2, 1])</span>
 
 <span class="sd">    Notice that we have a perfectly working solution with respect to conservation law.</span>

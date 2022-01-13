@@ -78,7 +78,7 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span> <span class="n">csc_matrix</span>
 
-<span class="kn">from</span> <span class="nn">stochastic_matching.graphs.display</span> <span class="kn">import</span> <span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="n">vis_display</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.graphs.display</span> <span class="kn">import</span> <span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="n">vis_show</span>
 
 
 <div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
@@ -151,8 +151,8 @@
 
 <span class="sd">    Convert a diamond graph from adjacency to incidence.</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; diamond = bicycle().adjacency</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle_graph</span>
+<span class="sd">    &gt;&gt;&gt; diamond = bicycle_graph().adjacency</span>
 <span class="sd">    &gt;&gt;&gt; diamond</span>
 <span class="sd">    array([[0, 1, 1, 0],</span>
 <span class="sd">           [1, 0, 1, 1],</span>
@@ -194,8 +194,8 @@
 
 <span class="sd">    Convert a diamond graph from incidence to adjacency.</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; diamond = bicycle().incidence.toarray().astype(&#39;int&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle_graph</span>
+<span class="sd">    &gt;&gt;&gt; diamond = bicycle_graph().incidence.toarray().astype(&#39;int&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; diamond</span>
 <span class="sd">    array([[1, 1, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 1, 0],</span>
@@ -209,8 +209,8 @@
 
 <span class="sd">    An error occurs if one tries to convert a hypergraph.</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import hyper_dumbbells</span>
-<span class="sd">    &gt;&gt;&gt; candy = hyper_dumbbells().incidence.toarray().astype(&#39;int&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs.generators import hyper_paddle</span>
+<span class="sd">    &gt;&gt;&gt; candy = hyper_paddle().incidence.toarray().astype(&#39;int&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; candy</span>
 <span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
@@ -271,7 +271,8 @@
 
 <div class="viewcode-block" id="GenericGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph">[docs]</a><span class="k">class</span> <span class="nc">GenericGraph</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Abstract class for graphs. Should not be directly used.</span>
+<span class="sd">    Abstract class for :class:`~stochastic_matching.graphs.classes.SimpleGraph` and</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.HyperGraph`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -319,10 +320,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">default_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">,</span> <span class="n">edges_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">vis_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">,</span> <span class="n">edges_dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="GenericGraph.display"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GenericGraph.show"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Shows the simple graph.</span>
 
@@ -341,20 +342,18 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        ---------</span>
-<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import pan</span>
-<span class="sd">        &gt;&gt;&gt; pan().display()</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import tadpole_graph</span>
+<span class="sd">        &gt;&gt;&gt; tadpole_graph().show()</span>
 <span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_vis</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-                                                             <span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_dict</span><span class="p">,</span>
-                                                             <span class="n">edges_dict</span><span class="o">=</span><span class="n">edges_dict</span><span class="p">)</span>
-        <span class="n">vis_display</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span><span class="p">)</span></div></div>
+        <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_inputs</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+                                                            <span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_dict</span><span class="p">,</span>
+                                                            <span class="n">edges_dict</span><span class="o">=</span><span class="n">edges_dict</span><span class="p">)</span>
+        <span class="n">vis_show</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="HyperGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph">[docs]</a><span class="k">class</span> <span class="nc">HyperGraph</span><span class="p">(</span><span class="n">GenericGraph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Hypergraphs handling.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    incidence: :class:`~numpy.ndarray`</span>
@@ -386,16 +385,19 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle, hyper_dumbbells</span>
-<span class="sd">        &gt;&gt;&gt; braess = HyperGraph(bicycle().incidence).to_simplegraph()</span>
-<span class="sd">        &gt;&gt;&gt; type(braess)</span>
+
+<span class="sd">        We will use the traditional diamond graph, represented as .</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle_graph, hyper_paddle</span>
+<span class="sd">        &gt;&gt;&gt; diamond = HyperGraph(bicycle_graph().incidence).to_simplegraph()</span>
+<span class="sd">        &gt;&gt;&gt; type(diamond)</span>
 <span class="sd">        &lt;class &#39;stochastic_matching.graphs.classes.SimpleGraph&#39;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; braess.adjacency</span>
+<span class="sd">        &gt;&gt;&gt; diamond.adjacency</span>
 <span class="sd">        array([[0, 1, 1, 0],</span>
 <span class="sd">               [1, 0, 1, 1],</span>
 <span class="sd">               [1, 1, 0, 1],</span>
 <span class="sd">               [0, 1, 1, 0]])</span>
-<span class="sd">        &gt;&gt;&gt; candy = hyper_dumbbells()</span>
+<span class="sd">        &gt;&gt;&gt; candy = hyper_paddle()</span>
 <span class="sd">        &gt;&gt;&gt; candy.to_simplegraph()</span>
 <span class="sd">        Traceback (most recent call last):</span>
 <span class="sd">        ...</span>
@@ -403,8 +405,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">incidence</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HyperGraph.default_vis"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph.default_vis">[docs]</a>    <span class="k">def</span> <span class="nf">default_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="HyperGraph.vis_inputs"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph.vis_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">vis_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The method provides a Vis-ready description of the graph.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        options: :class:`dict`</span>
@@ -422,8 +426,9 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        ---------</span>
-<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import hyper_dumbbells</span>
-<span class="sd">        &gt;&gt;&gt; hyper_dumbbells().default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import hyper_paddle</span>
+<span class="sd">        &gt;&gt;&gt; hyper_paddle().vis_inputs() # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
@@ -488,8 +493,6 @@
 
 <div class="viewcode-block" id="SimpleGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph">[docs]</a><span class="k">class</span> <span class="nc">SimpleGraph</span><span class="p">(</span><span class="n">GenericGraph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Hypergraphs handling.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    incidence: :class:`~numpy.ndarray`</span>
@@ -534,26 +537,28 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle, hyper_dumbbells</span>
-<span class="sd">        &gt;&gt;&gt; braess = bicycle().to_hypergraph()</span>
-<span class="sd">        &gt;&gt;&gt; type(braess)</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import bicycle_graph, hyper_paddle</span>
+<span class="sd">        &gt;&gt;&gt; diamond = bicycle_graph().to_hypergraph()</span>
+<span class="sd">        &gt;&gt;&gt; type(diamond)</span>
 <span class="sd">        &lt;class &#39;stochastic_matching.graphs.classes.HyperGraph&#39;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; braess.incidence.toarray().astype(&#39;int&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; diamond.incidence.toarray().astype(&#39;int&#39;)</span>
 <span class="sd">        array([[1, 1, 0, 0, 0],</span>
 <span class="sd">               [1, 0, 1, 1, 0],</span>
 <span class="sd">               [0, 1, 1, 0, 1],</span>
 <span class="sd">               [0, 0, 0, 1, 1]])</span>
 
 <span class="sd">        Remind that HyperGraph do not have an adjacency matrix.</span>
-<span class="sd">        &gt;&gt;&gt; braess.adjacency</span>
+<span class="sd">        &gt;&gt;&gt; diamond.adjacency</span>
 <span class="sd">        Traceback (most recent call last):</span>
 <span class="sd">        ...</span>
 <span class="sd">        AttributeError: &#39;HyperGraph&#39; object has no attribute &#39;adjacency&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">HyperGraph</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">incidence</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimpleGraph.default_vis"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph.default_vis">[docs]</a>    <span class="k">def</span> <span class="nf">default_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SimpleGraph.vis_inputs"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph.vis_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">vis_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The method provides a Vis-ready description of the graph.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        options: :class:`dict`</span>
@@ -571,10 +576,8 @@
 <span class="sd">        Examples</span>
 <span class="sd">        ---------</span>
 
-<span class="sd">        The method provides a Vis-ready description of the graph.</span>
-
-<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import pan</span>
-<span class="sd">        &gt;&gt;&gt; pan().default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs.generators import tadpole_graph</span>
+<span class="sd">        &gt;&gt;&gt; tadpole_graph().vis_inputs() # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;},</span>
@@ -587,7 +590,7 @@
 
 <span class="sd">        Nodes can have names.</span>
 
-<span class="sd">        &gt;&gt;&gt; pan(names=[&#39;One&#39;, &#39;Two&#39;, &#39;Three&#39;, &#39;Four&#39;]).default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        &gt;&gt;&gt; tadpole_graph(names=[&#39;One&#39;, &#39;Two&#39;, &#39;Three&#39;, &#39;Four&#39;]).vis_inputs() # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;One&#39;, &#39;title&#39;: &#39;0: One&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;Two&#39;, &#39;title&#39;: &#39;1: Two&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;Three&#39;, &#39;title&#39;: &#39;2: Three&#39;},</span>
@@ -600,7 +603,7 @@
 
 <span class="sd">        Pass &#39;alpha&#39; to name for automatic letter labeling.</span>
 
-<span class="sd">        &gt;&gt;&gt; pan(names=&#39;alpha&#39;).default_vis() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        &gt;&gt;&gt; tadpole_graph(names=&#39;alpha&#39;).vis_inputs() # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;A&#39;, &#39;title&#39;: &#39;0: A&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 1, &#39;label&#39;: &#39;B&#39;, &#39;title&#39;: &#39;1: B&#39;},</span>
 <span class="sd">        {&#39;id&#39;: 2, &#39;label&#39;: &#39;C&#39;, &#39;title&#39;: &#39;2: C&#39;},</span>

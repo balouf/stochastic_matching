@@ -106,8 +106,8 @@
 <span class="sd">    In a Braess graph with non-empty queues in nodes 3 and 0,</span>
 <span class="sd">    an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; simple_choicer(graph_neighbors_list(bicycle()), 2, np.array([1, 0, 0, 1]))</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph</span>
+<span class="sd">    &gt;&gt;&gt; simple_choicer(graph_neighbors_list(bicycle_graph()), 2, np.array([1, 0, 0, 1]))</span>
 <span class="sd">    [(1, 0), (4, 3)]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">ej</span> <span class="k">for</span> <span class="n">ej</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span></div>
@@ -137,8 +137,8 @@
 <span class="sd">    In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,</span>
 <span class="sd">    an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_dumbbells</span>
-<span class="sd">    &gt;&gt;&gt; choices = hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_paddle</span>
+<span class="sd">    &gt;&gt;&gt; choices = hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))</span>
 <span class="sd">    &gt;&gt;&gt; [(e, n.astype(int)) for e, n in choices]</span>
 <span class="sd">    [(1, array([0])), (6, array([3, 4]))]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -202,21 +202,18 @@
                 <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="k">continue</span>
-
-            <span class="c1"># Otherwise, we can check for feasible edges</span>
-            <span class="n">choices</span> <span class="o">=</span> <span class="n">choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">choices</span><span class="p">:</span>  <span class="c1"># At least one possibility</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Exactly one -&gt; take it.</span>
-                    <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>  <span class="c1"># More than one -&gt; call the selector</span>
-                    <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
-                <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Add trafic for the selected edge</span>
-                <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Decrease queue for neighbor(s)</span>
-            <span class="k">else</span><span class="p">:</span>  <span class="c1"># No choice -&gt; update and move on unless queue overflows.</span>
-                <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Otherwise, we can check for feasible edges</span>
+                <span class="n">choices</span> <span class="o">=</span> <span class="n">choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">choices</span><span class="p">:</span>  <span class="c1"># At least one possibility</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Exactly one -&gt; take it.</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># More than one -&gt; call the selector</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
+                    <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Add trafic for the selected edge</span>
+                    <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Decrease queue for neighbor(s)</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># No choice -&gt; update and move on unless queue overflows.</span>
+                    <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Return the updated number of steps achieved.</span>
 
     <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="n">core_simulator</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Return the jitted core engine.</span></div>
@@ -241,13 +238,13 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle, hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph, hyper_paddle</span>
 <span class="sd">    &gt;&gt;&gt; set_seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; qs = np.array([1, 0, 0, 1])</span>
-<span class="sd">    &gt;&gt;&gt; random_node_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)</span>
+<span class="sd">    &gt;&gt;&gt; random_node_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)</span>
 <span class="sd">    (1, 0)</span>
 <span class="sd">    &gt;&gt;&gt; qs = np.array([1, 0, 0, 1, 1, 0, 0])</span>
-<span class="sd">    &gt;&gt;&gt; e, n = random_node_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)</span>
+<span class="sd">    &gt;&gt;&gt; e, n = random_node_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)</span>
 <span class="sd">    &gt;&gt;&gt; e</span>
 <span class="sd">    6</span>
 <span class="sd">    &gt;&gt;&gt; n.astype(int)</span>
@@ -275,9 +272,9 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph</span>
 <span class="sd">    &gt;&gt;&gt; qs = np.array([1, 0, 0, 2])</span>
-<span class="sd">    &gt;&gt;&gt; longest_queue_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)</span>
+<span class="sd">    &gt;&gt;&gt; longest_queue_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)</span>
 <span class="sd">    (4, 3)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
@@ -309,9 +306,9 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_paddle</span>
 <span class="sd">    &gt;&gt;&gt; qs = np.array([3, 0, 0, 2, 2, 0, 0])</span>
-<span class="sd">    &gt;&gt;&gt; e, n = longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)</span>
+<span class="sd">    &gt;&gt;&gt; e, n = longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)</span>
 <span class="sd">    &gt;&gt;&gt; e</span>
 <span class="sd">    6</span>
 <span class="sd">    &gt;&gt;&gt; n.astype(int)</span>
@@ -348,10 +345,10 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph</span>
 <span class="sd">    &gt;&gt;&gt; set_seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; qs = np.array([1, 0, 0, 2])</span>
-<span class="sd">    &gt;&gt;&gt; random_item_selector(simple_choicer(graph_neighbors_list(bicycle()), 2, qs), qs)</span>
+<span class="sd">    &gt;&gt;&gt; random_item_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)</span>
 <span class="sd">    (4, 3)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
@@ -386,9 +383,9 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_paddle</span>
 <span class="sd">    &gt;&gt;&gt; qs = np.array([3, 0, 0, 2, 2, 0, 0])</span>
-<span class="sd">    &gt;&gt;&gt; e, n = random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_dumbbells()), 2, qs), qs)</span>
+<span class="sd">    &gt;&gt;&gt; e, n = random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)</span>
 <span class="sd">    &gt;&gt;&gt; e</span>
 <span class="sd">    6</span>
 <span class="sd">    &gt;&gt;&gt; n.astype(int)</span>
@@ -429,8 +426,8 @@
 <span class="sd">    In a Braess graph with non-empty queues in nodes 3 and 0,</span>
 <span class="sd">    an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle</span>
-<span class="sd">    &gt;&gt;&gt; simple_state_choicer(graph_neighbors_list(bicycle()), 2,</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph</span>
+<span class="sd">    &gt;&gt;&gt; simple_state_choicer(graph_neighbors_list(bicycle_graph()), 2,</span>
 <span class="sd">    ...                      np.array([10, 14, 7, 8]), np.array([11, 14, 7, 9]))</span>
 <span class="sd">    [(1, 0), (4, 3)]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -463,8 +460,8 @@
 <span class="sd">    In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,</span>
 <span class="sd">    an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_dumbbells</span>
-<span class="sd">    &gt;&gt;&gt; choices = hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_paddle</span>
+<span class="sd">    &gt;&gt;&gt; choices = hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,</span>
 <span class="sd">    ...                     np.array([21, 10, 7, 4, 3, 2, 50]), np.array([22, 10, 7, 5, 4, 2, 50]))</span>
 <span class="sd">    &gt;&gt;&gt; [(e, n.astype(int)) for e, n in choices]</span>
 <span class="sd">    [(1, array([0])), (6, array([3, 4]))]</span>
@@ -533,22 +530,20 @@
                 <span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">-</span> <span class="n">queue_start</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="k">continue</span>
 
-            <span class="c1"># Otherwise, we can check for feasible edges</span>
-            <span class="n">choices</span> <span class="o">=</span> <span class="n">choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">choices</span><span class="p">:</span>  <span class="c1"># At least one possibility</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Exactly one -&gt; take it.</span>
-                    <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>  <span class="c1"># More than one -&gt; call the selector</span>
-                    <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">max_queue</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
-                <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Add trafic for the selected edge</span>
-                <span class="n">queue_start</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue_start</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># &quot;Pop&quot; oldest item(s) from selected edge.</span>
-            <span class="k">else</span><span class="p">:</span>  <span class="c1"># No choice -&gt; update and move on unless queue overflows.</span>
-                <span class="n">items</span><span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">%</span> <span class="n">max_queue</span><span class="p">]</span> <span class="o">=</span> <span class="n">age</span>
-                <span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">-</span> <span class="n">queue_start</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Otherwise, we can check for feasible edges</span>
+                <span class="n">choices</span> <span class="o">=</span> <span class="n">choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">choices</span><span class="p">:</span>  <span class="c1"># At least one possibility</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Exactly one -&gt; take it.</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># More than one -&gt; call the selector</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">max_queue</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+                    <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Add trafic for the selected edge</span>
+                    <span class="n">queue_start</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue_start</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># &quot;Pop&quot; oldest item(s) from selected edge.</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># No choice -&gt; update and move on unless queue overflows.</span>
+                    <span class="n">items</span><span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">%</span> <span class="n">max_queue</span><span class="p">]</span> <span class="o">=</span> <span class="n">age</span>
+                    <span class="n">queue_end</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Return the updated number of steps achieved.</span>
 
     <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="n">core_simulator</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Return the jitted core engine.</span></div>
@@ -579,14 +574,14 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import bicycle_graph</span>
 <span class="sd">    &gt;&gt;&gt; start = np.array([1, 0, 0, 2])</span>
 <span class="sd">    &gt;&gt;&gt; end = np.array([2, 0, 0, 4])</span>
 <span class="sd">    &gt;&gt;&gt; items_list = np.array([[1, 5, 6, 0, 0],</span>
 <span class="sd">    ...                   [0, 0, 0, 0, 0],</span>
 <span class="sd">    ...                   [0, 0, 0, 0, 0],</span>
 <span class="sd">    ...                   [2, 3, 4, 7, 8],])</span>
-<span class="sd">    &gt;&gt;&gt; fcfm_selector(simple_state_choicer(graph_neighbors_list(bicycle()), 2,</span>
+<span class="sd">    &gt;&gt;&gt; fcfm_selector(simple_state_choicer(graph_neighbors_list(bicycle_graph()), 2,</span>
 <span class="sd">    ...                                             start, end),</span>
 <span class="sd">    ...                        5, start, end, items_list)</span>
 <span class="sd">    (4, 3)</span>
@@ -628,11 +623,11 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_dumbbells</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching import hyper_paddle</span>
 <span class="sd">    &gt;&gt;&gt; start = np.array([0, 0, 0, 0, 0, 0, 0])</span>
 <span class="sd">    &gt;&gt;&gt; end = np.array([1, 0, 0, 1, 1, 0, 0])</span>
 <span class="sd">    &gt;&gt;&gt; items_list = np.array([[2, 0], [0, 0], [0, 0], [1, 0], [3, 0], [0, 0], [0, 0]])</span>
-<span class="sd">    &gt;&gt;&gt; e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,</span>
+<span class="sd">    &gt;&gt;&gt; e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,</span>
 <span class="sd">    ...                                             start, end),</span>
 <span class="sd">    ...                        2, start, end, items_list)</span>
 <span class="sd">    &gt;&gt;&gt; e</span>
@@ -640,7 +635,7 @@
 <span class="sd">    &gt;&gt;&gt; n.astype(int)</span>
 <span class="sd">    array([3, 4])</span>
 <span class="sd">    &gt;&gt;&gt; items_list = np.array([[1, 0], [0, 0], [0, 0], [2, 0], [3, 0], [0, 0], [0, 0]])</span>
-<span class="sd">    &gt;&gt;&gt; e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_dumbbells()), 2,</span>
+<span class="sd">    &gt;&gt;&gt; e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,</span>
 <span class="sd">    ...                                             start, end),</span>
 <span class="sd">    ...                        2, start, end, items_list)</span>
 <span class="sd">    &gt;&gt;&gt; e</span>

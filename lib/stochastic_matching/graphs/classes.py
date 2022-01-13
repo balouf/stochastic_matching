@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.sparse import csr_matrix, csc_matrix
 
-from stochastic_matching.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_display
+from stochastic_matching.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_show
 
 
 def neighbors(i, compressed_incidence):
@@ -74,8 +74,8 @@ def adjacency_to_incidence(adjacency):
 
     Convert a diamond graph from adjacency to incidence.
 
-    >>> from stochastic_matching.graphs.generators import bicycle
-    >>> diamond = bicycle().adjacency
+    >>> from stochastic_matching.graphs.generators import bicycle_graph
+    >>> diamond = bicycle_graph().adjacency
     >>> diamond
     array([[0, 1, 1, 0],
            [1, 0, 1, 1],
@@ -117,8 +117,8 @@ def incidence_to_adjacency(incidence):
 
     Convert a diamond graph from incidence to adjacency.
 
-    >>> from stochastic_matching.graphs.generators import bicycle
-    >>> diamond = bicycle().incidence.toarray().astype('int')
+    >>> from stochastic_matching.graphs.generators import bicycle_graph
+    >>> diamond = bicycle_graph().incidence.toarray().astype('int')
     >>> diamond
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
@@ -132,8 +132,8 @@ def incidence_to_adjacency(incidence):
 
     An error occurs if one tries to convert a hypergraph.
 
-    >>> from stochastic_matching.graphs.generators import hyper_dumbbells
-    >>> candy = hyper_dumbbells().incidence.toarray().astype('int')
+    >>> from stochastic_matching.graphs.generators import hyper_paddle
+    >>> candy = hyper_paddle().incidence.toarray().astype('int')
     >>> candy
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
@@ -194,7 +194,8 @@ class CharMaker:
 
 class GenericGraph:
     """
-    Abstract class for graphs. Should not be directly used.
+    Abstract class for :class:`~stochastic_matching.graphs.classes.SimpleGraph` and
+    :class:`~stochastic_matching.graphs.classes.HyperGraph`.
 
     Parameters
     ----------
@@ -242,10 +243,10 @@ class GenericGraph:
         else:
             return self.names[i]
 
-    def default_vis(self, options, nodes_dict, edges_dict):
+    def vis_inputs(self, options, nodes_dict, edges_dict):
         raise NotImplementedError
 
-    def display(self, options=None, nodes_dict=None, edges_dict=None):
+    def show(self, options=None, nodes_dict=None, edges_dict=None):
         """
         Shows the simple graph.
 
@@ -264,20 +265,18 @@ class GenericGraph:
 
         Examples
         ---------
-        >>> from stochastic_matching.graphs.generators import pan
-        >>> pan().display()
+        >>> from stochastic_matching.graphs.generators import tadpole_graph
+        >>> tadpole_graph().show()
         <IPython.core.display.HTML object>
         """
-        vis_nodes, vis_edges, vis_options = self.default_vis(options=options,
-                                                             nodes_dict=nodes_dict,
-                                                             edges_dict=edges_dict)
-        vis_display(vis_nodes, vis_edges, vis_options)
+        vis_nodes, vis_edges, vis_options = self.vis_inputs(options=options,
+                                                            nodes_dict=nodes_dict,
+                                                            edges_dict=edges_dict)
+        vis_show(vis_nodes, vis_edges, vis_options)
 
 
 class HyperGraph(GenericGraph):
     """
-    Hypergraphs handling.
-
     Parameters
     ----------
     incidence: :class:`~numpy.ndarray`
@@ -309,16 +308,19 @@ class HyperGraph(GenericGraph):
 
         Examples
         --------
-        >>> from stochastic_matching.graphs.generators import bicycle, hyper_dumbbells
-        >>> braess = HyperGraph(bicycle().incidence).to_simplegraph()
-        >>> type(braess)
+
+        We will use the traditional diamond graph, represented as .
+
+        >>> from stochastic_matching.graphs.generators import bicycle_graph, hyper_paddle
+        >>> diamond = HyperGraph(bicycle_graph().incidence).to_simplegraph()
+        >>> type(diamond)
         <class 'stochastic_matching.graphs.classes.SimpleGraph'>
-        >>> braess.adjacency
+        >>> diamond.adjacency
         array([[0, 1, 1, 0],
                [1, 0, 1, 1],
                [1, 1, 0, 1],
                [0, 1, 1, 0]])
-        >>> candy = hyper_dumbbells()
+        >>> candy = hyper_paddle()
         >>> candy.to_simplegraph()
         Traceback (most recent call last):
         ...
@@ -326,8 +328,10 @@ class HyperGraph(GenericGraph):
         """
         return SimpleGraph(adjacency=incidence_to_adjacency(self.incidence), names=self.names)
 
-    def default_vis(self, options=None, nodes_dict=None, edges_dict=None):
+    def vis_inputs(self, options=None, nodes_dict=None, edges_dict=None):
         """
+        The method provides a Vis-ready description of the graph.
+
         Parameters
         ----------
         options: :class:`dict`
@@ -345,8 +349,9 @@ class HyperGraph(GenericGraph):
 
         Examples
         ---------
-        >>> from stochastic_matching.graphs.generators import hyper_dumbbells
-        >>> hyper_dumbbells().default_vis() # doctest: +NORMALIZE_WHITESPACE
+
+        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> hyper_paddle().vis_inputs() # doctest: +NORMALIZE_WHITESPACE
         ([{'id': 0, 'label': '0', 'title': '0', 'x': 0, 'group': 'Node'},
         {'id': 1, 'label': '1', 'title': '1', 'x': 0, 'group': 'Node'},
         {'id': 2, 'label': '2', 'title': '2', 'x': 0, 'group': 'Node'},
@@ -411,8 +416,6 @@ class HyperGraph(GenericGraph):
 
 class SimpleGraph(GenericGraph):
     """
-    Hypergraphs handling.
-
     Parameters
     ----------
     incidence: :class:`~numpy.ndarray`
@@ -457,26 +460,28 @@ class SimpleGraph(GenericGraph):
 
         Examples
         --------
-        >>> from stochastic_matching.graphs.generators import bicycle, hyper_dumbbells
-        >>> braess = bicycle().to_hypergraph()
-        >>> type(braess)
+        >>> from stochastic_matching.graphs.generators import bicycle_graph, hyper_paddle
+        >>> diamond = bicycle_graph().to_hypergraph()
+        >>> type(diamond)
         <class 'stochastic_matching.graphs.classes.HyperGraph'>
-        >>> braess.incidence.toarray().astype('int')
+        >>> diamond.incidence.toarray().astype('int')
         array([[1, 1, 0, 0, 0],
                [1, 0, 1, 1, 0],
                [0, 1, 1, 0, 1],
                [0, 0, 0, 1, 1]])
 
         Remind that HyperGraph do not have an adjacency matrix.
-        >>> braess.adjacency
+        >>> diamond.adjacency
         Traceback (most recent call last):
         ...
         AttributeError: 'HyperGraph' object has no attribute 'adjacency'
         """
         return HyperGraph(incidence=self.incidence, names=self.names)
 
-    def default_vis(self, options=None, nodes_dict=None, edges_dict=None):
+    def vis_inputs(self, options=None, nodes_dict=None, edges_dict=None):
         """
+        The method provides a Vis-ready description of the graph.
+
         Parameters
         ----------
         options: :class:`dict`
@@ -494,10 +499,8 @@ class SimpleGraph(GenericGraph):
         Examples
         ---------
 
-        The method provides a Vis-ready description of the graph.
-
-        >>> from stochastic_matching.graphs.generators import pan
-        >>> pan().default_vis() # doctest: +NORMALIZE_WHITESPACE
+        >>> from stochastic_matching.graphs.generators import tadpole_graph
+        >>> tadpole_graph().vis_inputs() # doctest: +NORMALIZE_WHITESPACE
         ([{'id': 0, 'label': '0', 'title': '0'},
         {'id': 1, 'label': '1', 'title': '1'},
         {'id': 2, 'label': '2', 'title': '2'},
@@ -510,7 +513,7 @@ class SimpleGraph(GenericGraph):
 
         Nodes can have names.
 
-        >>> pan(names=['One', 'Two', 'Three', 'Four']).default_vis() # doctest: +NORMALIZE_WHITESPACE
+        >>> tadpole_graph(names=['One', 'Two', 'Three', 'Four']).vis_inputs() # doctest: +NORMALIZE_WHITESPACE
         ([{'id': 0, 'label': 'One', 'title': '0: One'},
         {'id': 1, 'label': 'Two', 'title': '1: Two'},
         {'id': 2, 'label': 'Three', 'title': '2: Three'},
@@ -523,7 +526,7 @@ class SimpleGraph(GenericGraph):
 
         Pass 'alpha' to name for automatic letter labeling.
 
-        >>> pan(names='alpha').default_vis() # doctest: +NORMALIZE_WHITESPACE
+        >>> tadpole_graph(names='alpha').vis_inputs() # doctest: +NORMALIZE_WHITESPACE
         ([{'id': 0, 'label': 'A', 'title': '0: A'},
         {'id': 1, 'label': 'B', 'title': '1: B'},
         {'id': 2, 'label': 'C', 'title': '2: C'},

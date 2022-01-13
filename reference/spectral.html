@@ -127,8 +127,8 @@
 <p class="rubric">Examples</p>
 <p>The following examples are about stability:</p>
 <p>Is a triangle that checks triangular inequality stable?</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">pan</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="n">Spectral</span><span class="p">(</span><span class="n">pan</span><span class="p">(</span><span class="n">tail</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">tadpole_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="n">Spectral</span><span class="p">(</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="o">.</span><span class="n">is_stable</span>
 <span class="go">True</span>
 </pre></div>
@@ -140,7 +140,7 @@
 </pre></div>
 </div>
 <p>Now a bipartite example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -297,8 +297,8 @@ which hints at bipartite structures for simple graphs.</p></li>
 </dl>
 <p class="rubric">Examples</p>
 <p>Consider a fully inversible incidence (n=m, non bipartite).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">pan</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">pan</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">tadpole_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">tadpole_graph</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inv</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b</span>  <span class="o">=</span><span class="n">inverse_incidence</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -331,7 +331,7 @@ which hints at bipartite structures for simple graphs.</p></li>
 </pre></div>
 </div>
 <p>Now consider a bipartite version :</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">pan</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">tadpole_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inv</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b</span>  <span class="o">=</span> <span class="n">inverse_incidence</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -370,8 +370,8 @@ which hints at bipartite structures for simple graphs.</p></li>
 </pre></div>
 </div>
 <p>Consider now the braess graph (n&lt;m, non bipartite).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">bicycle_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">braess</span> <span class="o">=</span> <span class="n">bicycle_graph</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inv</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b</span>  <span class="o">=</span><span class="n">inverse_incidence</span><span class="p">(</span><span class="n">braess</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span>
 </pre></div>
 </div>

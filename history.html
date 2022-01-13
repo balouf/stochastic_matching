@@ -50,7 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2022-01-12): First release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2022-01-13): First release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#misc-improvements">0.0.4 (2021-09-30): Misc. improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulators-are-back">0.0.3 (2021-08-24): Simulators are back!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hyper-graph-release">0.0.2 (2021-07-22): Hyper-graph release</a></li>
 </ul>
 </li>
 </ul>
@@ -106,9 +109,116 @@
 <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline"></a></h1>
 <section id="first-release">
-<h2>0.1.0 (2022-01-12): First release<a class="headerlink" href="#first-release" title="Permalink to this headline"></a></h2>
+<h2>0.1.0 (2022-01-13): First release<a class="headerlink" href="#first-release" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>First release on PyPI.</p></li>
+<li><p>Refactoring: the package name for the public release is <em>Stochastic Matching</em>.</p></li>
+<li><p>The graph submodule has been revamped a bit:
+* Obtaining graphs by concatenation of other graphs is now more systematic and optimized.
+* Names of generators have been changes to comply with <em>offical</em> terminology from Wolfram.
+* A few more generators have been added (e.g. complete, lollipop, barbell).</p></li>
+<li><p>Current compatibility: 3.6 -&gt; 3.9</p></li>
+</ul>
+</section>
+<section id="misc-improvements">
+<h2>0.0.4 (2021-09-30): Misc. improvements<a class="headerlink" href="#misc-improvements" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Add possibility to specify node names. The names are used for all display operations</p></li>
+<li><p>New simulator method compute_ccdf to allow access outside show_ccdf</p></li>
+<li><p>Simulator method show_ccdf has two new options: indices (only show some nodes), sort</p></li>
+<li><p>New simulator method compute_average_queues</p></li>
+<li><p>New simulator method show_average_queues with three options: indices (only show some nodes), sort,
+and as_time (divide by arrival rates)</p></li>
+<li><p>New <em>Getting started</em> notebook.</p></li>
+<li><p>Doctests parameters adjusted for faster test suite execution</p></li>
+</ul>
+</section>
+<section id="simulators-are-back">
+<h2>0.0.3 (2021-08-24): Simulators are back!<a class="headerlink" href="#simulators-are-back" title="Permalink to this headline"></a></h2>
+<p>This update reintroduces simulators, fully revamped</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>All simulators are built as a hierarchy of classes</dt><dd><ul>
+<li><p>Simulator is the mother abstract class</p></li>
+<li><p>QueueSizeSimulator is dedicated to greedy simulators that only use the queue sizes:
+RandomNode, RandomItem, and LongestQueue.</p></li>
+<li><p>QueueStateSimulator is dedicated to greedy simulators that use the age of items:
+FCFM.</p></li>
+<li><p>VQSimulator is a fast implementation of the virtual queue algorithm.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>All non-abstract simulators have a string name. The new <cite>get_simulator_classes()</cite>
+gives a dict of them that can be used to easily select a given simulator.</p></li>
+<li><dl class="simple">
+<dt>Lots of refactoring</dt><dd><ul>
+<li><p>nodes and edges attributes from graph renamed as incidence and co_incidence respectively.
+Older incidence attribute (plain matrix) removed.</p></li>
+<li><p>spectral.py moved up to main module</p></li>
+<li><p>New simulator module</p></li>
+<li><p>simulator.py split into classes.py and a few other files inside the simulator module.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Jit is disabled for the testing (allows for inner coverage inspection).</p></li>
+<li><p>Tutorials revamped to cope with 0.0.3.</p></li>
+<li><p>Old files removed from git for cleanliness</p></li>
+</ul>
+</section>
+<section id="hyper-graph-release">
+<h2>0.0.2 (2021-07-22): Hyper-graph release<a class="headerlink" href="#hyper-graph-release" title="Permalink to this headline"></a></h2>
+<p>Lots of changes in this update.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Graph API has been fully revamped. There is now a GenericGraph class from which SimpleGraph and HyperGraph are derived.</dt><dd><ul>
+<li><p>Hypergraphs don’t have any adjacency attribute, only incidence. They are displayed as bipartite graphs between
+nodes and edges, with an option to explicitly separate nodes from edges.</p></li>
+<li><p>Simple graphs are mostly similar but not compatible with previous Graph class.</p></li>
+<li><p>Hovering on edge now show edge id and description, e.g. edge 6 between nodes 1 and 4 will show “6: (1, 4)”</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>TWO HYPERGRAPHS GENERATORS have been added to the mix:</dt><dd><ul>
+<li><p>hyper_dumbbells can create the candy and larger sweets with trivial kernel.</p></li>
+<li><p>fan can create hypergraphs with more complex kernels, possibly with bipartite-like degenerescence</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>The old gramian module is now called spectral.</dt><dd><ul>
+<li><p>All internals have switched from gramian-based computation to incidence-based computation,
+which makes it fully hypergraph ready (multiplicity / loops should work, but are not tested yet).</p></li>
+<li><p>NEW MAXIMIN FLOW COMPUTATION! No need to optimize each edge, one single linear optimization is enough and
+the result maximizes the minimal edge flow.</p></li>
+<li><p>is_stable method checks the graph kernel dimension and existence of a positive solution.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Main class as been revamped as well</dt><dd><ul>
+<li><p>Class name is now MQ (could be changed later).</p></li>
+<li><p>When displayed, flows are checked by default. Conservation law issues gives red nodes, negative edges are red,
+null edges are orange (can be disabled).</p></li>
+<li><p>SIMULATION ENGINE NOT AVAILABLE IN 0.0.2, as there are a lot of things to change. It will return in 0.0.3.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Misc:</dt><dd><ul>
+<li><p>Tutorials (simulation apart) have been updated. Enjoy the double degenerated fan!</p></li>
+<li><p>Local coverage computation. Enforcing 100% coverage on all 0.0.2+ code.</p></li>
+<li><p>Minor changes in the display module to cope with the new graph API.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </section>
 </section>

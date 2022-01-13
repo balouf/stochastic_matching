@@ -77,8 +77,8 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Consider a fully inversible incidence (n=m, non bipartite).
 
-    >>> from stochastic_matching.graphs.generators import pan
-    >>> p = pan()
+    >>> from stochastic_matching.graphs.generators import tadpole_graph
+    >>> p = tadpole_graph()
     >>> inv, k, b  =inverse_incidence(p.incidence)
 
     The inverse is:
@@ -111,7 +111,7 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Now consider a bipartite version :
 
-    >>> p = pan(cycle=4)
+    >>> p = tadpole_graph(m=4)
     >>> inv, k, b  = inverse_incidence(p.incidence)
 
     The pseudo-inverse is:
@@ -149,8 +149,8 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Consider now the braess graph (n<m, non bipartite).
 
-    >>> from stochastic_matching.graphs.generators import bicycle
-    >>> braess = bicycle()
+    >>> from stochastic_matching.graphs.generators import bicycle_graph
+    >>> braess = bicycle_graph()
     >>> inv, k, b  =inverse_incidence(braess.incidence)
 
     The inverse is:
@@ -292,8 +292,8 @@ class Spectral:
 
     Is a triangle that checks triangular inequality stable?
 
-    >>> from stochastic_matching import pan
-    >>> spec = Spectral(pan(tail=0), [3, 4, 5])
+    >>> from stochastic_matching import tadpole_graph
+    >>> spec = Spectral(tadpole_graph(n=0), [3, 4, 5])
     >>> spec.is_stable
     True
 
@@ -305,7 +305,7 @@ class Spectral:
 
     Now a bipartite example.
 
-    >>> spec.fit(graph=pan(cycle=4))
+    >>> spec.fit(graph=tadpole_graph(m=4))
     >>> spec.fit(mu=[1, 1, 1, 2, 1])
 
     Notice that we have a perfectly working solution with respect to conservation law.
