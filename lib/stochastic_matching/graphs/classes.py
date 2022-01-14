@@ -267,8 +267,14 @@ class GenericGraph:
 
         Examples
         ---------
+
         >>> from stochastic_matching.graphs.generators import tadpole_graph
         >>> tadpole_graph().show()
+        <IPython.core.display.HTML object>
+
+        If you need to save your graph, pass the option `png`. It will display a mirror png picture that you can save.
+
+        >>> tadpole_graph().show(png=True)
         <IPython.core.display.HTML object>
         """
         if png:
