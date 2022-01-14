@@ -24,7 +24,6 @@ HYPER_GRAPH_VIS_OPTIONS = {
 
 HTML_TEMPLATE = """
 <div id="%(name)s"></div>
-<img id="canvasImg" alt="Right click to save me!">
 <script>
 require.config({
     paths: {
@@ -41,10 +40,6 @@ var data= {
 var options = %(options)s;
 var container = document.getElementById('%(name)s');
 var network = new vis.Network(container, data, options);
-network.on("afterDrawing", function (ctx) {
-    var dataURL = ctx.canvas.toDataURL();
-    document.getElementById('canvasImg').src = dataURL;
-  });
 network.fit({
   maxZoomLevel: 1000});
 });
