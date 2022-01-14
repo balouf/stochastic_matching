@@ -7,6 +7,7 @@
   <title>Graph tools &mdash; Stochastic Matching 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -31,6 +32,7 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="../index.html" class="icon icon-home"> Stochastic Matching
+            <img src="../_static/sm_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.1.0
@@ -478,11 +480,13 @@ One specific key, <em>bipartite_display</em>, tells if the bipartite structure s
 <span class="go">       [0, 0, 0, 1, 1]])</span>
 </pre></div>
 </div>
-<p>Remind that HyperGraph do not have an adjacency matrix.
-&gt;&gt;&gt; diamond.adjacency
-Traceback (most recent call last):
-…
-AttributeError: ‘HyperGraph’ object has no attribute ‘adjacency’</p>
+<p>Remind that HyperGraph do not have an adjacency matrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">AttributeError</span>: <span class="n">&#39;HyperGraph&#39; object has no attribute &#39;adjacency&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">

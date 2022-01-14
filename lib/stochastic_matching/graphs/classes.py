@@ -471,6 +471,7 @@ class SimpleGraph(GenericGraph):
                [0, 0, 0, 1, 1]])
 
         Remind that HyperGraph do not have an adjacency matrix.
+
         >>> diamond.adjacency
         Traceback (most recent call last):
         ...
