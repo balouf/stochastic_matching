@@ -54,6 +54,12 @@ templates_path = ['_templates']
 # source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
+# Favicon
+html_favicon = 'favicon.ico'
+
+# Logo
+html_logo = "sm_logo.png"
+
 # The master toctree document.
 master_doc = 'index'
 

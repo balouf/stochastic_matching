@@ -1,3 +1,8 @@
+.. image:: https://github.com/balouf/stochastic_matching/raw/master/docs/sm_logo.png
+    :alt: SMUP logo
+    :target: https://balouf.github.io/smup/
+
+
 ===================
 Stochastic Matching
 ===================
