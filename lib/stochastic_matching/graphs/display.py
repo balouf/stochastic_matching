@@ -3,7 +3,7 @@ import uuid
 
 from IPython.display import HTML, display
 
-VIS_LOCATION = 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+VIS_LOCATION = 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
 """Default location of vis-network.js ."""
 
 VIS_OPTIONS = {
@@ -113,7 +113,7 @@ def vis_code(nodes=None, edges=None, options=None, template=None,
     <script>
     require.config({
         paths: {
-            vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+            vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
         }
     });
     require(['vis'], function(vis){
