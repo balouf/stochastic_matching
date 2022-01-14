@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple and Hyper Graphs &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Tutorials" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Stochastic Matching
+            <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simple and Hyper Graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Simple-graph:-manual-definition-and-basic-usage">Simple graph: manual definition and basic usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Simple-Graph-generators">Simple Graph generators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Path-graphs">Path graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Cycle-graphs">Cycle graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Complete-graphs">Complete graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Tadpole-graphs">Tadpole graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Lollipop-graphs">Lollipop graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Kayak-paddle-graphs">Kayak paddle graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Barbell-graph">Barbell graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Chained-cycle-graphs">Chained cycle graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Concatenation">Concatenation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Package-logo">Package logo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Hypergraphs">Hypergraphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Simple-graphs-as-hypergraphs">Simple graphs as hypergraphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Hyper-paddle">Hyper paddle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fans">Fans</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Tutorials</a> &raquo;</li>
+      <li>Simple and Hyper Graphs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/graphs.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Simple-and-Hyper-Graphs">
+<h1>Simple and Hyper Graphs<a class="headerlink" href="#Simple-and-Hyper-Graphs" title="Permalink to this headline"></a></h1>
+<p><em>Matching Queues</em> allows to build arbitrary graphs from their adjacency or incidence matrix, but also to directly instantiate from some families. This tutorial gives a tour of these families and details the behavior of graph objects.</p>
+<p>First, we load the package.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+</pre></div>
+</div>
+</div>
+<section id="Simple-graph:-manual-definition-and-basic-usage">
+<h2>Simple graph: manual definition and basic usage<a class="headerlink" href="#Simple-graph:-manual-definition-and-basic-usage" title="Permalink to this headline"></a></h2>
+<p>A simple graph can be defined by providing its adjacency or incidence matrix. We give a tour of the possibilities using the diamond graph as running example.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond_adjacency</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SimpleGraph</span><span class="p">(</span><span class="n">diamond_adjacency</span><span class="p">)</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="eda156d3-12eb-4550-b707-407b19c67cb5"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('eda156d3-12eb-4550-b707-407b19c67cb5');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond_incidence</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+<span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SimpleGraph</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">diamond_incidence</span><span class="p">)</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="bb18b268-71f6-412e-93dd-e64657d3568a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('bb18b268-71f6-412e-93dd-e64657d3568a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>By default, the method returns an instance of the <code class="docutils literal notranslate"><span class="pre">SimpleGraph</span></code> class of the module, which possessed many attributes.</p>
+<p>Number of edges and nodes:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">diamond</span><span class="o">.</span><span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4, 5)
+</pre></div></div>
+</div>
+<p>Adjacency matrix:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[0, 1, 1, 0],
+       [1, 0, 1, 1],
+       [1, 1, 0, 1],
+       [0, 1, 1, 0]])
+</pre></div></div>
+</div>
+<p>Incidence (nodes to edges csr matrix):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">incidence</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;4x5 sparse matrix of type &#39;&lt;class &#39;numpy.intc&#39;&gt;&#39;
+        with 10 stored elements in Compressed Sparse Row format&gt;
+</pre></div></div>
+</div>
+<p>The incidence matrix, which is at the center of the spectral analysis, in plain format:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[1, 1, 0, 0, 0],
+       [1, 0, 1, 1, 0],
+       [0, 1, 1, 0, 1],
+       [0, 0, 0, 1, 1]])
+</pre></div></div>
+</div>
+<p>Co-incidence (edge to nodes csc matrix):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">co_incidence</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;4x5 sparse matrix of type &#39;&lt;class &#39;numpy.intc&#39;&gt;&#39;
+        with 10 stored elements in Compressed Sparse Column format&gt;
+</pre></div></div>
+</div>
+<p>You can visualize the graph with the <code class="docutils literal notranslate"><span class="pre">show</span></code> method.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="9a68b1a8-4a75-45a5-b274-44a6a52727d2"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('9a68b1a8-4a75-45a5-b274-44a6a52727d2');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>You can customize display with <code class="docutils literal notranslate"><span class="pre">options</span></code> (the options will be pass to the vis engine). For example, to display a red graph with no navigation button:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;interaction&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;navigationButtons&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span> <span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">}})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="76c76464-4188-4d5d-bdcf-76e63bc17434"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": "600px", "nodes": {"color": "red"}};
+var container = document.getElementById('76c76464-4188-4d5d-bdcf-76e63bc17434');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Names can be specified.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">SimpleGraph</span><span class="p">(</span><span class="n">diamond_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ga&quot;</span><span class="p">,</span> <span class="s2">&quot;Bu&quot;</span><span class="p">,</span> <span class="s2">&quot;Zo&quot;</span><span class="p">,</span> <span class="s2">&quot;Meu&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="26228b54-c8b1-468a-84a1-ec5cefe873bb"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "Ga", "title": "0: Ga"}, {"id": 1, "label": "Bu", "title": "1: Bu"}, {"id": 2, "label": "Zo", "title": "2: Zo"}, {"id": 3, "label": "Meu", "title": "3: Meu"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (Ga, Bu)", "label": "(Ga, Bu)"}, {"from": 0, "to": 2, "title": "1: (Ga, Zo)", "label": "(Ga, Zo)"}, {"from": 1, "to": 2, "title": "2: (Bu, Zo)", "label": "(Bu, Zo)"}, {"from": 1, "to": 3, "title": "3: (Bu, Meu)", "label": "(Bu, Meu)"}, {"from": 2, "to": 3, "title": "4: (Zo, Meu)", "label": "(Zo, Meu)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('26228b54-c8b1-468a-84a1-ec5cefe873bb');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Automatic letter labeling can be obtained using <code class="docutils literal notranslate"><span class="pre">alpha</span></code> as input for <code class="docutils literal notranslate"><span class="pre">names</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">SimpleGraph</span><span class="p">(</span><span class="n">diamond_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="bfb66752-08e8-4827-bffd-20431fef96a0"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "A", "title": "0: A"}, {"id": 1, "label": "B", "title": "1: B"}, {"id": 2, "label": "C", "title": "2: C"}, {"id": 3, "label": "D", "title": "3: D"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (A, B)", "label": "(A, B)"}, {"from": 0, "to": 2, "title": "1: (A, C)", "label": "(A, C)"}, {"from": 1, "to": 2, "title": "2: (B, C)", "label": "(B, C)"}, {"from": 1, "to": 3, "title": "3: (B, D)", "label": "(B, D)"}, {"from": 2, "to": 3, "title": "4: (C, D)", "label": "(C, D)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('bfb66752-08e8-4827-bffd-20431fef96a0');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Simple-Graph-generators">
+<h2>Simple Graph generators<a class="headerlink" href="#Simple-Graph-generators" title="Permalink to this headline"></a></h2>
+<p>For convenience, many graph generators are provided to enable fast graph building.</p>
+<section id="Path-graphs">
+<h3>Path graphs<a class="headerlink" href="#Path-graphs" title="Permalink to this headline"></a></h3>
+<p>Paths are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> (the size, e.g. number of nodes) that defaults to 2.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">path_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="9dd7fd44-2171-4dd3-bbfb-3847aa69ed7b"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('9dd7fd44-2171-4dd3-bbfb-3847aa69ed7b');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">path_graph</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="5f421210-caf3-4a60-8e4a-ba92480900cd"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "A", "title": "0: A"}, {"id": 1, "label": "B", "title": "1: B"}, {"id": 2, "label": "C", "title": "2: C"}, {"id": 3, "label": "D", "title": "3: D"}, {"id": 4, "label": "E", "title": "4: E"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (A, B)", "label": "(A, B)"}, {"from": 1, "to": 2, "title": "1: (B, C)", "label": "(B, C)"}, {"from": 2, "to": 3, "title": "2: (C, D)", "label": "(C, D)"}, {"from": 3, "to": 4, "title": "3: (D, E)", "label": "(D, E)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('5f421210-caf3-4a60-8e4a-ba92480900cd');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Cycle-graphs">
+<h3>Cycle graphs<a class="headerlink" href="#Cycle-graphs" title="Permalink to this headline"></a></h3>
+<p>Cycles are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> that defaults to 3.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="757f9041-f5f3-4723-ba37-914f598ba56a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('757f9041-f5f3-4723-ba37-914f598ba56a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="0ecb4d26-7fc8-479c-9fd6-ceec95f83b68"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "A", "title": "0: A"}, {"id": 1, "label": "B", "title": "1: B"}, {"id": 2, "label": "C", "title": "2: C"}, {"id": 3, "label": "D", "title": "3: D"}, {"id": 4, "label": "E", "title": "4: E"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (A, B)", "label": "(A, B)"}, {"from": 0, "to": 4, "title": "1: (A, E)", "label": "(A, E)"}, {"from": 1, "to": 2, "title": "2: (B, C)", "label": "(B, C)"}, {"from": 2, "to": 3, "title": "3: (C, D)", "label": "(C, D)"}, {"from": 3, "to": 4, "title": "4: (D, E)", "label": "(D, E)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('0ecb4d26-7fc8-479c-9fd6-ceec95f83b68');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Complete-graphs">
+<h3>Complete graphs<a class="headerlink" href="#Complete-graphs" title="Permalink to this headline"></a></h3>
+<p>Complete graphs are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> that defaults to 3.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="81059d23-2cb5-48c2-a560-662e66b160a6"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('81059d23-2cb5-48c2-a560-662e66b160a6');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e326f896-8219-47a9-b145-f37dcef2393a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "A", "title": "0: A"}, {"id": 1, "label": "B", "title": "1: B"}, {"id": 2, "label": "C", "title": "2: C"}, {"id": 3, "label": "D", "title": "3: D"}, {"id": 4, "label": "E", "title": "4: E"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (A, B)", "label": "(A, B)"}, {"from": 0, "to": 2, "title": "1: (A, C)", "label": "(A, C)"}, {"from": 0, "to": 3, "title": "2: (A, D)", "label": "(A, D)"}, {"from": 0, "to": 4, "title": "3: (A, E)", "label": "(A, E)"}, {"from": 1, "to": 2, "title": "4: (B, C)", "label": "(B, C)"}, {"from": 1, "to": 3, "title": "5: (B, D)", "label": "(B, D)"}, {"from": 1, "to": 4, "title": "6: (B, E)", "label": "(B, E)"}, {"from": 2, "to": 3, "title": "7: (C, D)", "label": "(C, D)"}, {"from": 2, "to": 4, "title": "8: (C, E)", "label": "(C, E)"}, {"from": 3, "to": 4, "title": "9: (D, E)", "label": "(D, E)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('e326f896-8219-47a9-b145-f37dcef2393a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Tadpole-graphs">
+<h3>Tadpole graphs<a class="headerlink" href="#Tadpole-graphs" title="Permalink to this headline"></a></h3>
+<p>A tadpole combines a cycle of length <span class="math notranslate nohighlight">\(m\)</span> and a path of length <span class="math notranslate nohighlight">\(n\)</span>. Default is the paw graph (<span class="math notranslate nohighlight">\(m=3, n=1\)</span>)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Paw graph</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="62d4db17-9dfc-4666-95cc-8f4fa7548674"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('62d4db17-9dfc-4666-95cc-8f4fa7548674');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="d44f996a-086f-4555-9535-e290e288581e"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "4: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "5: (4, 5)", "label": "(4, 5)"}, {"from": 5, "to": 6, "title": "6: (5, 6)", "label": "(5, 6)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('d44f996a-086f-4555-9535-e290e288581e');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Banner graph</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="35e9f23b-9355-4bdb-b91d-cf8f5c032301"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 3, "title": "1: (0, 3)", "label": "(0, 3)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "4: (3, 4)", "label": "(3, 4)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('35e9f23b-9355-4bdb-b91d-cf8f5c032301');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ursa major</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubhe&#39;</span><span class="p">,</span> <span class="s1">&#39;Merak&#39;</span><span class="p">,</span> <span class="s1">&#39;Phecda&#39;</span><span class="p">,</span> <span class="s1">&#39;Megrez&#39;</span><span class="p">,</span> <span class="s1">&#39;Alioth&#39;</span><span class="p">,</span> <span class="s1">&#39;Mizar&#39;</span><span class="p">,</span> <span class="s1">&#39;Alkaid&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="1a2251cc-53b5-413c-ba23-93a3032a8963"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "Dubhe", "title": "0: Dubhe"}, {"id": 1, "label": "Merak", "title": "1: Merak"}, {"id": 2, "label": "Phecda", "title": "2: Phecda"}, {"id": 3, "label": "Megrez", "title": "3: Megrez"}, {"id": 4, "label": "Alioth", "title": "4: Alioth"}, {"id": 5, "label": "Mizar", "title": "5: Mizar"}, {"id": 6, "label": "Alkaid", "title": "6: Alkaid"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (Dubhe, Merak)", "label": "(Dubhe, Merak)"}, {"from": 0, "to": 3, "title": "1: (Dubhe, Megrez)", "label": "(Dubhe, Megrez)"}, {"from": 1, "to": 2, "title": "2: (Merak, Phecda)", "label": "(Merak, Phecda)"}, {"from": 2, "to": 3, "title": "3: (Phecda, Megrez)", "label": "(Phecda, Megrez)"}, {"from": 3, "to": 4, "title": "4: (Megrez, Alioth)", "label": "(Megrez, Alioth)"}, {"from": 4, "to": 5, "title": "5: (Alioth, Mizar)", "label": "(Alioth, Mizar)"}, {"from": 5, "to": 6, "title": "6: (Mizar, Alkaid)", "label": "(Mizar, Alkaid)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('1a2251cc-53b5-413c-ba23-93a3032a8963');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Lollipop-graphs">
+<h3>Lollipop graphs<a class="headerlink" href="#Lollipop-graphs" title="Permalink to this headline"></a></h3>
+<p>A lollipop combines a complete graph of size <span class="math notranslate nohighlight">\(m\)</span> and a path of length <span class="math notranslate nohighlight">\(n\)</span>. Default is the paw graph (<span class="math notranslate nohighlight">\(m=3, n=1\)</span>)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Paw graph</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">lollipop_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e0f85ec3-d4a4-4035-9bca-7d3106b90eff"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('e0f85ec3-d4a4-4035-9bca-7d3106b90eff');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">lollipop_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="f5d05fab-038b-4299-8b94-45212241dac8"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 0, "to": 3, "title": "2: (0, 3)", "label": "(0, 3)"}, {"from": 1, "to": 2, "title": "3: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "4: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "5: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "6: (3, 4)", "label": "(3, 4)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('f5d05fab-038b-4299-8b94-45212241dac8');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">lollipop_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="2e614ea4-0fbb-46f5-a529-8f53546d55cb"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 0, "to": 3, "title": "2: (0, 3)", "label": "(0, 3)"}, {"from": 0, "to": 4, "title": "3: (0, 4)", "label": "(0, 4)"}, {"from": 1, "to": 2, "title": "4: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "5: (1, 3)", "label": "(1, 3)"}, {"from": 1, "to": 4, "title": "6: (1, 4)", "label": "(1, 4)"}, {"from": 2, "to": 3, "title": "7: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "8: (2, 4)", "label": "(2, 4)"}, {"from": 3, "to": 4, "title": "9: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "10: (4, 5)", "label": "(4, 5)"}, {"from": 5, "to": 6, "title": "11: (5, 6)", "label": "(5, 6)"}, {"from": 6, "to": 7, "title": "12: (6, 7)", "label": "(6, 7)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('2e614ea4-0fbb-46f5-a529-8f53546d55cb');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Kayak-paddle-graphs">
+<h3>Kayak paddle graphs<a class="headerlink" href="#Kayak-paddle-graphs" title="Permalink to this headline"></a></h3>
+<p>Combines a cycle of length <span class="math notranslate nohighlight">\(k\)</span>, a path of length <span class="math notranslate nohighlight">\(l\)</span>, and a cycle of length <span class="math notranslate nohighlight">\(m\)</span>. Defaults to <span class="math notranslate nohighlight">\(k=3, l=1, m=k\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">kayak_paddle_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="926cdcbc-e833-47bd-937a-7b75caff9d90"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "4: (3, 4)", "label": "(3, 4)"}, {"from": 3, "to": 5, "title": "5: (3, 5)", "label": "(3, 5)"}, {"from": 4, "to": 5, "title": "6: (4, 5)", "label": "(4, 5)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('926cdcbc-e833-47bd-937a-7b75caff9d90');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">kayak_paddle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="b05e3d66-d9c7-4a80-aeb3-b127c5188019"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}, {"id": 8, "label": "8", "title": "8"}, {"id": 9, "label": "9", "title": "9"}, {"id": 10, "label": "10", "title": "10"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 4, "title": "1: (0, 4)", "label": "(0, 4)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "4: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "5: (4, 5)", "label": "(4, 5)"}, {"from": 5, "to": 6, "title": "6: (5, 6)", "label": "(5, 6)"}, {"from": 6, "to": 7, "title": "7: (6, 7)", "label": "(6, 7)"}, {"from": 6, "to": 10, "title": "8: (6, 10)", "label": "(6, 10)"}, {"from": 7, "to": 8, "title": "9: (7, 8)", "label": "(7, 8)"}, {"from": 8, "to": 9, "title": "10: (8, 9)", "label": "(8, 9)"}, {"from": 9, "to": 10, "title": "11: (9, 10)", "label": "(9, 10)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('b05e3d66-d9c7-4a80-aeb3-b127c5188019');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Fish graph</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">kayak_paddle_graph</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="4b1be55f-e551-4df6-a3f6-256fd64c3ee6"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 5, "title": "4: (2, 5)", "label": "(2, 5)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "6: (4, 5)", "label": "(4, 5)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('4b1be55f-e551-4df6-a3f6-256fd64c3ee6');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Barbell-graph">
+<h3>Barbell graph<a class="headerlink" href="#Barbell-graph" title="Permalink to this headline"></a></h3>
+<p>Combines a complete graph of size <span class="math notranslate nohighlight">\(k\)</span>, a path of length <span class="math notranslate nohighlight">\(l\)</span>, and a complete graph of size <span class="math notranslate nohighlight">\(m\)</span>. Defaults to <span class="math notranslate nohighlight">\(k=3, l=1, m=k\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">barbell_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="eccce2cf-1df5-4146-833b-2ffd60da6f97"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "4: (3, 4)", "label": "(3, 4)"}, {"from": 3, "to": 5, "title": "5: (3, 5)", "label": "(3, 5)"}, {"from": 4, "to": 5, "title": "6: (4, 5)", "label": "(4, 5)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('eccce2cf-1df5-4146-833b-2ffd60da6f97');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">barbell_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e949e73d-6406-42de-b8ce-4afdeda06845"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}, {"id": 8, "label": "8", "title": "8"}, {"id": 9, "label": "9", "title": "9"}, {"id": 10, "label": "10", "title": "10"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 0, "to": 3, "title": "2: (0, 3)", "label": "(0, 3)"}, {"from": 0, "to": 4, "title": "3: (0, 4)", "label": "(0, 4)"}, {"from": 1, "to": 2, "title": "4: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "5: (1, 3)", "label": "(1, 3)"}, {"from": 1, "to": 4, "title": "6: (1, 4)", "label": "(1, 4)"}, {"from": 2, "to": 3, "title": "7: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "8: (2, 4)", "label": "(2, 4)"}, {"from": 3, "to": 4, "title": "9: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "10: (4, 5)", "label": "(4, 5)"}, {"from": 5, "to": 6, "title": "11: (5, 6)", "label": "(5, 6)"}, {"from": 6, "to": 7, "title": "12: (6, 7)", "label": "(6, 7)"}, {"from": 6, "to": 8, "title": "13: (6, 8)", "label": "(6, 8)"}, {"from": 6, "to": 9, "title": "14: (6, 9)", "label": "(6, 9)"}, {"from": 6, "to": 10, "title": "15: (6, 10)", "label": "(6, 10)"}, {"from": 7, "to": 8, "title": "16: (7, 8)", "label": "(7, 8)"}, {"from": 7, "to": 9, "title": "17: (7, 9)", "label": "(7, 9)"}, {"from": 7, "to": 10, "title": "18: (7, 10)", "label": "(7, 10)"}, {"from": 8, "to": 9, "title": "19: (8, 9)", "label": "(8, 9)"}, {"from": 8, "to": 10, "title": "20: (8, 10)", "label": "(8, 10)"}, {"from": 9, "to": 10, "title": "21: (9, 10)", "label": "(9, 10)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('e949e73d-6406-42de-b8ce-4afdeda06845');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">barbell_graph</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="b2c130d2-d2a4-4567-bf0e-e4d7630ceb44"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "4: (2, 4)", "label": "(2, 4)"}, {"from": 2, "to": 5, "title": "5: (2, 5)", "label": "(2, 5)"}, {"from": 3, "to": 4, "title": "6: (3, 4)", "label": "(3, 4)"}, {"from": 3, "to": 5, "title": "7: (3, 5)", "label": "(3, 5)"}, {"from": 4, "to": 5, "title": "8: (4, 5)", "label": "(4, 5)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('b2c130d2-d2a4-4567-bf0e-e4d7630ceb44');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Chained-cycle-graphs">
+<h3>Chained cycle graphs<a class="headerlink" href="#Chained-cycle-graphs" title="Permalink to this headline"></a></h3>
+<p>Concatenates cycles of size <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(c\)</span> of them. Each cycle has <span class="math notranslate nohighlight">\(o\)</span> nodes that overlap with the next one. Defaults to <span class="math notranslate nohighlight">\(n=3, c=2, o=2\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diamond</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="043516f5-6e61-42f2-88bd-2d47768a890f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('043516f5-6e61-42f2-88bd-2d47768a890f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Triamond</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="44d639ba-49ac-4cfa-b7d6-0b691506b931"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "5: (2, 4)", "label": "(2, 4)"}, {"from": 3, "to": 4, "title": "6: (3, 4)", "label": "(3, 4)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('44d639ba-49ac-4cfa-b7d6-0b691506b931');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Domino</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="d4c4e36c-c612-4e46-b47c-75c429c45338"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 3, "title": "1: (0, 3)", "label": "(0, 3)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 5, "title": "4: (2, 5)", "label": "(2, 5)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "6: (4, 5)", "label": "(4, 5)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('d4c4e36c-c612-4e46-b47c-75c429c45338');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The triangular snake graph TS_9 (cf https://mathworld.wolfram.com/TriangularSnakeGraph.html)</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="c12a30c9-5cb0-49f4-9b3d-e0ba437179c1"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}, {"id": 8, "label": "8", "title": "8"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "4: (2, 4)", "label": "(2, 4)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "6: (4, 5)", "label": "(4, 5)"}, {"from": 4, "to": 6, "title": "7: (4, 6)", "label": "(4, 6)"}, {"from": 5, "to": 6, "title": "8: (5, 6)", "label": "(5, 6)"}, {"from": 6, "to": 7, "title": "9: (6, 7)", "label": "(6, 7)"}, {"from": 6, "to": 8, "title": "10: (6, 8)", "label": "(6, 8)"}, {"from": 7, "to": 8, "title": "11: (7, 8)", "label": "(7, 8)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('c12a30c9-5cb0-49f4-9b3d-e0ba437179c1');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3 separated squares</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e60da6d7-e4a7-4940-9420-747fbd481b29"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}, {"id": 8, "label": "8", "title": "8"}, {"id": 9, "label": "9", "title": "9"}, {"id": 10, "label": "10", "title": "10"}, {"id": 11, "label": "11", "title": "11"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 3, "title": "1: (0, 3)", "label": "(0, 3)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 4, "to": 5, "title": "4: (4, 5)", "label": "(4, 5)"}, {"from": 4, "to": 7, "title": "5: (4, 7)", "label": "(4, 7)"}, {"from": 5, "to": 6, "title": "6: (5, 6)", "label": "(5, 6)"}, {"from": 6, "to": 7, "title": "7: (6, 7)", "label": "(6, 7)"}, {"from": 8, "to": 9, "title": "8: (8, 9)", "label": "(8, 9)"}, {"from": 8, "to": 11, "title": "9: (8, 11)", "label": "(8, 11)"}, {"from": 9, "to": 10, "title": "10: (9, 10)", "label": "(9, 10)"}, {"from": 10, "to": 11, "title": "11: (10, 11)", "label": "(10, 11)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('e60da6d7-e4a7-4940-9420-747fbd481b29');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A big chain of triangle</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="99f05a47-3b2d-458d-9e9b-bc0136af1bf5"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "A", "title": "0: A"}, {"id": 1, "label": "B", "title": "1: B"}, {"id": 2, "label": "C", "title": "2: C"}, {"id": 3, "label": "D", "title": "3: D"}, {"id": 4, "label": "E", "title": "4: E"}, {"id": 5, "label": "F", "title": "5: F"}, {"id": 6, "label": "G", "title": "6: G"}, {"id": 7, "label": "H", "title": "7: H"}, {"id": 8, "label": "I", "title": "8: I"}, {"id": 9, "label": "J", "title": "9: J"}, {"id": 10, "label": "K", "title": "10: K"}, {"id": 11, "label": "L", "title": "11: L"}, {"id": 12, "label": "M", "title": "12: M"}, {"id": 13, "label": "N", "title": "13: N"}, {"id": 14, "label": "O", "title": "14: O"}, {"id": 15, "label": "P", "title": "15: P"}, {"id": 16, "label": "Q", "title": "16: Q"}, {"id": 17, "label": "R", "title": "17: R"}, {"id": 18, "label": "S", "title": "18: S"}, {"id": 19, "label": "T", "title": "19: T"}, {"id": 20, "label": "U", "title": "20: U"}, {"id": 21, "label": "V", "title": "21: V"}, {"id": 22, "label": "W", "title": "22: W"}, {"id": 23, "label": "X", "title": "23: X"}, {"id": 24, "label": "Y", "title": "24: Y"}, {"id": 25, "label": "Z", "title": "25: Z"}, {"id": 26, "label": "AA", "title": "26: AA"}, {"id": 27, "label": "AB", "title": "27: AB"}, {"id": 28, "label": "AC", "title": "28: AC"}, {"id": 29, "label": "AD", "title": "29: AD"}, {"id": 30, "label": "AE", "title": "30: AE"}, {"id": 31, "label": "AF", "title": "31: AF"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (A, B)", "label": "(A, B)"}, {"from": 0, "to": 2, "title": "1: (A, C)", "label": "(A, C)"}, {"from": 1, "to": 2, "title": "2: (B, C)", "label": "(B, C)"}, {"from": 1, "to": 3, "title": "3: (B, D)", "label": "(B, D)"}, {"from": 2, "to": 3, "title": "4: (C, D)", "label": "(C, D)"}, {"from": 2, "to": 4, "title": "5: (C, E)", "label": "(C, E)"}, {"from": 3, "to": 4, "title": "6: (D, E)", "label": "(D, E)"}, {"from": 3, "to": 5, "title": "7: (D, F)", "label": "(D, F)"}, {"from": 4, "to": 5, "title": "8: (E, F)", "label": "(E, F)"}, {"from": 4, "to": 6, "title": "9: (E, G)", "label": "(E, G)"}, {"from": 5, "to": 6, "title": "10: (F, G)", "label": "(F, G)"}, {"from": 5, "to": 7, "title": "11: (F, H)", "label": "(F, H)"}, {"from": 6, "to": 7, "title": "12: (G, H)", "label": "(G, H)"}, {"from": 6, "to": 8, "title": "13: (G, I)", "label": "(G, I)"}, {"from": 7, "to": 8, "title": "14: (H, I)", "label": "(H, I)"}, {"from": 7, "to": 9, "title": "15: (H, J)", "label": "(H, J)"}, {"from": 8, "to": 9, "title": "16: (I, J)", "label": "(I, J)"}, {"from": 8, "to": 10, "title": "17: (I, K)", "label": "(I, K)"}, {"from": 9, "to": 10, "title": "18: (J, K)", "label": "(J, K)"}, {"from": 9, "to": 11, "title": "19: (J, L)", "label": "(J, L)"}, {"from": 10, "to": 11, "title": "20: (K, L)", "label": "(K, L)"}, {"from": 10, "to": 12, "title": "21: (K, M)", "label": "(K, M)"}, {"from": 11, "to": 12, "title": "22: (L, M)", "label": "(L, M)"}, {"from": 11, "to": 13, "title": "23: (L, N)", "label": "(L, N)"}, {"from": 12, "to": 13, "title": "24: (M, N)", "label": "(M, N)"}, {"from": 12, "to": 14, "title": "25: (M, O)", "label": "(M, O)"}, {"from": 13, "to": 14, "title": "26: (N, O)", "label": "(N, O)"}, {"from": 13, "to": 15, "title": "27: (N, P)", "label": "(N, P)"}, {"from": 14, "to": 15, "title": "28: (O, P)", "label": "(O, P)"}, {"from": 14, "to": 16, "title": "29: (O, Q)", "label": "(O, Q)"}, {"from": 15, "to": 16, "title": "30: (P, Q)", "label": "(P, Q)"}, {"from": 15, "to": 17, "title": "31: (P, R)", "label": "(P, R)"}, {"from": 16, "to": 17, "title": "32: (Q, R)", "label": "(Q, R)"}, {"from": 16, "to": 18, "title": "33: (Q, S)", "label": "(Q, S)"}, {"from": 17, "to": 18, "title": "34: (R, S)", "label": "(R, S)"}, {"from": 17, "to": 19, "title": "35: (R, T)", "label": "(R, T)"}, {"from": 18, "to": 19, "title": "36: (S, T)", "label": "(S, T)"}, {"from": 18, "to": 20, "title": "37: (S, U)", "label": "(S, U)"}, {"from": 19, "to": 20, "title": "38: (T, U)", "label": "(T, U)"}, {"from": 19, "to": 21, "title": "39: (T, V)", "label": "(T, V)"}, {"from": 20, "to": 21, "title": "40: (U, V)", "label": "(U, V)"}, {"from": 20, "to": 22, "title": "41: (U, W)", "label": "(U, W)"}, {"from": 21, "to": 22, "title": "42: (V, W)", "label": "(V, W)"}, {"from": 21, "to": 23, "title": "43: (V, X)", "label": "(V, X)"}, {"from": 22, "to": 23, "title": "44: (W, X)", "label": "(W, X)"}, {"from": 22, "to": 24, "title": "45: (W, Y)", "label": "(W, Y)"}, {"from": 23, "to": 24, "title": "46: (X, Y)", "label": "(X, Y)"}, {"from": 23, "to": 25, "title": "47: (X, Z)", "label": "(X, Z)"}, {"from": 24, "to": 25, "title": "48: (Y, Z)", "label": "(Y, Z)"}, {"from": 24, "to": 26, "title": "49: (Y, AA)", "label": "(Y, AA)"}, {"from": 25, "to": 26, "title": "50: (Z, AA)", "label": "(Z, AA)"}, {"from": 25, "to": 27, "title": "51: (Z, AB)", "label": "(Z, AB)"}, {"from": 26, "to": 27, "title": "52: (AA, AB)", "label": "(AA, AB)"}, {"from": 26, "to": 28, "title": "53: (AA, AC)", "label": "(AA, AC)"}, {"from": 27, "to": 28, "title": "54: (AB, AC)", "label": "(AB, AC)"}, {"from": 27, "to": 29, "title": "55: (AB, AD)", "label": "(AB, AD)"}, {"from": 28, "to": 29, "title": "56: (AC, AD)", "label": "(AC, AD)"}, {"from": 28, "to": 30, "title": "57: (AC, AE)", "label": "(AC, AE)"}, {"from": 29, "to": 30, "title": "58: (AD, AE)", "label": "(AD, AE)"}, {"from": 29, "to": 31, "title": "59: (AD, AF)", "label": "(AD, AF)"}, {"from": 30, "to": 31, "title": "60: (AE, AF)", "label": "(AE, AF)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('99f05a47-3b2d-458d-9e9b-bc0136af1bf5');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Concatenation">
+<h3>Concatenation<a class="headerlink" href="#Concatenation" title="Permalink to this headline"></a></h3>
+<p>Building more elaborate graphs on top of the provided generators is relatively easy. For example, some graphs proposed in <a class="reference external" href="https://hal.archives-ouvertes.fr/hal-03502084">https://hal.archives-ouvertes.fr/hal-03502084</a> are not directly available: - the co-domino graph; - the <em>Egyptian pyramid</em> graph (please see the above paper for the origin of the name).</p>
+<p>One way to build these graphs is to use concatenation.</p>
+<p>Concatenation generalizes the chained cycles above. It uses a list of graphs and the overlapping between graph. Overlapping can be uniform or heterogeneous (you need then to provide a list of overlaps).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># House</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="993555ba-2ef6-4b25-a7a8-dffecc0eca2e"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 4, "title": "3: (1, 4)", "label": "(1, 4)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('993555ba-2ef6-4b25-a7a8-dffecc0eca2e');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Barred house</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="2873bdfe-373e-425a-b5c2-6be0a2661c58"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 3, "title": "3: (1, 3)", "label": "(1, 3)"}, {"from": 1, "to": 4, "title": "4: (1, 4)", "label": "(1, 4)"}, {"from": 2, "to": 3, "title": "5: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "6: (2, 4)", "label": "(2, 4)"}, {"from": 3, "to": 4, "title": "7: (3, 4)", "label": "(3, 4)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('2873bdfe-373e-425a-b5c2-6be0a2661c58');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># House with a triangle on top</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="23a924ec-d78e-452f-aa36-f74ad27b6dd5"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 2, "to": 3, "title": "3: (2, 3)", "label": "(2, 3)"}, {"from": 2, "to": 4, "title": "4: (2, 4)", "label": "(2, 4)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}, {"from": 3, "to": 6, "title": "6: (3, 6)", "label": "(3, 6)"}, {"from": 4, "to": 5, "title": "7: (4, 5)", "label": "(4, 5)"}, {"from": 5, "to": 6, "title": "8: (5, 6)", "label": "(5, 6)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('23a924ec-d78e-452f-aa36-f74ad27b6dd5');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Codomino</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="ee82ff49-206f-4545-8e6c-0399f210e3c0"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 4, "title": "3: (1, 4)", "label": "(1, 4)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}, {"from": 3, "to": 5, "title": "6: (3, 5)", "label": "(3, 5)"}, {"from": 4, "to": 5, "title": "7: (4, 5)", "label": "(4, 5)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('ee82ff49-206f-4545-8e6c-0399f210e3c0');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pyramid</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="eb3a21b8-1d6f-4b0e-9c16-9970849158da"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}, {"id": 8, "label": "8", "title": "8"}, {"id": 9, "label": "9", "title": "9"}];
+var edges = [{"from": 0, "to": 1, "title": "0: (0, 1)", "label": "(0, 1)"}, {"from": 0, "to": 2, "title": "1: (0, 2)", "label": "(0, 2)"}, {"from": 1, "to": 2, "title": "2: (1, 2)", "label": "(1, 2)"}, {"from": 1, "to": 5, "title": "3: (1, 5)", "label": "(1, 5)"}, {"from": 2, "to": 3, "title": "4: (2, 3)", "label": "(2, 3)"}, {"from": 3, "to": 4, "title": "5: (3, 4)", "label": "(3, 4)"}, {"from": 4, "to": 5, "title": "6: (4, 5)", "label": "(4, 5)"}, {"from": 4, "to": 8, "title": "7: (4, 8)", "label": "(4, 8)"}, {"from": 5, "to": 6, "title": "8: (5, 6)", "label": "(5, 6)"}, {"from": 6, "to": 7, "title": "9: (6, 7)", "label": "(6, 7)"}, {"from": 7, "to": 8, "title": "10: (7, 8)", "label": "(7, 8)"}, {"from": 7, "to": 9, "title": "11: (7, 9)", "label": "(7, 9)"}, {"from": 8, "to": 9, "title": "12: (8, 9)", "label": "(8, 9)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
+var container = document.getElementById('eb3a21b8-1d6f-4b0e-9c16-9970849158da');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Package-logo">
+<h3>Package logo<a class="headerlink" href="#Package-logo" title="Permalink to this headline"></a></h3>
+<p>The logo of <code class="docutils literal notranslate"><span class="pre">stochastic</span> <span class="pre">matching</span></code> was made with <code class="docutils literal notranslate"><span class="pre">stochastic</span> <span class="pre">matching</span></code>. Here is the code that produced the big version.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.graphs.generators</span> <span class="kn">import</span> <span class="n">concatenate_adjacency</span><span class="p">,</span> <span class="n">path_adjacency</span>
+
+<span class="k">def</span> <span class="nf">random_color</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;rgba(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">*</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">*</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2">, 1)&quot;</span>
+
+<span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">path_adjacency</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="mi">8</span><span class="p">)],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]:</span>
+    <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">adja</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;StochasticMatching&quot;</span><span class="p">])</span>
+<span class="n">nodes_dict1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;background&#39;</span><span class="p">:</span> <span class="n">random_color</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">i</span><span class="p">)},</span> <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">nodes_dict2</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;background&#39;</span><span class="p">:</span> <span class="n">random_color</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)},</span> <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">edges_dict</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">m</span><span class="p">)]</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;1000px&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}}}</span>
+<span class="n">g</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_dict1</span><span class="o">+</span><span class="n">nodes_dict2</span><span class="p">,</span> <span class="n">edges_dict</span> <span class="o">=</span> <span class="n">edges_dict</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="f7420aa5-56cc-45e5-927e-627b86f7f486"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "S", "title": "0: S", "color": {"background": "rgba(128, 0, 256, 1)"}, "font": {"color": "black"}}, {"id": 1, "label": "t", "title": "1: t", "color": {"background": "rgba(71, 87, 252, 1)"}, "font": {"color": "black"}}, {"id": 2, "label": "o", "title": "2: o", "color": {"background": "rgba(14, 164, 240, 1)"}, "font": {"color": "black"}}, {"id": 3, "label": "c", "title": "3: c", "color": {"background": "rgba(42, 221, 221, 1)"}, "font": {"color": "black"}}, {"id": 4, "label": "h", "title": "4: h", "color": {"background": "rgba(99, 252, 196, 1)"}, "font": {"color": "black"}}, {"id": 5, "label": "a", "title": "5: a", "color": {"background": "rgba(156, 252, 164, 1)"}, "font": {"color": "black"}}, {"id": 6, "label": "s", "title": "6: s", "color": {"background": "rgba(213, 221, 128, 1)"}, "font": {"color": "black"}}, {"id": 7, "label": "t", "title": "7: t", "color": {"background": "rgba(256, 164, 87, 1)"}, "font": {"color": "black"}}, {"id": 8, "label": "i", "title": "8: i", "color": {"background": "rgba(256, 87, 44, 1)"}, "font": {"color": "black"}}, {"id": 9, "label": "c", "title": "9: c", "color": {"background": "rgba(256, 0, 0, 1)"}, "font": {"color": "black"}}, {"id": 10, "label": "M", "title": "10: M", "color": {"background": "rgba(256, 0, 0, 1)"}, "font": {"color": "white"}}, {"id": 11, "label": "a", "title": "11: a", "color": {"background": "rgba(256, 111, 56, 1)"}, "font": {"color": "white"}}, {"id": 12, "label": "t", "title": "12: t", "color": {"background": "rgba(237, 200, 111, 1)"}, "font": {"color": "white"}}, {"id": 13, "label": "c", "title": "13: c", "color": {"background": "rgba(164, 249, 159, 1)"}, "font": {"color": "white"}}, {"id": 14, "label": "h", "title": "14: h", "color": {"background": "rgba(91, 249, 200, 1)"}, "font": {"color": "white"}}, {"id": 15, "label": "i", "title": "15: i", "color": {"background": "rgba(18, 200, 230, 1)"}, "font": {"color": "white"}}, {"id": 16, "label": "n", "title": "16: n", "color": {"background": "rgba(54, 111, 249, 1)"}, "font": {"color": "white"}}, {"id": 17, "label": "g", "title": "17: g", "color": {"background": "rgba(128, 0, 256, 1)"}, "font": {"color": "white"}}];
+var edges = [{"from": 0, "to": 1, "title": "0: (S, t)", "label": ""}, {"from": 1, "to": 2, "title": "1: (t, o)", "label": ""}, {"from": 1, "to": 11, "title": "2: (t, a)", "label": ""}, {"from": 2, "to": 3, "title": "3: (o, c)", "label": ""}, {"from": 3, "to": 4, "title": "4: (c, h)", "label": ""}, {"from": 3, "to": 12, "title": "5: (c, t)", "label": ""}, {"from": 4, "to": 5, "title": "6: (h, a)", "label": ""}, {"from": 5, "to": 6, "title": "7: (a, s)", "label": ""}, {"from": 5, "to": 15, "title": "8: (a, i)", "label": ""}, {"from": 6, "to": 7, "title": "9: (s, t)", "label": ""}, {"from": 7, "to": 8, "title": "10: (t, i)", "label": ""}, {"from": 7, "to": 16, "title": "11: (t, n)", "label": ""}, {"from": 8, "to": 9, "title": "12: (i, c)", "label": ""}, {"from": 10, "to": 11, "title": "13: (M, a)", "label": ""}, {"from": 11, "to": 12, "title": "14: (a, t)", "label": ""}, {"from": 12, "to": 13, "title": "15: (t, c)", "label": ""}, {"from": 13, "to": 14, "title": "16: (c, h)", "label": ""}, {"from": 14, "to": 15, "title": "17: (h, i)", "label": ""}, {"from": 15, "to": 16, "title": "18: (i, n)", "label": ""}, {"from": 16, "to": 17, "title": "19: (n, g)", "label": ""}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "1000px", "height": "600px", "nodes": {"font": {"size": 80}}};
+var container = document.getElementById('f7420aa5-56cc-45e5-927e-627b86f7f486');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>An here is the code for the short version. Note the option <code class="docutils literal notranslate"><span class="pre">png=True</span></code> which creates a mirror png image that can be saved!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">path_adjacency</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]:</span>
+    <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">adja</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SimpleGraph</span><span class="p">(</span><span class="n">adja</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;StochMatch&quot;</span><span class="p">])</span>
+<span class="n">nodes_dict1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;background&#39;</span><span class="p">:</span> <span class="n">random_color</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">i</span><span class="p">)},</span> <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+<span class="n">nodes_dict2</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;background&#39;</span><span class="p">:</span> <span class="n">random_color</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="o">-</span><span class="n">i</span><span class="p">)},</span> <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+<span class="n">edges_dict</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">m</span><span class="p">)]</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;1000px&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}}}</span>
+<span class="n">g</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_dict1</span><span class="o">+</span><span class="n">nodes_dict2</span><span class="p">,</span> <span class="n">edges_dict</span> <span class="o">=</span> <span class="n">edges_dict</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">png</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="d7df945a-84fe-4be0-bb66-49b96208a722"></div>
+<img id="canvasImg" alt="Right click to save me!">
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "S", "title": "0: S", "color": {"background": "rgba(128, 0, 256, 1)"}, "font": {"color": "black"}}, {"id": 1, "label": "t", "title": "1: t", "color": {"background": "rgba(0, 181, 236, 1)"}, "font": {"color": "black"}}, {"id": 2, "label": "o", "title": "2: o", "color": {"background": "rgba(128, 256, 181, 1)"}, "font": {"color": "black"}}, {"id": 3, "label": "c", "title": "3: c", "color": {"background": "rgba(256, 181, 97, 1)"}, "font": {"color": "black"}}, {"id": 4, "label": "h", "title": "4: h", "color": {"background": "rgba(256, 0, 0, 1)"}, "font": {"color": "black"}}, {"id": 5, "label": "M", "title": "5: M", "color": {"background": "rgba(256, 0, 0, 1)"}, "font": {"color": "white"}}, {"id": 6, "label": "a", "title": "6: a", "color": {"background": "rgba(256, 181, 97, 1)"}, "font": {"color": "white"}}, {"id": 7, "label": "t", "title": "7: t", "color": {"background": "rgba(128, 256, 181, 1)"}, "font": {"color": "white"}}, {"id": 8, "label": "c", "title": "8: c", "color": {"background": "rgba(0, 181, 236, 1)"}, "font": {"color": "white"}}, {"id": 9, "label": "h", "title": "9: h", "color": {"background": "rgba(128, 0, 256, 1)"}, "font": {"color": "white"}}];
+var edges = [{"from": 0, "to": 1, "title": "0: (S, t)", "label": ""}, {"from": 1, "to": 2, "title": "1: (t, o)", "label": ""}, {"from": 1, "to": 6, "title": "2: (t, a)", "label": ""}, {"from": 2, "to": 3, "title": "3: (o, c)", "label": ""}, {"from": 2, "to": 6, "title": "4: (o, a)", "label": ""}, {"from": 3, "to": 4, "title": "5: (c, h)", "label": ""}, {"from": 3, "to": 7, "title": "6: (c, t)", "label": ""}, {"from": 3, "to": 8, "title": "7: (c, c)", "label": ""}, {"from": 5, "to": 6, "title": "8: (M, a)", "label": ""}, {"from": 6, "to": 7, "title": "9: (a, t)", "label": ""}, {"from": 7, "to": 8, "title": "10: (t, c)", "label": ""}, {"from": 8, "to": 9, "title": "11: (c, h)", "label": ""}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "1000px", "height": "600px", "nodes": {"font": {"size": 80}}};
+var container = document.getElementById('d7df945a-84fe-4be0-bb66-49b96208a722');
+var network = new vis.Network(container, data, options);
+network.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('canvasImg').src = dataURL;
+  });
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+</section>
+<section id="Hypergraphs">
+<h2>Hypergraphs<a class="headerlink" href="#Hypergraphs" title="Permalink to this headline"></a></h2>
+<p>Hypergraph egdes can link an arbitrary number of nodes (nor necessarily 2). They belong to the <code class="docutils literal notranslate"><span class="pre">HyperGraph</span></code> class, which mainly differ from <code class="docutils literal notranslate"><span class="pre">SimpleGraph</span></code> by the absence of adjacency matrix (only the incidence matrix is used) and a different way of been displayed.</p>
+<section id="Simple-graphs-as-hypergraphs">
+<h3>Simple graphs as hypergraphs<a class="headerlink" href="#Simple-graphs-as-hypergraphs" title="Permalink to this headline"></a></h3>
+<p>All simple graphs are hypergraphs and they possess a conversion method.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hpaw</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">()</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">()</span>
+<span class="n">hpaw</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="01beaa4f-8dc1-4cb1-9e0c-827bacf15fec"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "3", "title": "3", "x": 0, "group": "Node"}, {"id": 4, "title": "0: (0, 1)", "group": "HyperEdge", "x": 480}, {"id": 5, "title": "1: (0, 2)", "group": "HyperEdge", "x": 480}, {"id": 6, "title": "2: (1, 2)", "group": "HyperEdge", "x": 480}, {"id": 7, "title": "3: (2, 3)", "group": "HyperEdge", "x": 480}];
+var edges = [{"from": 0, "to": 4, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 5, "title": "0 <-> 1: (0, 2)"}, {"from": 1, "to": 4, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 6, "title": "1 <-> 2: (1, 2)"}, {"from": 2, "to": 5, "title": "2 <-> 1: (0, 2)"}, {"from": 2, "to": 6, "title": "2 <-> 2: (1, 2)"}, {"from": 2, "to": 7, "title": "2 <-> 3: (2, 3)"}, {"from": 3, "to": 7, "title": "3 <-> 3: (2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}, "bipartite_display": false};
+var container = document.getElementById('01beaa4f-8dc1-4cb1-9e0c-827bacf15fec');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Note the new convention: edges are represented by small black nodes, and the edges displayed alway link one single node to one edge. Also note that it is possible to make the bipartite structure between nodes and edges more apparent by passing the following option:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hpaw</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;bipartite_display&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="edfb2cd4-5124-4a67-86a2-201dd3ce7e1b"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "3", "title": "3", "x": 0, "group": "Node"}, {"id": 4, "title": "0: (0, 1)", "group": "HyperEdge", "x": 480}, {"id": 5, "title": "1: (0, 2)", "group": "HyperEdge", "x": 480}, {"id": 6, "title": "2: (1, 2)", "group": "HyperEdge", "x": 480}, {"id": 7, "title": "3: (2, 3)", "group": "HyperEdge", "x": 480}];
+var edges = [{"from": 0, "to": 4, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 5, "title": "0 <-> 1: (0, 2)"}, {"from": 1, "to": 4, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 6, "title": "1 <-> 2: (1, 2)"}, {"from": 2, "to": 5, "title": "2 <-> 1: (0, 2)"}, {"from": 2, "to": 6, "title": "2 <-> 2: (1, 2)"}, {"from": 2, "to": 7, "title": "2 <-> 3: (2, 3)"}, {"from": 3, "to": 7, "title": "3 <-> 3: (2, 3)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": true}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": true}}}, "bipartite_display": true};
+var container = document.getElementById('edfb2cd4-5124-4a67-86a2-201dd3ce7e1b');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Hyper-paddle">
+<h3>Hyper paddle<a class="headerlink" href="#Hyper-paddle" title="Permalink to this headline"></a></h3>
+<p>Hyper paddles are like regular kayak paddles except that the <em>center</em> is made of 3-edges. For example, the <em>candy</em> graph, which is an important example when considering stability.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">candy</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">hyper_paddle</span><span class="p">()</span>
+<span class="n">candy</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="d4869fd9-cd42-4d43-893f-771735064251"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "3", "title": "3", "x": 0, "group": "Node"}, {"id": 4, "label": "4", "title": "4", "x": 0, "group": "Node"}, {"id": 5, "label": "5", "title": "5", "x": 0, "group": "Node"}, {"id": 6, "label": "6", "title": "6", "x": 0, "group": "Node"}, {"id": 7, "title": "0: (0, 1)", "group": "HyperEdge", "x": 480}, {"id": 8, "title": "1: (0, 2)", "group": "HyperEdge", "x": 480}, {"id": 9, "title": "2: (1, 2)", "group": "HyperEdge", "x": 480}, {"id": 10, "title": "3: (4, 5)", "group": "HyperEdge", "x": 480}, {"id": 11, "title": "4: (4, 6)", "group": "HyperEdge", "x": 480}, {"id": 12, "title": "5: (5, 6)", "group": "HyperEdge", "x": 480}, {"id": 13, "title": "6: (2, 3, 4)", "group": "HyperEdge", "x": 480}];
+var edges = [{"from": 0, "to": 7, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 8, "title": "0 <-> 1: (0, 2)"}, {"from": 1, "to": 7, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 9, "title": "1 <-> 2: (1, 2)"}, {"from": 2, "to": 8, "title": "2 <-> 1: (0, 2)"}, {"from": 2, "to": 9, "title": "2 <-> 2: (1, 2)"}, {"from": 2, "to": 13, "title": "2 <-> 6: (2, 3, 4)"}, {"from": 3, "to": 13, "title": "3 <-> 6: (2, 3, 4)"}, {"from": 4, "to": 10, "title": "4 <-> 3: (4, 5)"}, {"from": 4, "to": 11, "title": "4 <-> 4: (4, 6)"}, {"from": 4, "to": 13, "title": "4 <-> 6: (2, 3, 4)"}, {"from": 5, "to": 10, "title": "5 <-> 3: (4, 5)"}, {"from": 5, "to": 12, "title": "5 <-> 5: (5, 6)"}, {"from": 6, "to": 11, "title": "6 <-> 4: (4, 6)"}, {"from": 6, "to": 12, "title": "6 <-> 5: (5, 6)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}, "bipartite_display": false};
+var container = document.getElementById('d4869fd9-cd42-4d43-893f-771735064251');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>A larger version.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">poodle</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">hyper_paddle</span><span class="p">(</span><span class="n">left_cycle</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">poodle</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="b5d9c718-814a-4d6d-9e57-9c78ac385fe6"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "3", "title": "3", "x": 0, "group": "Node"}, {"id": 4, "label": "4", "title": "4", "x": 0, "group": "Node"}, {"id": 5, "label": "5", "title": "5", "x": 0, "group": "Node"}, {"id": 6, "label": "6", "title": "6", "x": 0, "group": "Node"}, {"id": 7, "label": "7", "title": "7", "x": 0, "group": "Node"}, {"id": 8, "label": "8", "title": "8", "x": 0, "group": "Node"}, {"id": 9, "label": "9", "title": "9", "x": 0, "group": "Node"}, {"id": 10, "title": "0: (0, 1)", "group": "HyperEdge", "x": 480}, {"id": 11, "title": "1: (0, 3)", "group": "HyperEdge", "x": 480}, {"id": 12, "title": "2: (1, 2)", "group": "HyperEdge", "x": 480}, {"id": 13, "title": "3: (2, 3)", "group": "HyperEdge", "x": 480}, {"id": 14, "title": "4: (7, 8)", "group": "HyperEdge", "x": 480}, {"id": 15, "title": "5: (7, 9)", "group": "HyperEdge", "x": 480}, {"id": 16, "title": "6: (8, 9)", "group": "HyperEdge", "x": 480}, {"id": 17, "title": "7: (3, 4, 5)", "group": "HyperEdge", "x": 480}, {"id": 18, "title": "8: (4, 5, 6)", "group": "HyperEdge", "x": 480}, {"id": 19, "title": "9: (5, 6, 7)", "group": "HyperEdge", "x": 480}];
+var edges = [{"from": 0, "to": 10, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 11, "title": "0 <-> 1: (0, 3)"}, {"from": 1, "to": 10, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 12, "title": "1 <-> 2: (1, 2)"}, {"from": 2, "to": 12, "title": "2 <-> 2: (1, 2)"}, {"from": 2, "to": 13, "title": "2 <-> 3: (2, 3)"}, {"from": 3, "to": 11, "title": "3 <-> 1: (0, 3)"}, {"from": 3, "to": 13, "title": "3 <-> 3: (2, 3)"}, {"from": 3, "to": 17, "title": "3 <-> 7: (3, 4, 5)"}, {"from": 4, "to": 17, "title": "4 <-> 7: (3, 4, 5)"}, {"from": 4, "to": 18, "title": "4 <-> 8: (4, 5, 6)"}, {"from": 5, "to": 17, "title": "5 <-> 7: (3, 4, 5)"}, {"from": 5, "to": 18, "title": "5 <-> 8: (4, 5, 6)"}, {"from": 5, "to": 19, "title": "5 <-> 9: (5, 6, 7)"}, {"from": 6, "to": 18, "title": "6 <-> 8: (4, 5, 6)"}, {"from": 6, "to": 19, "title": "6 <-> 9: (5, 6, 7)"}, {"from": 7, "to": 14, "title": "7 <-> 4: (7, 8)"}, {"from": 7, "to": 15, "title": "7 <-> 5: (7, 9)"}, {"from": 7, "to": 19, "title": "7 <-> 9: (5, 6, 7)"}, {"from": 8, "to": 14, "title": "8 <-> 4: (7, 8)"}, {"from": 8, "to": 16, "title": "8 <-> 6: (8, 9)"}, {"from": 9, "to": 15, "title": "9 <-> 5: (7, 9)"}, {"from": 9, "to": 16, "title": "9 <-> 6: (8, 9)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}, "bipartite_display": false};
+var container = document.getElementById('b5d9c718-814a-4d6d-9e57-9c78ac385fe6');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Fans">
+<h3>Fans<a class="headerlink" href="#Fans" title="Permalink to this headline"></a></h3>
+<p>A fan is a certain number of cycles hyperconnected. They are useful to show simple examples of hypergraphs with non-trivial kernels, possibly degenerated. The simplest is the clover.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">fan</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="4a67a529-0d50-4fc1-be9e-35164d788686"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "3", "title": "3", "x": 0, "group": "Node"}, {"id": 4, "label": "4", "title": "4", "x": 0, "group": "Node"}, {"id": 5, "label": "5", "title": "5", "x": 0, "group": "Node"}, {"id": 6, "label": "6", "title": "6", "x": 0, "group": "Node"}, {"id": 7, "label": "7", "title": "7", "x": 0, "group": "Node"}, {"id": 8, "label": "8", "title": "8", "x": 0, "group": "Node"}, {"id": 9, "title": "0: (0, 1)", "group": "HyperEdge", "x": 480}, {"id": 10, "title": "1: (0, 2)", "group": "HyperEdge", "x": 480}, {"id": 11, "title": "2: (1, 2)", "group": "HyperEdge", "x": 480}, {"id": 12, "title": "3: (3, 4)", "group": "HyperEdge", "x": 480}, {"id": 13, "title": "4: (3, 5)", "group": "HyperEdge", "x": 480}, {"id": 14, "title": "5: (4, 5)", "group": "HyperEdge", "x": 480}, {"id": 15, "title": "6: (6, 7)", "group": "HyperEdge", "x": 480}, {"id": 16, "title": "7: (6, 8)", "group": "HyperEdge", "x": 480}, {"id": 17, "title": "8: (7, 8)", "group": "HyperEdge", "x": 480}, {"id": 18, "title": "9: (0, 3, 6)", "group": "HyperEdge", "x": 480}];
+var edges = [{"from": 0, "to": 9, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 10, "title": "0 <-> 1: (0, 2)"}, {"from": 0, "to": 18, "title": "0 <-> 9: (0, 3, 6)"}, {"from": 1, "to": 9, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 11, "title": "1 <-> 2: (1, 2)"}, {"from": 2, "to": 10, "title": "2 <-> 1: (0, 2)"}, {"from": 2, "to": 11, "title": "2 <-> 2: (1, 2)"}, {"from": 3, "to": 12, "title": "3 <-> 3: (3, 4)"}, {"from": 3, "to": 13, "title": "3 <-> 4: (3, 5)"}, {"from": 3, "to": 18, "title": "3 <-> 9: (0, 3, 6)"}, {"from": 4, "to": 12, "title": "4 <-> 3: (3, 4)"}, {"from": 4, "to": 14, "title": "4 <-> 5: (4, 5)"}, {"from": 5, "to": 13, "title": "5 <-> 4: (3, 5)"}, {"from": 5, "to": 14, "title": "5 <-> 5: (4, 5)"}, {"from": 6, "to": 15, "title": "6 <-> 6: (6, 7)"}, {"from": 6, "to": 16, "title": "6 <-> 7: (6, 8)"}, {"from": 6, "to": 18, "title": "6 <-> 9: (0, 3, 6)"}, {"from": 7, "to": 15, "title": "7 <-> 6: (6, 7)"}, {"from": 7, "to": 17, "title": "7 <-> 8: (7, 8)"}, {"from": 8, "to": 16, "title": "8 <-> 7: (6, 8)"}, {"from": 8, "to": 17, "title": "8 <-> 8: (7, 8)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}, "bipartite_display": false};
+var container = document.getElementById('4a67a529-0d50-4fc1-be9e-35164d788686');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Next one is a highly degenerated example (as shown in another notebook)!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">fan</span><span class="p">(</span><span class="n">cycle_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="2077067c-81ec-429d-82a6-034562196267"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "3", "title": "3", "x": 0, "group": "Node"}, {"id": 4, "label": "4", "title": "4", "x": 0, "group": "Node"}, {"id": 5, "label": "5", "title": "5", "x": 0, "group": "Node"}, {"id": 6, "label": "6", "title": "6", "x": 0, "group": "Node"}, {"id": 7, "label": "7", "title": "7", "x": 0, "group": "Node"}, {"id": 8, "label": "8", "title": "8", "x": 0, "group": "Node"}, {"id": 9, "label": "9", "title": "9", "x": 0, "group": "Node"}, {"id": 10, "label": "10", "title": "10", "x": 0, "group": "Node"}, {"id": 11, "label": "11", "title": "11", "x": 0, "group": "Node"}, {"id": 12, "title": "0: (0, 1)", "group": "HyperEdge", "x": 480}, {"id": 13, "title": "1: (0, 3)", "group": "HyperEdge", "x": 480}, {"id": 14, "title": "2: (1, 2)", "group": "HyperEdge", "x": 480}, {"id": 15, "title": "3: (2, 3)", "group": "HyperEdge", "x": 480}, {"id": 16, "title": "4: (4, 5)", "group": "HyperEdge", "x": 480}, {"id": 17, "title": "5: (4, 7)", "group": "HyperEdge", "x": 480}, {"id": 18, "title": "6: (5, 6)", "group": "HyperEdge", "x": 480}, {"id": 19, "title": "7: (6, 7)", "group": "HyperEdge", "x": 480}, {"id": 20, "title": "8: (8, 9)", "group": "HyperEdge", "x": 480}, {"id": 21, "title": "9: (8, 11)", "group": "HyperEdge", "x": 480}, {"id": 22, "title": "10: (9, 10)", "group": "HyperEdge", "x": 480}, {"id": 23, "title": "11: (10, 11)", "group": "HyperEdge", "x": 480}, {"id": 24, "title": "12: (0, 4, 8)", "group": "HyperEdge", "x": 480}, {"id": 25, "title": "13: (1, 5, 9)", "group": "HyperEdge", "x": 480}];
+var edges = [{"from": 0, "to": 12, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 13, "title": "0 <-> 1: (0, 3)"}, {"from": 0, "to": 24, "title": "0 <-> 12: (0, 4, 8)"}, {"from": 1, "to": 12, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 14, "title": "1 <-> 2: (1, 2)"}, {"from": 1, "to": 25, "title": "1 <-> 13: (1, 5, 9)"}, {"from": 2, "to": 14, "title": "2 <-> 2: (1, 2)"}, {"from": 2, "to": 15, "title": "2 <-> 3: (2, 3)"}, {"from": 3, "to": 13, "title": "3 <-> 1: (0, 3)"}, {"from": 3, "to": 15, "title": "3 <-> 3: (2, 3)"}, {"from": 4, "to": 16, "title": "4 <-> 4: (4, 5)"}, {"from": 4, "to": 17, "title": "4 <-> 5: (4, 7)"}, {"from": 4, "to": 24, "title": "4 <-> 12: (0, 4, 8)"}, {"from": 5, "to": 16, "title": "5 <-> 4: (4, 5)"}, {"from": 5, "to": 18, "title": "5 <-> 6: (5, 6)"}, {"from": 5, "to": 25, "title": "5 <-> 13: (1, 5, 9)"}, {"from": 6, "to": 18, "title": "6 <-> 6: (5, 6)"}, {"from": 6, "to": 19, "title": "6 <-> 7: (6, 7)"}, {"from": 7, "to": 17, "title": "7 <-> 5: (4, 7)"}, {"from": 7, "to": 19, "title": "7 <-> 7: (6, 7)"}, {"from": 8, "to": 20, "title": "8 <-> 8: (8, 9)"}, {"from": 8, "to": 21, "title": "8 <-> 9: (8, 11)"}, {"from": 8, "to": 24, "title": "8 <-> 12: (0, 4, 8)"}, {"from": 9, "to": 20, "title": "9 <-> 8: (8, 9)"}, {"from": 9, "to": 22, "title": "9 <-> 10: (9, 10)"}, {"from": 9, "to": 25, "title": "9 <-> 13: (1, 5, 9)"}, {"from": 10, "to": 22, "title": "10 <-> 10: (9, 10)"}, {"from": 10, "to": 23, "title": "10 <-> 11: (10, 11)"}, {"from": 11, "to": 21, "title": "11 <-> 9: (8, 11)"}, {"from": 11, "to": 23, "title": "11 <-> 11: (10, 11)"}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}, "bipartite_display": false};
+var container = document.getElementById('2077067c-81ec-429d-82a6-034562196267');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../reference/index.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

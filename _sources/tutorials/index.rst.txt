@@ -5,3 +5,4 @@ Tutorials
 =========
 
 .. toctree::
+   graphs

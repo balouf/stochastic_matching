@@ -403,7 +403,7 @@ One specific key, <em>bipartite_display</em>, tells if the bipartite structure s
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>incidence</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Incidence matrix</p></li>
-<li><p><strong>adjacency</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Adjacency matrix. Can be used instead of incidence (setting it automatically adjusts the other attributes).</p></li>
+<li><p><strong>adjacency</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>-like, optional) – Adjacency matrix. Can be used instead of incidence (setting it automatically adjusts the other attributes).</p></li>
 </ul>
 </dd>
 </dl>
@@ -462,6 +462,39 @@ One specific key, <em>bipartite_display</em>, tells if the bipartite structure s
 </dl>
 </dd></dl>
 
+<p class="rubric">Examples</p>
+<p>Building diamond graph from its adjacency matrix, checking the number of nodes, edges, and inner adjacency matrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond_adjacency</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">diamond_adjacency</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">diamond</span><span class="o">.</span><span class="n">m</span>
+<span class="go">(4, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>The incidence matrix is as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">incidence</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">incidence</span>
+<span class="go">[[1, 1, 0, 0, 0], [1, 0, 1, 1, 0], [0, 1, 1, 0, 1], [0, 0, 0, 1, 1]]</span>
+</pre></div>
+</div>
+<p>As a sanity check, we can build the diamond from the incidence matrix and verify all is the same.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">diamond</span><span class="o">.</span><span class="n">m</span>
+<span class="go">(4, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="stochastic_matching.graphs.classes.SimpleGraph.to_hypergraph">
 <span class="sig-name descname"><span class="pre">to_hypergraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/classes.html#SimpleGraph.to_hypergraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.classes.SimpleGraph.to_hypergraph" title="Permalink to this definition"></a></dt>
@@ -822,7 +855,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.graphs.generators.chained_cycle_graph">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">chained_cycle_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#chained_cycle_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.chained_cycle_graph" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">chained_cycle_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#chained_cycle_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.chained_cycle_graph" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1205,13 +1238,13 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.graphs.generators.kayak_paddle_graph">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">kayak_paddle_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#kayak_paddle_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.kayak_paddle_graph" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.generators.</span></span><span class="sig-name descname"><span class="pre">kayak_paddle_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs/generators.html#kayak_paddle_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.generators.kayak_paddle_graph" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
-<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
 <li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two cycles.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second cycle. Default to the size of the first cycle.</p></li>
 <li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
 </ul>
 </dd>
@@ -1239,7 +1272,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 </pre></div>
 </div>
 <p>A bow-tie (two triangles with one node in common).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak_paddle_graph</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak_paddle_graph</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
 <span class="go">array([[0, 1, 1, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0],</span>
 <span class="go">       [1, 1, 0, 1, 1],</span>

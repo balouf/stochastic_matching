@@ -436,16 +436,16 @@ def bicycle_graph(left_cycle=3, right_cycle=3, common_edges=1, names=None):
     return SimpleGraph(adjacency=adja, names=names)
 
 
-def kayak_paddle_graph(k=3, l=1, m=3, names=None):
+def kayak_paddle_graph(k=3, l=1, m=None, names=None):
     """
     Parameters
     ----------
     k: :class:`int`
         Size of the first cycle.
-    m: :class:`int`
-        Size of the second cycle.
     l: :class:`int`
         Length of the path that joins the two cycles.
+    m: :class:`int`, optional
+        Size of the second cycle. Default to the size of the first cycle.
     names: :class:`list` of :class:`str` or 'alpha', optional
         List of node names (e.g. for display)
 
@@ -474,16 +474,17 @@ def kayak_paddle_graph(k=3, l=1, m=3, names=None):
 
     A bow-tie (two triangles with one node in common).
 
-    >>> kayak_paddle_graph(k=3, m=3, l=0).adjacency # doctest: +NORMALIZE_WHITESPACE
+    >>> kayak_paddle_graph(k=3, l=0).adjacency # doctest: +NORMALIZE_WHITESPACE
     array([[0, 1, 1, 0, 0],
            [1, 0, 1, 0, 0],
            [1, 1, 0, 1, 1],
            [0, 0, 1, 0, 1],
            [0, 0, 1, 1, 0]])
     """
+    if m is None:
+        m = k
     adja = concatenate_adjacency([cycle_adjacency(k), path_adjacency(l + 1), cycle_adjacency(m)])
     return SimpleGraph(adjacency=adja, names=names)
-
 
 
 def barbell_graph(k=3, l=1, m=None, names=None):
@@ -553,7 +554,7 @@ def barbell_graph(k=3, l=1, m=None, names=None):
     return SimpleGraph(adjacency=adja, names=names)
 
 
-def chained_cycle_graph(n=3, c=3, o=2, names=None):
+def chained_cycle_graph(n=3, c=2, o=2, names=None):
     """
     Parameters
     ----------

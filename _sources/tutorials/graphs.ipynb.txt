@@ -1,0 +1,2705 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Simple and Hyper Graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "*Matching Queues* allows to build arbitrary graphs from their adjacency or incidence matrix, but also to directly instantiate from some families. This tutorial gives a tour of these families and details the behavior of graph objects."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "First, we load the package."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.838610Z",
+     "start_time": "2022-01-14T14:58:26.654777Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import stochastic_matching as sm"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Simple graph: manual definition and basic usage"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A simple graph can be defined by providing its adjacency or incidence matrix. We give a tour of the possibilities using the diamond graph as running example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.854575Z",
+     "start_time": "2022-01-14T14:58:27.841652Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"eda156d3-12eb-4550-b707-407b19c67cb5\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('eda156d3-12eb-4550-b707-407b19c67cb5');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "diamond_adjacency = [[0, 1, 1, 0],\n",
+    "                     [1, 0, 1, 1],\n",
+    "                     [1, 1, 0, 1],\n",
+    "                     [0, 1, 1, 0]]\n",
+    "diamond = sm.SimpleGraph(diamond_adjacency)\n",
+    "diamond.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.869842Z",
+     "start_time": "2022-01-14T14:58:27.856924Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"bb18b268-71f6-412e-93dd-e64657d3568a\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('bb18b268-71f6-412e-93dd-e64657d3568a');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "diamond_incidence = [[1, 1, 0, 0, 0],\n",
+    "                     [1, 0, 1, 1, 0],\n",
+    "                     [0, 1, 1, 0, 1],\n",
+    "                     [0, 0, 0, 1, 1]]\n",
+    "\n",
+    "diamond = sm.SimpleGraph(incidence=diamond_incidence)\n",
+    "diamond.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "By default, the method returns an instance of the `SimpleGraph` class of the module, which possessed many attributes.\n",
+    "\n",
+    "Number of edges and nodes:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.885092Z",
+     "start_time": "2022-01-14T14:58:27.872517Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(4, 5)"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "diamond.n, diamond.m"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Adjacency matrix:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.900943Z",
+     "start_time": "2022-01-14T14:58:27.886048Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[0, 1, 1, 0],\n",
+       "       [1, 0, 1, 1],\n",
+       "       [1, 1, 0, 1],\n",
+       "       [0, 1, 1, 0]])"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "diamond.adjacency"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Incidence (nodes to edges csr matrix):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.917232Z",
+     "start_time": "2022-01-14T14:58:27.903902Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<4x5 sparse matrix of type '<class 'numpy.intc'>'\n",
+       "\twith 10 stored elements in Compressed Sparse Row format>"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "diamond.incidence"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The incidence matrix, which is at the center of the spectral analysis, in plain format:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.932564Z",
+     "start_time": "2022-01-14T14:58:27.919554Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[1, 1, 0, 0, 0],\n",
+       "       [1, 0, 1, 1, 0],\n",
+       "       [0, 1, 1, 0, 1],\n",
+       "       [0, 0, 0, 1, 1]])"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "diamond.incidence.toarray().astype(int)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Co-incidence (edge to nodes csc matrix):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.948001Z",
+     "start_time": "2022-01-14T14:58:27.934001Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<4x5 sparse matrix of type '<class 'numpy.intc'>'\n",
+       "\twith 10 stored elements in Compressed Sparse Column format>"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "diamond.co_incidence"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can visualize the graph with the `show` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:27.993416Z",
+     "start_time": "2022-01-14T14:58:27.973683Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"9a68b1a8-4a75-45a5-b274-44a6a52727d2\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('9a68b1a8-4a75-45a5-b274-44a6a52727d2');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "diamond.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can customize display with `options` (the options will be pass to the vis engine). For example, to display a red graph with no navigation button:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.008838Z",
+     "start_time": "2022-01-14T14:58:27.996418Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"76c76464-4188-4d5d-bdcf-76e63bc17434\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"600px\", \"height\": \"600px\", \"nodes\": {\"color\": \"red\"}};\n",
+       "var container = document.getElementById('76c76464-4188-4d5d-bdcf-76e63bc17434');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "diamond.show(options={'interaction': {'navigationButtons': False}, 'nodes': {'color': 'red'}})"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Names can be specified."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.024858Z",
+     "start_time": "2022-01-14T14:58:28.009860Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"26228b54-c8b1-468a-84a1-ec5cefe873bb\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"Ga\", \"title\": \"0: Ga\"}, {\"id\": 1, \"label\": \"Bu\", \"title\": \"1: Bu\"}, {\"id\": 2, \"label\": \"Zo\", \"title\": \"2: Zo\"}, {\"id\": 3, \"label\": \"Meu\", \"title\": \"3: Meu\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (Ga, Bu)\", \"label\": \"(Ga, Bu)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (Ga, Zo)\", \"label\": \"(Ga, Zo)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (Bu, Zo)\", \"label\": \"(Bu, Zo)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (Bu, Meu)\", \"label\": \"(Bu, Meu)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (Zo, Meu)\", \"label\": \"(Zo, Meu)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('26228b54-c8b1-468a-84a1-ec5cefe873bb');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.SimpleGraph(diamond_adjacency, names=[\"Ga\", \"Bu\", \"Zo\", \"Meu\"]).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Automatic letter labeling can be obtained using `alpha` as input for `names`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.072296Z",
+     "start_time": "2022-01-14T14:58:28.026470Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"bfb66752-08e8-4827-bffd-20431fef96a0\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"A\", \"title\": \"0: A\"}, {\"id\": 1, \"label\": \"B\", \"title\": \"1: B\"}, {\"id\": 2, \"label\": \"C\", \"title\": \"2: C\"}, {\"id\": 3, \"label\": \"D\", \"title\": \"3: D\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (A, B)\", \"label\": \"(A, B)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (A, C)\", \"label\": \"(A, C)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (B, C)\", \"label\": \"(B, C)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (B, D)\", \"label\": \"(B, D)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (C, D)\", \"label\": \"(C, D)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('bfb66752-08e8-4827-bffd-20431fef96a0');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.SimpleGraph(diamond_adjacency, names=\"alpha\").show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Simple Graph generators"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For convenience, many graph generators are provided to enable fast graph building."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Path graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Paths are defined by a parameter $n$ (the size, e.g. number of nodes) that defaults to 2."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.087993Z",
+     "start_time": "2022-01-14T14:58:28.073820Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"9dd7fd44-2171-4dd3-bbfb-3847aa69ed7b\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('9dd7fd44-2171-4dd3-bbfb-3847aa69ed7b');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.path_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.103834Z",
+     "start_time": "2022-01-14T14:58:28.090744Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"5f421210-caf3-4a60-8e4a-ba92480900cd\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"A\", \"title\": \"0: A\"}, {\"id\": 1, \"label\": \"B\", \"title\": \"1: B\"}, {\"id\": 2, \"label\": \"C\", \"title\": \"2: C\"}, {\"id\": 3, \"label\": \"D\", \"title\": \"3: D\"}, {\"id\": 4, \"label\": \"E\", \"title\": \"4: E\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (A, B)\", \"label\": \"(A, B)\"}, {\"from\": 1, \"to\": 2, \"title\": \"1: (B, C)\", \"label\": \"(B, C)\"}, {\"from\": 2, \"to\": 3, \"title\": \"2: (C, D)\", \"label\": \"(C, D)\"}, {\"from\": 3, \"to\": 4, \"title\": \"3: (D, E)\", \"label\": \"(D, E)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('5f421210-caf3-4a60-8e4a-ba92480900cd');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.path_graph(names='alpha', n=5).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Cycle graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Cycles are defined by a parameter $n$ that defaults to 3."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.119382Z",
+     "start_time": "2022-01-14T14:58:28.105361Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"757f9041-f5f3-4723-ba37-914f598ba56a\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('757f9041-f5f3-4723-ba37-914f598ba56a');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.cycle_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.135142Z",
+     "start_time": "2022-01-14T14:58:28.121106Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"0ecb4d26-7fc8-479c-9fd6-ceec95f83b68\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"A\", \"title\": \"0: A\"}, {\"id\": 1, \"label\": \"B\", \"title\": \"1: B\"}, {\"id\": 2, \"label\": \"C\", \"title\": \"2: C\"}, {\"id\": 3, \"label\": \"D\", \"title\": \"3: D\"}, {\"id\": 4, \"label\": \"E\", \"title\": \"4: E\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (A, B)\", \"label\": \"(A, B)\"}, {\"from\": 0, \"to\": 4, \"title\": \"1: (A, E)\", \"label\": \"(A, E)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (B, C)\", \"label\": \"(B, C)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (C, D)\", \"label\": \"(C, D)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (D, E)\", \"label\": \"(D, E)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('0ecb4d26-7fc8-479c-9fd6-ceec95f83b68');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.cycle_graph(names='alpha', n=5).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Complete graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Complete graphs are defined by a parameter $n$ that defaults to 3."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.150924Z",
+     "start_time": "2022-01-14T14:58:28.137192Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"81059d23-2cb5-48c2-a560-662e66b160a6\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('81059d23-2cb5-48c2-a560-662e66b160a6');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.complete_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.166764Z",
+     "start_time": "2022-01-14T14:58:28.152515Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"e326f896-8219-47a9-b145-f37dcef2393a\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"A\", \"title\": \"0: A\"}, {\"id\": 1, \"label\": \"B\", \"title\": \"1: B\"}, {\"id\": 2, \"label\": \"C\", \"title\": \"2: C\"}, {\"id\": 3, \"label\": \"D\", \"title\": \"3: D\"}, {\"id\": 4, \"label\": \"E\", \"title\": \"4: E\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (A, B)\", \"label\": \"(A, B)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (A, C)\", \"label\": \"(A, C)\"}, {\"from\": 0, \"to\": 3, \"title\": \"2: (A, D)\", \"label\": \"(A, D)\"}, {\"from\": 0, \"to\": 4, \"title\": \"3: (A, E)\", \"label\": \"(A, E)\"}, {\"from\": 1, \"to\": 2, \"title\": \"4: (B, C)\", \"label\": \"(B, C)\"}, {\"from\": 1, \"to\": 3, \"title\": \"5: (B, D)\", \"label\": \"(B, D)\"}, {\"from\": 1, \"to\": 4, \"title\": \"6: (B, E)\", \"label\": \"(B, E)\"}, {\"from\": 2, \"to\": 3, \"title\": \"7: (C, D)\", \"label\": \"(C, D)\"}, {\"from\": 2, \"to\": 4, \"title\": \"8: (C, E)\", \"label\": \"(C, E)\"}, {\"from\": 3, \"to\": 4, \"title\": \"9: (D, E)\", \"label\": \"(D, E)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('e326f896-8219-47a9-b145-f37dcef2393a');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.complete_graph(names='alpha', n=5).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Tadpole graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A tadpole combines a cycle of length $m$ and a path of length $n$. Default is the paw graph ($m=3, n=1$)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.182584Z",
+     "start_time": "2022-01-14T14:58:28.168549Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"62d4db17-9dfc-4666-95cc-8f4fa7548674\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('62d4db17-9dfc-4666-95cc-8f4fa7548674');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Paw graph\n",
+    "sm.tadpole_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.244766Z",
+     "start_time": "2022-01-14T14:58:28.217904Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"d44f996a-086f-4555-9535-e290e288581e\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"5: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 5, \"to\": 6, \"title\": \"6: (5, 6)\", \"label\": \"(5, 6)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('d44f996a-086f-4555-9535-e290e288581e');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.tadpole_graph(n=4).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.244766Z",
+     "start_time": "2022-01-14T14:58:28.217904Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"35e9f23b-9355-4bdb-b91d-cf8f5c032301\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 3, \"title\": \"1: (0, 3)\", \"label\": \"(0, 3)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (3, 4)\", \"label\": \"(3, 4)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('35e9f23b-9355-4bdb-b91d-cf8f5c032301');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Banner graph\n",
+    "sm.tadpole_graph(m=4).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.244766Z",
+     "start_time": "2022-01-14T14:58:28.217904Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"1a2251cc-53b5-413c-ba23-93a3032a8963\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"Dubhe\", \"title\": \"0: Dubhe\"}, {\"id\": 1, \"label\": \"Merak\", \"title\": \"1: Merak\"}, {\"id\": 2, \"label\": \"Phecda\", \"title\": \"2: Phecda\"}, {\"id\": 3, \"label\": \"Megrez\", \"title\": \"3: Megrez\"}, {\"id\": 4, \"label\": \"Alioth\", \"title\": \"4: Alioth\"}, {\"id\": 5, \"label\": \"Mizar\", \"title\": \"5: Mizar\"}, {\"id\": 6, \"label\": \"Alkaid\", \"title\": \"6: Alkaid\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (Dubhe, Merak)\", \"label\": \"(Dubhe, Merak)\"}, {\"from\": 0, \"to\": 3, \"title\": \"1: (Dubhe, Megrez)\", \"label\": \"(Dubhe, Megrez)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (Merak, Phecda)\", \"label\": \"(Merak, Phecda)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (Phecda, Megrez)\", \"label\": \"(Phecda, Megrez)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (Megrez, Alioth)\", \"label\": \"(Megrez, Alioth)\"}, {\"from\": 4, \"to\": 5, \"title\": \"5: (Alioth, Mizar)\", \"label\": \"(Alioth, Mizar)\"}, {\"from\": 5, \"to\": 6, \"title\": \"6: (Mizar, Alkaid)\", \"label\": \"(Mizar, Alkaid)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('1a2251cc-53b5-413c-ba23-93a3032a8963');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Ursa major\n",
+    "sm.tadpole_graph(n=3, m=4, names = ['Dubhe', 'Merak', 'Phecda', 'Megrez', 'Alioth', 'Mizar', 'Alkaid']).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Lollipop graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A lollipop combines a complete graph of size $m$ and a path of length $n$. Default is the paw graph ($m=3, n=1$)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.259763Z",
+     "start_time": "2022-01-14T14:58:28.246743Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"e0f85ec3-d4a4-4035-9bca-7d3106b90eff\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('e0f85ec3-d4a4-4035-9bca-7d3106b90eff');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Paw graph\n",
+    "sm.lollipop_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.275516Z",
+     "start_time": "2022-01-14T14:58:28.261298Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"f5d05fab-038b-4299-8b94-45212241dac8\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 0, \"to\": 3, \"title\": \"2: (0, 3)\", \"label\": \"(0, 3)\"}, {\"from\": 1, \"to\": 2, \"title\": \"3: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"4: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"5: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"6: (3, 4)\", \"label\": \"(3, 4)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('f5d05fab-038b-4299-8b94-45212241dac8');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.lollipop_graph(m=4).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.290656Z",
+     "start_time": "2022-01-14T14:58:28.277655Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"2e614ea4-0fbb-46f5-a529-8f53546d55cb\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 0, \"to\": 3, \"title\": \"2: (0, 3)\", \"label\": \"(0, 3)\"}, {\"from\": 0, \"to\": 4, \"title\": \"3: (0, 4)\", \"label\": \"(0, 4)\"}, {\"from\": 1, \"to\": 2, \"title\": \"4: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"5: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 1, \"to\": 4, \"title\": \"6: (1, 4)\", \"label\": \"(1, 4)\"}, {\"from\": 2, \"to\": 3, \"title\": \"7: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"8: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 3, \"to\": 4, \"title\": \"9: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"10: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 5, \"to\": 6, \"title\": \"11: (5, 6)\", \"label\": \"(5, 6)\"}, {\"from\": 6, \"to\": 7, \"title\": \"12: (6, 7)\", \"label\": \"(6, 7)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('2e614ea4-0fbb-46f5-a529-8f53546d55cb');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.lollipop_graph(n=3, m=5).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Kayak paddle graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Combines a cycle of length $k$, a path of length $l$, and a cycle of length $m$. Defaults to $k=3, l=1, m=k$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.306171Z",
+     "start_time": "2022-01-14T14:58:28.292146Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"926cdcbc-e833-47bd-937a-7b75caff9d90\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 3, \"to\": 5, \"title\": \"5: (3, 5)\", \"label\": \"(3, 5)\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (4, 5)\", \"label\": \"(4, 5)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('926cdcbc-e833-47bd-937a-7b75caff9d90');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.kayak_paddle_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.338150Z",
+     "start_time": "2022-01-14T14:58:28.326654Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"b05e3d66-d9c7-4a80-aeb3-b127c5188019\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\"}, {\"id\": 9, \"label\": \"9\", \"title\": \"9\"}, {\"id\": 10, \"label\": \"10\", \"title\": \"10\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 4, \"title\": \"1: (0, 4)\", \"label\": \"(0, 4)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"5: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 5, \"to\": 6, \"title\": \"6: (5, 6)\", \"label\": \"(5, 6)\"}, {\"from\": 6, \"to\": 7, \"title\": \"7: (6, 7)\", \"label\": \"(6, 7)\"}, {\"from\": 6, \"to\": 10, \"title\": \"8: (6, 10)\", \"label\": \"(6, 10)\"}, {\"from\": 7, \"to\": 8, \"title\": \"9: (7, 8)\", \"label\": \"(7, 8)\"}, {\"from\": 8, \"to\": 9, \"title\": \"10: (8, 9)\", \"label\": \"(8, 9)\"}, {\"from\": 9, \"to\": 10, \"title\": \"11: (9, 10)\", \"label\": \"(9, 10)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('b05e3d66-d9c7-4a80-aeb3-b127c5188019');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.kayak_paddle_graph(5, 2).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.338150Z",
+     "start_time": "2022-01-14T14:58:28.326654Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"4b1be55f-e551-4df6-a3f6-256fd64c3ee6\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 5, \"title\": \"4: (2, 5)\", \"label\": \"(2, 5)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (4, 5)\", \"label\": \"(4, 5)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('4b1be55f-e551-4df6-a3f6-256fd64c3ee6');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "## Fish graph\n",
+    "sm.kayak_paddle_graph(l=0, m=4).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Barbell graph"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Combines a complete graph of size $k$, a path of length $l$, and a complete graph of size $m$. Defaults to $k=3, l=1, m=k$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.353263Z",
+     "start_time": "2022-01-14T14:58:28.340150Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"eccce2cf-1df5-4146-833b-2ffd60da6f97\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 3, \"to\": 5, \"title\": \"5: (3, 5)\", \"label\": \"(3, 5)\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (4, 5)\", \"label\": \"(4, 5)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('eccce2cf-1df5-4146-833b-2ffd60da6f97');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.barbell_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.368972Z",
+     "start_time": "2022-01-14T14:58:28.354963Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"e949e73d-6406-42de-b8ce-4afdeda06845\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\"}, {\"id\": 9, \"label\": \"9\", \"title\": \"9\"}, {\"id\": 10, \"label\": \"10\", \"title\": \"10\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 0, \"to\": 3, \"title\": \"2: (0, 3)\", \"label\": \"(0, 3)\"}, {\"from\": 0, \"to\": 4, \"title\": \"3: (0, 4)\", \"label\": \"(0, 4)\"}, {\"from\": 1, \"to\": 2, \"title\": \"4: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"5: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 1, \"to\": 4, \"title\": \"6: (1, 4)\", \"label\": \"(1, 4)\"}, {\"from\": 2, \"to\": 3, \"title\": \"7: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"8: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 3, \"to\": 4, \"title\": \"9: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"10: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 5, \"to\": 6, \"title\": \"11: (5, 6)\", \"label\": \"(5, 6)\"}, {\"from\": 6, \"to\": 7, \"title\": \"12: (6, 7)\", \"label\": \"(6, 7)\"}, {\"from\": 6, \"to\": 8, \"title\": \"13: (6, 8)\", \"label\": \"(6, 8)\"}, {\"from\": 6, \"to\": 9, \"title\": \"14: (6, 9)\", \"label\": \"(6, 9)\"}, {\"from\": 6, \"to\": 10, \"title\": \"15: (6, 10)\", \"label\": \"(6, 10)\"}, {\"from\": 7, \"to\": 8, \"title\": \"16: (7, 8)\", \"label\": \"(7, 8)\"}, {\"from\": 7, \"to\": 9, \"title\": \"17: (7, 9)\", \"label\": \"(7, 9)\"}, {\"from\": 7, \"to\": 10, \"title\": \"18: (7, 10)\", \"label\": \"(7, 10)\"}, {\"from\": 8, \"to\": 9, \"title\": \"19: (8, 9)\", \"label\": \"(8, 9)\"}, {\"from\": 8, \"to\": 10, \"title\": \"20: (8, 10)\", \"label\": \"(8, 10)\"}, {\"from\": 9, \"to\": 10, \"title\": \"21: (9, 10)\", \"label\": \"(9, 10)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('e949e73d-6406-42de-b8ce-4afdeda06845');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.barbell_graph(5, 2).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.384123Z",
+     "start_time": "2022-01-14T14:58:28.370961Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"b2c130d2-d2a4-4567-bf0e-e4d7630ceb44\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"4: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 2, \"to\": 5, \"title\": \"5: (2, 5)\", \"label\": \"(2, 5)\"}, {\"from\": 3, \"to\": 4, \"title\": \"6: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 3, \"to\": 5, \"title\": \"7: (3, 5)\", \"label\": \"(3, 5)\"}, {\"from\": 4, \"to\": 5, \"title\": \"8: (4, 5)\", \"label\": \"(4, 5)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('b2c130d2-d2a4-4567-bf0e-e4d7630ceb44');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.barbell_graph(l=0, m=4).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Chained cycle graphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Concatenates cycles of size $n$, $c$ of them. Each cycle has $o$ nodes that overlap with the next one. Defaults to $n=3, c=2, o=2$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.399734Z",
+     "start_time": "2022-01-14T14:58:28.387180Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"043516f5-6e61-42f2-88bd-2d47768a890f\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('043516f5-6e61-42f2-88bd-2d47768a890f');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Diamond\n",
+    "sm.chained_cycle_graph().show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.492658Z",
+     "start_time": "2022-01-14T14:58:28.483472Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"44d639ba-49ac-4cfa-b7d6-0b691506b931\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"5: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 3, \"to\": 4, \"title\": \"6: (3, 4)\", \"label\": \"(3, 4)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('44d639ba-49ac-4cfa-b7d6-0b691506b931');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Triamond\n",
+    "sm.chained_cycle_graph(c=3).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.492658Z",
+     "start_time": "2022-01-14T14:58:28.483472Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"d4c4e36c-c612-4e46-b47c-75c429c45338\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 3, \"title\": \"1: (0, 3)\", \"label\": \"(0, 3)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 5, \"title\": \"4: (2, 5)\", \"label\": \"(2, 5)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (4, 5)\", \"label\": \"(4, 5)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('d4c4e36c-c612-4e46-b47c-75c429c45338');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Domino\n",
+    "sm.chained_cycle_graph(n=4).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.492658Z",
+     "start_time": "2022-01-14T14:58:28.483472Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"c12a30c9-5cb0-49f4-9b3d-e0ba437179c1\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"4: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 4, \"to\": 6, \"title\": \"7: (4, 6)\", \"label\": \"(4, 6)\"}, {\"from\": 5, \"to\": 6, \"title\": \"8: (5, 6)\", \"label\": \"(5, 6)\"}, {\"from\": 6, \"to\": 7, \"title\": \"9: (6, 7)\", \"label\": \"(6, 7)\"}, {\"from\": 6, \"to\": 8, \"title\": \"10: (6, 8)\", \"label\": \"(6, 8)\"}, {\"from\": 7, \"to\": 8, \"title\": \"11: (7, 8)\", \"label\": \"(7, 8)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('c12a30c9-5cb0-49f4-9b3d-e0ba437179c1');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# The triangular snake graph TS_9 (cf https://mathworld.wolfram.com/TriangularSnakeGraph.html)\n",
+    "sm.chained_cycle_graph(c=4, o=1).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.507935Z",
+     "start_time": "2022-01-14T14:58:28.493927Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"e60da6d7-e4a7-4940-9420-747fbd481b29\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\"}, {\"id\": 9, \"label\": \"9\", \"title\": \"9\"}, {\"id\": 10, \"label\": \"10\", \"title\": \"10\"}, {\"id\": 11, \"label\": \"11\", \"title\": \"11\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 3, \"title\": \"1: (0, 3)\", \"label\": \"(0, 3)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 4, \"to\": 5, \"title\": \"4: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 4, \"to\": 7, \"title\": \"5: (4, 7)\", \"label\": \"(4, 7)\"}, {\"from\": 5, \"to\": 6, \"title\": \"6: (5, 6)\", \"label\": \"(5, 6)\"}, {\"from\": 6, \"to\": 7, \"title\": \"7: (6, 7)\", \"label\": \"(6, 7)\"}, {\"from\": 8, \"to\": 9, \"title\": \"8: (8, 9)\", \"label\": \"(8, 9)\"}, {\"from\": 8, \"to\": 11, \"title\": \"9: (8, 11)\", \"label\": \"(8, 11)\"}, {\"from\": 9, \"to\": 10, \"title\": \"10: (9, 10)\", \"label\": \"(9, 10)\"}, {\"from\": 10, \"to\": 11, \"title\": \"11: (10, 11)\", \"label\": \"(10, 11)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('e60da6d7-e4a7-4940-9420-747fbd481b29');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# 3 separated squares\n",
+    "sm.chained_cycle_graph(n=4, c=3, o=0).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.523215Z",
+     "start_time": "2022-01-14T14:58:28.509215Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"99f05a47-3b2d-458d-9e9b-bc0136af1bf5\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"A\", \"title\": \"0: A\"}, {\"id\": 1, \"label\": \"B\", \"title\": \"1: B\"}, {\"id\": 2, \"label\": \"C\", \"title\": \"2: C\"}, {\"id\": 3, \"label\": \"D\", \"title\": \"3: D\"}, {\"id\": 4, \"label\": \"E\", \"title\": \"4: E\"}, {\"id\": 5, \"label\": \"F\", \"title\": \"5: F\"}, {\"id\": 6, \"label\": \"G\", \"title\": \"6: G\"}, {\"id\": 7, \"label\": \"H\", \"title\": \"7: H\"}, {\"id\": 8, \"label\": \"I\", \"title\": \"8: I\"}, {\"id\": 9, \"label\": \"J\", \"title\": \"9: J\"}, {\"id\": 10, \"label\": \"K\", \"title\": \"10: K\"}, {\"id\": 11, \"label\": \"L\", \"title\": \"11: L\"}, {\"id\": 12, \"label\": \"M\", \"title\": \"12: M\"}, {\"id\": 13, \"label\": \"N\", \"title\": \"13: N\"}, {\"id\": 14, \"label\": \"O\", \"title\": \"14: O\"}, {\"id\": 15, \"label\": \"P\", \"title\": \"15: P\"}, {\"id\": 16, \"label\": \"Q\", \"title\": \"16: Q\"}, {\"id\": 17, \"label\": \"R\", \"title\": \"17: R\"}, {\"id\": 18, \"label\": \"S\", \"title\": \"18: S\"}, {\"id\": 19, \"label\": \"T\", \"title\": \"19: T\"}, {\"id\": 20, \"label\": \"U\", \"title\": \"20: U\"}, {\"id\": 21, \"label\": \"V\", \"title\": \"21: V\"}, {\"id\": 22, \"label\": \"W\", \"title\": \"22: W\"}, {\"id\": 23, \"label\": \"X\", \"title\": \"23: X\"}, {\"id\": 24, \"label\": \"Y\", \"title\": \"24: Y\"}, {\"id\": 25, \"label\": \"Z\", \"title\": \"25: Z\"}, {\"id\": 26, \"label\": \"AA\", \"title\": \"26: AA\"}, {\"id\": 27, \"label\": \"AB\", \"title\": \"27: AB\"}, {\"id\": 28, \"label\": \"AC\", \"title\": \"28: AC\"}, {\"id\": 29, \"label\": \"AD\", \"title\": \"29: AD\"}, {\"id\": 30, \"label\": \"AE\", \"title\": \"30: AE\"}, {\"id\": 31, \"label\": \"AF\", \"title\": \"31: AF\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (A, B)\", \"label\": \"(A, B)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (A, C)\", \"label\": \"(A, C)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (B, C)\", \"label\": \"(B, C)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (B, D)\", \"label\": \"(B, D)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (C, D)\", \"label\": \"(C, D)\"}, {\"from\": 2, \"to\": 4, \"title\": \"5: (C, E)\", \"label\": \"(C, E)\"}, {\"from\": 3, \"to\": 4, \"title\": \"6: (D, E)\", \"label\": \"(D, E)\"}, {\"from\": 3, \"to\": 5, \"title\": \"7: (D, F)\", \"label\": \"(D, F)\"}, {\"from\": 4, \"to\": 5, \"title\": \"8: (E, F)\", \"label\": \"(E, F)\"}, {\"from\": 4, \"to\": 6, \"title\": \"9: (E, G)\", \"label\": \"(E, G)\"}, {\"from\": 5, \"to\": 6, \"title\": \"10: (F, G)\", \"label\": \"(F, G)\"}, {\"from\": 5, \"to\": 7, \"title\": \"11: (F, H)\", \"label\": \"(F, H)\"}, {\"from\": 6, \"to\": 7, \"title\": \"12: (G, H)\", \"label\": \"(G, H)\"}, {\"from\": 6, \"to\": 8, \"title\": \"13: (G, I)\", \"label\": \"(G, I)\"}, {\"from\": 7, \"to\": 8, \"title\": \"14: (H, I)\", \"label\": \"(H, I)\"}, {\"from\": 7, \"to\": 9, \"title\": \"15: (H, J)\", \"label\": \"(H, J)\"}, {\"from\": 8, \"to\": 9, \"title\": \"16: (I, J)\", \"label\": \"(I, J)\"}, {\"from\": 8, \"to\": 10, \"title\": \"17: (I, K)\", \"label\": \"(I, K)\"}, {\"from\": 9, \"to\": 10, \"title\": \"18: (J, K)\", \"label\": \"(J, K)\"}, {\"from\": 9, \"to\": 11, \"title\": \"19: (J, L)\", \"label\": \"(J, L)\"}, {\"from\": 10, \"to\": 11, \"title\": \"20: (K, L)\", \"label\": \"(K, L)\"}, {\"from\": 10, \"to\": 12, \"title\": \"21: (K, M)\", \"label\": \"(K, M)\"}, {\"from\": 11, \"to\": 12, \"title\": \"22: (L, M)\", \"label\": \"(L, M)\"}, {\"from\": 11, \"to\": 13, \"title\": \"23: (L, N)\", \"label\": \"(L, N)\"}, {\"from\": 12, \"to\": 13, \"title\": \"24: (M, N)\", \"label\": \"(M, N)\"}, {\"from\": 12, \"to\": 14, \"title\": \"25: (M, O)\", \"label\": \"(M, O)\"}, {\"from\": 13, \"to\": 14, \"title\": \"26: (N, O)\", \"label\": \"(N, O)\"}, {\"from\": 13, \"to\": 15, \"title\": \"27: (N, P)\", \"label\": \"(N, P)\"}, {\"from\": 14, \"to\": 15, \"title\": \"28: (O, P)\", \"label\": \"(O, P)\"}, {\"from\": 14, \"to\": 16, \"title\": \"29: (O, Q)\", \"label\": \"(O, Q)\"}, {\"from\": 15, \"to\": 16, \"title\": \"30: (P, Q)\", \"label\": \"(P, Q)\"}, {\"from\": 15, \"to\": 17, \"title\": \"31: (P, R)\", \"label\": \"(P, R)\"}, {\"from\": 16, \"to\": 17, \"title\": \"32: (Q, R)\", \"label\": \"(Q, R)\"}, {\"from\": 16, \"to\": 18, \"title\": \"33: (Q, S)\", \"label\": \"(Q, S)\"}, {\"from\": 17, \"to\": 18, \"title\": \"34: (R, S)\", \"label\": \"(R, S)\"}, {\"from\": 17, \"to\": 19, \"title\": \"35: (R, T)\", \"label\": \"(R, T)\"}, {\"from\": 18, \"to\": 19, \"title\": \"36: (S, T)\", \"label\": \"(S, T)\"}, {\"from\": 18, \"to\": 20, \"title\": \"37: (S, U)\", \"label\": \"(S, U)\"}, {\"from\": 19, \"to\": 20, \"title\": \"38: (T, U)\", \"label\": \"(T, U)\"}, {\"from\": 19, \"to\": 21, \"title\": \"39: (T, V)\", \"label\": \"(T, V)\"}, {\"from\": 20, \"to\": 21, \"title\": \"40: (U, V)\", \"label\": \"(U, V)\"}, {\"from\": 20, \"to\": 22, \"title\": \"41: (U, W)\", \"label\": \"(U, W)\"}, {\"from\": 21, \"to\": 22, \"title\": \"42: (V, W)\", \"label\": \"(V, W)\"}, {\"from\": 21, \"to\": 23, \"title\": \"43: (V, X)\", \"label\": \"(V, X)\"}, {\"from\": 22, \"to\": 23, \"title\": \"44: (W, X)\", \"label\": \"(W, X)\"}, {\"from\": 22, \"to\": 24, \"title\": \"45: (W, Y)\", \"label\": \"(W, Y)\"}, {\"from\": 23, \"to\": 24, \"title\": \"46: (X, Y)\", \"label\": \"(X, Y)\"}, {\"from\": 23, \"to\": 25, \"title\": \"47: (X, Z)\", \"label\": \"(X, Z)\"}, {\"from\": 24, \"to\": 25, \"title\": \"48: (Y, Z)\", \"label\": \"(Y, Z)\"}, {\"from\": 24, \"to\": 26, \"title\": \"49: (Y, AA)\", \"label\": \"(Y, AA)\"}, {\"from\": 25, \"to\": 26, \"title\": \"50: (Z, AA)\", \"label\": \"(Z, AA)\"}, {\"from\": 25, \"to\": 27, \"title\": \"51: (Z, AB)\", \"label\": \"(Z, AB)\"}, {\"from\": 26, \"to\": 27, \"title\": \"52: (AA, AB)\", \"label\": \"(AA, AB)\"}, {\"from\": 26, \"to\": 28, \"title\": \"53: (AA, AC)\", \"label\": \"(AA, AC)\"}, {\"from\": 27, \"to\": 28, \"title\": \"54: (AB, AC)\", \"label\": \"(AB, AC)\"}, {\"from\": 27, \"to\": 29, \"title\": \"55: (AB, AD)\", \"label\": \"(AB, AD)\"}, {\"from\": 28, \"to\": 29, \"title\": \"56: (AC, AD)\", \"label\": \"(AC, AD)\"}, {\"from\": 28, \"to\": 30, \"title\": \"57: (AC, AE)\", \"label\": \"(AC, AE)\"}, {\"from\": 29, \"to\": 30, \"title\": \"58: (AD, AE)\", \"label\": \"(AD, AE)\"}, {\"from\": 29, \"to\": 31, \"title\": \"59: (AD, AF)\", \"label\": \"(AD, AF)\"}, {\"from\": 30, \"to\": 31, \"title\": \"60: (AE, AF)\", \"label\": \"(AE, AF)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('99f05a47-3b2d-458d-9e9b-bc0136af1bf5');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# A big chain of triangle\n",
+    "sm.chained_cycle_graph(c=30, names='alpha').show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Concatenation"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Building more elaborate graphs on top of the provided generators is relatively easy. For example, some graphs proposed in https://hal.archives-ouvertes.fr/hal-03502084 are not directly available:\n",
+    "- the co-domino graph;\n",
+    "- the *Egyptian pyramid* graph (please see the above paper for the origin of the name).\n",
+    "\n",
+    "One way to build these graphs is to use concatenation.\n",
+    "\n",
+    "Concatenation generalizes the chained cycles above. It uses a list of graphs and the overlapping between graph. Overlapping can be uniform or heterogeneous (you need then to provide a list of overlaps)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.539183Z",
+     "start_time": "2022-01-14T14:58:28.524214Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"993555ba-2ef6-4b25-a7a8-dffecc0eca2e\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 4, \"title\": \"3: (1, 4)\", \"label\": \"(1, 4)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('993555ba-2ef6-4b25-a7a8-dffecc0eca2e');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# House\n",
+    "sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4)], 2).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.555077Z",
+     "start_time": "2022-01-14T14:58:28.540598Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"2873bdfe-373e-425a-b5c2-6be0a2661c58\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 3, \"title\": \"3: (1, 3)\", \"label\": \"(1, 3)\"}, {\"from\": 1, \"to\": 4, \"title\": \"4: (1, 4)\", \"label\": \"(1, 4)\"}, {\"from\": 2, \"to\": 3, \"title\": \"5: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"6: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 3, \"to\": 4, \"title\": \"7: (3, 4)\", \"label\": \"(3, 4)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('2873bdfe-373e-425a-b5c2-6be0a2661c58');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Barred house\n",
+    "sm.concatenate([sm.cycle_graph(), sm.complete_graph(4)], 2).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.570825Z",
+     "start_time": "2022-01-14T14:58:28.557501Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"23a924ec-d78e-452f-aa36-f74ad27b6dd5\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 2, \"to\": 4, \"title\": \"4: (2, 4)\", \"label\": \"(2, 4)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 3, \"to\": 6, \"title\": \"6: (3, 6)\", \"label\": \"(3, 6)\"}, {\"from\": 4, \"to\": 5, \"title\": \"7: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 5, \"to\": 6, \"title\": \"8: (5, 6)\", \"label\": \"(5, 6)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('23a924ec-d78e-452f-aa36-f74ad27b6dd5');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# House with a triangle on top\n",
+    "sm.concatenate([sm.cycle_graph(), sm.cycle_graph(), sm.cycle_graph(4)], [1, 2]).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.586751Z",
+     "start_time": "2022-01-14T14:58:28.574148Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"ee82ff49-206f-4545-8e6c-0399f210e3c0\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 4, \"title\": \"3: (1, 4)\", \"label\": \"(1, 4)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 3, \"to\": 5, \"title\": \"6: (3, 5)\", \"label\": \"(3, 5)\"}, {\"from\": 4, \"to\": 5, \"title\": \"7: (4, 5)\", \"label\": \"(4, 5)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('ee82ff49-206f-4545-8e6c-0399f210e3c0');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Codomino\n",
+    "sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.602082Z",
+     "start_time": "2022-01-14T14:58:28.588727Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"eb3a21b8-1d6f-4b0e-9c16-9970849158da\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\"}, {\"id\": 9, \"label\": \"9\", \"title\": \"9\"}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (0, 1)\", \"label\": \"(0, 1)\"}, {\"from\": 0, \"to\": 2, \"title\": \"1: (0, 2)\", \"label\": \"(0, 2)\"}, {\"from\": 1, \"to\": 2, \"title\": \"2: (1, 2)\", \"label\": \"(1, 2)\"}, {\"from\": 1, \"to\": 5, \"title\": \"3: (1, 5)\", \"label\": \"(1, 5)\"}, {\"from\": 2, \"to\": 3, \"title\": \"4: (2, 3)\", \"label\": \"(2, 3)\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (3, 4)\", \"label\": \"(3, 4)\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (4, 5)\", \"label\": \"(4, 5)\"}, {\"from\": 4, \"to\": 8, \"title\": \"7: (4, 8)\", \"label\": \"(4, 8)\"}, {\"from\": 5, \"to\": 6, \"title\": \"8: (5, 6)\", \"label\": \"(5, 6)\"}, {\"from\": 6, \"to\": 7, \"title\": \"9: (6, 7)\", \"label\": \"(6, 7)\"}, {\"from\": 7, \"to\": 8, \"title\": \"10: (7, 8)\", \"label\": \"(7, 8)\"}, {\"from\": 7, \"to\": 9, \"title\": \"11: (7, 9)\", \"label\": \"(7, 9)\"}, {\"from\": 8, \"to\": 9, \"title\": \"12: (8, 9)\", \"label\": \"(8, 9)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\"};\n",
+       "var container = document.getElementById('eb3a21b8-1d6f-4b0e-9c16-9970849158da');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Pyramid\n",
+    "sm.concatenate([sm.cycle_graph(), sm.cycle_graph(5), sm.cycle_graph(5), sm.cycle_graph()], 2).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Package logo"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The logo of `stochastic matching` was made with `stochastic matching`. Here is the code that produced the big version."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.633432Z",
+     "start_time": "2022-01-14T14:58:28.603846Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"f7420aa5-56cc-45e5-927e-627b86f7f486\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"S\", \"title\": \"0: S\", \"color\": {\"background\": \"rgba(128, 0, 256, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 1, \"label\": \"t\", \"title\": \"1: t\", \"color\": {\"background\": \"rgba(71, 87, 252, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 2, \"label\": \"o\", \"title\": \"2: o\", \"color\": {\"background\": \"rgba(14, 164, 240, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 3, \"label\": \"c\", \"title\": \"3: c\", \"color\": {\"background\": \"rgba(42, 221, 221, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 4, \"label\": \"h\", \"title\": \"4: h\", \"color\": {\"background\": \"rgba(99, 252, 196, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 5, \"label\": \"a\", \"title\": \"5: a\", \"color\": {\"background\": \"rgba(156, 252, 164, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 6, \"label\": \"s\", \"title\": \"6: s\", \"color\": {\"background\": \"rgba(213, 221, 128, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 7, \"label\": \"t\", \"title\": \"7: t\", \"color\": {\"background\": \"rgba(256, 164, 87, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 8, \"label\": \"i\", \"title\": \"8: i\", \"color\": {\"background\": \"rgba(256, 87, 44, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 9, \"label\": \"c\", \"title\": \"9: c\", \"color\": {\"background\": \"rgba(256, 0, 0, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 10, \"label\": \"M\", \"title\": \"10: M\", \"color\": {\"background\": \"rgba(256, 0, 0, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 11, \"label\": \"a\", \"title\": \"11: a\", \"color\": {\"background\": \"rgba(256, 111, 56, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 12, \"label\": \"t\", \"title\": \"12: t\", \"color\": {\"background\": \"rgba(237, 200, 111, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 13, \"label\": \"c\", \"title\": \"13: c\", \"color\": {\"background\": \"rgba(164, 249, 159, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 14, \"label\": \"h\", \"title\": \"14: h\", \"color\": {\"background\": \"rgba(91, 249, 200, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 15, \"label\": \"i\", \"title\": \"15: i\", \"color\": {\"background\": \"rgba(18, 200, 230, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 16, \"label\": \"n\", \"title\": \"16: n\", \"color\": {\"background\": \"rgba(54, 111, 249, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 17, \"label\": \"g\", \"title\": \"17: g\", \"color\": {\"background\": \"rgba(128, 0, 256, 1)\"}, \"font\": {\"color\": \"white\"}}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (S, t)\", \"label\": \"\"}, {\"from\": 1, \"to\": 2, \"title\": \"1: (t, o)\", \"label\": \"\"}, {\"from\": 1, \"to\": 11, \"title\": \"2: (t, a)\", \"label\": \"\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (o, c)\", \"label\": \"\"}, {\"from\": 3, \"to\": 4, \"title\": \"4: (c, h)\", \"label\": \"\"}, {\"from\": 3, \"to\": 12, \"title\": \"5: (c, t)\", \"label\": \"\"}, {\"from\": 4, \"to\": 5, \"title\": \"6: (h, a)\", \"label\": \"\"}, {\"from\": 5, \"to\": 6, \"title\": \"7: (a, s)\", \"label\": \"\"}, {\"from\": 5, \"to\": 15, \"title\": \"8: (a, i)\", \"label\": \"\"}, {\"from\": 6, \"to\": 7, \"title\": \"9: (s, t)\", \"label\": \"\"}, {\"from\": 7, \"to\": 8, \"title\": \"10: (t, i)\", \"label\": \"\"}, {\"from\": 7, \"to\": 16, \"title\": \"11: (t, n)\", \"label\": \"\"}, {\"from\": 8, \"to\": 9, \"title\": \"12: (i, c)\", \"label\": \"\"}, {\"from\": 10, \"to\": 11, \"title\": \"13: (M, a)\", \"label\": \"\"}, {\"from\": 11, \"to\": 12, \"title\": \"14: (a, t)\", \"label\": \"\"}, {\"from\": 12, \"to\": 13, \"title\": \"15: (t, c)\", \"label\": \"\"}, {\"from\": 13, \"to\": 14, \"title\": \"16: (c, h)\", \"label\": \"\"}, {\"from\": 14, \"to\": 15, \"title\": \"17: (h, i)\", \"label\": \"\"}, {\"from\": 15, \"to\": 16, \"title\": \"18: (i, n)\", \"label\": \"\"}, {\"from\": 16, \"to\": 17, \"title\": \"19: (n, g)\", \"label\": \"\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"1000px\", \"height\": \"600px\", \"nodes\": {\"font\": {\"size\": 80}}};\n",
+       "var container = document.getElementById('f7420aa5-56cc-45e5-927e-627b86f7f486');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "from matplotlib import pyplot as plt\n",
+    "from stochastic_matching.graphs.generators import concatenate_adjacency, path_adjacency\n",
+    "\n",
+    "def random_color(n=100, i=None, name='rainbow'):\n",
+    "    if i is None:\n",
+    "        i = np.random.randint(n)\n",
+    "    r, g, b, a = plt.cm.get_cmap(name, n)(i)\n",
+    "    return f\"rgba({int(256*r)}, {int(256*g)}, {int(256*b)}, 1)\"\n",
+    "\n",
+    "adja = concatenate_adjacency([path_adjacency(10), path_adjacency(8)], 0)\n",
+    "for i, j in [(1, 11), (16, 7), (5, 15), (12, 3)]:\n",
+    "    adja[i, j] = 1\n",
+    "    adja[j, i] = 1\n",
+    "    \n",
+    "g = sm.SimpleGraph(adja, names = [c for c in \"StochasticMatching\"])\n",
+    "nodes_dict1 = [{'color': {'background': random_color(10, i)}, 'font': {'color': 'black'}} for i in range(10)]\n",
+    "nodes_dict2 = [{'color': {'background': random_color(8, 8-i-1)}, 'font': {'color': 'white'}} for i in range(8)]\n",
+    "edges_dict=[{'label': ''} for _ in range(g.m)]\n",
+    "options = {'width': '1000px', 'nodes': {'font': {'size': 80}}}\n",
+    "g.show(nodes_dict=nodes_dict1+nodes_dict2, edges_dict = edges_dict, options=options)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "An here is the code for the short version. Note the option `png=True` which creates a mirror png image that can be saved!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.664087Z",
+     "start_time": "2022-01-14T14:58:28.634753Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"d7df945a-84fe-4be0-bb66-49b96208a722\"></div>\n",
+       "<img id=\"canvasImg\" alt=\"Right click to save me!\">\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"S\", \"title\": \"0: S\", \"color\": {\"background\": \"rgba(128, 0, 256, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 1, \"label\": \"t\", \"title\": \"1: t\", \"color\": {\"background\": \"rgba(0, 181, 236, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 2, \"label\": \"o\", \"title\": \"2: o\", \"color\": {\"background\": \"rgba(128, 256, 181, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 3, \"label\": \"c\", \"title\": \"3: c\", \"color\": {\"background\": \"rgba(256, 181, 97, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 4, \"label\": \"h\", \"title\": \"4: h\", \"color\": {\"background\": \"rgba(256, 0, 0, 1)\"}, \"font\": {\"color\": \"black\"}}, {\"id\": 5, \"label\": \"M\", \"title\": \"5: M\", \"color\": {\"background\": \"rgba(256, 0, 0, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 6, \"label\": \"a\", \"title\": \"6: a\", \"color\": {\"background\": \"rgba(256, 181, 97, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 7, \"label\": \"t\", \"title\": \"7: t\", \"color\": {\"background\": \"rgba(128, 256, 181, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 8, \"label\": \"c\", \"title\": \"8: c\", \"color\": {\"background\": \"rgba(0, 181, 236, 1)\"}, \"font\": {\"color\": \"white\"}}, {\"id\": 9, \"label\": \"h\", \"title\": \"9: h\", \"color\": {\"background\": \"rgba(128, 0, 256, 1)\"}, \"font\": {\"color\": \"white\"}}];\n",
+       "var edges = [{\"from\": 0, \"to\": 1, \"title\": \"0: (S, t)\", \"label\": \"\"}, {\"from\": 1, \"to\": 2, \"title\": \"1: (t, o)\", \"label\": \"\"}, {\"from\": 1, \"to\": 6, \"title\": \"2: (t, a)\", \"label\": \"\"}, {\"from\": 2, \"to\": 3, \"title\": \"3: (o, c)\", \"label\": \"\"}, {\"from\": 2, \"to\": 6, \"title\": \"4: (o, a)\", \"label\": \"\"}, {\"from\": 3, \"to\": 4, \"title\": \"5: (c, h)\", \"label\": \"\"}, {\"from\": 3, \"to\": 7, \"title\": \"6: (c, t)\", \"label\": \"\"}, {\"from\": 3, \"to\": 8, \"title\": \"7: (c, c)\", \"label\": \"\"}, {\"from\": 5, \"to\": 6, \"title\": \"8: (M, a)\", \"label\": \"\"}, {\"from\": 6, \"to\": 7, \"title\": \"9: (a, t)\", \"label\": \"\"}, {\"from\": 7, \"to\": 8, \"title\": \"10: (t, c)\", \"label\": \"\"}, {\"from\": 8, \"to\": 9, \"title\": \"11: (c, h)\", \"label\": \"\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"1000px\", \"height\": \"600px\", \"nodes\": {\"font\": {\"size\": 80}}};\n",
+       "var container = document.getElementById('d7df945a-84fe-4be0-bb66-49b96208a722');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.on(\"afterDrawing\", function (ctx) {\n",
+       "    var dataURL = ctx.canvas.toDataURL();\n",
+       "    document.getElementById('canvasImg').src = dataURL;\n",
+       "  });\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "adja = concatenate_adjacency([path_adjacency(5), path_adjacency(5)], 0)\n",
+    "for i, j in [(1, 6), (2, 6), (3, 7), (3, 8)]:\n",
+    "    adja[i, j] = 1\n",
+    "    adja[j, i] = 1\n",
+    "g = sm.SimpleGraph(adja, names = [c for c in \"StochMatch\"])\n",
+    "nodes_dict1 = [{'color': {'background': random_color(5, i)}, 'font': {'color': 'black'}} for i in range(5)]\n",
+    "nodes_dict2 = [{'color': {'background': random_color(5, 4-i)}, 'font': {'color': 'white'}} for i in range(5)]\n",
+    "edges_dict=[{'label': ''} for _ in range(g.m)]\n",
+    "options = {'width': '1000px', 'nodes': {'font': {'size': 80}}}\n",
+    "g.show(nodes_dict=nodes_dict1+nodes_dict2, edges_dict = edges_dict, options=options, png=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Hypergraphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Hypergraph egdes can link an arbitrary number of nodes (nor necessarily 2). They belong to the `HyperGraph` class, which mainly differ from `SimpleGraph` by the absence of adjacency matrix (only the incidence matrix is used) and a different way of been displayed."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Simple graphs as hypergraphs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "All simple graphs are hypergraphs and they possess a conversion method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.679523Z",
+     "start_time": "2022-01-14T14:58:28.666226Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"01beaa4f-8dc1-4cb1-9e0c-827bacf15fec\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 4, \"title\": \"0: (0, 1)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 5, \"title\": \"1: (0, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 6, \"title\": \"2: (1, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 7, \"title\": \"3: (2, 3)\", \"group\": \"HyperEdge\", \"x\": 480}];\n",
+       "var edges = [{\"from\": 0, \"to\": 4, \"title\": \"0 <-> 0: (0, 1)\"}, {\"from\": 0, \"to\": 5, \"title\": \"0 <-> 1: (0, 2)\"}, {\"from\": 1, \"to\": 4, \"title\": \"1 <-> 0: (0, 1)\"}, {\"from\": 1, \"to\": 6, \"title\": \"1 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 5, \"title\": \"2 <-> 1: (0, 2)\"}, {\"from\": 2, \"to\": 6, \"title\": \"2 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 7, \"title\": \"2 <-> 3: (2, 3)\"}, {\"from\": 3, \"to\": 7, \"title\": \"3 <-> 3: (2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\", \"groups\": {\"HyperEdge\": {\"fixed\": {\"x\": false}, \"color\": {\"background\": \"black\"}, \"shape\": \"dot\", \"size\": 5}, \"Node\": {\"fixed\": {\"x\": false}}}, \"bipartite_display\": false};\n",
+       "var container = document.getElementById('01beaa4f-8dc1-4cb1-9e0c-827bacf15fec');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "hpaw = sm.tadpole_graph().to_hypergraph()\n",
+    "hpaw.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note the new convention: edges are represented by small black nodes, and the edges displayed alway link one single node to one edge. Also note that it is possible to make the bipartite structure between nodes and edges more apparent by passing the following option:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.694607Z",
+     "start_time": "2022-01-14T14:58:28.682411Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"edfb2cd4-5124-4a67-86a2-201dd3ce7e1b\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 4, \"title\": \"0: (0, 1)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 5, \"title\": \"1: (0, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 6, \"title\": \"2: (1, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 7, \"title\": \"3: (2, 3)\", \"group\": \"HyperEdge\", \"x\": 480}];\n",
+       "var edges = [{\"from\": 0, \"to\": 4, \"title\": \"0 <-> 0: (0, 1)\"}, {\"from\": 0, \"to\": 5, \"title\": \"0 <-> 1: (0, 2)\"}, {\"from\": 1, \"to\": 4, \"title\": \"1 <-> 0: (0, 1)\"}, {\"from\": 1, \"to\": 6, \"title\": \"1 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 5, \"title\": \"2 <-> 1: (0, 2)\"}, {\"from\": 2, \"to\": 6, \"title\": \"2 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 7, \"title\": \"2 <-> 3: (2, 3)\"}, {\"from\": 3, \"to\": 7, \"title\": \"3 <-> 3: (2, 3)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\", \"groups\": {\"HyperEdge\": {\"fixed\": {\"x\": true}, \"color\": {\"background\": \"black\"}, \"shape\": \"dot\", \"size\": 5}, \"Node\": {\"fixed\": {\"x\": true}}}, \"bipartite_display\": true};\n",
+       "var container = document.getElementById('edfb2cd4-5124-4a67-86a2-201dd3ce7e1b');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "hpaw.show(options={'bipartite_display': True})"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Hyper paddle"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Hyper paddles are like regular kayak paddles except that the *center* is made of 3-edges. For example, the *candy* graph, which is an important example when considering stability."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.709873Z",
+     "start_time": "2022-01-14T14:58:28.697670Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"d4869fd9-cd42-4d43-893f-771735064251\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 7, \"title\": \"0: (0, 1)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 8, \"title\": \"1: (0, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 9, \"title\": \"2: (1, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 10, \"title\": \"3: (4, 5)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 11, \"title\": \"4: (4, 6)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 12, \"title\": \"5: (5, 6)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 13, \"title\": \"6: (2, 3, 4)\", \"group\": \"HyperEdge\", \"x\": 480}];\n",
+       "var edges = [{\"from\": 0, \"to\": 7, \"title\": \"0 <-> 0: (0, 1)\"}, {\"from\": 0, \"to\": 8, \"title\": \"0 <-> 1: (0, 2)\"}, {\"from\": 1, \"to\": 7, \"title\": \"1 <-> 0: (0, 1)\"}, {\"from\": 1, \"to\": 9, \"title\": \"1 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 8, \"title\": \"2 <-> 1: (0, 2)\"}, {\"from\": 2, \"to\": 9, \"title\": \"2 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 13, \"title\": \"2 <-> 6: (2, 3, 4)\"}, {\"from\": 3, \"to\": 13, \"title\": \"3 <-> 6: (2, 3, 4)\"}, {\"from\": 4, \"to\": 10, \"title\": \"4 <-> 3: (4, 5)\"}, {\"from\": 4, \"to\": 11, \"title\": \"4 <-> 4: (4, 6)\"}, {\"from\": 4, \"to\": 13, \"title\": \"4 <-> 6: (2, 3, 4)\"}, {\"from\": 5, \"to\": 10, \"title\": \"5 <-> 3: (4, 5)\"}, {\"from\": 5, \"to\": 12, \"title\": \"5 <-> 5: (5, 6)\"}, {\"from\": 6, \"to\": 11, \"title\": \"6 <-> 4: (4, 6)\"}, {\"from\": 6, \"to\": 12, \"title\": \"6 <-> 5: (5, 6)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\", \"groups\": {\"HyperEdge\": {\"fixed\": {\"x\": false}, \"color\": {\"background\": \"black\"}, \"shape\": \"dot\", \"size\": 5}, \"Node\": {\"fixed\": {\"x\": false}}}, \"bipartite_display\": false};\n",
+       "var container = document.getElementById('d4869fd9-cd42-4d43-893f-771735064251');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "candy = sm.hyper_paddle()\n",
+    "candy.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A larger version."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.725812Z",
+     "start_time": "2022-01-14T14:58:28.712649Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"b5d9c718-814a-4d6d-9e57-9c78ac385fe6\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 9, \"label\": \"9\", \"title\": \"9\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 10, \"title\": \"0: (0, 1)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 11, \"title\": \"1: (0, 3)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 12, \"title\": \"2: (1, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 13, \"title\": \"3: (2, 3)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 14, \"title\": \"4: (7, 8)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 15, \"title\": \"5: (7, 9)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 16, \"title\": \"6: (8, 9)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 17, \"title\": \"7: (3, 4, 5)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 18, \"title\": \"8: (4, 5, 6)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 19, \"title\": \"9: (5, 6, 7)\", \"group\": \"HyperEdge\", \"x\": 480}];\n",
+       "var edges = [{\"from\": 0, \"to\": 10, \"title\": \"0 <-> 0: (0, 1)\"}, {\"from\": 0, \"to\": 11, \"title\": \"0 <-> 1: (0, 3)\"}, {\"from\": 1, \"to\": 10, \"title\": \"1 <-> 0: (0, 1)\"}, {\"from\": 1, \"to\": 12, \"title\": \"1 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 12, \"title\": \"2 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 13, \"title\": \"2 <-> 3: (2, 3)\"}, {\"from\": 3, \"to\": 11, \"title\": \"3 <-> 1: (0, 3)\"}, {\"from\": 3, \"to\": 13, \"title\": \"3 <-> 3: (2, 3)\"}, {\"from\": 3, \"to\": 17, \"title\": \"3 <-> 7: (3, 4, 5)\"}, {\"from\": 4, \"to\": 17, \"title\": \"4 <-> 7: (3, 4, 5)\"}, {\"from\": 4, \"to\": 18, \"title\": \"4 <-> 8: (4, 5, 6)\"}, {\"from\": 5, \"to\": 17, \"title\": \"5 <-> 7: (3, 4, 5)\"}, {\"from\": 5, \"to\": 18, \"title\": \"5 <-> 8: (4, 5, 6)\"}, {\"from\": 5, \"to\": 19, \"title\": \"5 <-> 9: (5, 6, 7)\"}, {\"from\": 6, \"to\": 18, \"title\": \"6 <-> 8: (4, 5, 6)\"}, {\"from\": 6, \"to\": 19, \"title\": \"6 <-> 9: (5, 6, 7)\"}, {\"from\": 7, \"to\": 14, \"title\": \"7 <-> 4: (7, 8)\"}, {\"from\": 7, \"to\": 15, \"title\": \"7 <-> 5: (7, 9)\"}, {\"from\": 7, \"to\": 19, \"title\": \"7 <-> 9: (5, 6, 7)\"}, {\"from\": 8, \"to\": 14, \"title\": \"8 <-> 4: (7, 8)\"}, {\"from\": 8, \"to\": 16, \"title\": \"8 <-> 6: (8, 9)\"}, {\"from\": 9, \"to\": 15, \"title\": \"9 <-> 5: (7, 9)\"}, {\"from\": 9, \"to\": 16, \"title\": \"9 <-> 6: (8, 9)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\", \"groups\": {\"HyperEdge\": {\"fixed\": {\"x\": false}, \"color\": {\"background\": \"black\"}, \"shape\": \"dot\", \"size\": 5}, \"Node\": {\"fixed\": {\"x\": false}}}, \"bipartite_display\": false};\n",
+       "var container = document.getElementById('b5d9c718-814a-4d6d-9e57-9c78ac385fe6');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "poodle = sm.hyper_paddle(left_cycle=4, hyperedges=3)\n",
+    "poodle.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Fans"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A fan is a certain number of cycles hyperconnected. They are useful to show simple examples of hypergraphs with non-trivial kernels, possibly degenerated. The simplest is the clover."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.740889Z",
+     "start_time": "2022-01-14T14:58:28.730198Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"4a67a529-0d50-4fc1-be9e-35164d788686\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 9, \"title\": \"0: (0, 1)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 10, \"title\": \"1: (0, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 11, \"title\": \"2: (1, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 12, \"title\": \"3: (3, 4)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 13, \"title\": \"4: (3, 5)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 14, \"title\": \"5: (4, 5)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 15, \"title\": \"6: (6, 7)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 16, \"title\": \"7: (6, 8)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 17, \"title\": \"8: (7, 8)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 18, \"title\": \"9: (0, 3, 6)\", \"group\": \"HyperEdge\", \"x\": 480}];\n",
+       "var edges = [{\"from\": 0, \"to\": 9, \"title\": \"0 <-> 0: (0, 1)\"}, {\"from\": 0, \"to\": 10, \"title\": \"0 <-> 1: (0, 2)\"}, {\"from\": 0, \"to\": 18, \"title\": \"0 <-> 9: (0, 3, 6)\"}, {\"from\": 1, \"to\": 9, \"title\": \"1 <-> 0: (0, 1)\"}, {\"from\": 1, \"to\": 11, \"title\": \"1 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 10, \"title\": \"2 <-> 1: (0, 2)\"}, {\"from\": 2, \"to\": 11, \"title\": \"2 <-> 2: (1, 2)\"}, {\"from\": 3, \"to\": 12, \"title\": \"3 <-> 3: (3, 4)\"}, {\"from\": 3, \"to\": 13, \"title\": \"3 <-> 4: (3, 5)\"}, {\"from\": 3, \"to\": 18, \"title\": \"3 <-> 9: (0, 3, 6)\"}, {\"from\": 4, \"to\": 12, \"title\": \"4 <-> 3: (3, 4)\"}, {\"from\": 4, \"to\": 14, \"title\": \"4 <-> 5: (4, 5)\"}, {\"from\": 5, \"to\": 13, \"title\": \"5 <-> 4: (3, 5)\"}, {\"from\": 5, \"to\": 14, \"title\": \"5 <-> 5: (4, 5)\"}, {\"from\": 6, \"to\": 15, \"title\": \"6 <-> 6: (6, 7)\"}, {\"from\": 6, \"to\": 16, \"title\": \"6 <-> 7: (6, 8)\"}, {\"from\": 6, \"to\": 18, \"title\": \"6 <-> 9: (0, 3, 6)\"}, {\"from\": 7, \"to\": 15, \"title\": \"7 <-> 6: (6, 7)\"}, {\"from\": 7, \"to\": 17, \"title\": \"7 <-> 8: (7, 8)\"}, {\"from\": 8, \"to\": 16, \"title\": \"8 <-> 7: (6, 8)\"}, {\"from\": 8, \"to\": 17, \"title\": \"8 <-> 8: (7, 8)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\", \"groups\": {\"HyperEdge\": {\"fixed\": {\"x\": false}, \"color\": {\"background\": \"black\"}, \"shape\": \"dot\", \"size\": 5}, \"Node\": {\"fixed\": {\"x\": false}}}, \"bipartite_display\": false};\n",
+       "var container = document.getElementById('4a67a529-0d50-4fc1-be9e-35164d788686');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.fan().show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next one is a highly degenerated example (as shown in another notebook)!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2022-01-14T14:58:28.756295Z",
+     "start_time": "2022-01-14T14:58:28.743289Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div id=\"2077067c-81ec-429d-82a6-034562196267\"></div>\n",
+       "<script>\n",
+       "require.config({\n",
+       "    paths: {\n",
+       "        vis: 'http://unpkg.com/vis-network/standalone/umd/vis-network.min'\n",
+       "    }\n",
+       "});\n",
+       "require(['vis'], function(vis){\n",
+       "var nodes = [{\"id\": 0, \"label\": \"0\", \"title\": \"0\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 6, \"label\": \"6\", \"title\": \"6\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 7, \"label\": \"7\", \"title\": \"7\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 8, \"label\": \"8\", \"title\": \"8\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 9, \"label\": \"9\", \"title\": \"9\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 10, \"label\": \"10\", \"title\": \"10\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 11, \"label\": \"11\", \"title\": \"11\", \"x\": 0, \"group\": \"Node\"}, {\"id\": 12, \"title\": \"0: (0, 1)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 13, \"title\": \"1: (0, 3)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 14, \"title\": \"2: (1, 2)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 15, \"title\": \"3: (2, 3)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 16, \"title\": \"4: (4, 5)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 17, \"title\": \"5: (4, 7)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 18, \"title\": \"6: (5, 6)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 19, \"title\": \"7: (6, 7)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 20, \"title\": \"8: (8, 9)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 21, \"title\": \"9: (8, 11)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 22, \"title\": \"10: (9, 10)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 23, \"title\": \"11: (10, 11)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 24, \"title\": \"12: (0, 4, 8)\", \"group\": \"HyperEdge\", \"x\": 480}, {\"id\": 25, \"title\": \"13: (1, 5, 9)\", \"group\": \"HyperEdge\", \"x\": 480}];\n",
+       "var edges = [{\"from\": 0, \"to\": 12, \"title\": \"0 <-> 0: (0, 1)\"}, {\"from\": 0, \"to\": 13, \"title\": \"0 <-> 1: (0, 3)\"}, {\"from\": 0, \"to\": 24, \"title\": \"0 <-> 12: (0, 4, 8)\"}, {\"from\": 1, \"to\": 12, \"title\": \"1 <-> 0: (0, 1)\"}, {\"from\": 1, \"to\": 14, \"title\": \"1 <-> 2: (1, 2)\"}, {\"from\": 1, \"to\": 25, \"title\": \"1 <-> 13: (1, 5, 9)\"}, {\"from\": 2, \"to\": 14, \"title\": \"2 <-> 2: (1, 2)\"}, {\"from\": 2, \"to\": 15, \"title\": \"2 <-> 3: (2, 3)\"}, {\"from\": 3, \"to\": 13, \"title\": \"3 <-> 1: (0, 3)\"}, {\"from\": 3, \"to\": 15, \"title\": \"3 <-> 3: (2, 3)\"}, {\"from\": 4, \"to\": 16, \"title\": \"4 <-> 4: (4, 5)\"}, {\"from\": 4, \"to\": 17, \"title\": \"4 <-> 5: (4, 7)\"}, {\"from\": 4, \"to\": 24, \"title\": \"4 <-> 12: (0, 4, 8)\"}, {\"from\": 5, \"to\": 16, \"title\": \"5 <-> 4: (4, 5)\"}, {\"from\": 5, \"to\": 18, \"title\": \"5 <-> 6: (5, 6)\"}, {\"from\": 5, \"to\": 25, \"title\": \"5 <-> 13: (1, 5, 9)\"}, {\"from\": 6, \"to\": 18, \"title\": \"6 <-> 6: (5, 6)\"}, {\"from\": 6, \"to\": 19, \"title\": \"6 <-> 7: (6, 7)\"}, {\"from\": 7, \"to\": 17, \"title\": \"7 <-> 5: (4, 7)\"}, {\"from\": 7, \"to\": 19, \"title\": \"7 <-> 7: (6, 7)\"}, {\"from\": 8, \"to\": 20, \"title\": \"8 <-> 8: (8, 9)\"}, {\"from\": 8, \"to\": 21, \"title\": \"8 <-> 9: (8, 11)\"}, {\"from\": 8, \"to\": 24, \"title\": \"8 <-> 12: (0, 4, 8)\"}, {\"from\": 9, \"to\": 20, \"title\": \"9 <-> 8: (8, 9)\"}, {\"from\": 9, \"to\": 22, \"title\": \"9 <-> 10: (9, 10)\"}, {\"from\": 9, \"to\": 25, \"title\": \"9 <-> 13: (1, 5, 9)\"}, {\"from\": 10, \"to\": 22, \"title\": \"10 <-> 10: (9, 10)\"}, {\"from\": 10, \"to\": 23, \"title\": \"10 <-> 11: (10, 11)\"}, {\"from\": 11, \"to\": 21, \"title\": \"11 <-> 9: (8, 11)\"}, {\"from\": 11, \"to\": 23, \"title\": \"11 <-> 11: (10, 11)\"}];\n",
+       "var data= {\n",
+       "    nodes: nodes,\n",
+       "    edges: edges,\n",
+       "};\n",
+       "var options = {\"interaction\": {\"navigationButtons\": true}, \"width\": \"600px\", \"height\": \"600px\", \"groups\": {\"HyperEdge\": {\"fixed\": {\"x\": false}, \"color\": {\"background\": \"black\"}, \"shape\": \"dot\", \"size\": 5}, \"Node\": {\"fixed\": {\"x\": false}}}, \"bipartite_display\": false};\n",
+       "var container = document.getElementById('2077067c-81ec-429d-82a6-034562196267');\n",
+       "var network = new vis.Network(container, data, options);\n",
+       "network.fit({\n",
+       "  maxZoomLevel: 1000});\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sm.fan(cycle_size=4, hyperedges=2).show()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.7"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": true,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
