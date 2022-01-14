@@ -6,4 +6,6 @@ __version__ = '0.1.0'
 
 from stochastic_matching.stochastic_matching import MQ
 from stochastic_matching.graphs.classes import SimpleGraph, HyperGraph
-from stochastic_matching.graphs.generators import tadpole_graph, bicycle_graph, kayak_paddle_graph, triangle_chain, fan, hyper_paddle
+from stochastic_matching.graphs.generators import tadpole_graph, bicycle_graph, kayak_paddle_graph, \
+    triangle_chain, fan, hyper_paddle, path_graph, cycle_graph, complete_graph, lollipop_graph, barbell_graph, \
+    chained_cycle_graph, concatenate

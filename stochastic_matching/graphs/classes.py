@@ -233,6 +233,8 @@ class GenericGraph:
         if incidence is None:
             self.__incidence = None
         else:
+            if type(incidence) == list:
+                incidence = np.array(incidence)
             self.n, self.m = incidence.shape
             self.__incidence = csr_matrix(incidence)
             self.co_incidence = csc_matrix(incidence)
@@ -432,7 +434,7 @@ class SimpleGraph(GenericGraph):
     ----------
     incidence: :class:`~numpy.ndarray`
         Incidence matrix
-    adjacency: :class:`~numpy.ndarray`, optional
+    adjacency: :class:`~numpy.ndarray`-like, optional
         Adjacency matrix. Can be used instead of incidence (setting it automatically adjusts the other attributes).
 
     Attributes
@@ -447,6 +449,42 @@ class SimpleGraph(GenericGraph):
         :class:`~scipy.sparse.csc_matrix` view of the incidence matrix.
     names: :class:`list` of :class:`str` or 'alpha', optional
         List of node names (e.g. for display)
+
+
+    Examples
+    ---------
+
+    Building diamond graph from its adjacency matrix, checking the number of nodes, edges, and inner adjacency matrix.
+
+    >>> diamond_adjacency = [[0, 1, 1, 0],
+    ...       [1, 0, 1, 1],
+    ...       [1, 1, 0, 1],
+    ...       [0, 1, 1, 0]]
+    >>> diamond = SimpleGraph(diamond_adjacency)
+    >>> diamond.n, diamond.m
+    (4, 5)
+    >>> diamond.adjacency
+    array([[0, 1, 1, 0],
+           [1, 0, 1, 1],
+           [1, 1, 0, 1],
+           [0, 1, 1, 0]])
+
+    The incidence matrix is as follows:
+
+    >>> incidence = diamond.incidence.toarray().tolist()
+    >>> incidence
+    [[1, 1, 0, 0, 0], [1, 0, 1, 1, 0], [0, 1, 1, 0, 1], [0, 0, 0, 1, 1]]
+
+    As a sanity check, we can build the diamond from the incidence matrix and verify all is the same.
+
+    >>> diamond = SimpleGraph(incidence=incidence)
+    >>> diamond.n, diamond.m
+    (4, 5)
+    >>> diamond.adjacency
+    array([[0, 1, 1, 0],
+           [1, 0, 1, 1],
+           [1, 1, 0, 1],
+           [0, 1, 1, 0]])
     """
     def __init__(self, adjacency=None, incidence=None, names=None):
         super().__init__(incidence=incidence, names=names)
@@ -454,13 +492,16 @@ class SimpleGraph(GenericGraph):
 
     @property
     def adjacency(self):
+        if self.__adjacency is None and self.incidence is not None:
+            self.__adjacency = incidence_to_adjacency(self.incidence)
         return self.__adjacency
 
     @adjacency.setter
     def adjacency(self, adjacency):
-        self.__adjacency = adjacency
         if adjacency is not None:
+            adjacency = np.array(adjacency)
             self.incidence = adjacency_to_incidence(adjacency)
+        self.__adjacency = adjacency
 
     def to_hypergraph(self):
         """

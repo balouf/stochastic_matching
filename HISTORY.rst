@@ -7,6 +7,7 @@ History
 -----------------------------------
 
 * We have a logo!
+* Graph tutorial pimped and added.
 
 ---------------------------------
 0.1.0 (2022-01-13): First release

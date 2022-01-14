@@ -40,11 +40,11 @@ Features
 
 * Compatibility graph creation (from scratch, from one of the provided generator, or by some combination).
 * Theoretical analysis:
-  * Injectivity/surjectivity of the graph, kernel description.
-  * Polytope description of positive solutions.
+    * Injectivity/surjectivity of the graph, kernel description.
+    * Polytope description of positive solutions.
 * Fast simulator.
-  * Provided with a large set of greedy / non-greedy policies.
-  * Adding new policies is feasible out-of-the-box.
+    * Provided with a large set of greedy / non-greedy policies.
+    * Adding new policies is feasible out-of-the-box.
 * Lot of display features, including `Vis JS Network`_.
 
 ---------------------------
