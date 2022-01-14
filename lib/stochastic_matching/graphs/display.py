@@ -47,6 +47,36 @@ network.fit({
 """
 """Default template."""
 
+PNG_TEMPLATE = """
+<div id="%(name)s"></div>
+<img id="canvasImg" alt="Right click to save me!">
+<script>
+require.config({
+    paths: {
+        vis: '%(vis)s'
+    }
+});
+require(['vis'], function(vis){
+var nodes = %(nodes)s;
+var edges = %(edges)s;
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = %(options)s;
+var container = document.getElementById('%(name)s');
+var network = new vis.Network(container, data, options);
+network.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('canvasImg').src = dataURL;
+  });
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script>
+"""
+"""Alternate template with a mirror PNG that ca be saved."""
+
 
 def vis_code(nodes=None, edges=None, options=None, template=None,
              vis=None, div_name=None):

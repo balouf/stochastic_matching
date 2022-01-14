@@ -27,7 +27,7 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../../_static/sm_logo.png" class="logo" alt="Logo"/>
+            <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.1.0
@@ -80,7 +80,7 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span> <span class="n">csc_matrix</span>
 
-<span class="kn">from</span> <span class="nn">stochastic_matching.graphs.display</span> <span class="kn">import</span> <span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="n">vis_show</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.graphs.display</span> <span class="kn">import</span> <span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="n">vis_show</span><span class="p">,</span> <span class="n">PNG_TEMPLATE</span>
 
 
 <div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
@@ -325,7 +325,7 @@
     <span class="k">def</span> <span class="nf">vis_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">,</span> <span class="n">edges_dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="GenericGraph.show"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GenericGraph.show"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">png</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Shows the simple graph.</span>
 
@@ -337,6 +337,8 @@
 <span class="sd">            Additional / overriding attributes for the nodes.</span>
 <span class="sd">        edges_dict: :class:`list` of :class:`dict`</span>
 <span class="sd">            Additional / overriding attributes for the edges.</span>
+<span class="sd">        png: :class:`bool`</span>
+<span class="sd">            Make a mirror PNG that can be saved.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -348,10 +350,14 @@
 <span class="sd">        &gt;&gt;&gt; tadpole_graph().show()</span>
 <span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">png</span><span class="p">:</span>
+            <span class="n">template</span><span class="o">=</span><span class="n">PNG_TEMPLATE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">template</span><span class="o">=</span><span class="kc">None</span>
         <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_inputs</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
                                                             <span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_dict</span><span class="p">,</span>
                                                             <span class="n">edges_dict</span><span class="o">=</span><span class="n">edges_dict</span><span class="p">)</span>
-        <span class="n">vis_show</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span><span class="p">)</span></div></div>
+        <span class="n">vis_show</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="HyperGraph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph">[docs]</a><span class="k">class</span> <span class="nc">HyperGraph</span><span class="p">(</span><span class="n">GenericGraph</span><span class="p">):</span>
