@@ -2,6 +2,12 @@
 History
 =======
 
+-----------------------------------
+0.2.0 (2022-01-13): Analysis update
+-----------------------------------
+
+* We have a logo!
+
 ---------------------------------
 0.1.0 (2022-01-13): First release
 ---------------------------------
@@ -9,9 +15,9 @@ History
 * First release on PyPI.
 * Refactoring: the package name for the public release is *Stochastic Matching*.
 * The graph submodule has been revamped a bit:
-  * Obtaining graphs by concatenation of other graphs is now more systematic and optimized.
-  * Names of generators have been changes to comply with *offical* terminology from Wolfram.
-  * A few more generators have been added (e.g. complete, lollipop, barbell).
+    * Obtaining graphs by concatenation of other graphs is now more systematic and optimized.
+    * Names of generators have been changes to comply with *offical* terminology from Wolfram.
+    * A few more generators have been added (e.g. complete, lollipop, barbell).
 * Current compatibility: 3.6 -> 3.9
 
 
