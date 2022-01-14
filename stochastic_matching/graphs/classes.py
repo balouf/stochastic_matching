@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.sparse import csr_matrix, csc_matrix
 
-from stochastic_matching.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_show
+from stochastic_matching.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_show, PNG_TEMPLATE
 
 
 def neighbors(i, compressed_incidence):
@@ -246,7 +246,7 @@ class GenericGraph:
     def vis_inputs(self, options, nodes_dict, edges_dict):
         raise NotImplementedError
 
-    def show(self, options=None, nodes_dict=None, edges_dict=None):
+    def show(self, options=None, nodes_dict=None, edges_dict=None, png=False):
         """
         Shows the simple graph.
 
@@ -258,6 +258,8 @@ class GenericGraph:
             Additional / overriding attributes for the nodes.
         edges_dict: :class:`list` of :class:`dict`
             Additional / overriding attributes for the edges.
+        png: :class:`bool`
+            Make a mirror PNG that can be saved.
 
         Returns
         -------
@@ -269,10 +271,14 @@ class GenericGraph:
         >>> tadpole_graph().show()
         <IPython.core.display.HTML object>
         """
+        if png:
+            template=PNG_TEMPLATE
+        else:
+            template=None
         vis_nodes, vis_edges, vis_options = self.vis_inputs(options=options,
                                                             nodes_dict=nodes_dict,
                                                             edges_dict=edges_dict)
-        vis_show(vis_nodes, vis_edges, vis_options)
+        vis_show(vis_nodes, vis_edges, vis_options, template=template)
 
 
 class HyperGraph(GenericGraph):

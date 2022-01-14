@@ -58,7 +58,7 @@ source_suffix = '.rst'
 html_favicon = 'favicon.ico'
 
 # Logo
-html_logo = "sm_logo.png"
+html_logo = "sm_logo_short.png"
 
 # The master toctree document.
 master_doc = 'index'
