@@ -5,6 +5,6 @@ Reference
 .. toctree::
 
    graphs
-   spectral
+   analysis
    simulator
    mq

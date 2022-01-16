@@ -159,6 +159,65 @@
     <span class="k">return</span> <span class="n">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">path_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
 
 
+
+<div class="viewcode-block" id="star_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.star_adjacency">[docs]</a><span class="k">def</span> <span class="nf">star_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a star graph :math:`S_n` (https://mathworld.wolfram.com/StarGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">adja</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="star_graph"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.star_graph">[docs]</a><span class="k">def</span> <span class="nf">star_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
+<span class="sd">        List of node names (e.g. for display)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.graphs.classes.SimpleGraph`</span>
+<span class="sd">        A star graph :math:`S_n` (cf https://mathworld.wolfram.com/StarGraph.html).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Default is a two nodes line:</span>
+
+<span class="sd">    &gt;&gt;&gt; s4 = star_graph()</span>
+<span class="sd">    &gt;&gt;&gt; s4.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0]])</span>
+
+<span class="sd">    A five nodes star:</span>
+
+<span class="sd">    &gt;&gt;&gt; s5 = star_graph(5)</span>
+<span class="sd">    &gt;&gt;&gt; s5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">adja_maker_to_simple_graph</span><span class="p">(</span><span class="n">star_adjacency</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="cycle_adjacency"><a class="viewcode-back" href="../../../reference/graphs.html#stochastic_matching.graphs.generators.cycle_adjacency">[docs]</a><span class="k">def</span> <span class="nf">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
