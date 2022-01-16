@@ -1,5 +1,5 @@
 import numpy as np
-from stochastic_matching.spectral import Spectral
+from stochastic_matching.analysis import Spectral
 from stochastic_matching.simulator.classes import Simulator, get_simulator_classes
 from inspect import isclass
 

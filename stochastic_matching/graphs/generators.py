@@ -80,6 +80,65 @@ def path_graph(n=2, names=None):
     return adja_maker_to_simple_graph(path_adjacency, names=names, n=n)
 
 
+
+def star_adjacency(n=4):
+    """
+    Parameters
+    ----------
+    n: :class:`int`
+        Number of nodes.
+
+    Returns
+    -------
+    :class:`~numpy.ndarray`
+        Adjacency matrix of a star graph :math:`S_n` (https://mathworld.wolfram.com/StarGraph.html).
+    """
+    adja = np.zeros([n, n], dtype=int)
+    for i in range(n-1):
+        adja[0, i+1] = 1
+        adja[i+1, 0] = 1
+    return adja
+
+
+def star_graph(n=4, names=None):
+    """
+    Parameters
+    ----------
+    n: :class:`int`
+        Number of nodes.
+    names: :class:`list` of :class:`str` or 'alpha', optional
+        List of node names (e.g. for display)
+
+    Returns
+    -------
+    :class:`~stochastic_matching.graphs.classes.SimpleGraph`
+        A star graph :math:`S_n` (cf https://mathworld.wolfram.com/StarGraph.html).
+
+    Examples
+    --------
+
+    Default is a two nodes line:
+
+    >>> s4 = star_graph()
+    >>> s4.adjacency # doctest: +NORMALIZE_WHITESPACE
+    array([[0, 1, 1, 1],
+           [1, 0, 0, 0],
+           [1, 0, 0, 0],
+           [1, 0, 0, 0]])
+
+    A five nodes star:
+
+    >>> s5 = star_graph(5)
+    >>> s5.adjacency # doctest: +NORMALIZE_WHITESPACE
+    array([[0, 1, 1, 1, 1],
+           [1, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0]])
+    """
+    return adja_maker_to_simple_graph(star_adjacency, names=names, n=n)
+
+
 def cycle_adjacency(n=3):
     """
     Parameters

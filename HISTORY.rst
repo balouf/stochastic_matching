@@ -7,7 +7,10 @@ History
 -----------------------------------
 
 * We have a logo!
+* New generator: graph.
 * Graph tutorial pimped and added.
+* Connected component analysis added.
+* simplified kernel-basis when the graph is simple.
 
 ---------------------------------
 0.1.0 (2022-01-13): First release
