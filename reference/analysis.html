@@ -197,7 +197,7 @@ If <cite>graph</cite> is provided without <cite>mu</cite>, uniform rate is assum
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.GenericGraph" title="stochastic_matching.graphs.classes.GenericGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericGraph</span></code></a>, optional) – Graph to analyze.</p></li>
+<li><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>, optional) – Graph to analyze.</p></li>
 <li><p><strong>mu</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Arrival rates. You can use a specific rate vector or list.
 You can use <cite>uniform</cite> or <cite>proportional</cite> for uniform or degree-proportional allocation.
 Default to <cite>proportional</cite>, which makes the problem stabilizable if the graph is bijective.</p></li>
@@ -586,7 +586,7 @@ of the connected component.</p>
 <p>Right kernel is not trivial because of the even cycle:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">right</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">right</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">right</span> 
 <span class="go">array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])</span>
 </pre></div>
 </div>

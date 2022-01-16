@@ -163,7 +163,7 @@ def incidence_analysis(incidence, tol=1e-10):
 
     >>> right.shape[0]
     1
-    >>> right
+    >>> right # doctest: +SKIP
     array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])
 
     Left kernel is not trivial because of the bipartite degenerescence:
@@ -766,7 +766,7 @@ class Analyzer:
 
         Parameters
         ----------
-        graph: :class:`~stochastic_matching.graphs.classes.GenericGraph`, optional
+        graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`, optional
             Graph to analyze.
         mu: :class:`~numpy.ndarray` or :class:`list` or :class:`str`, optional
             Arrival rates. You can use a specific rate vector or list.
@@ -790,11 +790,11 @@ class Analyzer:
             if mu is None:
                 mu = proportional_rates(graph)
         if mu is not None:
-            if mu == 'uniform':
-                mu = uniform_rate(self.graph)
-            elif mu == 'proportional':
-                mu = proportional_rates(self.graph)
-
+            if isinstance(mu, str):
+                if mu == 'uniform':
+                    mu = uniform_rate(self.graph)
+                else:
+                    mu = proportional_rates(self.graph)
             self.base_flow = self.pseudo_inverse @ mu
             clean_zeros(self.base_flow, tol=self.tol)
 

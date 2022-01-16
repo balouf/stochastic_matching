@@ -242,7 +242,7 @@
 
 <span class="sd">    &gt;&gt;&gt; right.shape[0]</span>
 <span class="sd">    1</span>
-<span class="sd">    &gt;&gt;&gt; right</span>
+<span class="sd">    &gt;&gt;&gt; right # doctest: +SKIP</span>
 <span class="sd">    array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])</span>
 
 <span class="sd">    Left kernel is not trivial because of the bipartite degenerescence:</span>
@@ -845,7 +845,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        graph: :class:`~stochastic_matching.graphs.classes.GenericGraph`, optional</span>
+<span class="sd">        graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`, optional</span>
 <span class="sd">            Graph to analyze.</span>
 <span class="sd">        mu: :class:`~numpy.ndarray` or :class:`list` or :class:`str`, optional</span>
 <span class="sd">            Arrival rates. You can use a specific rate vector or list.</span>
@@ -869,11 +869,11 @@
             <span class="k">if</span> <span class="n">mu</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">mu</span> <span class="o">=</span> <span class="n">proportional_rates</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">mu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">mu</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
-                <span class="n">mu</span> <span class="o">=</span> <span class="n">uniform_rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">mu</span> <span class="o">==</span> <span class="s1">&#39;proportional&#39;</span><span class="p">:</span>
-                <span class="n">mu</span> <span class="o">=</span> <span class="n">proportional_rates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
-
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">mu</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
+                    <span class="n">mu</span> <span class="o">=</span> <span class="n">uniform_rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">mu</span> <span class="o">=</span> <span class="n">proportional_rates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_inverse</span> <span class="o">@</span> <span class="n">mu</span>
             <span class="n">clean_zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">)</span></div>
 
