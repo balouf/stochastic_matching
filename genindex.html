@@ -82,6 +82,7 @@
  <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
@@ -131,6 +132,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.chained_cycle_graph">chained_cycle_graph() (in module stochastic_matching.graphs.generators)</a>
 </li>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.Analyzer.change_kernel_basis">change_kernel_basis() (stochastic_matching.analysis.Analyzer method)</a>
+</li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.classes.CharMaker">CharMaker (class in stochastic_matching.graphs.classes)</a>
 </li>
       <li><a href="reference/analysis.html#stochastic_matching.analysis.clean_zeros">clean_zeros() (in module stochastic_matching.analysis)</a>
@@ -145,10 +148,10 @@
       </ul></li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.complete_adjacency">complete_adjacency() (in module stochastic_matching.graphs.generators)</a>
 </li>
-      <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.complete_graph">complete_graph() (in module stochastic_matching.graphs.generators)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.complete_graph">complete_graph() (in module stochastic_matching.graphs.generators)</a>
+</li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.classes.Simulator.compute_average_queues">compute_average_queues() (stochastic_matching.simulator.classes.Simulator method)</a>
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.classes.Simulator.compute_ccdf">compute_ccdf() (stochastic_matching.simulator.classes.Simulator method)</a>
@@ -157,8 +160,6 @@
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.concatenate_adjacency">concatenate_adjacency() (in module stochastic_matching.graphs.generators)</a>
 </li>
-      <li><a href="reference/analysis.html#stochastic_matching.analysis.connected_components">connected_components() (in module stochastic_matching.analysis)</a>
-</li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.classes.Simulator.core">core (stochastic_matching.simulator.classes.Simulator attribute)</a>
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.common.create_prob_alias">create_prob_alias() (in module stochastic_matching.simulator.common)</a>
@@ -166,6 +167,14 @@
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.cycle_adjacency">cycle_adjacency() (in module stochastic_matching.graphs.generators)</a>
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.cycle_graph">cycle_graph() (in module stochastic_matching.graphs.generators)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.Analyzer.edge_to_kernel">edge_to_kernel() (stochastic_matching.analysis.Analyzer method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -201,13 +210,15 @@
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.classes.GenericGraph">GenericGraph (class in stochastic_matching.graphs.classes)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/mq.html#stochastic_matching.stochastic_matching.MQ.get_simulation_flow">get_simulation_flow() (stochastic_matching.stochastic_matching.MQ method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.classes.get_simulator_classes">get_simulator_classes() (in module stochastic_matching.simulator.classes)</a>
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.common.graph_neighbors_list">graph_neighbors_list() (in module stochastic_matching.simulator.common)</a>
+</li>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.Analyzer.graph_type">graph_type (stochastic_matching.analysis.Analyzer property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -274,6 +285,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.kayak_paddle_graph">kayak_paddle_graph() (in module stochastic_matching.graphs.generators)</a>
+</li>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.Analyzer.kernel_dict">kernel_dict() (stochastic_matching.analysis.Analyzer method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.kernel_inverse">kernel_inverse() (in module stochastic_matching.analysis)</a>
+</li>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.Analyzer.kernel_to_edge">kernel_to_edge() (stochastic_matching.analysis.Analyzer method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -504,14 +523,16 @@
 </li>
       <li><a href="reference/mq.html#stochastic_matching.stochastic_matching.MQ.show_flow">show_flow() (stochastic_matching.stochastic_matching.MQ method)</a>
 </li>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.Analyzer.show_solutions">show_solutions() (stochastic_matching.analysis.Analyzer method)</a>
+</li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.greedy.simple_choicer">simple_choicer() (in module stochastic_matching.simulator.greedy)</a>
 </li>
       <li><a href="reference/analysis.html#stochastic_matching.analysis.simple_left_kernel">simple_left_kernel() (in module stochastic_matching.analysis)</a>
 </li>
-      <li><a href="reference/analysis.html#stochastic_matching.analysis.simple_right_kernel">simple_right_kernel() (in module stochastic_matching.analysis)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.simple_right_kernel">simple_right_kernel() (in module stochastic_matching.analysis)</a>
+</li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.greedy.simple_state_choicer">simple_state_choicer() (in module stochastic_matching.simulator.greedy)</a>
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph">SimpleGraph (class in stochastic_matching.graphs.classes)</a>
@@ -590,11 +611,13 @@
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.classes.SimpleGraph.to_hypergraph">to_hypergraph() (stochastic_matching.graphs.classes.SimpleGraph method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.classes.HyperGraph.to_simplegraph">to_simplegraph() (stochastic_matching.graphs.classes.HyperGraph method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.classes.Simulator.total_waiting_time">total_waiting_time() (stochastic_matching.simulator.classes.Simulator method)</a>
+</li>
+      <li><a href="reference/analysis.html#stochastic_matching.analysis.traversal">traversal() (in module stochastic_matching.analysis)</a>
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.generators.triangle_chain">triangle_chain() (in module stochastic_matching.graphs.generators)</a>
 </li>

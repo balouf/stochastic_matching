@@ -82,7 +82,6 @@
 
 <span class="kn">from</span> <span class="nn">stochastic_matching.graphs.classes</span> <span class="kn">import</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">SimpleGraph</span>
 
-
 <div class="viewcode-block" id="pseudo_inverse_scalar"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.pseudo_inverse_scalar">[docs]</a><span class="k">def</span> <span class="nf">pseudo_inverse_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
@@ -138,7 +137,7 @@
                 <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="s2">&quot;Bijective&quot;</span><span class="p">}</span>
 
 
-<span class="n">status_names_simple_connected</span> <span class="o">=</span> <span class="p">{(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Bipartite with cycle&quot;</span><span class="p">,</span>
+<span class="n">status_names_simple_connected</span> <span class="o">=</span> <span class="p">{(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Bipartite with cycle(s)&quot;</span><span class="p">,</span>
                 <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Tree&quot;</span><span class="p">,</span>
                 <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="s2">&quot;Non-bipartite polycyclic&quot;</span><span class="p">,</span>
                 <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="s2">&quot;Non-bipartite monocyclic&quot;</span><span class="p">}</span>
@@ -264,7 +263,7 @@
 <span class="sd">    As the graph is simple and connected, there a more accurate description of the status:</span>
 
 <span class="sd">    &gt;&gt;&gt; status_names_simple_connected[status]</span>
-<span class="sd">    &#39;Bipartite with cycle&#39;</span>
+<span class="sd">    &#39;Bipartite with cycle(s)&#39;</span>
 
 <span class="sd">    Consider now the diamond graph, surjective (n&lt;m, non bipartite).</span>
 
@@ -466,7 +465,7 @@
     <span class="k">return</span> <span class="n">pseud_inv</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">left_kernel</span><span class="p">,</span> <span class="p">(</span><span class="n">injective</span><span class="p">,</span> <span class="n">surjective</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="connected_components"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.connected_components">[docs]</a><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+<div class="viewcode-block" id="traversal"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.traversal">[docs]</a><span class="k">def</span> <span class="nf">traversal</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Using graph traversal, splits the graph into its connected components as a list of sets of nodes and edges.</span>
 <span class="sd">    If the graph is simple, additional information obtained by the traversal are provided.</span>
@@ -493,10 +492,10 @@
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; sample = sm.concatenate([sm.cycle_graph(4), sm.complete_graph(4), sm.chained_cycle_graph(),</span>
 <span class="sd">    ...          sm.tadpole_graph(), sm.star_graph()], 0 )</span>
-<span class="sd">    &gt;&gt;&gt; connected_components(sample) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; traversal(sample) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    [{&#39;nodes&#39;: {0, 1, 2, 3}, &#39;edges&#39;: {0, 1, 2, 3},</span>
 <span class="sd">    &#39;spanner&#39;: {0, 1, 2}, &#39;pivot&#39;: False, &#39;seeds&#39;: {3},</span>
-<span class="sd">    &#39;type&#39;: &#39;Bipartite with cycle&#39;},</span>
+<span class="sd">    &#39;type&#39;: &#39;Bipartite with cycle(s)&#39;},</span>
 <span class="sd">    {&#39;nodes&#39;: {4, 5, 6, 7}, &#39;edges&#39;: {4, 5, 6, 7, 8, 9},</span>
 <span class="sd">    &#39;spanner&#39;: {4, 5, 6}, &#39;pivot&#39;: 8, &#39;seeds&#39;: {9, 7},</span>
 <span class="sd">    &#39;type&#39;: &#39;Non-bipartite polycyclic&#39;},</span>
@@ -513,7 +512,7 @@
 <span class="sd">    These informations make the analysis worthy even in the cases where the graph is connected.</span>
 
 <span class="sd">    &gt;&gt;&gt; pyramid = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(5), sm.cycle_graph(5), sm.cycle_graph()], 2)</span>
-<span class="sd">    &gt;&gt;&gt; connected_components(pyramid) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; traversal(pyramid) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    [{&#39;nodes&#39;: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},</span>
 <span class="sd">    &#39;edges&#39;: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},</span>
 <span class="sd">    &#39;spanner&#39;: {0, 1, 3, 4, 5, 7, 8, 9, 11},</span>
@@ -522,7 +521,7 @@
 
 <span class="sd">    If the graph is treated as hypergraph, a lot less information is available.</span>
 
-<span class="sd">    &gt;&gt;&gt; connected_components(sample.to_hypergraph()) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; traversal(sample.to_hypergraph()) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    [{&#39;nodes&#39;: {0, 1, 2, 3}, &#39;edges&#39;: {0, 1, 2, 3}},</span>
 <span class="sd">    {&#39;nodes&#39;: {4, 5, 6, 7}, &#39;edges&#39;: {4, 5, 6, 7, 8, 9}},</span>
 <span class="sd">    {&#39;nodes&#39;: {8, 9, 10, 11}, &#39;edges&#39;: {10, 11, 12, 13, 14}},</span>
@@ -532,7 +531,6 @@
     <span class="n">simple</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">==</span> <span class="n">SimpleGraph</span>
     <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">incidence</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">unknown_nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span>
-    <span class="n">unknown_edges</span> <span class="o">=</span> <span class="p">{</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)}</span>
     <span class="k">if</span> <span class="n">simple</span><span class="p">:</span>
         <span class="n">spin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span> <span class="c1"># Simple</span>
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
@@ -547,10 +545,8 @@
             <span class="n">current_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">edges</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">graph</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">unknown_edges</span><span class="p">:</span>
-                    <span class="n">unknown_edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">current_edges</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">graph</span><span class="o">.</span><span class="n">co_incidence</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">unknown_nodes</span><span class="p">:</span>
                         <span class="n">buffer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
@@ -643,6 +639,42 @@
 <span class="sd">           [ 1, -1,  1, -2,  0,  0,  0,  0,  2, -2,  1,  1, -1]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">right</span><span class="p">[:,</span> <span class="n">seeds</span><span class="p">])</span> <span class="o">@</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="kernel_inverse"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.kernel_inverse">[docs]</a><span class="k">def</span> <span class="nf">kernel_inverse</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    kernel: :class:`numpy.ndarray`</span>
+<span class="sd">        Matrix of kernel vectors (not necessarily orthogonal) of shape dXm.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`numpy.ndarray`</span>
+<span class="sd">        The `reverse` matrix dXd that allows to transform inner product with kernel to kernel coordinates.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    When the kernel basis is orthogonal,</span>
+<span class="sd">    it returns the diagonal matrix with the inverse of the squared norm of the vectors.</span>
+<span class="sd">    For example:</span>
+
+<span class="sd">    &gt;&gt;&gt; kernel = np.array([[ 0,  0,  1, -1, -1,  1,  0,  0],</span>
+<span class="sd">    ...       [ 1, -1,  0, -1,  1,  0, -1,  1]])</span>
+<span class="sd">    &gt;&gt;&gt; kinv = kernel_inverse(kernel)</span>
+<span class="sd">    &gt;&gt;&gt; kernel @ (np.array([-1, 3]) @ kernel) @ kinv</span>
+<span class="sd">    array([-1.,  3.])</span>
+
+<span class="sd">    If the kernel basis is not orthogonal, it returns somethings more complex.</span>
+
+<span class="sd">    &gt;&gt;&gt; kernel = np.array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="sd">    ...    [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+<span class="sd">    &gt;&gt;&gt; kinv = kernel_inverse(kernel)</span>
+<span class="sd">    &gt;&gt;&gt; kernel @ (np.array([2, -1]) @ kernel) @ kinv</span>
+<span class="sd">    array([ 2., -1.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">kernel</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="simple_left_kernel"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.simple_left_kernel">[docs]</a><span class="k">def</span> <span class="nf">simple_left_kernel</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
@@ -762,26 +794,47 @@
 <span class="sd">    Is a triangle that checks triangular inequality stable?</span>
 
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching import cycle_graph</span>
-<span class="sd">    &gt;&gt;&gt; problem = Analyzer(cycle_graph(), [3, 4, 5])</span>
+<span class="sd">    &gt;&gt;&gt; problem = Analyzer(cycle_graph(), mu=&#39;uniform&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; problem.is_stable</span>
 <span class="sd">    True</span>
 
+<span class="sd">    &gt;&gt;&gt; problem.graph_type</span>
+<span class="sd">    &#39;Bijective&#39;</span>
+
+<span class="sd">    We can look at the base flow (based on Moore-Penrose inverse).</span>
+
+<span class="sd">    &gt;&gt;&gt; problem.base_flow</span>
+<span class="sd">    array([0.5, 0.5, 0.5])</span>
+
+<span class="sd">    As the graph is bijective, all optimizations will yield the same flow.</span>
+
+<span class="sd">    &gt;&gt;&gt; problem.incompressible_flow()</span>
+<span class="sd">    array([0.5, 0.5, 0.5])</span>
+
+<span class="sd">    &gt;&gt;&gt; problem.optimize_edge(0)</span>
+<span class="sd">    array([0.5, 0.5, 0.5])</span>
+
 <span class="sd">    What if the triangular inequality does not hold?</span>
 
-<span class="sd">    &gt;&gt;&gt; problem.fit(mu=[1, 2, 1])</span>
+<span class="sd">    &gt;&gt;&gt; problem.fit(mu=[1, 3, 1])</span>
 <span class="sd">    &gt;&gt;&gt; problem.is_stable</span>
 <span class="sd">    False</span>
+
+<span class="sd">    We can look at the base flow (based on Moore-Penrose inverse).</span>
+
+<span class="sd">    &gt;&gt;&gt; problem.base_flow</span>
+<span class="sd">    array([ 1.5, -0.5,  1.5])</span>
 
 <span class="sd">    Now a bipartite example.</span>
 
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching import tadpole_graph</span>
 <span class="sd">    &gt;&gt;&gt; problem.fit(graph=tadpole_graph(m=4))</span>
-<span class="sd">    &gt;&gt;&gt; problem.fit(mu=[1, 1, 1, 2, 1])</span>
+<span class="sd">    &gt;&gt;&gt; problem.fit(mu=&#39;proportional&#39;)</span>
 
 <span class="sd">    Notice that we have a perfectly working solution with respect to conservation law.</span>
 
 <span class="sd">    &gt;&gt;&gt; problem.base_flow</span>
-<span class="sd">    array([0.5, 0.5, 0.5, 0.5, 1. ])</span>
+<span class="sd">    array([1., 1., 1., 1., 1.])</span>
 
 <span class="sd">    However, the left kernel is not trivial.</span>
 
@@ -797,32 +850,37 @@
 <span class="sd">    &gt;&gt;&gt; problem.is_stable</span>
 <span class="sd">    False</span>
 
+<span class="sd">    &gt;&gt;&gt; problem.graph_type</span>
+<span class="sd">    &#39;Nonjective&#39;</span>
+
 <span class="sd">    Note that the base flow can be negative even if there is a positive solution.</span>
 
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching import chained_cycle_graph</span>
 <span class="sd">    &gt;&gt;&gt; diamond = chained_cycle_graph()</span>
-<span class="sd">    &gt;&gt;&gt; problem = Analyzer(diamond, [5, 5, 1, 1])</span>
-<span class="sd">    &gt;&gt;&gt; problem.base_flow</span>
-<span class="sd">    array([ 3.5,  1.5,  0. ,  1.5, -0.5])</span>
-<span class="sd">    &gt;&gt;&gt; problem.is_stable</span>
-<span class="sd">    False</span>
-<span class="sd">    &gt;&gt;&gt; problem.maximin_flow()</span>
-<span class="sd">    array([4.34533263, 0.65466737, 0.        , 0.65466737, 0.34533263])</span>
-<span class="sd">    &gt;&gt;&gt; problem.fit(mu=[5, 6, 2, 1])</span>
+<span class="sd">    &gt;&gt;&gt; problem = Analyzer(diamond, [5, 6, 2, 1])</span>
 <span class="sd">    &gt;&gt;&gt; problem.base_flow</span>
 <span class="sd">    array([ 3.5,  1.5,  1. ,  1.5, -0.5])</span>
 <span class="sd">    &gt;&gt;&gt; problem.is_stable</span>
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; np.round(problem.maximin_flow()*10)/10</span>
 <span class="sd">    array([4.5, 0.5, 1. , 0.5, 0.5])</span>
+
+<span class="sd">    &gt;&gt;&gt; problem.incompressible_flow()</span>
+<span class="sd">    array([4., 0., 1., 0., 0.])</span>
+
+<span class="sd">    &gt;&gt;&gt; problem.graph_type</span>
+<span class="sd">    &#39;Surjective-only&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tol</span> <span class="o">=</span> <span class="n">tol</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">simple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">degree</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">left_kernel</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_right_inverse</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_inverse</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span> <span class="o">=</span> <span class="kc">None</span>
@@ -837,6 +895,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maximin_flow</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">positive_solution_exists</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">graph_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :class:`str`: Injectivity/surjectivity of the graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">status_names</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Analyzer.fit"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -857,27 +922,290 @@
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">graph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span>
+            <span class="c1"># self.graph = graph</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">simple</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">==</span> <span class="n">SimpleGraph</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_inverse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">,</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">left_kernel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">incidence_analysis</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">incidence</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span> <span class="o">=</span> <span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">n</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">m</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">degree</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">incidence</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span> <span class="o">=</span> <span class="n">traversal</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">:</span>
                 <span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;seeds&#39;</span><span class="p">]]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span> <span class="o">=</span> <span class="n">simple_right_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">,</span> <span class="n">seeds</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">left_kernel</span> <span class="o">=</span> <span class="n">simple_left_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_kernel</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_right_inverse</span> <span class="o">=</span> <span class="n">kernel_inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">mu</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">mu</span> <span class="o">=</span> <span class="n">proportional_rates</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">degree</span>
         <span class="k">if</span> <span class="n">mu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">mu</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
-                    <span class="n">mu</span> <span class="o">=</span> <span class="n">uniform_rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+                    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">mu</span> <span class="o">=</span> <span class="n">proportional_rates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+                    <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">degree</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_inverse</span> <span class="o">@</span> <span class="n">mu</span>
             <span class="n">clean_zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Analyzer.optimize_edge"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.optimize_edge">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">sign</span><span class="p">):</span>
+<div class="viewcode-block" id="Analyzer.change_kernel_basis"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.change_kernel_basis">[docs]</a>    <span class="k">def</span> <span class="nf">change_kernel_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seeds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change the cycle space using provided seeds to span the basis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        seeds: :class:`list` of :class:`int`</span>
+<span class="sd">            Seed edges (cf https://hal.archives-ouvertes.fr/hal-03502084).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">        &gt;&gt;&gt; codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)</span>
+<span class="sd">        &gt;&gt;&gt; problem = Analyzer(codomino)</span>
+<span class="sd">        &gt;&gt;&gt; problem.right_kernel # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([[ 0,  0,  1, -1, -1,  1,  0,  0],</span>
+<span class="sd">               [ 1, -1,  0, -1,  1,  0, -1,  1]])</span>
+<span class="sd">        &gt;&gt;&gt; problem.change_kernel_basis([0, 4])</span>
+<span class="sd">        &gt;&gt;&gt; problem.right_kernel # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="sd">               [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+
+<span class="sd">        Be careful to choose valid seeds (e.g. the graph with the seeds removed must be injective).</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.change_kernel_basis([0, 1])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        numpy.linalg.LinAlgError: Singular matrix</span>
+
+<span class="sd">        Changing basis is only available for simple graphs.</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.fit(codomino.to_hypergraph())</span>
+<span class="sd">        &gt;&gt;&gt; problem.change_kernel_basis([0, 4])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span> <span class="o">=</span> <span class="n">simple_right_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">,</span> <span class="n">seeds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_right_inverse</span> <span class="o">=</span> <span class="n">kernel_inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Analyzer.edge_to_kernel"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.edge_to_kernel">[docs]</a>    <span class="k">def</span> <span class="nf">edge_to_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        edge: :class:`~numpy.ndarray`</span>
+<span class="sd">            A flow vector in edge coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            The same flow vector in kernel coordinates, based on the current base flow and right kernel.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        Consider the codomino graph with a kernel with a kayak paddle.</span>
+
+<span class="sd">        &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">        &gt;&gt;&gt; codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)</span>
+<span class="sd">        &gt;&gt;&gt; problem = Analyzer(codomino, [3, 12, 3, 3, 12, 3])</span>
+<span class="sd">        &gt;&gt;&gt; problem.change_kernel_basis([0, 4])</span>
+<span class="sd">        &gt;&gt;&gt; problem.right_kernel # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="sd">           [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+
+<span class="sd">        Consider the base flow (Moore-Penrose inverse) and the maximin flow.</span>
+
+<span class="sd">        &gt;&gt;&gt; moore = problem.base_flow</span>
+<span class="sd">        &gt;&gt;&gt; moore</span>
+<span class="sd">        array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+
+<span class="sd">        &gt;&gt;&gt; maxmin = problem.maximin_flow()</span>
+<span class="sd">        &gt;&gt;&gt; maxmin</span>
+<span class="sd">        array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+
+<span class="sd">        As the Moore-Penrose inverse is the base flow, its coordinates are obviously null.</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.edge_to_kernel(moore)</span>
+<span class="sd">        array([0., 0.])</span>
+
+<span class="sd">        As for maximin, one can check that the following kernel coordinates transform Moore-Penrose into it:</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.edge_to_kernel(maxmin)</span>
+<span class="sd">        array([-1.,  1.])</span>
+
+<span class="sd">        If we change the base flow to maximin, we will see the coordinates shifted by (1, -1):</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.base_flow = maxmin</span>
+<span class="sd">        &gt;&gt;&gt; problem.edge_to_kernel(moore)</span>
+<span class="sd">        array([ 1., -1.])</span>
+<span class="sd">        &gt;&gt;&gt; problem.edge_to_kernel(maxmin)</span>
+<span class="sd">        array([0., 0.])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span> <span class="o">@</span> <span class="p">(</span><span class="n">edge</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span><span class="p">))</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_inverse</span>
+        <span class="n">clean_zeros</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Analyzer.kernel_to_edge"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.kernel_to_edge">[docs]</a>    <span class="k">def</span> <span class="nf">kernel_to_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kernel: :class:`~numpy.ndarray`</span>
+<span class="sd">            A flow vector in kernel coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            The same flow vector in edge coordinates, based on the current base flow and right kernel.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        Consider the codomino graph with a kernel with a kayak paddle.</span>
+
+<span class="sd">        &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">        &gt;&gt;&gt; codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)</span>
+<span class="sd">        &gt;&gt;&gt; problem = Analyzer(codomino, [3, 12, 3, 3, 12, 3])</span>
+<span class="sd">        &gt;&gt;&gt; problem.right_kernel # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([[ 0,  0,  1, -1, -1,  1,  0,  0],</span>
+<span class="sd">           [ 1, -1,  0, -1,  1,  0, -1,  1]])</span>
+
+<span class="sd">        Consider the base flow (Moore-Penrose inverse) and the maximin flow.</span>
+
+<span class="sd">        &gt;&gt;&gt; moore = problem.base_flow</span>
+<span class="sd">        &gt;&gt;&gt; moore</span>
+<span class="sd">        array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+
+<span class="sd">        &gt;&gt;&gt; maxmin = problem.maximin_flow()</span>
+<span class="sd">        &gt;&gt;&gt; maxmin</span>
+<span class="sd">        array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+
+<span class="sd">        As the Moore-Penrose inverse is the base flow, it is (0, 0) in kernel coordinates.</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.kernel_to_edge([0, 0])</span>
+<span class="sd">        array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+
+<span class="sd">        As for maximin, (-2, -1) seems to be its kernel coordinates.</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.kernel_to_edge([-2, -1])</span>
+<span class="sd">        array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+
+<span class="sd">        If we change the kernel space, the kernel coordinates change as well.</span>
+
+<span class="sd">        &gt;&gt;&gt; problem.change_kernel_basis([0, 4])</span>
+<span class="sd">        &gt;&gt;&gt; problem.right_kernel # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="sd">           [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+<span class="sd">        &gt;&gt;&gt; problem.kernel_to_edge([0, 0])</span>
+<span class="sd">        array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+<span class="sd">        &gt;&gt;&gt; problem.kernel_to_edge([-1, 1])</span>
+<span class="sd">        array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">kernel</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span>
+        <span class="n">clean_zeros</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Analyzer.kernel_dict"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.kernel_dict">[docs]</a>    <span class="k">def</span> <span class="nf">kernel_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        flow: :class:`~numpy.ndarray` ot :class:`bool`, optional</span>
+<span class="sd">            Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.</span>
+<span class="sd">            If no flow is given, the current base flow is used.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`list` of :class:`dict`</span>
+<span class="sd">            An edge description dictionary to pass to :meth:`~stochastic_matching.graphs.classes.GenericGraph.show`.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">        &gt;&gt;&gt; diamond = sm.chained_cycle_graph()</span>
+<span class="sd">        &gt;&gt;&gt; problem = Analyzer(diamond)</span>
+<span class="sd">        &gt;&gt;&gt; problem.base_flow</span>
+<span class="sd">        array([1., 1., 1., 1., 1.])</span>
+<span class="sd">        &gt;&gt;&gt; problem.kernel_dict()</span>
+<span class="sd">        [{&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}]</span>
+<span class="sd">        &gt;&gt;&gt; problem.kernel_dict(flow=False)</span>
+<span class="sd">        [{&#39;label&#39;: &#39;+α1&#39;}, {&#39;label&#39;: &#39;-α1&#39;}, {&#39;label&#39;: &#39;&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;-α1&#39;}, {&#39;label&#39;: &#39;+α1&#39;}]</span>
+<span class="sd">        &gt;&gt;&gt; min_flow = problem.optimize_edge(0, -1)</span>
+<span class="sd">        &gt;&gt;&gt; min_flow</span>
+<span class="sd">        array([0., 2., 1., 2., 0.])</span>
+<span class="sd">        &gt;&gt;&gt; problem.kernel_dict(flow=min_flow)</span>
+<span class="sd">        [{&#39;label&#39;: &#39;+α1&#39;}, {&#39;label&#39;: &#39;2-α1&#39;}, {&#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;2-α1&#39;}, {&#39;label&#39;: &#39;+α1&#39;}]</span>
+
+<span class="sd">        &gt;&gt;&gt; kayak = sm.kayak_paddle_graph(l=3)</span>
+<span class="sd">        &gt;&gt;&gt; problem.fit(kayak)</span>
+<span class="sd">        &gt;&gt;&gt; problem.kernel_dict() # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        [{&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;},</span>
+<span class="sd">         {&#39;label&#39;: &#39;1-2α1&#39;}, {&#39;label&#39;: &#39;1+2α1&#39;}, {&#39;label&#39;: &#39;1-2α1&#39;},</span>
+<span class="sd">         {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">edge_description</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+&quot;</span>
+                <span class="k">elif</span> <span class="n">alpha</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">+.3g</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">edge_description</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="p">:</span>
+                <span class="n">edge_description</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+        <span class="k">if</span> <span class="n">flow</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">edge_description</span>
+        <span class="k">if</span> <span class="n">flow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">dico</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edge_description</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">])</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">dico</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}{</span><span class="n">dico</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">edge_description</span></div>
+
+<div class="viewcode-block" id="Analyzer.show_solutions"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.show_solutions">[docs]</a>    <span class="k">def</span> <span class="nf">show_solutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`, optional</span>
+<span class="sd">            Graph to use.</span>
+<span class="sd">        mu: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">            Arrival rates</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">        &gt;&gt;&gt; diamond = sm.chained_cycle_graph()</span>
+<span class="sd">        &gt;&gt;&gt; problem = Analyzer(diamond)</span>
+<span class="sd">        &gt;&gt;&gt; problem.show_solutions(diamond)</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &gt;&gt;&gt; problem.show_solutions(diamond, problem.degree)</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nodes_description</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nodes_description</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nodes_dict</span><span class="o">=</span><span class="n">nodes_description</span><span class="p">,</span> <span class="n">edges_dict</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_dict</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Analyzer.optimize_edge"><a class="viewcode-back" href="../../reference/analysis.html#stochastic_matching.analysis.Analyzer.optimize_edge">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tries to find a positive solution that minimizes/maximizes a given edge.</span>
 

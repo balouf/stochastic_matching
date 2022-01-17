@@ -3,7 +3,6 @@ from scipy.optimize import linprog
 
 from stochastic_matching.graphs.classes import neighbors, SimpleGraph
 
-
 def pseudo_inverse_scalar(x):
     """
     Parameters
@@ -59,7 +58,7 @@ status_names = {(False, False): "Nonjective",
                 (True, True): "Bijective"}
 
 
-status_names_simple_connected = {(False, False): "Bipartite with cycle",
+status_names_simple_connected = {(False, False): "Bipartite with cycle(s)",
                 (True, False): "Tree",
                 (False, True): "Non-bipartite polycyclic",
                 (True, True): "Non-bipartite monocyclic"}
@@ -185,7 +184,7 @@ def incidence_analysis(incidence, tol=1e-10):
     As the graph is simple and connected, there a more accurate description of the status:
 
     >>> status_names_simple_connected[status]
-    'Bipartite with cycle'
+    'Bipartite with cycle(s)'
 
     Consider now the diamond graph, surjective (n<m, non bipartite).
 
@@ -387,7 +386,7 @@ def incidence_analysis(incidence, tol=1e-10):
     return pseud_inv, kernel, left_kernel, (injective, surjective)
 
 
-def connected_components(graph):
+def traversal(graph):
     """
     Using graph traversal, splits the graph into its connected components as a list of sets of nodes and edges.
     If the graph is simple, additional information obtained by the traversal are provided.
@@ -414,10 +413,10 @@ def connected_components(graph):
     >>> import stochastic_matching as sm
     >>> sample = sm.concatenate([sm.cycle_graph(4), sm.complete_graph(4), sm.chained_cycle_graph(),
     ...          sm.tadpole_graph(), sm.star_graph()], 0 )
-    >>> connected_components(sample) # doctest: +NORMALIZE_WHITESPACE
+    >>> traversal(sample) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3}, 'edges': {0, 1, 2, 3},
     'spanner': {0, 1, 2}, 'pivot': False, 'seeds': {3},
-    'type': 'Bipartite with cycle'},
+    'type': 'Bipartite with cycle(s)'},
     {'nodes': {4, 5, 6, 7}, 'edges': {4, 5, 6, 7, 8, 9},
     'spanner': {4, 5, 6}, 'pivot': 8, 'seeds': {9, 7},
     'type': 'Non-bipartite polycyclic'},
@@ -434,7 +433,7 @@ def connected_components(graph):
     These informations make the analysis worthy even in the cases where the graph is connected.
 
     >>> pyramid = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(5), sm.cycle_graph(5), sm.cycle_graph()], 2)
-    >>> connected_components(pyramid) # doctest: +NORMALIZE_WHITESPACE
+    >>> traversal(pyramid) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
     'edges': {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
     'spanner': {0, 1, 3, 4, 5, 7, 8, 9, 11},
@@ -443,7 +442,7 @@ def connected_components(graph):
 
     If the graph is treated as hypergraph, a lot less information is available.
 
-    >>> connected_components(sample.to_hypergraph()) # doctest: +NORMALIZE_WHITESPACE
+    >>> traversal(sample.to_hypergraph()) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3}, 'edges': {0, 1, 2, 3}},
     {'nodes': {4, 5, 6, 7}, 'edges': {4, 5, 6, 7, 8, 9}},
     {'nodes': {8, 9, 10, 11}, 'edges': {10, 11, 12, 13, 14}},
@@ -453,7 +452,6 @@ def connected_components(graph):
     simple = type(graph) == SimpleGraph
     n, m = graph.incidence.shape
     unknown_nodes = {i for i in range(n)}
-    unknown_edges = {j for j in range(m)}
     if simple:
         spin = np.ones(n, dtype=bool) # Simple
     res = []
@@ -468,10 +466,8 @@ def connected_components(graph):
             current_nodes.add(i)
             edges = neighbors(i, graph.incidence)
             for edge in edges:
-                if edge in unknown_edges:
-                    unknown_edges.add(edge)
-                else:
-                    break
+                if edge in current_edges:
+                    continue
                 for j in neighbors(edge, graph.co_incidence):
                     if j in unknown_nodes:
                         buffer.add(j)
@@ -564,6 +560,42 @@ def simple_right_kernel(right, seeds):
            [ 1, -1,  1, -2,  0,  0,  0,  0,  2, -2,  1,  1, -1]])
     """
     return  np.round(np.linalg.inv(right[:, seeds]) @ right).astype(int)
+
+
+def kernel_inverse(kernel):
+    """
+    Parameters
+    ----------
+    kernel: :class:`numpy.ndarray`
+        Matrix of kernel vectors (not necessarily orthogonal) of shape dXm.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        The `reverse` matrix dXd that allows to transform inner product with kernel to kernel coordinates.
+
+    Examples
+    --------
+
+    When the kernel basis is orthogonal,
+    it returns the diagonal matrix with the inverse of the squared norm of the vectors.
+    For example:
+
+    >>> kernel = np.array([[ 0,  0,  1, -1, -1,  1,  0,  0],
+    ...       [ 1, -1,  0, -1,  1,  0, -1,  1]])
+    >>> kinv = kernel_inverse(kernel)
+    >>> kernel @ (np.array([-1, 3]) @ kernel) @ kinv
+    array([-1.,  3.])
+
+    If the kernel basis is not orthogonal, it returns somethings more complex.
+
+    >>> kernel = np.array([[ 1, -1,  1, -2,  0,  1, -1,  1],
+    ...    [ 0,  0, -1,  1,  1, -1,  0,  0]])
+    >>> kinv = kernel_inverse(kernel)
+    >>> kernel @ (np.array([2, -1]) @ kernel) @ kinv
+    array([ 2., -1.])
+    """
+    return np.linalg.inv(np.inner(kernel, kernel))
 
 
 def simple_left_kernel(left):
@@ -683,26 +715,47 @@ class Analyzer:
     Is a triangle that checks triangular inequality stable?
 
     >>> from stochastic_matching import cycle_graph
-    >>> problem = Analyzer(cycle_graph(), [3, 4, 5])
+    >>> problem = Analyzer(cycle_graph(), mu='uniform')
     >>> problem.is_stable
     True
 
+    >>> problem.graph_type
+    'Bijective'
+
+    We can look at the base flow (based on Moore-Penrose inverse).
+
+    >>> problem.base_flow
+    array([0.5, 0.5, 0.5])
+
+    As the graph is bijective, all optimizations will yield the same flow.
+
+    >>> problem.incompressible_flow()
+    array([0.5, 0.5, 0.5])
+
+    >>> problem.optimize_edge(0)
+    array([0.5, 0.5, 0.5])
+
     What if the triangular inequality does not hold?
 
-    >>> problem.fit(mu=[1, 2, 1])
+    >>> problem.fit(mu=[1, 3, 1])
     >>> problem.is_stable
     False
+
+    We can look at the base flow (based on Moore-Penrose inverse).
+
+    >>> problem.base_flow
+    array([ 1.5, -0.5,  1.5])
 
     Now a bipartite example.
 
     >>> from stochastic_matching import tadpole_graph
     >>> problem.fit(graph=tadpole_graph(m=4))
-    >>> problem.fit(mu=[1, 1, 1, 2, 1])
+    >>> problem.fit(mu='proportional')
 
     Notice that we have a perfectly working solution with respect to conservation law.
 
     >>> problem.base_flow
-    array([0.5, 0.5, 0.5, 0.5, 1. ])
+    array([1., 1., 1., 1., 1.])
 
     However, the left kernel is not trivial.
 
@@ -718,32 +771,37 @@ class Analyzer:
     >>> problem.is_stable
     False
 
+    >>> problem.graph_type
+    'Nonjective'
+
     Note that the base flow can be negative even if there is a positive solution.
 
     >>> from stochastic_matching import chained_cycle_graph
     >>> diamond = chained_cycle_graph()
-    >>> problem = Analyzer(diamond, [5, 5, 1, 1])
-    >>> problem.base_flow
-    array([ 3.5,  1.5,  0. ,  1.5, -0.5])
-    >>> problem.is_stable
-    False
-    >>> problem.maximin_flow()
-    array([4.34533263, 0.65466737, 0.        , 0.65466737, 0.34533263])
-    >>> problem.fit(mu=[5, 6, 2, 1])
+    >>> problem = Analyzer(diamond, [5, 6, 2, 1])
     >>> problem.base_flow
     array([ 3.5,  1.5,  1. ,  1.5, -0.5])
     >>> problem.is_stable
     True
     >>> np.round(problem.maximin_flow()*10)/10
     array([4.5, 0.5, 1. , 0.5, 0.5])
+
+    >>> problem.incompressible_flow()
+    array([4., 0., 1., 0., 0.])
+
+    >>> problem.graph_type
+    'Surjective-only'
     """
 
     def __init__(self, graph=None, mu=None, tol=1e-10):
         self.tol = tol
-        self.graph = None
         self.simple = None
+        self.m = None
+        self.n = None
+        self.degree = None
         self.left_kernel = None
         self.right_kernel = None
+        self._right_inverse = None
         self.pseudo_inverse = None
         self.status = None
         self.connected_components = None
@@ -758,6 +816,13 @@ class Analyzer:
         """
         self.maximin_flow()
         return self.status[1] and self.positive_solution_exists
+
+    @property
+    def graph_type(self):
+        """
+        :class:`str`: Injectivity/surjectivity of the graph.
+        """
+        return status_names[self.status]
 
     def fit(self, graph=None, mu=None):
         """
@@ -778,27 +843,290 @@ class Analyzer:
         None
         """
         if graph is not None:
-            self.graph = graph
+            # self.graph = graph
             self.simple = type(graph) == SimpleGraph
             self.pseudo_inverse, self.right_kernel, \
             self.left_kernel, self.status = incidence_analysis(graph.incidence, tol=self.tol)
-            self.connected_components = connected_components(graph)
+            self.n = graph.n
+            self.m = graph.m
+            self.degree = graph.incidence @ np.ones(graph.m)
+            self.connected_components = traversal(graph)
             if self.simple:
                 seeds = [i for c in self.connected_components for i in c['seeds']]
                 self.right_kernel = simple_right_kernel(self.right_kernel, seeds)
                 self.left_kernel = simple_left_kernel(self.left_kernel)
+            self._right_inverse = kernel_inverse(self.right_kernel)
             if mu is None:
-                mu = proportional_rates(graph)
+                mu = self.degree
         if mu is not None:
             if isinstance(mu, str):
                 if mu == 'uniform':
-                    mu = uniform_rate(self.graph)
+                    mu = np.ones(self.n)
                 else:
-                    mu = proportional_rates(self.graph)
+                    mu = self.degree
             self.base_flow = self.pseudo_inverse @ mu
             clean_zeros(self.base_flow, tol=self.tol)
 
-    def optimize_edge(self, edge, sign):
+    def change_kernel_basis(self, seeds):
+        """
+        Change the cycle space using provided seeds to span the basis.
+
+        Parameters
+        ----------
+        seeds: :class:`list` of :class:`int`
+            Seed edges (cf https://hal.archives-ouvertes.fr/hal-03502084).
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+
+        >>> import stochastic_matching as sm
+        >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
+        >>> problem = Analyzer(codomino)
+        >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
+        array([[ 0,  0,  1, -1, -1,  1,  0,  0],
+               [ 1, -1,  0, -1,  1,  0, -1,  1]])
+        >>> problem.change_kernel_basis([0, 4])
+        >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
+        array([[ 1, -1,  1, -2,  0,  1, -1,  1],
+               [ 0,  0, -1,  1,  1, -1,  0,  0]])
+
+        Be careful to choose valid seeds (e.g. the graph with the seeds removed must be injective).
+
+        >>> problem.change_kernel_basis([0, 1])
+        Traceback (most recent call last):
+        ...
+        numpy.linalg.LinAlgError: Singular matrix
+
+        Changing basis is only available for simple graphs.
+
+        >>> problem.fit(codomino.to_hypergraph())
+        >>> problem.change_kernel_basis([0, 4])
+        Traceback (most recent call last):
+        ...
+        NotImplementedError
+        """
+        if not self.simple:
+            raise NotImplementedError
+        self.right_kernel = simple_right_kernel(self.right_kernel, seeds)
+        self._right_inverse = kernel_inverse(self.right_kernel)
+
+    def edge_to_kernel(self, edge):
+        """
+        Parameters
+        ----------
+        edge: :class:`~numpy.ndarray`
+            A flow vector in edge coordinates.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            The same flow vector in kernel coordinates, based on the current base flow and right kernel.
+
+        Examples
+        --------
+
+        Consider the codomino graph with a kernel with a kayak paddle.
+
+        >>> import stochastic_matching as sm
+        >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
+        >>> problem = Analyzer(codomino, [3, 12, 3, 3, 12, 3])
+        >>> problem.change_kernel_basis([0, 4])
+        >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
+        array([[ 1, -1,  1, -2,  0,  1, -1,  1],
+           [ 0,  0, -1,  1,  1, -1,  0,  0]])
+
+        Consider the base flow (Moore-Penrose inverse) and the maximin flow.
+
+        >>> moore = problem.base_flow
+        >>> moore
+        array([3., 0., 3., 6., 0., 3., 0., 3.])
+
+        >>> maxmin = problem.maximin_flow()
+        >>> maxmin
+        array([2., 1., 1., 9., 1., 1., 1., 2.])
+
+        As the Moore-Penrose inverse is the base flow, its coordinates are obviously null.
+
+        >>> problem.edge_to_kernel(moore)
+        array([0., 0.])
+
+        As for maximin, one can check that the following kernel coordinates transform Moore-Penrose into it:
+
+        >>> problem.edge_to_kernel(maxmin)
+        array([-1.,  1.])
+
+        If we change the base flow to maximin, we will see the coordinates shifted by (1, -1):
+
+        >>> problem.base_flow = maxmin
+        >>> problem.edge_to_kernel(moore)
+        array([ 1., -1.])
+        >>> problem.edge_to_kernel(maxmin)
+        array([0., 0.])
+        """
+        res = (self.right_kernel @ (edge - self.base_flow)) @ self._right_inverse
+        clean_zeros(res, tol=self.tol)
+        return res
+
+    def kernel_to_edge(self, kernel):
+        """
+        Parameters
+        ----------
+        kernel: :class:`~numpy.ndarray`
+            A flow vector in kernel coordinates.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            The same flow vector in edge coordinates, based on the current base flow and right kernel.
+
+        Examples
+        --------
+
+        Consider the codomino graph with a kernel with a kayak paddle.
+
+        >>> import stochastic_matching as sm
+        >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
+        >>> problem = Analyzer(codomino, [3, 12, 3, 3, 12, 3])
+        >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
+        array([[ 0,  0,  1, -1, -1,  1,  0,  0],
+           [ 1, -1,  0, -1,  1,  0, -1,  1]])
+
+        Consider the base flow (Moore-Penrose inverse) and the maximin flow.
+
+        >>> moore = problem.base_flow
+        >>> moore
+        array([3., 0., 3., 6., 0., 3., 0., 3.])
+
+        >>> maxmin = problem.maximin_flow()
+        >>> maxmin
+        array([2., 1., 1., 9., 1., 1., 1., 2.])
+
+        As the Moore-Penrose inverse is the base flow, it is (0, 0) in kernel coordinates.
+
+        >>> problem.kernel_to_edge([0, 0])
+        array([3., 0., 3., 6., 0., 3., 0., 3.])
+
+        As for maximin, (-2, -1) seems to be its kernel coordinates.
+
+        >>> problem.kernel_to_edge([-2, -1])
+        array([2., 1., 1., 9., 1., 1., 1., 2.])
+
+        If we change the kernel space, the kernel coordinates change as well.
+
+        >>> problem.change_kernel_basis([0, 4])
+        >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
+        array([[ 1, -1,  1, -2,  0,  1, -1,  1],
+           [ 0,  0, -1,  1,  1, -1,  0,  0]])
+        >>> problem.kernel_to_edge([0, 0])
+        array([3., 0., 3., 6., 0., 3., 0., 3.])
+        >>> problem.kernel_to_edge([-1, 1])
+        array([2., 1., 1., 9., 1., 1., 1., 2.])
+        """
+        res = (kernel @ self.right_kernel) + self.base_flow
+        clean_zeros(res, tol=self.tol)
+        return res
+
+    def kernel_dict(self, flow=None):
+        """
+        Parameters
+        ----------
+        flow: :class:`~numpy.ndarray` ot :class:`bool`, optional
+            Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.
+            If no flow is given, the current base flow is used.
+
+        Returns
+        -------
+        :class:`list` of :class:`dict`
+            An edge description dictionary to pass to :meth:`~stochastic_matching.graphs.classes.GenericGraph.show`.
+
+        Examples
+        --------
+
+        >>> import stochastic_matching as sm
+        >>> diamond = sm.chained_cycle_graph()
+        >>> problem = Analyzer(diamond)
+        >>> problem.base_flow
+        array([1., 1., 1., 1., 1.])
+        >>> problem.kernel_dict()
+        [{'label': '1+α1'}, {'label': '1-α1'}, {'label': '1', 'color': 'black'}, {'label': '1-α1'}, {'label': '1+α1'}]
+        >>> problem.kernel_dict(flow=False)
+        [{'label': '+α1'}, {'label': '-α1'}, {'label': '', 'color': 'black'}, {'label': '-α1'}, {'label': '+α1'}]
+        >>> min_flow = problem.optimize_edge(0, -1)
+        >>> min_flow
+        array([0., 2., 1., 2., 0.])
+        >>> problem.kernel_dict(flow=min_flow)
+        [{'label': '+α1'}, {'label': '2-α1'}, {'label': '1', 'color': 'black'}, {'label': '2-α1'}, {'label': '+α1'}]
+
+        >>> kayak = sm.kayak_paddle_graph(l=3)
+        >>> problem.fit(kayak)
+        >>> problem.kernel_dict() # doctest: +NORMALIZE_WHITESPACE
+        [{'label': '1-α1'}, {'label': '1+α1'}, {'label': '1+α1'},
+         {'label': '1-2α1'}, {'label': '1+2α1'}, {'label': '1-2α1'},
+         {'label': '1+α1'}, {'label': '1+α1'}, {'label': '1-α1'}]
+        """
+        d, m = self.right_kernel.shape
+        edge_description = [dict() for _ in range(m)]
+        for e in range(m):
+            label = ""
+            for i in range(d):
+                alpha = self.right_kernel[i, e]
+                if alpha == 0:
+                    continue
+                if alpha == 1:
+                    label += f"+"
+                elif alpha == -1:
+                    label += f"-"
+                else:
+                    label += f"{alpha:+.3g}"
+                label += f"α{i + 1}"
+            edge_description[e]['label'] = label
+            if not label:
+                edge_description[e]['color'] = 'black'
+        if flow is False:
+            return edge_description
+        if flow is None:
+            flow = self.base_flow
+        for e, dico in enumerate(edge_description):
+            if np.abs(flow[e]) > self.tol:
+                dico['label'] = f"{flow[e]:.3g}{dico['label']}"
+        return edge_description
+
+    def show_solutions(self, graph, mu=None):
+        """
+        Parameters
+        ----------
+        graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`, optional
+            Graph to use.
+        mu: :class:`~numpy.ndarray`, optional
+            Arrival rates
+
+        Returns
+        -------
+        :class:`~IPython.display.HTML`
+
+        Examples
+        --------
+
+        >>> import stochastic_matching as sm
+        >>> diamond = sm.chained_cycle_graph()
+        >>> problem = Analyzer(diamond)
+        >>> problem.show_solutions(diamond)
+        <IPython.core.display.HTML object>
+        >>> problem.show_solutions(diamond, problem.degree)
+        <IPython.core.display.HTML object>
+        """
+        if mu is not None:
+            nodes_description = [{'label': f"{mu[i]:.3g}"} for i in range(graph.n)]
+        else:
+            nodes_description = None
+        graph.show(nodes_dict=nodes_description, edges_dict=self.kernel_dict())
+
+
+    def optimize_edge(self, edge, sign=1):
         """
         Tries to find a positive solution that minimizes/maximizes a given edge.
 

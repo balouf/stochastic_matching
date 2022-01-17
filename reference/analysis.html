@@ -134,26 +134,49 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <p>The following examples are about stability:</p>
 <p>Is a triangle that checks triangular inequality stable?</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">cycle_graph</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">mu</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">is_stable</span>
 <span class="go">True</span>
 </pre></div>
 </div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">graph_type</span>
+<span class="go">&#39;Bijective&#39;</span>
+</pre></div>
+</div>
+<p>We can look at the base flow (based on Moore-Penrose inverse).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
+<p>As the graph is bijective, all optimizations will yield the same flow.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">incompressible_flow</span><span class="p">()</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
 <p>What if the triangular inequality does not hold?</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">is_stable</span>
 <span class="go">False</span>
+</pre></div>
+</div>
+<p>We can look at the base flow (based on Moore-Penrose inverse).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([ 1.5, -0.5,  1.5])</span>
 </pre></div>
 </div>
 <p>Now a bipartite example.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">tadpole_graph</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">tadpole_graph</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Notice that we have a perfectly working solution with respect to conservation law.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
-<span class="go">array([0.5, 0.5, 0.5, 0.5, 1. ])</span>
+<span class="go">array([1., 1., 1., 1., 1.])</span>
 </pre></div>
 </div>
 <p>However, the left kernel is not trivial.</p>
@@ -170,17 +193,14 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <span class="go">False</span>
 </pre></div>
 </div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">graph_type</span>
+<span class="go">&#39;Nonjective&#39;</span>
+</pre></div>
+</div>
 <p>Note that the base flow can be negative even if there is a positive solution.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching</span> <span class="kn">import</span> <span class="n">chained_cycle_graph</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">chained_cycle_graph</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
-<span class="go">array([ 3.5,  1.5,  0. ,  1.5, -0.5])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">is_stable</span>
-<span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">maximin_flow</span><span class="p">()</span>
-<span class="go">array([4.34533263, 0.65466737, 0.        , 0.65466737, 0.34533263])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([ 3.5,  1.5,  1. ,  1.5, -0.5])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">is_stable</span>
@@ -189,6 +209,112 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <span class="go">array([4.5, 0.5, 1. , 0.5, 0.5])</span>
 </pre></div>
 </div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">incompressible_flow</span><span class="p">()</span>
+<span class="go">array([4., 0., 1., 0., 0.])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">graph_type</span>
+<span class="go">&#39;Surjective-only&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.change_kernel_basis">
+<span class="sig-name descname"><span class="pre">change_kernel_basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seeds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.change_kernel_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.change_kernel_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Change the cycle space using provided seeds to span the basis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>seeds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed edges (cf <a class="reference external" href="https://hal.archives-ouvertes.fr/hal-03502084">https://hal.archives-ouvertes.fr/hal-03502084</a>).</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">codomino</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">right_kernel</span> 
+<span class="go">array([[ 0,  0,  1, -1, -1,  1,  0,  0],</span>
+<span class="go">       [ 1, -1,  0, -1,  1,  0, -1,  1]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">change_kernel_basis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">right_kernel</span> 
+<span class="go">array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="go">       [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+</pre></div>
+</div>
+<p>Be careful to choose valid seeds (e.g. the graph with the seeds removed must be injective).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">change_kernel_basis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">numpy.linalg.LinAlgError</span>: <span class="n">Singular matrix</span>
+</pre></div>
+</div>
+<p>Changing basis is only available for simple graphs.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">codomino</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">change_kernel_basis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">NotImplementedError</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.edge_to_kernel">
+<span class="sig-name descname"><span class="pre">edge_to_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.edge_to_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.edge_to_kernel" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>edge</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A flow vector in edge coordinates.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The same flow vector in kernel coordinates, based on the current base flow and right kernel.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Consider the codomino graph with a kernel with a kayak paddle.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">codomino</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">change_kernel_basis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">right_kernel</span> 
+<span class="go">array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="go">   [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+</pre></div>
+</div>
+<p>Consider the base flow (Moore-Penrose inverse) and the maximin flow.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">moore</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moore</span>
+<span class="go">array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">maxmin</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">maximin_flow</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxmin</span>
+<span class="go">array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+</pre></div>
+</div>
+<p>As the Moore-Penrose inverse is the base flow, its coordinates are obviously null.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">edge_to_kernel</span><span class="p">(</span><span class="n">moore</span><span class="p">)</span>
+<span class="go">array([0., 0.])</span>
+</pre></div>
+</div>
+<p>As for maximin, one can check that the following kernel coordinates transform Moore-Penrose into it:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">edge_to_kernel</span><span class="p">(</span><span class="n">maxmin</span><span class="p">)</span>
+<span class="go">array([-1.,  1.])</span>
+</pre></div>
+</div>
+<p>If we change the base flow to maximin, we will see the coordinates shifted by (1, -1):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">maxmin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">edge_to_kernel</span><span class="p">(</span><span class="n">moore</span><span class="p">)</span>
+<span class="go">array([ 1., -1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">edge_to_kernel</span><span class="p">(</span><span class="n">maxmin</span><span class="p">)</span>
+<span class="go">array([0., 0.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.fit" title="Permalink to this definition"></a></dt>
@@ -205,6 +331,17 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.graph_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph_type</span></span><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.graph_type" title="Permalink to this definition"></a></dt>
+<dd><p>Injectivity/surjectivity of the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -236,6 +373,106 @@ by minimizing every edges.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.kernel_dict">
+<span class="sig-name descname"><span class="pre">kernel_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.kernel_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.kernel_dict" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>flow</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> ot <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.
+If no flow is given, the current base flow is used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An edge description dictionary to pass to <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.GenericGraph.show" title="stochastic_matching.graphs.classes.GenericGraph.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([1., 1., 1., 1., 1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_dict</span><span class="p">()</span>
+<span class="go">[{&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_dict</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[{&#39;label&#39;: &#39;+α1&#39;}, {&#39;label&#39;: &#39;-α1&#39;}, {&#39;label&#39;: &#39;&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;-α1&#39;}, {&#39;label&#39;: &#39;+α1&#39;}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_flow</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_flow</span>
+<span class="go">array([0., 2., 1., 2., 0.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_dict</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">min_flow</span><span class="p">)</span>
+<span class="go">[{&#39;label&#39;: &#39;+α1&#39;}, {&#39;label&#39;: &#39;2-α1&#39;}, {&#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;2-α1&#39;}, {&#39;label&#39;: &#39;+α1&#39;}]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">kayak_paddle_graph</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">kayak</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_dict</span><span class="p">()</span> 
+<span class="go">[{&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;},</span>
+<span class="go"> {&#39;label&#39;: &#39;1-2α1&#39;}, {&#39;label&#39;: &#39;1+2α1&#39;}, {&#39;label&#39;: &#39;1-2α1&#39;},</span>
+<span class="go"> {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.kernel_to_edge">
+<span class="sig-name descname"><span class="pre">kernel_to_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.kernel_to_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.kernel_to_edge" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kernel</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A flow vector in kernel coordinates.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The same flow vector in edge coordinates, based on the current base flow and right kernel.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Consider the codomino graph with a kernel with a kayak paddle.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">codomino</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">right_kernel</span> 
+<span class="go">array([[ 0,  0,  1, -1, -1,  1,  0,  0],</span>
+<span class="go">   [ 1, -1,  0, -1,  1,  0, -1,  1]])</span>
+</pre></div>
+</div>
+<p>Consider the base flow (Moore-Penrose inverse) and the maximin flow.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">moore</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moore</span>
+<span class="go">array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">maxmin</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">maximin_flow</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxmin</span>
+<span class="go">array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+</pre></div>
+</div>
+<p>As the Moore-Penrose inverse is the base flow, it is (0, 0) in kernel coordinates.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+</pre></div>
+</div>
+<p>As for maximin, (-2, -1) seems to be its kernel coordinates.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="go">array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+</pre></div>
+</div>
+<p>If we change the kernel space, the kernel coordinates change as well.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">change_kernel_basis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">right_kernel</span> 
+<span class="go">array([[ 1, -1,  1, -2,  0,  1, -1,  1],</span>
+<span class="go">   [ 0,  0, -1,  1,  1, -1,  0,  0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([3., 0., 3., 6., 0., 3., 0., 3.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="go">array([2., 1., 1., 9., 1., 1., 1., 2.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.maximin_flow">
 <span class="sig-name descname"><span class="pre">maximin_flow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.maximin_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.maximin_flow" title="Permalink to this definition"></a></dt>
 <dd><p>Maximizes the minimal flow over all edges and records whether a positive solution was found.</p>
@@ -251,7 +488,7 @@ by minimizing every edges.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.optimize_edge">
-<span class="sig-name descname"><span class="pre">optimize_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.optimize_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.optimize_edge" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">optimize_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.optimize_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.optimize_edge" title="Permalink to this definition"></a></dt>
 <dd><p>Tries to find a positive solution that minimizes/maximizes a given edge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -267,6 +504,32 @@ by minimizing every edges.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.Analyzer.show_solutions">
+<span class="sig-name descname"><span class="pre">show_solutions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#Analyzer.show_solutions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.Analyzer.show_solutions" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>, optional) – Graph to use.</p></li>
+<li><p><strong>mu</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Arrival rates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span> <span class="o">=</span> <span class="n">Analyzer</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">show_solutions</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">problem</span><span class="o">.</span><span class="n">show_solutions</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">problem</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -429,70 +692,6 @@ by minimizing every edges.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="stochastic_matching.analysis.connected_components">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.analysis.</span></span><span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#connected_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.connected_components" title="Permalink to this definition"></a></dt>
-<dd><p>Using graph traversal, splits the graph into its connected components as a list of sets of nodes and edges.
-If the graph is simple, additional information obtained by the traversal are provided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>) – Graph to decompose.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The list of connected components.
-If the graph is not simple, each connected component contains its sets of nodes and edges.
-If the graph is simple, each component also contains a set of spanning edges, a pivot edge that
-makes the spanner bijective (if any), a set set of edges that can seed the kernel space, and the type
-of the connected component.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<p>For simple graphs, the method provides a lot of information on each connected component.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(),</span>
-<span class="gp">... </span>         <span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">star_graph</span><span class="p">()],</span> <span class="mi">0</span> <span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">connected_components</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span> 
-<span class="go">[{&#39;nodes&#39;: {0, 1, 2, 3}, &#39;edges&#39;: {0, 1, 2, 3},</span>
-<span class="go">&#39;spanner&#39;: {0, 1, 2}, &#39;pivot&#39;: False, &#39;seeds&#39;: {3},</span>
-<span class="go">&#39;type&#39;: &#39;Bipartite with cycle&#39;},</span>
-<span class="go">{&#39;nodes&#39;: {4, 5, 6, 7}, &#39;edges&#39;: {4, 5, 6, 7, 8, 9},</span>
-<span class="go">&#39;spanner&#39;: {4, 5, 6}, &#39;pivot&#39;: 8, &#39;seeds&#39;: {9, 7},</span>
-<span class="go">&#39;type&#39;: &#39;Non-bipartite polycyclic&#39;},</span>
-<span class="go">{&#39;nodes&#39;: {8, 9, 10, 11}, &#39;edges&#39;: {10, 11, 12, 13, 14},</span>
-<span class="go">&#39;spanner&#39;: {10, 11, 13}, &#39;pivot&#39;: 12, &#39;seeds&#39;: {14},</span>
-<span class="go">&#39;type&#39;: &#39;Non-bipartite polycyclic&#39;},</span>
-<span class="go">{&#39;nodes&#39;: {12, 13, 14, 15}, &#39;edges&#39;: {16, 17, 18, 15},</span>
-<span class="go">&#39;spanner&#39;: {16, 18, 15}, &#39;pivot&#39;: 17, &#39;seeds&#39;: set(),</span>
-<span class="go">&#39;type&#39;: &#39;Non-bipartite monocyclic&#39;},</span>
-<span class="go">{&#39;nodes&#39;: {16, 17, 18, 19}, &#39;edges&#39;: {19, 20, 21},</span>
-<span class="go">&#39;spanner&#39;: {19, 20, 21}, &#39;pivot&#39;: False, &#39;seeds&#39;: set(),</span>
-<span class="go">&#39;type&#39;: &#39;Tree&#39;}]</span>
-</pre></div>
-</div>
-<p>These informations make the analysis worthy even in the cases where the graph is connected.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">connected_components</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span> 
-<span class="go">[{&#39;nodes&#39;: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},</span>
-<span class="go">&#39;edges&#39;: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},</span>
-<span class="go">&#39;spanner&#39;: {0, 1, 3, 4, 5, 7, 8, 9, 11},</span>
-<span class="go">&#39;pivot&#39;: 2, &#39;seeds&#39;: {10, 12, 6},</span>
-<span class="go">&#39;type&#39;: &#39;Non-bipartite polycyclic&#39;}]</span>
-</pre></div>
-</div>
-<p>If the graph is treated as hypergraph, a lot less information is available.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">connected_components</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">())</span> 
-<span class="go">[{&#39;nodes&#39;: {0, 1, 2, 3}, &#39;edges&#39;: {0, 1, 2, 3}},</span>
-<span class="go">{&#39;nodes&#39;: {4, 5, 6, 7}, &#39;edges&#39;: {4, 5, 6, 7, 8, 9}},</span>
-<span class="go">{&#39;nodes&#39;: {8, 9, 10, 11}, &#39;edges&#39;: {10, 11, 12, 13, 14}},</span>
-<span class="go">{&#39;nodes&#39;: {12, 13, 14, 15}, &#39;edges&#39;: {16, 17, 18, 15}},</span>
-<span class="go">{&#39;nodes&#39;: {16, 17, 18, 19}, &#39;edges&#39;: {19, 20, 21}}]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.analysis.incidence_analysis">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.analysis.</span></span><span class="sig-name descname"><span class="pre">incidence_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#incidence_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.incidence_analysis" title="Permalink to this definition"></a></dt>
 <dd><p>Performs linear algebra analysis on the incidence matrix.</p>
@@ -608,7 +807,7 @@ of the connected component.</p>
 </div>
 <p>As the graph is simple and connected, there a more accurate description of the status:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">status_names_simple_connected</span><span class="p">[</span><span class="n">status</span><span class="p">]</span>
-<span class="go">&#39;Bipartite with cycle&#39;</span>
+<span class="go">&#39;Bipartite with cycle(s)&#39;</span>
 </pre></div>
 </div>
 <p>Consider now the diamond graph, surjective (n&lt;m, non bipartite).</p>
@@ -999,6 +1198,41 @@ which hints at bipartite structures for simple graphs.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.kernel_inverse">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.analysis.</span></span><span class="sig-name descname"><span class="pre">kernel_inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#kernel_inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.kernel_inverse" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kernel</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Matrix of kernel vectors (not necessarily orthogonal) of shape dXm.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <cite>reverse</cite> matrix dXd that allows to transform inner product with kernel to kernel coordinates.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>When the kernel basis is orthogonal,
+it returns the diagonal matrix with the inverse of the squared norm of the vectors.
+For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>      <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinv</span> <span class="o">=</span> <span class="n">kernel_inverse</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">@</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">@</span> <span class="n">kernel</span><span class="p">)</span> <span class="o">@</span> <span class="n">kinv</span>
+<span class="go">array([-1.,  3.])</span>
+</pre></div>
+</div>
+<p>If the kernel basis is not orthogonal, it returns somethings more complex.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinv</span> <span class="o">=</span> <span class="n">kernel_inverse</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">@</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">@</span> <span class="n">kernel</span><span class="p">)</span> <span class="o">@</span> <span class="n">kinv</span>
+<span class="go">array([ 2., -1.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.analysis.proportional_rates">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.analysis.</span></span><span class="sig-name descname"><span class="pre">proportional_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#proportional_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.proportional_rates" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
@@ -1098,7 +1332,7 @@ which hints at bipartite structures for simple graphs.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>right</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Right kernel (i.e. edges kernel) of a simple graph.</p></li>
 <li><p><strong>seeds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed edges of the kernel space. Valid seeds can be obtained from
-<a class="reference internal" href="#stochastic_matching.analysis.connected_components" title="stochastic_matching.analysis.connected_components"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connected_components()</span></code></a>.</p></li>
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">connected_components()</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1152,6 +1386,70 @@ which hints at bipartite structures for simple graphs.</p></li>
 <span class="go">array([[-1,  1,  0,  1, -1,  1, -1,  0,  0,  0,  0,  0,  0],</span>
 <span class="go">       [ 0,  0,  0,  0,  0,  0, -1,  1,  1, -1,  0,  1, -1],</span>
 <span class="go">       [ 1, -1,  1, -2,  0,  0,  0,  0,  2, -2,  1,  1, -1]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.analysis.traversal">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.analysis.</span></span><span class="sig-name descname"><span class="pre">traversal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/analysis.html#traversal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.analysis.traversal" title="Permalink to this definition"></a></dt>
+<dd><p>Using graph traversal, splits the graph into its connected components as a list of sets of nodes and edges.
+If the graph is simple, additional information obtained by the traversal are provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> (<a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.SimpleGraph" title="stochastic_matching.graphs.classes.SimpleGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleGraph</span></code></a> or <a class="reference internal" href="graphs.html#stochastic_matching.graphs.classes.HyperGraph" title="stochastic_matching.graphs.classes.HyperGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">HyperGraph</span></code></a>) – Graph to decompose.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of connected components.
+If the graph is not simple, each connected component contains its sets of nodes and edges.
+If the graph is simple, each component also contains a set of spanning edges, a pivot edge that
+makes the spanner bijective (if any), a set set of edges that can seed the kernel space, and the type
+of the connected component.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>For simple graphs, the method provides a lot of information on each connected component.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">chained_cycle_graph</span><span class="p">(),</span>
+<span class="gp">... </span>         <span class="n">sm</span><span class="o">.</span><span class="n">tadpole_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">star_graph</span><span class="p">()],</span> <span class="mi">0</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traversal</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span> 
+<span class="go">[{&#39;nodes&#39;: {0, 1, 2, 3}, &#39;edges&#39;: {0, 1, 2, 3},</span>
+<span class="go">&#39;spanner&#39;: {0, 1, 2}, &#39;pivot&#39;: False, &#39;seeds&#39;: {3},</span>
+<span class="go">&#39;type&#39;: &#39;Bipartite with cycle(s)&#39;},</span>
+<span class="go">{&#39;nodes&#39;: {4, 5, 6, 7}, &#39;edges&#39;: {4, 5, 6, 7, 8, 9},</span>
+<span class="go">&#39;spanner&#39;: {4, 5, 6}, &#39;pivot&#39;: 8, &#39;seeds&#39;: {9, 7},</span>
+<span class="go">&#39;type&#39;: &#39;Non-bipartite polycyclic&#39;},</span>
+<span class="go">{&#39;nodes&#39;: {8, 9, 10, 11}, &#39;edges&#39;: {10, 11, 12, 13, 14},</span>
+<span class="go">&#39;spanner&#39;: {10, 11, 13}, &#39;pivot&#39;: 12, &#39;seeds&#39;: {14},</span>
+<span class="go">&#39;type&#39;: &#39;Non-bipartite polycyclic&#39;},</span>
+<span class="go">{&#39;nodes&#39;: {12, 13, 14, 15}, &#39;edges&#39;: {16, 17, 18, 15},</span>
+<span class="go">&#39;spanner&#39;: {16, 18, 15}, &#39;pivot&#39;: 17, &#39;seeds&#39;: set(),</span>
+<span class="go">&#39;type&#39;: &#39;Non-bipartite monocyclic&#39;},</span>
+<span class="go">{&#39;nodes&#39;: {16, 17, 18, 19}, &#39;edges&#39;: {19, 20, 21},</span>
+<span class="go">&#39;spanner&#39;: {19, 20, 21}, &#39;pivot&#39;: False, &#39;seeds&#39;: set(),</span>
+<span class="go">&#39;type&#39;: &#39;Tree&#39;}]</span>
+</pre></div>
+</div>
+<p>These informations make the analysis worthy even in the cases where the graph is connected.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">sm</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traversal</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span> 
+<span class="go">[{&#39;nodes&#39;: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},</span>
+<span class="go">&#39;edges&#39;: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},</span>
+<span class="go">&#39;spanner&#39;: {0, 1, 3, 4, 5, 7, 8, 9, 11},</span>
+<span class="go">&#39;pivot&#39;: 2, &#39;seeds&#39;: {10, 12, 6},</span>
+<span class="go">&#39;type&#39;: &#39;Non-bipartite polycyclic&#39;}]</span>
+</pre></div>
+</div>
+<p>If the graph is treated as hypergraph, a lot less information is available.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">traversal</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">to_hypergraph</span><span class="p">())</span> 
+<span class="go">[{&#39;nodes&#39;: {0, 1, 2, 3}, &#39;edges&#39;: {0, 1, 2, 3}},</span>
+<span class="go">{&#39;nodes&#39;: {4, 5, 6, 7}, &#39;edges&#39;: {4, 5, 6, 7, 8, 9}},</span>
+<span class="go">{&#39;nodes&#39;: {8, 9, 10, 11}, &#39;edges&#39;: {10, 11, 12, 13, 14}},</span>
+<span class="go">{&#39;nodes&#39;: {12, 13, 14, 15}, &#39;edges&#39;: {16, 17, 18, 15}},</span>
+<span class="go">{&#39;nodes&#39;: {16, 17, 18, 19}, &#39;edges&#39;: {19, 20, 21}}]</span>
 </pre></div>
 </div>
 </dd></dl>
