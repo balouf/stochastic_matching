@@ -778,7 +778,7 @@ class Model:
     tol: :class:`float`, optional
         Values of absolute value lower than `tol` are set to 0.
 
-        Examples
+    Examples
     --------
 
     The following examples are about stability:

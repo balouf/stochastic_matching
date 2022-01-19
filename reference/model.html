@@ -428,111 +428,93 @@ where the left kernel dimension of a connected component is at most 1).</p>
 You can use <cite>uniform</cite> or <cite>proportional</cite> for uniform or degree-proportional allocation.
 Default to <cite>proportional</cite>, which makes the problem stabilizable if the graph is bijective.</p></li>
 <li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or ‘alpha’, optional) – List of node names (e.g. for display)</p></li>
-<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – <p>Values of absolute value lower than <cite>tol</cite> are set to 0.</p>
-<p>Examples</p>
-</p></li>
-<li><p><strong>--------</strong> – </p></li>
-<li><p><strong>stability</strong> (<em>The following examples are about</em>) – </p></li>
-<li><p><strong>stable?</strong> (<em>Is a triangle that checks triangular inequality</em>) – </p></li>
-<li><p><strong>Cycle</strong> (<em>&gt;&gt;&gt; from stochastic_matching.graphs import</em>) – </p></li>
-<li><p><strong>Tadpole</strong> – </p></li>
-<li><p><strong>CycleChain</strong> – </p></li>
-<li><p><strong>Cycle</strong><strong>(</strong><strong>rates=&quot;uniform&quot;</strong><strong>)</strong> (<em>&gt;&gt;&gt; triangle =</em>) – </p></li>
-<li><p><strong>triangle.stabilizable</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>True</strong> – </p></li>
-<li><p><strong>triangle.kernel.type</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>'Bijective'</strong> – </p></li>
-<li><p><strong>default</strong><strong>)</strong><strong>.</strong> (<em>We can look at the base flow</em><em> (</em><em>based on Moore-Penrose inverse by</em>) – </p></li>
-<li><p><strong>triangle.base_flow</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>array</strong><strong>(</strong><strong>[</strong><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>bijective</strong> (<em>As the graph is</em>) – </p></li>
-<li><p><strong>flow.</strong> (<em>all optimizations will yield the same</em>) – </p></li>
-<li><p><strong>triangle.incompressible_flow</strong><strong>(</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>array</strong><strong>(</strong><strong>[</strong><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>triangle.optimize_edge</strong><strong>(</strong><strong>0</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>array</strong><strong>(</strong><strong>[</strong><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>hold?</strong> (<em>What if the triangular inequality does not</em>) – </p></li>
-<li><p><strong>[</strong><strong>1</strong> (<em>&gt;&gt;&gt; triangle.rates =</em>) – </p></li>
-<li><p><strong>3</strong> – </p></li>
-<li><p><strong>1</strong><strong>]</strong> (<em>array</em><em>(</em><em>[</em><em>[</em>) – </p></li>
-<li><p><strong>triangle.stabilizable</strong> – </p></li>
-<li><p><strong>False</strong> – </p></li>
-<li><p><strong>inverse</strong><strong>)</strong><strong>.</strong> (<em>We can look at the base flow</em><em> (</em><em>based on Moore-Penrose</em>) – </p></li>
-<li><p><strong>triangle.base_flow</strong> – </p></li>
-<li><p><strong>1.5</strong> (<em>array</em><em>(</em><em>[</em>) – </p></li>
-<li><p><strong>-0.5</strong> – </p></li>
-<li><p><strong>1.5</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>example.</strong> (<em>Now a bipartite</em>) – </p></li>
-<li><p><strong>Tadpole</strong><strong>(</strong><strong>m=4</strong> (<em>&gt;&gt;&gt; banner =</em>) – </p></li>
-<li><p><strong>rates='proportional'</strong><strong>)</strong> – </p></li>
-<li><p><strong>law.</strong> (<em>Notice that we have a perfectly working solution with respect to conservation</em>) – </p></li>
-<li><p><strong>banner.base_flow</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>array</strong><strong>(</strong><strong>[</strong><strong>1.</strong> – </p></li>
-<li><p><strong>1.</strong> – </p></li>
-<li><p><strong>1.</strong> – </p></li>
-<li><p><strong>1.</strong> – </p></li>
-<li><p><strong>1.</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>However</strong> – </p></li>
-<li><p><strong>trivial.</strong> (<em>the left kernel is not</em>) – </p></li>
-<li><p><strong>banner.kernel.left</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>1</strong><strong>]</strong> – [-1],
-[ 1],
-[-1],
-[ 1]])</p></li>
+<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – Values of absolute value lower than <cite>tol</cite> are set to 0.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="simple">
-<dt>:param<span class="classifier">[-1],</span></dt><dd><p>[ 1],
-[-1],
-[ 1]])</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>consequence</strong> (<em>As a</em>) – </p></li>
-<li><p><strong>False.</strong> (<em>stability is</em>) – </p></li>
-<li><p><strong>banner.stabilizable</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>False</strong> – </p></li>
-<li><p><strong>banner.kernel.type</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>'Nonjective'</strong> – </p></li>
-<li><p><strong>solution.</strong> (<em>Note that the base flow can be negative even if there is a positive</em>) – </p></li>
-<li><p><strong>CycleChain</strong><strong>(</strong><strong>rates=</strong><strong>[</strong><strong>5</strong> (<em>&gt;&gt;&gt; diamond =</em>) – </p></li>
-<li><p><strong>6</strong> – </p></li>
-<li><p><strong>2</strong> – </p></li>
-<li><p><strong>1</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>diamond.base_flow</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>3.5</strong> (<em>array</em><em>(</em><em>[</em>) – </p></li>
-<li><p><strong>1.5</strong> – </p></li>
-<li><p><strong>1.</strong> – </p></li>
-<li><p><strong>1.5</strong> – </p></li>
-<li><p><strong>-0.5</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>diamond.stabilizable</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>True</strong> – </p></li>
-<li><p><strong>diamond.maximin.round</strong><strong>(</strong><strong>decimals=6</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>array</strong><strong>(</strong><strong>[</strong><strong>4.5</strong> – </p></li>
-<li><p><strong>0.5</strong> – </p></li>
-<li><p><strong>1.</strong> – </p></li>
-<li><p><strong>0.5</strong> – </p></li>
-<li><p><strong>0.5</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>diamond.incompressible_flow</strong><strong>(</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>array</strong><strong>(</strong><strong>[</strong><strong>4.</strong> – </p></li>
-<li><p><strong>0.</strong> – </p></li>
-<li><p><strong>1.</strong> – </p></li>
-<li><p><strong>0.</strong> – </p></li>
-<li><p><strong>0.</strong><strong>]</strong><strong>)</strong> – </p></li>
-<li><p><strong>diamond.kernel.type</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
-<li><p><strong>'Surjective-only'</strong> – </p></li>
-</ul>
-</dd>
-</dl>
+<p class="rubric">Examples</p>
+<p>The following examples are about stability:</p>
+<p>Is a triangle that checks triangular inequality stable?</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Cycle</span><span class="p">,</span> <span class="n">Tadpole</span><span class="p">,</span> <span class="n">CycleChain</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">stabilizable</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">type</span>
+<span class="go">&#39;Bijective&#39;</span>
+</pre></div>
+</div>
+<p>We can look at the base flow (based on Moore-Penrose inverse by default).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
+<p>As the graph is bijective, all optimizations will yield the same flow.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">incompressible_flow</span><span class="p">()</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
+<p>What if the triangular inequality does not hold?</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">stabilizable</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>We can look at the base flow (based on Moore-Penrose inverse).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([ 1.5, -0.5,  1.5])</span>
+</pre></div>
+</div>
+<p>Now a bipartite example.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">banner</span> <span class="o">=</span> <span class="n">Tadpole</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that we have a perfectly working solution with respect to conservation law.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">banner</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([1., 1., 1., 1., 1.])</span>
+</pre></div>
+</div>
+<p>However, the left kernel is not trivial.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">banner</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">left</span>
+<span class="go">array([[ 1],</span>
+<span class="go">       [-1],</span>
+<span class="go">       [ 1],</span>
+<span class="go">       [-1],</span>
+<span class="go">       [ 1]])</span>
+</pre></div>
+</div>
+<p>As a consequence, stability is False.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">banner</span><span class="o">.</span><span class="n">stabilizable</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">banner</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">type</span>
+<span class="go">&#39;Nonjective&#39;</span>
+</pre></div>
+</div>
+<p>Note that the base flow can be negative even if there is a positive solution.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([ 3.5,  1.5,  1. ,  1.5, -0.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">stabilizable</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">maximin</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="go">array([4.5, 0.5, 1. , 0.5, 0.5])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">incompressible_flow</span><span class="p">()</span>
+<span class="go">array([4., 0., 1., 0., 0.])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">type</span>
+<span class="go">&#39;Surjective-only&#39;</span>
+</pre></div>
+</div>
 <dl class="py property">
 <dt class="sig sig-object py" id="stochastic_matching.model.Model.adjacency">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">adjacency</span></span><a class="headerlink" href="#stochastic_matching.model.Model.adjacency" title="Permalink to this definition"></a></dt>
