@@ -1303,11 +1303,11 @@ class Model:
         >>> pyramid = Pyramid(rates=[4, 3, 3, 3, 6, 6, 3, 4, 4, 4])
         >>> pyramid.seeds = [0, 12, 2]
         >>> pyramid.base_flow = pyramid.kernel_to_edge([1/6, 1/6, 1/6] )
-        >>> [ (v['alpha'], v['bijective']) for v in pyramid.vertices] # doctest: +NORMALIZE_WHITESPACE
-        [(array([-1., -1.,  0.]), True),
+        >>> sorted([(v['alpha'], v['bijective']) for v in pyramid.vertices], key=str) # doctest: +NORMALIZE_WHITESPACE
+        [(array([ 1., -1.,  0.]), True),
          (array([-1.,  1.,  0.]), True),
+         (array([-1., -1.,  0.]), True),
          (array([0., 0., 1.]), False),
-         (array([ 1., -1.,  0.]), True),
          (array([1., 1., 0.]), True)]
         """
         if self.__vertices is not None:
