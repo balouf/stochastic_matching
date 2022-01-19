@@ -10,7 +10,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ["numpy", "scipy", "numba", 'matplotlib', 'ipython']
+requirements = ["numpy", "scipy", "numba", 'matplotlib', 'ipython', 'cached_property']
 
 setup_requirements = ['pytest-runner',]
 

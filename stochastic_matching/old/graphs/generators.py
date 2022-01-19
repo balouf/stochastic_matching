@@ -1,5 +1,5 @@
 import numpy as np
-from stochastic_matching.graphs.classes import SimpleGraph, HyperGraph
+from stochastic_matching.old.graphs.classes import SimpleGraph, HyperGraph
 
 
 def adja_maker_to_simple_graph(maker, *args, names=None, **kwargs):

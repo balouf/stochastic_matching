@@ -3,9 +3,9 @@ from abc import ABC
 import numpy as np
 from matplotlib import pyplot as plt
 
-from stochastic_matching.simulator.common import create_prob_alias, graph_neighbors_list
-from stochastic_matching.simulator.virtual_queue import vq_core
-from stochastic_matching.simulator.greedy import qs_core_maker, random_node_selector, longest_queue_selector, \
+from stochastic_matching.old.simulator.common import create_prob_alias, graph_neighbors_list
+from stochastic_matching.old.simulator.virtual_queue import vq_core
+from stochastic_matching.old.simulator.greedy import qs_core_maker, random_node_selector, longest_queue_selector, \
     longest_sum_queue_selector, random_item_selector, random_sum_item_selector, qstate_core_maker, fcfm_selector, \
     fcfm_hyper_selector
 
@@ -142,7 +142,7 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.compute_average_queues()
@@ -160,7 +160,7 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.total_waiting_time()
@@ -187,7 +187,7 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
 
@@ -231,7 +231,7 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
@@ -267,7 +267,7 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
 
@@ -351,7 +351,7 @@ class RandomNode(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
     >>> sim = RandomNode(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -464,7 +464,7 @@ class LongestQueue(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
     >>> sim = LongestQueue(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -538,7 +538,7 @@ class RandomItem(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
     >>> sim = RandomItem(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -648,7 +648,7 @@ class FCFM(QueueStateSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
     >>> sim = FCFM(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -722,7 +722,7 @@ class VQSimulator(Simulator):
     Let start with a working triangle. One can notice the results are different from the ones common to all
     greedy simulator.
 
-    >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
     >>> sim = VQSimulator(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -818,11 +818,11 @@ def get_simulator_classes(root=None):
     Examples
     --------
     >>> get_simulator_classes() # doctest: +NORMALIZE_WHITESPACE
-    {'virtual_queue': <class 'stochastic_matching.simulator.classes.VQSimulator'>,
-     'random_node': <class 'stochastic_matching.simulator.classes.RandomNode'>,
-     'longest_queue': <class 'stochastic_matching.simulator.classes.LongestQueue'>,
-     'random_item': <class 'stochastic_matching.simulator.classes.RandomItem'>,
-     'fcfm': <class 'stochastic_matching.simulator.classes.FCFM'>}
+    {'virtual_queue': <class 'stochastic_matching.old.simulator.classes.VQSimulator'>,
+     'random_node': <class 'stochastic_matching.old.simulator.classes.RandomNode'>,
+     'longest_queue': <class 'stochastic_matching.old.simulator.classes.LongestQueue'>,
+     'random_item': <class 'stochastic_matching.old.simulator.classes.RandomItem'>,
+     'fcfm': <class 'stochastic_matching.old.simulator.classes.FCFM'>}
     """
     if root is None:
         root = Simulator

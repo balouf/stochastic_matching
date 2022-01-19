@@ -7,7 +7,7 @@ if os.environ.get("NUMBA_DISABLE_JIT") == "1":
 else:
     from numba.typed import List
 
-from stochastic_matching.graphs.classes import SimpleGraph, HyperGraph
+from stochastic_matching.old.graphs.classes import SimpleGraph, HyperGraph
 
 
 @njit
@@ -93,7 +93,7 @@ def graph_neighbors_list(graph):
 
     Consider a Braess graph.
 
-    >>> from stochastic_matching import bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph, hyper_paddle
     >>> braess = bicycle_graph()
     >>> braess.incidence.toarray().astype(int)
     array([[1, 1, 0, 0, 0],

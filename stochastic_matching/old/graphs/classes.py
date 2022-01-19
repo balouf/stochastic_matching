@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.sparse import csr_matrix, csc_matrix
 
-from stochastic_matching.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_show, PNG_TEMPLATE
+from stochastic_matching.old.graphs.display import HYPER_GRAPH_VIS_OPTIONS, vis_show, PNG_TEMPLATE
 
 
 def neighbors(i, compressed_incidence):
@@ -74,7 +74,7 @@ def adjacency_to_incidence(adjacency):
 
     Convert a diamond graph from adjacency to incidence.
 
-    >>> from stochastic_matching.graphs.generators import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> diamond = bicycle_graph().adjacency
     >>> diamond
     array([[0, 1, 1, 0],
@@ -117,7 +117,7 @@ def incidence_to_adjacency(incidence):
 
     Convert a diamond graph from incidence to adjacency.
 
-    >>> from stochastic_matching.graphs.generators import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> diamond = bicycle_graph().incidence.toarray().astype('int')
     >>> diamond
     array([[1, 1, 0, 0, 0],
@@ -132,7 +132,7 @@ def incidence_to_adjacency(incidence):
 
     An error occurs if one tries to convert a hypergraph.
 
-    >>> from stochastic_matching.graphs.generators import hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import hyper_paddle
     >>> candy = hyper_paddle().incidence.toarray().astype('int')
     >>> candy
     array([[1, 1, 0, 0, 0, 0, 0],
@@ -270,7 +270,7 @@ class GenericGraph:
         Examples
         ---------
 
-        >>> from stochastic_matching.graphs.generators import tadpole_graph
+        >>> from stochastic_matching.old.graphs.generators import tadpole_graph
         >>> tadpole_graph().show()
         <IPython.core.display.HTML object>
 
@@ -325,10 +325,10 @@ class HyperGraph(GenericGraph):
 
         We will use the traditional diamond graph, represented as .
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph, hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph, hyper_paddle
         >>> diamond = HyperGraph(bicycle_graph().incidence).to_simplegraph()
         >>> type(diamond)
-        <class 'stochastic_matching.graphs.classes.SimpleGraph'>
+        <class 'stochastic_matching.old.graphs.classes.SimpleGraph'>
         >>> diamond.adjacency
         array([[0, 1, 1, 0],
                [1, 0, 1, 1],
@@ -364,7 +364,7 @@ class HyperGraph(GenericGraph):
         Examples
         ---------
 
-        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import hyper_paddle
         >>> hyper_paddle().vis_inputs() # doctest: +NORMALIZE_WHITESPACE
         ([{'id': 0, 'label': '0', 'title': '0', 'x': 0, 'group': 'Node'},
         {'id': 1, 'label': '1', 'title': '1', 'x': 0, 'group': 'Node'},
@@ -513,10 +513,10 @@ class SimpleGraph(GenericGraph):
 
         Examples
         --------
-        >>> from stochastic_matching.graphs.generators import bicycle_graph, hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph, hyper_paddle
         >>> diamond = bicycle_graph().to_hypergraph()
         >>> type(diamond)
-        <class 'stochastic_matching.graphs.classes.HyperGraph'>
+        <class 'stochastic_matching.old.graphs.classes.HyperGraph'>
         >>> diamond.incidence.toarray().astype('int')
         array([[1, 1, 0, 0, 0],
                [1, 0, 1, 1, 0],
@@ -553,7 +553,7 @@ class SimpleGraph(GenericGraph):
         Examples
         ---------
 
-        >>> from stochastic_matching.graphs.generators import tadpole_graph
+        >>> from stochastic_matching.old.graphs.generators import tadpole_graph
         >>> tadpole_graph().vis_inputs() # doctest: +NORMALIZE_WHITESPACE
         ([{'id': 0, 'label': '0', 'title': '0'},
         {'id': 1, 'label': '1', 'title': '1'},

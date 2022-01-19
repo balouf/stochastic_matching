@@ -2,6 +2,7 @@ numpy
 scipy
 numba
 matplotlib
+cached_property
 ipython
 pyqt5
 sphinx>=1.4

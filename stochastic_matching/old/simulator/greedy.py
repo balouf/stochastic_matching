@@ -1,8 +1,8 @@
 import numpy as np
 from numba import njit
 
-from stochastic_matching.graphs.classes import SimpleGraph, HyperGraph
-from stochastic_matching.simulator.common import graph_neighbors_list, set_seed
+from stochastic_matching.old.graphs.classes import SimpleGraph, HyperGraph
+from stochastic_matching.old.simulator.common import graph_neighbors_list, set_seed
 
 
 @njit
@@ -29,7 +29,7 @@ def simple_choicer(neighbors, node, queue_size):
     In a Braess graph with non-empty queues in nodes 3 and 0,
     an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).
 
-    >>> from stochastic_matching import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> simple_choicer(graph_neighbors_list(bicycle_graph()), 2, np.array([1, 0, 0, 1]))
     [(1, 0), (4, 3)]
     """
@@ -60,7 +60,7 @@ def hyper_choicer(neighbors, node, queue_size):
     In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
-    >>> from stochastic_matching import hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import hyper_paddle
     >>> choices = hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, np.array([1, 0, 0, 1, 1, 0, 0]))
     >>> [(e, n.astype(int)) for e, n in choices]
     [(1, array([0])), (6, array([3, 4]))]
@@ -161,7 +161,7 @@ def random_node_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle_graph, hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph, hyper_paddle
     >>> set_seed(42)
     >>> qs = np.array([1, 0, 0, 1])
     >>> random_node_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)
@@ -195,7 +195,7 @@ def longest_queue_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> qs = np.array([1, 0, 0, 2])
     >>> longest_queue_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)
     (4, 3)
@@ -229,7 +229,7 @@ def longest_sum_queue_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import hyper_paddle
     >>> qs = np.array([3, 0, 0, 2, 2, 0, 0])
     >>> e, n = longest_sum_queue_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)
     >>> e
@@ -268,7 +268,7 @@ def random_item_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> set_seed(42)
     >>> qs = np.array([1, 0, 0, 2])
     >>> random_item_selector(simple_choicer(graph_neighbors_list(bicycle_graph()), 2, qs), qs)
@@ -306,7 +306,7 @@ def random_sum_item_selector(choices, queue_size):
 
     Examples
     --------
-    >>> from stochastic_matching import hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import hyper_paddle
     >>> qs = np.array([3, 0, 0, 2, 2, 0, 0])
     >>> e, n = random_sum_item_selector(hyper_choicer(graph_neighbors_list(hyper_paddle()), 2, qs), qs)
     >>> e
@@ -349,7 +349,7 @@ def simple_state_choicer(neighbors, node, queue_start, queue_end):
     In a Braess graph with non-empty queues in nodes 3 and 0,
     an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).
 
-    >>> from stochastic_matching import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> simple_state_choicer(graph_neighbors_list(bicycle_graph()), 2,
     ...                      np.array([10, 14, 7, 8]), np.array([11, 14, 7, 9]))
     [(1, 0), (4, 3)]
@@ -383,7 +383,7 @@ def hyper_state_choicer(neighbors, node, queue_start, queue_end):
     In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
-    >>> from stochastic_matching import hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import hyper_paddle
     >>> choices = hyper_state_choicer(graph_neighbors_list(hyper_paddle()), 2,
     ...                     np.array([21, 10, 7, 4, 3, 2, 50]), np.array([22, 10, 7, 5, 4, 2, 50]))
     >>> [(e, n.astype(int)) for e, n in choices]
@@ -497,7 +497,7 @@ def fcfm_selector(choices, max_queue, queue_start, queue_end, items):
 
     Examples
     --------
-    >>> from stochastic_matching import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> start = np.array([1, 0, 0, 2])
     >>> end = np.array([2, 0, 0, 4])
     >>> items_list = np.array([[1, 5, 6, 0, 0],
@@ -546,7 +546,7 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
 
     Examples
     --------
-    >>> from stochastic_matching import hyper_paddle
+    >>> from stochastic_matching.old.graphs.generators import hyper_paddle
     >>> start = np.array([0, 0, 0, 0, 0, 0, 0])
     >>> end = np.array([1, 0, 0, 1, 1, 0, 0])
     >>> items_list = np.array([[2, 0], [0, 0], [0, 0], [1, 0], [3, 0], [0, 0], [0, 0]])

@@ -1,6 +1,6 @@
 import numpy as np
-from stochastic_matching.analysis import Spectral
-from stochastic_matching.simulator.classes import Simulator, get_simulator_classes
+from stochastic_matching.old.analysis import Spectral
+from stochastic_matching.old.simulator.classes import Simulator, get_simulator_classes
 from inspect import isclass
 
 
@@ -40,7 +40,7 @@ class MQ:
 
         Consider the following Braess example.
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> braess = bicycle_graph()
         >>> mq = MQ(braess, [1, 3, 2, 2])
 
@@ -72,7 +72,7 @@ class MQ:
 
         Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.
 
-        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import hyper_paddle
         >>> candy = hyper_paddle()
         >>> mq = MQ(candy, [1, 1, 2, 1, 2, 1, 1])
 
@@ -99,7 +99,7 @@ class MQ:
 
         Consider the following Braess example.
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> braess = bicycle_graph()
         >>> mq = MQ(braess, [1, 3, 2, 2])
 
@@ -130,7 +130,7 @@ class MQ:
 
         Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.
 
-        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import hyper_paddle
         >>> candy = hyper_paddle()
         >>> mq = MQ(candy, [1, 1, 2, 1, 2, 1, 1])
 
@@ -163,7 +163,7 @@ class MQ:
 
         Consider the following Braess example.
 
-        >>> from stochastic_matching.graphs.generators import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> braess = bicycle_graph()
         >>> mq = MQ(braess, [1, 2, 2, 1])
 
@@ -179,7 +179,7 @@ class MQ:
 
         Note that for graphs with trivial kernel, the solution is unique and the optimizer will directly return it.
 
-        >>> from stochastic_matching.graphs.generators import hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import hyper_paddle
         >>> candy = hyper_paddle()
         >>> mq = MQ(candy, [1, 1, 2, 1, 2, 1, 1])
 
@@ -220,7 +220,7 @@ class MQ:
         Examples
         --------
 
-        >>> from stochastic_matching import tadpole_graph, fan, bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import tadpole_graph, fan, bicycle_graph
 
         Example with a red (negative) edge.
 
@@ -320,7 +320,7 @@ class MQ:
 
         Examples
         --------
-        >>> from stochastic_matching import bicycle_graph
+        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
         >>> mq = MQ(bicycle_graph())
         >>> mq.set_simulator('something')  # doctest: +NORMALIZE_WHITESPACE
         Traceback (most recent call last):
@@ -332,7 +332,7 @@ class MQ:
         >>> mq.simulator.inners.keys()
         dict_keys(['neighbors', 'queue_start', 'queue_end', 'items'])
 
-        >>> from stochastic_matching.simulator.classes import RandomNode
+        >>> from stochastic_matching.old.simulator.classes import RandomNode
         >>> mq.set_simulator(RandomNode)
         >>> mq.simulator.inners.keys()
         dict_keys(['neighbors', 'queue_size'])
@@ -393,7 +393,7 @@ class MQ:
 
         Let start with a working triangle and a greedy simulator.
 
-        >>> from stochastic_matching import tadpole_graph, bicycle_graph, hyper_paddle
+        >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
         >>> mq = MQ(tadpole_graph(n=0), mu=[3, 4, 5])
         >>> mq.spectral.base_flow
         array([1., 2., 3.])

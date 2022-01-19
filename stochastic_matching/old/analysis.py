@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.optimize import linprog
 
-from stochastic_matching.graphs.classes import neighbors, SimpleGraph
+from stochastic_matching.old.graphs.classes import neighbors, SimpleGraph
 
 def pseudo_inverse_scalar(x):
     """
@@ -64,6 +64,7 @@ status_names_simple_connected = {(False, False): "Bipartite with cycle(s)",
                 (True, True): "Non-bipartite monocyclic"}
 
 
+
 def incidence_analysis(incidence, tol=1e-10):
     """
     Performs linear algebra analysis on the incidence matrix.
@@ -91,7 +92,7 @@ def incidence_analysis(incidence, tol=1e-10):
 
     Consider the fully inversible incidence of the paw graph (bijective graph, i.e. n=m, non bipartite).
 
-    >>> from stochastic_matching.graphs.generators import tadpole_graph
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph
     >>> paw = tadpole_graph()
     >>> inv, right, left, status  = incidence_analysis(paw.incidence)
 
@@ -188,7 +189,7 @@ def incidence_analysis(incidence, tol=1e-10):
 
     Consider now the diamond graph, surjective (n<m, non bipartite).
 
-    >>> from stochastic_matching.graphs.generators import chained_cycle_graph
+    >>> from stochastic_matching.old.graphs.generators import chained_cycle_graph
     >>> diamond = chained_cycle_graph()
     >>> inv, right, left, status = incidence_analysis(diamond.incidence)
 
@@ -236,7 +237,7 @@ def incidence_analysis(incidence, tol=1e-10):
 
     Consider now a star graph, injective (tree).
 
-    >>> from stochastic_matching.graphs.generators import star_graph
+    >>> from stochastic_matching.old.graphs.generators import star_graph
     >>> star = star_graph()
     >>> inv, right, left, status = incidence_analysis(star.incidence)
 
@@ -283,7 +284,7 @@ def incidence_analysis(incidence, tol=1e-10):
 
     Next, a surjective hypergraph:
 
-    >>> from stochastic_matching.graphs.generators import fan
+    >>> from stochastic_matching.old.graphs.generators import fan
     >>> clover = fan()
     >>> inv, right, left, status = incidence_analysis(clover.incidence)
 
@@ -385,6 +386,660 @@ def incidence_analysis(incidence, tol=1e-10):
     surjective = left_kernel.shape[1] == 0
     return pseud_inv, kernel, left_kernel, (injective, surjective)
 
+class Kernel:
+    """
+    Parameters
+    ----------
+    incidence
+    tol
+
+    Attributes
+    -----------
+
+    Examples
+    --------
+
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph
+    >>> paw = tadpole_graph()
+    >>> kernel  = Kernel(paw.incidence)
+
+    The inverse is:
+
+    >>> kernel.inverse
+    array([[ 0.5,  0.5, -0.5,  0.5],
+           [ 0.5, -0.5,  0.5, -0.5],
+           [-0.5,  0.5,  0.5, -0.5],
+           [ 0. ,  0. ,  0. ,  1. ]])
+
+    We can check that it is indeed the inverse.
+
+    >>> i = paw.incidence @ kernel.inverse
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
+    Right kernel is trivial:
+
+    >>> kernel.right.shape[0]
+    0
+
+    Left kernel is trivial:
+
+    >>> kernel.left.shape[1]
+    0
+
+    Graph is bijective:
+
+    >>> kernel.type
+    'Bijective'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[kernel.status]
+    'Non-bipartite monocyclic'
+
+    Now consider a bipartite version, the banner graph :
+
+    >>> banner = tadpole_graph(m=4)
+    >>> kernel = Kernel(banner.incidence)
+
+    The pseudo-inverse is:
+
+    >>> kernel.inverse
+    array([[ 0.35,  0.4 , -0.15, -0.1 ,  0.1 ],
+           [ 0.45, -0.2 , -0.05,  0.3 , -0.3 ],
+           [-0.15,  0.4 ,  0.35, -0.1 ,  0.1 ],
+           [-0.05, -0.2 ,  0.45,  0.3 , -0.3 ],
+           [-0.2 ,  0.2 , -0.2 ,  0.2 ,  0.8 ]])
+
+    We can check that it is indeed not exactly the inverse.
+
+    >>> i = banner.incidence @ kernel.inverse
+    >>> clean_zeros(i)
+    >>> i
+    array([[ 0.8,  0.2, -0.2,  0.2, -0.2],
+           [ 0.2,  0.8,  0.2, -0.2,  0.2],
+           [-0.2,  0.2,  0.8,  0.2, -0.2],
+           [ 0.2, -0.2,  0.2,  0.8,  0.2],
+           [-0.2,  0.2, -0.2,  0.2,  0.8]])
+
+    Right kernel is not trivial because of the even cycle:
+
+    >>> kernel.right.shape[0]
+    1
+    >>> kernel.right # doctest: +SKIP
+    array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])
+
+    Left kernel is not trivial because of the bipartite degenerescence:
+
+    >>> kernel.left.shape[1]
+    1
+    >>> kernel.left
+    array([[ 0.4472136],
+           [-0.4472136],
+           [ 0.4472136],
+           [-0.4472136],
+           [ 0.4472136]])
+
+    Status is nonjective (not injective nor bijective):
+
+    >>> kernel.type
+    'Nonjective'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[kernel.status]
+    'Bipartite with cycle(s)'
+
+    Consider now the diamond graph, surjective (n<m, non bipartite).
+
+    >>> from stochastic_matching.old.graphs.generators import chained_cycle_graph
+    >>> diamond = chained_cycle_graph()
+    >>> kernel = Kernel(diamond.incidence)
+
+    The inverse is:
+
+    >>> kernel.inverse
+    array([[ 0.5 ,  0.25, -0.25,  0.  ],
+           [ 0.5 , -0.25,  0.25,  0.  ],
+           [-0.5 ,  0.5 ,  0.5 , -0.5 ],
+           [ 0.  ,  0.25, -0.25,  0.5 ],
+           [ 0.  , -0.25,  0.25,  0.5 ]])
+
+    We can check that it is indeed the inverse.
+
+    >>> i = diamond.incidence @ kernel.inverse
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
+    There is a right kernel:
+
+    >>> kernel.right.shape[0]
+    1
+    >>> kernel.right
+    array([[ 0.5, -0.5,  0. , -0.5,  0.5]])
+
+
+    The left kernel is trivial:
+
+    >>> kernel.left.shape[1]
+    0
+
+    The diamond is surjective-only:
+
+    >>> kernel.type
+    'Surjective-only'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[kernel.status]
+    'Non-bipartite polycyclic'
+
+    Consider now a star graph, injective (tree).
+
+    >>> from stochastic_matching.old.graphs.generators import star_graph
+    >>> star = star_graph()
+    >>> kernel = Kernel(star.incidence)
+
+    The inverse is:
+
+    >>> kernel.inverse
+    array([[ 0.25,  0.75, -0.25, -0.25],
+           [ 0.25, -0.25,  0.75, -0.25],
+           [ 0.25, -0.25, -0.25,  0.75]])
+
+    We can check that it is indeed the **left** inverse.
+
+    >>> i = kernel.inverse @ star.incidence
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
+
+    The right kernel is trivial:
+
+    >>> kernel.right.shape[0]
+    0
+
+    The left kernel shows the bibartite behavior:
+
+    >>> kernel.left.shape[1]
+    1
+    >>> kernel.left
+    array([[-0.5],
+           [ 0.5],
+           [ 0.5],
+           [ 0.5]])
+
+    The star is injective-only:
+
+    >>> kernel.type
+    'Injective-only'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[kernel.status]
+    'Tree'
+
+    Next, a surjective hypergraph:
+
+    >>> from stochastic_matching.old.graphs.generators import fan
+    >>> clover = fan()
+    >>> kernel = Kernel(clover.incidence)
+
+    Incidence matrix dimensions:
+
+    >>> clover.incidence.shape
+    (9, 10)
+
+    The inverse dimensions:
+
+    >>> kernel.inverse.shape
+    (10, 9)
+
+    We can check that it is exactly the inverse, because there was no dimensionnality loss.
+
+    >>> i = clover.incidence @ kernel.inverse
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0., 0., 0., 0., 0., 0., 0.],
+           [0., 1., 0., 0., 0., 0., 0., 0., 0.],
+           [0., 0., 1., 0., 0., 0., 0., 0., 0.],
+           [0., 0., 0., 1., 0., 0., 0., 0., 0.],
+           [0., 0., 0., 0., 1., 0., 0., 0., 0.],
+           [0., 0., 0., 0., 0., 1., 0., 0., 0.],
+           [0., 0., 0., 0., 0., 0., 1., 0., 0.],
+           [0., 0., 0., 0., 0., 0., 0., 1., 0.],
+           [0., 0., 0., 0., 0., 0., 0., 0., 1.]])
+
+    Right kernel is 1 dimensional:
+
+    >>> kernel.right.shape[0]
+    1
+
+    Left kernel is trivial.
+
+    >>> kernel.left.shape[1]
+    0
+
+    Status:
+
+    >>> kernel.type
+    'Surjective-only'
+
+    Lastly, observe a *bipartite* hypergraph (in the sense of with non-trivial left kernel).
+
+    >>> clover = fan(cycle_size=4)
+    >>> kernel = Kernel(clover.incidence)
+
+    Incidence matrix dimensions:
+
+    >>> clover.incidence.shape
+    (12, 13)
+
+    The inverse dimensions:
+
+    >>> kernel.inverse.shape
+    (13, 12)
+
+    We can check that it is not exactly the inverse.
+
+    >>> (clover.incidence @ kernel.inverse)[:4, :4]
+    array([[ 0.83333333,  0.16666667, -0.16666667,  0.16666667],
+           [ 0.16666667,  0.83333333,  0.16666667, -0.16666667],
+           [-0.16666667,  0.16666667,  0.83333333,  0.16666667],
+           [ 0.16666667, -0.16666667,  0.16666667,  0.83333333]])
+
+    Right kernel is 3 dimensional:
+
+    >>> kernel.right.shape[0]
+    3
+
+    Left kernel is 2-dimensional (this is a change compared to simple graph,
+    where the left kernel dimension of a connected component is at most 1).
+
+    >>> kernel.left.shape[1]
+    2
+
+    Status:
+
+    >>> kernel.type
+    'Nonjective'
+    """
+    def __init__(self, incidence, tol=1e-10):
+        self.tol = tol
+        self.right = None
+        self.left = None
+        self.inverse = None
+        self.right_inverse = None
+        self.status = None
+        self.type = None
+        self.fit(incidence)
+
+    def fit(self, incidence):
+        n, m = incidence.shape
+        min_d = min(n, m)
+        u, s, v = np.linalg.svd(incidence.toarray())
+        clean_zeros(s, tol=self.tol)
+        dia = np.zeros((m, n))
+        dia[:min_d, :min_d] = np.diag([pseudo_inverse_scalar(e) for e in s])
+        ev = np.zeros(m)
+        ev[:len(s)] = s
+        self.right = v[ev == 0, :]
+        eu = np.zeros(n)
+        eu[:len(s)] = s
+        self.left = u[:, eu == 0]
+        self.inverse = v.T @ dia @ u.T
+        self.right_inverse = kernel_inverse(self.right)
+        clean_zeros(self.inverse, tol=self.tol)
+        clean_zeros(self.right, tol=self.tol)
+        clean_zeros(self.left, tol=self.tol)
+        clean_zeros(self.right_inverse, tol=self.tol)
+        injective = self.right.shape[0] == 0
+        surjective = self.left.shape[1] == 0
+        self.status = (injective, surjective)
+        self.type = status_names[self.status]
+
+
+def kernel_analysis(incidence, tol=1e-10):
+    """
+    Performs linear algebra analysis on the incidence matrix.
+
+    Parameters
+    ----------
+    incidence: :class:`~scipy.sparse.csr_matrix`
+        Incidence matrix of the (hyper)graph.
+    tol: :class:`float`
+        Values of absolute value lower than `tol` are set to 0.
+
+    Returns
+    -------
+    inv: :class:`~numpy.ndarray`
+        Pseudo-inverse of the incidence matrix.
+    kernel: :class:`~numpy.ndarray`
+        Kernel (right) of the incidence matrix. Determines injectivity.
+    left_kernel: :class:`~numpy.ndarray`
+        Left kernel of the incidence matrix. Determines surjectivity.
+    status: :class:`tuple` of :class:`bool`
+        Tells the injectivivity and surjectivity of the graph.
+
+    Examples
+    --------
+
+    Consider the fully inversible incidence of the paw graph (bijective graph, i.e. n=m, non bipartite).
+
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph
+    >>> paw = tadpole_graph()
+    >>> kernels  = kernel_analysis(paw.incidence)
+
+    The inverse is:
+
+    >>> inv = kernels['inverse']
+    >>> inv
+    array([[ 0.5,  0.5, -0.5,  0.5],
+           [ 0.5, -0.5,  0.5, -0.5],
+           [-0.5,  0.5,  0.5, -0.5],
+           [ 0. ,  0. ,  0. ,  1. ]])
+
+    We can check that it is indeed the inverse.
+
+    >>> i = paw.incidence @ inv
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
+    Right kernel is trivial:
+
+    >>> kernels['right'].shape[0]
+    0
+
+    Left kernel is trivial:
+
+    >>> kernels['left'].shape[1]
+    0
+
+    Graph is bijective:
+
+    >>> kernels['type']
+    'Bijective'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[kernels['status']]
+    'Non-bipartite monocyclic'
+
+    Now consider a bipartite version, the banner graph :
+
+    >>> banner = tadpole_graph(m=4)
+    >>> inv, right, left, status  = incidence_analysis(banner.incidence)
+
+    The pseudo-inverse is:
+
+    >>> inv
+    array([[ 0.35,  0.4 , -0.15, -0.1 ,  0.1 ],
+           [ 0.45, -0.2 , -0.05,  0.3 , -0.3 ],
+           [-0.15,  0.4 ,  0.35, -0.1 ,  0.1 ],
+           [-0.05, -0.2 ,  0.45,  0.3 , -0.3 ],
+           [-0.2 ,  0.2 , -0.2 ,  0.2 ,  0.8 ]])
+
+    We can check that it is indeed not exactly the inverse.
+
+    >>> i = banner.incidence @ inv
+    >>> clean_zeros(i)
+    >>> i
+    array([[ 0.8,  0.2, -0.2,  0.2, -0.2],
+           [ 0.2,  0.8,  0.2, -0.2,  0.2],
+           [-0.2,  0.2,  0.8,  0.2, -0.2],
+           [ 0.2, -0.2,  0.2,  0.8,  0.2],
+           [-0.2,  0.2, -0.2,  0.2,  0.8]])
+
+    Right kernel is not trivial because of the even cycle:
+
+    >>> right.shape[0]
+    1
+    >>> right # doctest: +SKIP
+    array([[ 0.5, -0.5, -0.5,  0.5,  0. ]])
+
+    Left kernel is not trivial because of the bipartite degenerescence:
+
+    >>> left.shape[1]
+    1
+    >>> left
+    array([[ 0.4472136],
+           [-0.4472136],
+           [ 0.4472136],
+           [-0.4472136],
+           [ 0.4472136]])
+
+    Status is nonjective (not injective nor bijective):
+
+    >>> status_names[status]
+    'Nonjective'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[status]
+    'Bipartite with cycle(s)'
+
+    Consider now the diamond graph, surjective (n<m, non bipartite).
+
+    >>> from stochastic_matching.old.graphs.generators import chained_cycle_graph
+    >>> diamond = chained_cycle_graph()
+    >>> inv, right, left, status = incidence_analysis(diamond.incidence)
+
+    The inverse is:
+
+    >>> inv
+    array([[ 0.5 ,  0.25, -0.25,  0.  ],
+           [ 0.5 , -0.25,  0.25,  0.  ],
+           [-0.5 ,  0.5 ,  0.5 , -0.5 ],
+           [ 0.  ,  0.25, -0.25,  0.5 ],
+           [ 0.  , -0.25,  0.25,  0.5 ]])
+
+    We can check that it is indeed the inverse.
+
+    >>> i = diamond.incidence @ inv
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
+    There is a right kernel:
+
+    >>> right.shape[0]
+    1
+    >>> right
+    array([[ 0.5, -0.5,  0. , -0.5,  0.5]])
+
+
+    The left kernel is trivial:
+
+    >>> left.shape[1]
+    0
+
+    The diamond is surjective-only:
+
+    >>> status_names[status]
+    'Surjective-only'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[status]
+    'Non-bipartite polycyclic'
+
+    Consider now a star graph, injective (tree).
+
+    >>> from stochastic_matching.old.graphs.generators import star_graph
+    >>> star = star_graph()
+    >>> inv, right, left, status = incidence_analysis(star.incidence)
+
+    The inverse is:
+
+    >>> inv
+    array([[ 0.25,  0.75, -0.25, -0.25],
+           [ 0.25, -0.25,  0.75, -0.25],
+           [ 0.25, -0.25, -0.25,  0.75]])
+
+    We can check that it is indeed the **left** inverse.
+
+    >>> i = inv @ star.incidence
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
+
+    The right kernel is trivial:
+
+    >>> right.shape[0]
+    0
+
+    The left kernel shows the bibartite behavior:
+
+    >>> left.shape[1]
+    1
+    >>> left
+    array([[-0.5],
+           [ 0.5],
+           [ 0.5],
+           [ 0.5]])
+
+    The star is injective-only:
+
+    >>> status_names[status]
+    'Injective-only'
+
+    As the graph is simple and connected, there a more accurate description of the status:
+
+    >>> status_names_simple_connected[status]
+    'Tree'
+
+    Next, a surjective hypergraph:
+
+    >>> from stochastic_matching.old.graphs.generators import fan
+    >>> clover = fan()
+    >>> inv, right, left, status = incidence_analysis(clover.incidence)
+
+    Incidence matrix dimensions:
+
+    >>> clover.incidence.shape
+    (9, 10)
+
+    The inverse dimensions:
+
+    >>> inv.shape
+    (10, 9)
+
+    We can check that it is exactly the inverse, because there was no dimensionnality loss.
+
+    >>> i = clover.incidence @ inv
+    >>> clean_zeros(i)
+    >>> i
+    array([[1., 0., 0., 0., 0., 0., 0., 0., 0.],
+           [0., 1., 0., 0., 0., 0., 0., 0., 0.],
+           [0., 0., 1., 0., 0., 0., 0., 0., 0.],
+           [0., 0., 0., 1., 0., 0., 0., 0., 0.],
+           [0., 0., 0., 0., 1., 0., 0., 0., 0.],
+           [0., 0., 0., 0., 0., 1., 0., 0., 0.],
+           [0., 0., 0., 0., 0., 0., 1., 0., 0.],
+           [0., 0., 0., 0., 0., 0., 0., 1., 0.],
+           [0., 0., 0., 0., 0., 0., 0., 0., 1.]])
+
+    Right kernel is 1 dimensional:
+
+    >>> right.shape[0]
+    1
+
+    Left kernel is trivial.
+
+    >>> left.shape[1]
+    0
+
+    Status:
+
+    >>> status_names[status]
+    'Surjective-only'
+
+    Lastly, observe a *bipartite* hypergraph (in the sense of with non-trivial left kernel).
+
+    >>> clover = fan(cycle_size=4)
+    >>> inv, right, left, status = incidence_analysis(clover.incidence)
+
+    Incidence matrix dimensions:
+
+    >>> clover.incidence.shape
+    (12, 13)
+
+    The inverse dimensions:
+
+    >>> inv.shape
+    (13, 12)
+
+    We can check that it is not exactly the inverse.
+
+    >>> (clover.incidence @ inv)[:4, :4]
+    array([[ 0.83333333,  0.16666667, -0.16666667,  0.16666667],
+           [ 0.16666667,  0.83333333,  0.16666667, -0.16666667],
+           [-0.16666667,  0.16666667,  0.83333333,  0.16666667],
+           [ 0.16666667, -0.16666667,  0.16666667,  0.83333333]])
+
+    Right kernel is 3 dimensional:
+
+    >>> right.shape[0]
+    3
+
+    Left kernel is 2-dimensional (this is a change compared to simple graph,
+    where the left kernel dimension of a connected component is at most 1).
+
+    >>> left.shape[1]
+    2
+
+    Status:
+
+    >>> status_names[status]
+    'Nonjective'
+    """
+    n, m = incidence.shape
+    min_d = min(n, m)
+    u, s, v = np.linalg.svd(incidence.toarray())
+    clean_zeros(s, tol=tol)
+    dia = np.zeros((m, n))
+    dia[:min_d, :min_d] = np.diag([pseudo_inverse_scalar(e) for e in s])
+    ev = np.zeros(m)
+    ev[:len(s)] = s
+    kernel = v[ev == 0, :]
+    eu = np.zeros(n)
+    eu[:len(s)] = s
+    left_kernel = u[:, eu==0]
+    pseud_inv = v.T @ dia @ u.T
+    right_inverse = kernel_inverse(kernel)
+    clean_zeros(pseud_inv)
+    clean_zeros(kernel)
+    clean_zeros(left_kernel)
+    clean_zeros(right_inverse)
+    injective = kernel.shape[0] == 0
+    surjective = left_kernel.shape[1] == 0
+    return {'right': kernel,
+            'left': left_kernel,
+            'status': (injective, surjective),
+            'type': status_names[(injective, surjective)],
+            'inverse': pseud_inv,
+            'right_inverse': right_inverse
+            }
+
 
 def traversal(graph):
     """
@@ -410,7 +1065,7 @@ def traversal(graph):
 
     For simple graphs, the method provides a lot of information on each connected component.
 
-    >>> import stochastic_matching as sm
+    >>> import stochastic_matching.old.graphs.generators as sm
     >>> sample = sm.concatenate([sm.cycle_graph(4), sm.complete_graph(4), sm.chained_cycle_graph(),
     ...          sm.tadpole_graph(), sm.star_graph()], 0 )
     >>> traversal(sample) # doctest: +NORMALIZE_WHITESPACE
@@ -516,7 +1171,7 @@ def simple_right_kernel(right, seeds):
 
     Start with the co-domino.
 
-    >>> import stochastic_matching as sm
+    >>> import stochastic_matching.old.graphs.generators as sm
     >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
     >>> _, right, _, _ = incidence_analysis(codomino.incidence)
 
@@ -616,7 +1271,7 @@ def simple_left_kernel(left):
 
     By default the kernel vector are 2-normalized.
 
-    >>> import stochastic_matching as sm
+    >>> import stochastic_matching.old.graphs.generators as sm
     >>> sample = sm.concatenate([sm.cycle_graph(4), sm.star_graph(5)], 0)
     >>> _, _, left, _ = incidence_analysis(sample.incidence)
     >>> left
@@ -661,7 +1316,7 @@ def uniform_rate(graph):
     Examples
     --------
 
-    >>> from stochastic_matching import chained_cycle_graph
+    >>> from stochastic_matching.old.graphs.generators import chained_cycle_graph
     >>> diamond = chained_cycle_graph()
     >>> uniform_rate(diamond)
     array([1., 1., 1., 1.])
@@ -684,7 +1339,7 @@ def proportional_rates(graph):
     Examples
     --------
 
-    >>> from stochastic_matching import chained_cycle_graph
+    >>> from stochastic_matching.old.graphs.generators import chained_cycle_graph
     >>> diamond = chained_cycle_graph()
     >>> proportional_rates(diamond)
     array([2., 3., 3., 2.])
@@ -714,7 +1369,7 @@ class Analyzer:
 
     Is a triangle that checks triangular inequality stable?
 
-    >>> from stochastic_matching import cycle_graph
+    >>> from stochastic_matching.old.graphs.generators import cycle_graph
     >>> problem = Analyzer(cycle_graph(), mu='uniform')
     >>> problem.is_stable
     True
@@ -748,7 +1403,7 @@ class Analyzer:
 
     Now a bipartite example.
 
-    >>> from stochastic_matching import tadpole_graph
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph
     >>> problem.fit(graph=tadpole_graph(m=4))
     >>> problem.fit(mu='proportional')
 
@@ -776,7 +1431,7 @@ class Analyzer:
 
     Note that the base flow can be negative even if there is a positive solution.
 
-    >>> from stochastic_matching import chained_cycle_graph
+    >>> from stochastic_matching.old.graphs.generators import chained_cycle_graph
     >>> diamond = chained_cycle_graph()
     >>> problem = Analyzer(diamond, [5, 6, 2, 1])
     >>> problem.base_flow
@@ -883,7 +1538,7 @@ class Analyzer:
         Examples
         --------
 
-        >>> import stochastic_matching as sm
+        >>> import stochastic_matching.old.graphs.generators as sm
         >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
         >>> problem = Analyzer(codomino)
         >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
@@ -931,7 +1586,7 @@ class Analyzer:
 
         Consider the codomino graph with a kernel with a kayak paddle.
 
-        >>> import stochastic_matching as sm
+        >>> import stochastic_matching.old.graphs.generators as sm
         >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
         >>> problem = Analyzer(codomino, [3, 12, 3, 3, 12, 3])
         >>> problem.change_kernel_basis([0, 4])
@@ -988,7 +1643,7 @@ class Analyzer:
 
         Consider the codomino graph with a kernel with a kayak paddle.
 
-        >>> import stochastic_matching as sm
+        >>> import stochastic_matching.old.graphs.generators as sm
         >>> codomino = sm.concatenate([sm.cycle_graph(), sm.cycle_graph(4), sm.cycle_graph()], 2)
         >>> problem = Analyzer(codomino, [3, 12, 3, 3, 12, 3])
         >>> problem.right_kernel # doctest: +NORMALIZE_WHITESPACE
@@ -1046,7 +1701,7 @@ class Analyzer:
         Examples
         --------
 
-        >>> import stochastic_matching as sm
+        >>> import stochastic_matching.old.graphs.generators as sm
         >>> diamond = sm.chained_cycle_graph()
         >>> problem = Analyzer(diamond)
         >>> problem.base_flow
@@ -1111,7 +1766,7 @@ class Analyzer:
         Examples
         --------
 
-        >>> import stochastic_matching as sm
+        >>> import stochastic_matching.old.graphs.generators as sm
         >>> diamond = sm.chained_cycle_graph()
         >>> problem = Analyzer(diamond)
         >>> problem.show_solutions(diamond)
@@ -1230,7 +1885,7 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Consider a fully inversible incidence (n=m, non bipartite).
 
-    >>> from stochastic_matching.graphs.generators import tadpole_graph
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph
     >>> p = tadpole_graph()
     >>> inv, k, b  =inverse_incidence(p.incidence)
 
@@ -1302,7 +1957,7 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Consider now the braess graph (n<m, non bipartite).
 
-    >>> from stochastic_matching.graphs.generators import bicycle_graph
+    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> braess = bicycle_graph()
     >>> inv, k, b  =inverse_incidence(braess.incidence)
 
@@ -1337,7 +1992,7 @@ def inverse_incidence(incidence, tol=1e-10):
 
     Next, a well formed hypergraph:
 
-    >>> from stochastic_matching.graphs.generators import fan
+    >>> from stochastic_matching.old.graphs.generators import fan
     >>> clover = fan()
     >>> inv, k, b  =inverse_incidence(clover.incidence)
 
@@ -1445,7 +2100,7 @@ class Spectral:
 
     Is a triangle that checks triangular inequality stable?
 
-    >>> from stochastic_matching import tadpole_graph
+    >>> from stochastic_matching.old.graphs.generators import tadpole_graph
     >>> spec = Spectral(tadpole_graph(n=0), [3, 4, 5])
     >>> spec.is_stable
     True
