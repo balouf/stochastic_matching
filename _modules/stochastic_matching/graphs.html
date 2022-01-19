@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.graphs &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Stochastic Matching
+            <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.graphs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.graphs</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">stochastic_matching.model</span> <span class="kn">import</span> <span class="n">Model</span>
+
+
+<div class="viewcode-block" id="path_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.path_adjacency">[docs]</a><span class="k">def</span> <span class="nf">path_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a path graph :math:`P_n` (cf https://mathworld.wolfram.com/PathGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="Path"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Path">[docs]</a><span class="k">class</span> <span class="nc">Path</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Default is a two nodes line:</span>
+
+<span class="sd">    &gt;&gt;&gt; p2 = Path()</span>
+<span class="sd">    &gt;&gt;&gt; p2.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1],</span>
+<span class="sd">           [1, 0]])</span>
+
+<span class="sd">    Class name:</span>
+
+<span class="sd">    &gt;&gt;&gt; p2.name</span>
+<span class="sd">    &#39;Path&#39;</span>
+
+<span class="sd">    A five nodes line with alphabetical names:</span>
+
+<span class="sd">    &gt;&gt;&gt; p5 = Path(5, names=&quot;alpha&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; p5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 0]])</span>
+
+<span class="sd">    &gt;&gt;&gt; [p5.names[i] for i in range(p5.n)]</span>
+<span class="sd">    [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Path&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Path</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="star_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.star_adjacency">[docs]</a><span class="k">def</span> <span class="nf">star_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a star graph :math:`S_n` (https://mathworld.wolfram.com/StarGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">adja</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="Star"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Star">[docs]</a><span class="k">class</span> <span class="nc">Star</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Default is a 4 nodes star (one center and three branches):</span>
+
+<span class="sd">    &gt;&gt;&gt; s4 = Star()</span>
+<span class="sd">    &gt;&gt;&gt; s4.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0]])</span>
+
+<span class="sd">    A five nodes star:</span>
+
+<span class="sd">    &gt;&gt;&gt; s5 = Star(5)</span>
+<span class="sd">    &gt;&gt;&gt; s5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Star&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">star_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Star</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cycle_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.cycle_adjacency">[docs]</a><span class="k">def</span> <span class="nf">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a cycle graph :math:`C_n` (cf https://mathworld.wolfram.com/CycleGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">adja</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">adja</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="Cycle"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Cycle">[docs]</a><span class="k">class</span> <span class="nc">Cycle</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle:</span>
+
+<span class="sd">    &gt;&gt;&gt; triangle = Cycle()</span>
+<span class="sd">    &gt;&gt;&gt; triangle.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1],</span>
+<span class="sd">           [1, 0, 1],</span>
+<span class="sd">           [1, 1, 0]])</span>
+
+<span class="sd">    A pentacle:</span>
+
+<span class="sd">    &gt;&gt;&gt; pentacle = Cycle(n=5)</span>
+<span class="sd">    &gt;&gt;&gt; pentacle.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 0, 1, 0]])</span>
+
+<span class="sd">    A square:</span>
+
+<span class="sd">    &gt;&gt;&gt; square = Cycle(4)</span>
+<span class="sd">    &gt;&gt;&gt; square.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0],</span>
+<span class="sd">           [0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cycle&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Cycle</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="complete_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.complete_adjacency">[docs]</a><span class="k">def</span> <span class="nf">complete_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Number of nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Adjacency matrix of a complete graph :math:`K_n` (cf https://mathworld.wolfram.com/CompleteGraph.html).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Complete"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Complete">[docs]</a><span class="k">class</span> <span class="nc">Complete</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle:</span>
+
+<span class="sd">    &gt;&gt;&gt; triangle = Complete()</span>
+<span class="sd">    &gt;&gt;&gt; triangle.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1],</span>
+<span class="sd">           [1, 0, 1],</span>
+<span class="sd">           [1, 1, 0]])</span>
+
+<span class="sd">    :math:`K_5`:</span>
+
+<span class="sd">    &gt;&gt;&gt; k5 = Complete(n=5)</span>
+<span class="sd">    &gt;&gt;&gt; k5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 1, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 1, 0, 1],</span>
+<span class="sd">           [1, 1, 1, 1, 0]])</span>
+
+<span class="sd">    :math:`K_4`:</span>
+
+<span class="sd">    &gt;&gt;&gt; k4 = Complete(4)</span>
+<span class="sd">    &gt;&gt;&gt; k4.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [1, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Complete&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">complete_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Complete</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="concatenate_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.concatenate_adjacency">[docs]</a><span class="k">def</span> <span class="nf">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adja_list: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        The adjacency matrices that one wants to merge.</span>
+<span class="sd">    overlap: :class:`int` or :class:`list` of :class:`int`, optional</span>
+<span class="sd">        Number of nodes that are common to two consecutive graphs. Default to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Concatenated adjacency.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A codomino adjacency:</span>
+
+<span class="sd">    &gt;&gt;&gt; concatenate_adjacency([cycle_adjacency(), cycle_adjacency(4), cycle_adjacency()], 2) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">adja_list</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">na</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">adja_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">overlap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">overlap</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">overlap</span> <span class="o">=</span> <span class="p">[</span><span class="n">overlap</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">na</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">adja</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">adja</span> <span class="ow">in</span> <span class="n">adja_list</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">c_a</span> <span class="o">=</span> <span class="n">adja_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">c_n</span> <span class="o">=</span> <span class="n">c_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">adja</span><span class="p">[:</span><span class="n">c_n</span><span class="p">,</span> <span class="p">:</span><span class="n">c_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_a</span>
+    <span class="n">pointer</span> <span class="o">=</span> <span class="n">c_n</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">overlap</span><span class="p">):</span>
+        <span class="n">pointer</span> <span class="o">-=</span> <span class="n">o</span>
+        <span class="n">c_a</span> <span class="o">=</span> <span class="n">adja_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">c_n</span> <span class="o">=</span> <span class="n">c_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">adja</span><span class="p">[</span><span class="n">pointer</span><span class="p">:</span><span class="n">pointer</span><span class="o">+</span><span class="n">c_n</span><span class="p">,</span> <span class="n">pointer</span><span class="p">:</span><span class="n">pointer</span><span class="o">+</span><span class="n">c_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_a</span>
+        <span class="n">pointer</span> <span class="o">+=</span> <span class="n">c_n</span>
+    <span class="k">return</span> <span class="n">adja</span></div>
+
+
+<div class="viewcode-block" id="concatenate"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.concatenate">[docs]</a><span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">model_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model_list: :class:`list` of :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        The graphs that one want to merge. They must all be simple (and in particular have an adjacency matrix).</span>
+<span class="sd">    overlap: :class:`int` or :class:`list` of :class:`int`, optional</span>
+<span class="sd">        Number of nodes that are common to two consecutive graphs. Default to 1.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model of the concatenated graph.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A codomino graph:</span>
+
+<span class="sd">    &gt;&gt;&gt; codomino = concatenate([Cycle(), Cycle(4), Cycle()], 2)</span>
+<span class="sd">    &gt;&gt;&gt; codomino.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">adja_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">adjacency</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">model_list</span><span class="p">]</span>
+    <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="p">,</span> <span class="n">overlap</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Codomino"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Codomino">[docs]</a><span class="k">class</span> <span class="nc">Codomino</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; codomino = Codomino()</span>
+<span class="sd">    &gt;&gt;&gt; codomino.adjacency</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Codomino&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(),</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">cycle_adjacency</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Codomino</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Pyramid"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Pyramid">[docs]</a><span class="k">class</span> <span class="nc">Pyramid</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pyramid = Pyramid()</span>
+<span class="sd">    &gt;&gt;&gt; pyramid.adjacency</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0, 0, 1, 0],</span>
+<span class="sd">           [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Pyramid&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(),</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+                                      <span class="n">cycle_adjacency</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">cycle_adjacency</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Pyramid</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Tadpole"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Tadpole">[docs]</a><span class="k">class</span> <span class="nc">Tadpole</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Length of the cycle.</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the tail.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle with a one-edge tail (paw graph):</span>
+
+<span class="sd">    &gt;&gt;&gt; paw = Tadpole()</span>
+<span class="sd">    &gt;&gt;&gt; paw.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 0]])</span>
+
+<span class="sd">    A pentacle:</span>
+
+<span class="sd">    &gt;&gt;&gt; c5 = Tadpole(m=5, n=0)</span>
+<span class="sd">    &gt;&gt;&gt; c5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 0, 1, 0]])</span>
+
+<span class="sd">    A larger tadpole:</span>
+
+<span class="sd">    &gt;&gt;&gt; long_pan = Tadpole(m=4, n=3)</span>
+<span class="sd">    &gt;&gt;&gt; long_pan.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tadpole&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="o">=</span><span class="p">[</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Tadpole</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Lollipop"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Lollipop">[docs]</a><span class="k">class</span> <span class="nc">Lollipop</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Length of the complete graph.</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Length of the tail.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A triangle with a one-edge tail (paw graph):</span>
+
+<span class="sd">    &gt;&gt;&gt; l_3_1 = Lollipop()</span>
+<span class="sd">    &gt;&gt;&gt; l_3_1.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 0]])</span>
+
+
+<span class="sd">    A larger lollipop:</span>
+
+<span class="sd">    &gt;&gt;&gt; l_5_3 = Lollipop(m=5, n=3)</span>
+<span class="sd">    &gt;&gt;&gt; l_5_3.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Lollipop&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="o">=</span><span class="p">[</span><span class="n">complete_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Lollipop</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KayakPaddle"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.KayakPaddle">[docs]</a><span class="k">class</span> <span class="nc">KayakPaddle</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k: :class:`int`</span>
+<span class="sd">        Size of the first cycle.</span>
+<span class="sd">    l: :class:`int`</span>
+<span class="sd">        Length of the path that joins the two cycles.</span>
+<span class="sd">    m: :class:`int`, optional</span>
+<span class="sd">        Size of the second cycle. Default to the size of the first cycle.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A square and a triangle joined by a path of length 3.</span>
+
+<span class="sd">    &gt;&gt;&gt; kayak = KayakPaddle(k=4, m=3, l=3)</span>
+<span class="sd">    &gt;&gt;&gt; kayak.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    A bow-tie (two triangles with one node in common).</span>
+
+<span class="sd">    &gt;&gt;&gt; KayakPaddle(l=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Kayak Paddle&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">)])</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KayakPaddle</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Barbell"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Barbell">[docs]</a><span class="k">class</span> <span class="nc">Barbell</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k: :class:`int`</span>
+<span class="sd">        Size of the first complete graph.</span>
+<span class="sd">    m: :class:`int`, optional</span>
+<span class="sd">        Size of the second complete graph. Default to the size of the first complete graph.</span>
+<span class="sd">    l: :class:`int`</span>
+<span class="sd">        Length of the path that joins the two complete graphs.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Traditional barbel graph with complete graphs of same size and unit bridge.</span>
+
+<span class="sd">    &gt;&gt;&gt; barbel_5 = Barbell(5)</span>
+<span class="sd">    &gt;&gt;&gt; barbel_5.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])</span>
+
+<span class="sd">    A bow-tie (two triangles with one node in common).</span>
+
+<span class="sd">    &gt;&gt;&gt; Barbell(l=0).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    Something more elaborated.</span>
+
+<span class="sd">    &gt;&gt;&gt; Barbell(k=3, m=5, l=4).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Barbell&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">complete_adjacency</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">path_adjacency</span><span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">complete_adjacency</span><span class="p">(</span><span class="n">m</span><span class="p">)])</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Barbell</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CycleChain"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.CycleChain">[docs]</a><span class="k">class</span> <span class="nc">CycleChain</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: :class:`int`</span>
+<span class="sd">        Size of the cycles.</span>
+<span class="sd">    c: :class:`int`</span>
+<span class="sd">        Number of copies.</span>
+<span class="sd">    o: :class:`int`</span>
+<span class="sd">        Overlap between cycles.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    The diamond graph (two triangles).</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; diamond.adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 1],</span>
+<span class="sd">           [1, 1, 0, 1],</span>
+<span class="sd">           [0, 1, 1, 0]])</span>
+
+<span class="sd">    The *triamond* graph.</span>
+
+<span class="sd">    &gt;&gt;&gt; CycleChain(n=3, c=3).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    The triangular snake graph :math:`TS_9` (cf https://mathworld.wolfram.com/TriangularSnakeGraph.html)</span>
+
+<span class="sd">    &gt;&gt;&gt; CycleChain(n=3, c=4, o=1).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 1, 0, 1, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    The domino graph, or 3-ladder graph (cf https://mathworld.wolfram.com/LadderGraph.html)</span>
+
+<span class="sd">    &gt;&gt;&gt; CycleChain(n=4, c=2).adjacency # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 1, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cycle Chain&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adja</span> <span class="o">=</span> <span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span><span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="n">o</span> <span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CycleChain</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">adjacency</span><span class="o">=</span><span class="n">adja</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HyperPaddle"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.HyperPaddle">[docs]</a><span class="k">class</span> <span class="nc">HyperPaddle</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k: :class:`int`</span>
+<span class="sd">        Size of the first cycle.</span>
+<span class="sd">    m: :class:`int`</span>
+<span class="sd">        Size of the second cycle.</span>
+<span class="sd">    l: :class:`int`</span>
+<span class="sd">        Length of the path of 3-edges that joins the two cycles.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    The *candy*, a basic but very useful hypergraph.</span>
+
+<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; candy.incidence</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    A more elaborate hypergraph</span>
+
+<span class="sd">    &gt;&gt;&gt; HyperPaddle(k=5, m=4, l=3).incidence</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]])</span>
+
+<span class="sd">    Warning: without any hyperedge, we have two disconnected cycles.</span>
+
+<span class="sd">    &gt;&gt;&gt; HyperPaddle(l=0).incidence</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Hyper Kayak Paddle&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">k</span><span class="o">+</span><span class="n">m</span><span class="o">+</span><span class="n">l</span>
+        <span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span>
+        <span class="n">incidence</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span>
+        <span class="n">incidence</span><span class="p">[(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span><span class="p">):,</span> <span class="n">k</span><span class="p">:(</span><span class="n">k</span> <span class="o">+</span> <span class="n">m</span><span class="p">)]</span> <span class="o">=</span> <span class="n">right</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+            <span class="n">incidence</span><span class="p">[(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span> <span class="n">n</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HyperPaddle</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Fan"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Fan">[docs]</a><span class="k">class</span> <span class="nc">Fan</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cycles: :class:`int`</span>
+<span class="sd">        Number of cycles</span>
+<span class="sd">    cycle_size: :class:`int`</span>
+<span class="sd">        Size of cycles</span>
+<span class="sd">    hyperedges: :class:`int`</span>
+<span class="sd">        Number of hyperedges that connect the cycles.</span>
+<span class="sd">    args: :class:`list`, optional</span>
+<span class="sd">        Positional parameters for the model.</span>
+<span class="sd">    kwargs: :class:`dict`, optional</span>
+<span class="sd">        Keyword parameters for the model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A basic 3-leaves clover:</span>
+
+<span class="sd">    &gt;&gt;&gt; clover = Fan()</span>
+<span class="sd">    &gt;&gt;&gt; clover.incidence  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    Increase the hyperedge connectivity:</span>
+
+<span class="sd">    &gt;&gt;&gt; connected = Fan(hyperedges=2)</span>
+<span class="sd">    &gt;&gt;&gt; connected.incidence  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]])</span>
+
+<span class="sd">    With only two cycles, we have a simple graph.</span>
+
+<span class="sd">    &gt;&gt;&gt; db = Fan(cycles=2, cycle_size=4)</span>
+<span class="sd">    &gt;&gt;&gt; db.incidence # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.model import incidence_to_adjacency</span>
+<span class="sd">    &gt;&gt;&gt; incidence_to_adjacency(db.incidence) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[0, 1, 0, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 0, 1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Fan&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cycle_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">hyperedges</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">cycles</span> <span class="o">*</span> <span class="n">cycle_size</span>
+        <span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">hyperedges</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">cycle_incidence</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">cycle_size</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cycles</span><span class="p">):</span>
+            <span class="n">incidence</span><span class="p">[(</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">):((</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">):((</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cycle_size</span><span class="p">)]</span> <span class="o">=</span> <span class="n">cycle_incidence</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hyperedges</span><span class="p">):</span>
+                <span class="n">incidence</span><span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">cycle_size</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">hyperedges</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Fan</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

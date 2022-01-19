@@ -4,7 +4,7 @@ Reference
 
 .. toctree::
 
+   model
    graphs
-   analysis
-   simulator
-   mq
+   display
+   common

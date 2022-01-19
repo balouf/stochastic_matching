@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.common &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Stochastic Matching
+            <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.common</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.common</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="pseudo_inverse_scalar"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.pseudo_inverse_scalar">[docs]</a><span></span><span class="k">def</span> <span class="nf">pseudo_inverse_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: :class:`float`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`float`</span>
+<span class="sd">        Inverse of x if it is not 0.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; pseudo_inverse_scalar(2.0)</span>
+<span class="sd">    0.5</span>
+<span class="sd">    &gt;&gt;&gt; pseudo_inverse_scalar(0)</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="clean_zeros"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.clean_zeros">[docs]</a><span class="k">def</span> <span class="nf">clean_zeros</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Replace in-place all small values of a matrix by 0.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    matrix: :class:`~numpy.ndarray`</span>
+<span class="sd">        Matrix to clean.</span>
+<span class="sd">    tol: :class:`float`, optional</span>
+<span class="sd">        Threshold. All entries with absolute value lower than `tol` are put to zero.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; mat = np.array([[1e-12, -.3], [.8, -1e-13]])</span>
+<span class="sd">    &gt;&gt;&gt; clean_zeros(mat)</span>
+<span class="sd">    &gt;&gt;&gt; mat # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[ 0. , -0.3],</span>
+<span class="sd">           [ 0.8,  0. ]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">matrix</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">matrix</span><span class="p">[:])</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="CharMaker"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.CharMaker">[docs]</a><span class="k">class</span> <span class="nc">CharMaker</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class that acts as an infinite list of letters. Used to provide letter-labels to nodes</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; names = CharMaker()</span>
+<span class="sd">    &gt;&gt;&gt; names[0]</span>
+<span class="sd">    &#39;A&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[7]</span>
+<span class="sd">    &#39;H&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[26]</span>
+<span class="sd">    &#39;AA&#39;</span>
+<span class="sd">    &gt;&gt;&gt; names[107458610947716]</span>
+<span class="sd">    &#39;STOCHASTIC&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">26</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">26</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}{</span><span class="n">res</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="get_classes"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.get_classes">[docs]</a><span class="k">def</span> <span class="nf">get_classes</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    root: :class:`class`, optional</span>
+<span class="sd">        Starting class (can be abstract).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`dict`</span>
+<span class="sd">        Dictionaries of all subclasses that have a name (as in class attribute `name`).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.model import Model</span>
+<span class="sd">    &gt;&gt;&gt; get_classes(Model) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;Path&#39;: &lt;class &#39;stochastic_matching.graphs.Path&#39;&gt;,</span>
+<span class="sd">     &#39;Star&#39;: &lt;class &#39;stochastic_matching.graphs.Star&#39;&gt;,</span>
+<span class="sd">     &#39;Cycle&#39;: &lt;class &#39;stochastic_matching.graphs.Cycle&#39;&gt;,</span>
+<span class="sd">     &#39;Complete&#39;: &lt;class &#39;stochastic_matching.graphs.Complete&#39;&gt;,</span>
+<span class="sd">     &#39;Codomino&#39;: &lt;class &#39;stochastic_matching.graphs.Codomino&#39;&gt;,</span>
+<span class="sd">     &#39;Pyramid&#39;: &lt;class &#39;stochastic_matching.graphs.Pyramid&#39;&gt;,</span>
+<span class="sd">     &#39;Tadpole&#39;: &lt;class &#39;stochastic_matching.graphs.Tadpole&#39;&gt;,</span>
+<span class="sd">     &#39;Lollipop&#39;: &lt;class &#39;stochastic_matching.graphs.Lollipop&#39;&gt;,</span>
+<span class="sd">     &#39;Kayak Paddle&#39;: &lt;class &#39;stochastic_matching.graphs.KayakPaddle&#39;&gt;,</span>
+<span class="sd">     &#39;Barbell&#39;: &lt;class &#39;stochastic_matching.graphs.Barbell&#39;&gt;,</span>
+<span class="sd">     &#39;Cycle Chain&#39;: &lt;class &#39;stochastic_matching.graphs.CycleChain&#39;&gt;,</span>
+<span class="sd">     &#39;Hyper Kayak Paddle&#39;: &lt;class &#39;stochastic_matching.graphs.HyperPaddle&#39;&gt;,</span>
+<span class="sd">     &#39;Fan&#39;: &lt;class &#39;stochastic_matching.graphs.Fan&#39;&gt;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_classes</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return neighbors of a node/edge with respect to an incident matrix.</span>
+<span class="sd">    Neighborhood is defined on hypergraph level, not on adjacency level:</span>
+<span class="sd">    neighbors of a node are edges, neighbors of an edge are nodes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    i: :class:`int`</span>
+<span class="sd">        Index of the node/edge to probe.</span>
+<span class="sd">    compressed_incidence: :class:`~scipy.sparse.csr_matrix` or :class:`~scipy.sparse.csc_matrix`</span>
+<span class="sd">        Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Neighbors of *i*.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    A hypergraph with 4 nodes, 2 regular edges (0, 1) and (0, 2) and one 4-edge (0, 1, 2, 3).</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from scipy.sparse import csr_matrix, csc_matrix</span>
+<span class="sd">    &gt;&gt;&gt; incidence = np.array([[1, 1, 1],</span>
+<span class="sd">    ...                       [1, 0, 1],</span>
+<span class="sd">    ...                       [0, 1, 1],</span>
+<span class="sd">    ...                       [0, 0, 1]])</span>
+
+<span class="sd">    Edges of node 0:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(0, csr_matrix(incidence))</span>
+<span class="sd">    array([0, 1, 2], dtype=int32)</span>
+
+<span class="sd">    Egde of node 3:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(3, csr_matrix(incidence))</span>
+<span class="sd">    array([2], dtype=int32)</span>
+
+<span class="sd">    Nodes of edge 0:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(0, csc_matrix(incidence))</span>
+<span class="sd">    array([0, 1], dtype=int32)</span>
+
+<span class="sd">    Nodes of hyperedge 2:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighbors(2, csc_matrix(incidence))</span>
+<span class="sd">    array([0, 1, 2, 3], dtype=int32)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
