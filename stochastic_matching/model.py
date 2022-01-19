@@ -1303,17 +1303,12 @@ class Model:
         >>> pyramid = Pyramid(rates=[4, 3, 3, 3, 6, 6, 3, 4, 4, 4])
         >>> pyramid.seeds = [0, 12, 2]
         >>> pyramid.base_flow = pyramid.kernel_to_edge([1/6, 1/6, 1/6] )
-        >>> pyramid.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-1., -1.,  0.]),
-        'lambda': array([1., 3., 0., 2., 0., 3., 1., 2., 3., 0., 1., 3., 1.]), 'bijective': True},
-        {'alpha': array([-1.,  1.,  0.]),
-        'lambda': array([1., 3., 0., 2., 0., 3., 3., 0., 1., 2., 1., 1., 3.]), 'bijective': True},
-        {'alpha': array([0., 0., 1.]),
-        'lambda': array([2., 2., 1., 0., 0., 3., 3., 0., 3., 0., 2., 2., 2.]), 'bijective': False},
-        {'alpha': array([ 1., -1.,  0.]),
-        'lambda': array([3., 1., 0., 0., 2., 1., 3., 2., 3., 0., 1., 3., 1.]), 'bijective': True},
-        {'alpha': array([1., 1., 0.]),
-        'lambda': array([3., 1., 0., 0., 2., 1., 5., 0., 1., 2., 1., 1., 3.]), 'bijective': True}]
+        >>> [ (v['alpha'], v['bijective']) for v in pyramid.vertices] # doctest: +NORMALIZE_WHITESPACE
+        [(array([-1., -1.,  0.]), True),
+         (array([-1.,  1.,  0.]), True),
+         (array([0., 0., 1.]), False),
+         (array([ 1., -1.,  0.]), True),
+         (array([1., 1., 0.]), True)]
         """
         if self.__vertices is not None:
             return self.__vertices
