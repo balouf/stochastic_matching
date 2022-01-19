@@ -1248,6 +1248,9 @@ class Model:
         >>> paw = Tadpole()
         >>> paw.vertices
         [{'alpha': None, 'lambda': array([1., 1., 1., 1.]), 'bijective': True}]
+        >>> paw.vertices # This uses previous computation.
+        [{'alpha': None, 'lambda': array([1., 1., 1., 1.]), 'bijective': True}]
+
 
         >>> star = Star()
         >>> star.vertices
@@ -1281,24 +1284,23 @@ class Model:
         [{'alpha': array([-1.]), 'lambda': array([0., 2., 1., 2., 0.]), 'bijective': False},
          {'alpha': array([1.]), 'lambda': array([2., 0., 1., 0., 2.]), 'bijective': False}]
 
-
         >>> codomino = Codomino()
         >>> codomino.rates = [4, 5, 5, 3, 3, 2]
         >>> codomino.seeds = [1, 2]
         >>> codomino.base_flow = codomino.maximin
-        >>> codomino.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-1., -1.]), 'lambda': array([3., 1., 1., 1., 3., 0., 0., 2.]), 'bijective': True},
+        >>> sorted(codomino.vertices, key=str)  # doctest: +NORMALIZE_WHITESPACE
+        [{'alpha': array([ 1., -1.]), 'lambda': array([1., 3., 1., 3., 1., 0., 2., 0.]), 'bijective': True},
          {'alpha': array([-1.,  0.]), 'lambda': array([3., 1., 2., 0., 2., 1., 0., 2.]), 'bijective': True},
+         {'alpha': array([-1., -1.]), 'lambda': array([3., 1., 1., 1., 3., 0., 0., 2.]), 'bijective': True},
          {'alpha': array([0., 1.]), 'lambda': array([2., 2., 3., 0., 0., 2., 1., 1.]), 'bijective': True},
-         {'alpha': array([ 1., -1.]), 'lambda': array([1., 3., 1., 3., 1., 0., 2., 0.]), 'bijective': True},
          {'alpha': array([1., 0.]), 'lambda': array([1., 3., 2., 2., 0., 1., 2., 0.]), 'bijective': True}]
 
         >>> codomino.rates = [2, 4, 2, 2, 4, 2]
         >>> codomino.base_flow = np.array([1.0, 1.0, 1.0, 2.0, 0.0, 1.0, 1.0, 1.0])
-        >>> codomino.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-1., -1.]), 'lambda': array([2., 0., 0., 2., 2., 0., 0., 2.]), 'bijective': False},
+        >>> sorted(codomino.vertices, key=str)  # doctest: +NORMALIZE_WHITESPACE
+        [{'alpha': array([ 1., -1.]), 'lambda': array([0., 2., 0., 4., 0., 0., 2., 0.]), 'bijective': False},
          {'alpha': array([-1.,  1.]), 'lambda': array([2., 0., 2., 0., 0., 2., 0., 2.]), 'bijective': False},
-         {'alpha': array([ 1., -1.]), 'lambda': array([0., 2., 0., 4., 0., 0., 2., 0.]), 'bijective': False}]
+         {'alpha': array([-1., -1.]), 'lambda': array([2., 0., 0., 2., 2., 0., 0., 2.]), 'bijective': False}]
 
         >>> pyramid = Pyramid(rates=[4, 3, 3, 3, 6, 6, 3, 4, 4, 4])
         >>> pyramid.seeds = [0, 12, 2]
@@ -1318,38 +1320,39 @@ class Model:
         if d == 0:
             dico = {'alpha': None, 'lambda': self.maximin}
             dico['bijective'] = ((self.m - self.n) == sum(dico['lambda'] == 0))
-            return [dico]
-        if d > 1:
-            halfspaces = np.hstack([-self.kernel.right.T, -self.base_flow.reshape(self.m, 1)])
-            interior_point = self.edge_to_kernel(self.maximin)
-            hs = HalfspaceIntersection(halfspaces, interior_point)
-            verts = hs.intersections
-            clean_zeros(verts)
-            verts = np.unique(verts, axis=0)
+            res = [dico]
         else:
-            verts = [None, None]
-            for e in range(m):
-                spin = self.kernel.right[0, e]
-                if spin == 0:
-                    continue
-                v = -self.base_flow[e] / spin
-                if spin > 0:
-                    if verts[0] is None:
-                        verts[0] = v
+            if d > 1:
+                halfspaces = np.hstack([-self.kernel.right.T, -self.base_flow.reshape(self.m, 1)])
+                interior_point = self.edge_to_kernel(self.maximin)
+                hs = HalfspaceIntersection(halfspaces, interior_point)
+                verts = hs.intersections
+                clean_zeros(verts)
+                verts = np.unique(verts, axis=0)
+            else:
+                verts = [None, None]
+                for e in range(m):
+                    spin = self.kernel.right[0, e]
+                    if spin == 0:
+                        continue
+                    v = -self.base_flow[e] / spin
+                    if spin > 0:
+                        if verts[0] is None:
+                            verts[0] = v
+                        else:
+                            verts[0] = max(v, verts[0])
                     else:
-                        verts[0] = max(v, verts[0])
-                else:
-                    if verts[1] is None:
-                        verts[1] = v
-                    else:
-                        verts[1] = min(v, verts[1])
-            verts = np.array(verts).reshape((2, 1))
-        v = verts.shape[0]
-        res = [dict() for _ in range(v)]
-        for i, dico in enumerate(res):
-            dico['alpha'] = verts[i, :]
-            dico['lambda'] = self.kernel_to_edge(dico['alpha'])
-            clean_zeros(dico['lambda'], tol=self.tol)
-            dico['bijective'] = ((self.m - self.n) == sum(dico['lambda'] == 0))
+                        if verts[1] is None:
+                            verts[1] = v
+                        else:
+                            verts[1] = min(v, verts[1])
+                verts = np.array(verts).reshape((2, 1))
+            v = verts.shape[0]
+            res = [dict() for _ in range(v)]
+            for i, dico in enumerate(res):
+                dico['alpha'] = verts[i, :]
+                dico['lambda'] = self.kernel_to_edge(dico['alpha'])
+                clean_zeros(dico['lambda'], tol=self.tol)
+                dico['bijective'] = ((self.m - self.n) == sum(dico['lambda'] == 0))
         self.__vertices = res
         return res
