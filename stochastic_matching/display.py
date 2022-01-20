@@ -430,12 +430,9 @@ def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=Fa
 
     We can set custom weights on the edges, for instance use a different flow vector.
 
-    >>> flow = pyramid.vertices[0]['lambda']
+    >>> flow = np.array([0., 2., 0., 3., 1., 1., 0., 2., 0., 2., 0., 1., 1.])
     >>> n_i, e_i = info_maker(pyramid, flow=flow)
-    >>> e_i[2]
-    {'title': '2: (B, C)', 'label': '0'}
-    >>> e_i[3]
-    {'title': '3: (B, F)', 'label': '3'}
+    >>> assert np.allclose([float(e_i[i]['label']) for i in range(pyramid.m)], flow)
 
     We can ask for the kernel basis to be indicated as well.
 
