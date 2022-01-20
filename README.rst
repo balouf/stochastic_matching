@@ -22,7 +22,7 @@ Stochastic Matching
 
 
 .. image:: https://codecov.io/gh/balouf/stochastic_matching/branch/master/graphs/badge.svg
-        :target: https://codecov.io/gh/balouf/stochastic_matching/branch/master/graphs
+        :target: https://codecov.io/gh/balouf/stochastic_matching/tree/master/stochastic_matching
         :alt: Code Coverage
 
 

@@ -223,328 +223,403 @@ def vis_show(vis_nodes=None, vis_edges=None, vis_options=None, template=None,
                           template=template, vis=vis, div_name=div_name)))
 
 
-def vis_maker_simple(model, nodes_info=None, edges_info=None):
+def default_description(model):
     """
-    The method provides a Vis-ready description of the graph.
-
     Parameters
     ----------
-    model: :class:`~stochastic_matching.model.Model`
-        A stochastic model.
-    nodes_info: :class:`list` of :class:`dict`
-        Additional / overriding attributed for the nodes.
-    edges_info: :class:`list` of :class:`dict`
-        Additional / overriding attributed for the edges.
+    model: :class:`stochastic_matching.model.Model`
+        Model to visualize.
 
     Returns
     -------
-    :class:`tuple`
-        Node and edge inputs for the vis engine.
+    nodes_info :class:`list` of `dict`
+        Skeleton node description.
+    nodes_info :class:`list` of `dict`
+        Skeleton node description.
 
     Examples
-    ---------
+    --------
 
-    >>> from stochastic_matching.graphs import Tadpole
-    >>> paw = Tadpole()
-    >>> vis_maker_simple(paw) # doctest: +NORMALIZE_WHITESPACE
-    ([{'id': 0, 'label': '0', 'title': '0'},
-    {'id': 1, 'label': '1', 'title': '1'},
-    {'id': 2, 'label': '2', 'title': '2'},
-    {'id': 3, 'label': '3', 'title': '3'}],
-    [{'from': 0, 'to': 1, 'title': '0: (0, 1)', 'label': '(0, 1)'},
-    {'from': 0, 'to': 2, 'title': '1: (0, 2)', 'label': '(0, 2)'},
-    {'from': 1, 'to': 2, 'title': '2: (1, 2)', 'label': '(1, 2)'},
-    {'from': 2, 'to': 3, 'title': '3: (2, 3)', 'label': '(2, 3)'}])
-
-    Nodes can have names.
-
-    >>> paw.names = ['One', 'Two', 'Three', 'Four']
-    >>> vis_maker_simple(paw) # doctest: +NORMALIZE_WHITESPACE
-    ([{'id': 0, 'label': 'One', 'title': '0: One'},
-    {'id': 1, 'label': 'Two', 'title': '1: Two'},
-    {'id': 2, 'label': 'Three', 'title': '2: Three'},
-    {'id': 3, 'label': 'Four', 'title': '3: Four'}],
-    [{'from': 0, 'to': 1, 'title': '0: (One, Two)', 'label': '(One, Two)'},
-    {'from': 0, 'to': 2, 'title': '1: (One, Three)', 'label': '(One, Three)'},
-    {'from': 1, 'to': 2, 'title': '2: (Two, Three)', 'label': '(Two, Three)'},
-    {'from': 2, 'to': 3, 'title': '3: (Three, Four)', 'label': '(Three, Four)'}])
-
-    Pass 'alpha' to name for automatic letter labeling.
-
-    >>> paw.names = 'alpha'
-    >>> vis_maker_simple(paw) # doctest: +NORMALIZE_WHITESPACE
-    ([{'id': 0, 'label': 'A', 'title': '0: A'},
-    {'id': 1, 'label': 'B', 'title': '1: B'},
-    {'id': 2, 'label': 'C', 'title': '2: C'},
-    {'id': 3, 'label': 'D', 'title': '3: D'}],
-    [{'from': 0, 'to': 1, 'title': '0: (A, B)', 'label': '(A, B)'},
-    {'from': 0, 'to': 2, 'title': '1: (A, C)', 'label': '(A, C)'},
-    {'from': 1, 'to': 2, 'title': '2: (B, C)', 'label': '(B, C)'},
-    {'from': 2, 'to': 3, 'title': '3: (C, D)', 'label': '(C, D)'}])
+    >>> from stochastic_matching.graphs import CycleChain
+    >>> diamond = CycleChain()
+    >>> default_description(diamond) # doctest: +NORMALIZE_WHITESPACE
+    ([{'id': 0, 'label': '', 'title': '0'},
+      {'id': 1, 'label': '', 'title': '1'},
+      {'id': 2, 'label': '', 'title': '2'},
+      {'id': 3, 'label': '', 'title': '3'}],
+    [{'title': '0: (0, 1)', 'label': ''},
+     {'title': '1: (0, 2)', 'label': ''},
+     {'title': '2: (1, 2)', 'label': ''},
+     {'title': '3: (1, 3)', 'label': ''},
+     {'title': '4: (2, 3)', 'label': ''}])
+    >>> diamond.names = 'alpha'
+    >>> default_description(diamond) # doctest: +NORMALIZE_WHITESPACE
+    ([{'id': 0, 'label': '', 'title': '0: A'},
+      {'id': 1, 'label': '', 'title': '1: B'},
+      {'id': 2, 'label': '', 'title': '2: C'},
+      {'id': 3, 'label': '', 'title': '3: D'}],
+    [{'title': '0: (A, B)', 'label': ''},
+     {'title': '1: (A, C)', 'label': ''},
+     {'title': '2: (B, C)', 'label': ''},
+     {'title': '3: (B, D)', 'label': ''},
+     {'title': '4: (C, D)', 'label': ''}])
     """
-    vis_nodes = [{'id': i, 'label': int_2_str(model, i),
+    nodes_info = [{'id': i, 'label': '',
                   'title': f"{i}: {int_2_str(model, i)}" if model.names is not None else str(i)}
                  for i in range(model.n)]
-    if nodes_info is not None:
-        vis_nodes = [{**internal, **external} for internal, external in zip(vis_nodes, nodes_info)]
-
-    vis_edges = [{'from': int(e[0]), 'to': int(e[1]),
-                  'title': f"{j}: ({', '.join([int_2_str(model, i) for i in e])})",
-                  'label': f"({', '.join([int_2_str(model, i) for i in e])})"}
-                 for j, e in [(j, neighbors(j, model.incidence_csc)) for j in range(model.m)]]
-    if edges_info is not None:
-        vis_edges = [{**internal, **external} for internal, external in zip(vis_edges, edges_info)]
-
-    return vis_nodes, vis_edges
+    edges_info = [{'title': f"{j}: ({', '.join([int_2_str(model, i) for i in e])})",
+                   'label': ''}
+                     for j, e in [(j, neighbors(j, model.incidence_csc)) for j in range(model.m)]]
+    return nodes_info, edges_info
 
 
-def vis_maker_hypergraph(model, nodes_info=None, edges_info=None, vis_options=None, bipartite=False):
+def vis_converter(model, nodes_info, edges_info):
     """
-    The method provides a Vis-ready description of the graph.
-
     Parameters
     ----------
     model: :class:`~stochastic_matching.model.Model`
-        A stochastic model.
-    nodes_info: :class:`list` of :class:`dict`, optional
-        Additional / overriding attributes for the nodes.
-    edges_info: :class:`list` of :class:`dict`, optional
-        Additional / overriding attributes for the edges.
-    vis_options: :class:`dict`, optional
-        Additional / overriding options to pass to the vis engine.
-        One specific key, *bipartite_display*,
-    bipartite: :class:`bool`, optional
-        Tells if the bipartite node/edge structure should be explicitly shown.
+        Model to visualize.
+    nodes_info: :class:`list` of :class:`dict`
+        Description of nodes.
+    edges_info: :class:`list` of :class:`dict`
+        Description of edges.
 
     Returns
     -------
-    :class:`tuple`
-        Inputs for the vis engine.
+    vis_nodes: :class:`list` of :class:`dict`
+        Description of the nodes that will be displayed in vis.
+        If the graph is simple, this is just the input nodes.
+        For hypergraphs, both nodes and hyperedges are displayed as nodes in vis.
+    vis_edges: :class:`list` of :class:`dict`
+        Description of the edges that will be displayed in vis.
+        If the graph is simple, this is just the input edges, with endpoints info added for vis.
+        For hypergraphs, each edge in vis links a node and a hyperedge..
+
+
+    Examples
+    --------
+    >>> from stochastic_matching.graphs import CycleChain, HyperPaddle
+    >>> diamond = CycleChain()
+    >>> nodes, edges = default_description(diamond)
+    >>> vis_converter(diamond, nodes, edges) # doctest: +NORMALIZE_WHITESPACE
+    ([{'id': 0, 'label': '', 'title': '0'},
+      {'id': 1, 'label': '', 'title': '1'},
+      {'id': 2, 'label': '', 'title': '2'},
+      {'id': 3, 'label': '', 'title': '3'}],
+     [{'title': '0: (0, 1)', 'label': '', 'from': 0, 'to': 1},
+      {'title': '1: (0, 2)', 'label': '', 'from': 0, 'to': 2},
+      {'title': '2: (1, 2)', 'label': '', 'from': 1, 'to': 2},
+      {'title': '3: (1, 3)', 'label': '', 'from': 1, 'to': 3},
+      {'title': '4: (2, 3)', 'label': '', 'from': 2, 'to': 3}])
+    >>> diamond.adjacency = None
+    >>> vis_converter(diamond, nodes, edges) # doctest: +NORMALIZE_WHITESPACE
+    ([{'id': 0, 'label': '', 'title': '0', 'x': 0, 'group': 'Node'},
+      {'id': 1, 'label': '', 'title': '1', 'x': 0, 'group': 'Node'},
+      {'id': 2, 'label': '', 'title': '2', 'x': 0, 'group': 'Node'},
+      {'id': 3, 'label': '', 'title': '3', 'x': 0, 'group': 'Node'},
+      {'title': '0: (0, 1)', 'label': '', 'from': 0, 'to': 1, 'id': 4, 'group': 'HyperEdge', 'x': 600},
+      {'title': '1: (0, 2)', 'label': '', 'from': 0, 'to': 2, 'id': 5, 'group': 'HyperEdge', 'x': 600},
+      {'title': '2: (1, 2)', 'label': '', 'from': 1, 'to': 2, 'id': 6, 'group': 'HyperEdge', 'x': 600},
+      {'title': '3: (1, 3)', 'label': '', 'from': 1, 'to': 3, 'id': 7, 'group': 'HyperEdge', 'x': 600},
+      {'title': '4: (2, 3)', 'label': '', 'from': 2, 'to': 3, 'id': 8, 'group': 'HyperEdge', 'x': 600}],
+     [{'from': 0, 'to': 4, 'title': '0 <-> 0: (0, 1)'},
+      {'from': 0, 'to': 5, 'title': '0 <-> 1: (0, 2)'},
+      {'from': 1, 'to': 4, 'title': '1 <-> 0: (0, 1)'},
+      {'from': 1, 'to': 6, 'title': '1 <-> 2: (1, 2)'},
+      {'from': 1, 'to': 7, 'title': '1 <-> 3: (1, 3)'},
+      {'from': 2, 'to': 5, 'title': '2 <-> 1: (0, 2)'},
+      {'from': 2, 'to': 6, 'title': '2 <-> 2: (1, 2)'},
+      {'from': 2, 'to': 8, 'title': '2 <-> 4: (2, 3)'},
+      {'from': 3, 'to': 7, 'title': '3 <-> 3: (1, 3)'},
+      {'from': 3, 'to': 8, 'title': '3 <-> 4: (2, 3)'}])
+    >>> candy = HyperPaddle()
+    >>> vis_nodes, vis_edges = vis_converter(candy, *default_description(candy))
+    >>> vis_nodes[2]
+    {'id': 2, 'label': '', 'title': '2', 'x': 0, 'group': 'Node'}
+    >>> vis_nodes[13]
+    {'title': '6: (2, 3, 4)', 'label': '', 'id': 13, 'group': 'HyperEdge', 'x': 600}
+    >>> vis_edges[6]
+    {'from': 2, 'to': 13, 'title': '2 <-> 6: (2, 3, 4)'}
+    """
+    simple = model.adjacency is not None
+    if simple:
+        vis_nodes = nodes_info
+        vis_edges = edges_info
+        for e, dico in enumerate(vis_edges):
+            endpoints = neighbors(e, model.incidence_csc)
+            dico['from'] = int(endpoints[0])
+            dico['to'] = int(endpoints[1])
+        return vis_nodes, vis_edges
+    else:
+        vis_nodes_1 = nodes_info
+        vis_nodes_2 = edges_info
+        for d in vis_nodes_1:
+            d['x'] = 0
+            d['group'] = 'Node'
+        for j, d in enumerate(vis_nodes_2):
+            d['id'] = model.n + j
+            d['group'] = 'HyperEdge'
+            d['x'] = 600
+        vis_edges = [{'from': i, 'to': model.n + int(j),
+                      'title': f"{vis_nodes_1[i]['title']} <-> {vis_nodes_2[j]['title']}"} for i in range(model.n)
+                     for j in neighbors(i, model.incidence_csr)]
+        return vis_nodes_1+vis_nodes_2, vis_edges
+
+
+def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=False, disp_zero=True,
+               check_flow=False, check_tolerance=1e-2):
+    """
+    Parameters
+    ----------
+    model: :class:`~stochastic_matching.model.Model`
+        Model to visualize.
+    disp_rates: :class:`bool`, optional
+        Labels the nodes with their rates. Otherwise the names are used.
+    disp_flow: :class:`bool`, optional
+        Label the edges with the given flow.
+    flow: :class:`~numpy.ndarray`, optional
+        Flow to use. If None, the base flow will be used. If not None, overrides `disp_flow`.
+    disp_kernel: :class:`bool`, optional
+        Display the kernel basis on the edges. Compatible with the display of a flow.
+    disp_zero: :class:`bool`, optional
+        If False, do not label the edge with a null flow.
+    check_flow: :class:`bool`, optional
+        If True, color the edges with their positivity and the nodes with their compliance to the conservation law.
+    check_tolerance: :class:`float`, optional
+        Relative error when checking conservation law on nodes.
+        For simulations, a relatively high value is recommended, for example 1e-2.
+
+    Returns
+    -------
+    nodes_info: :class:`list` of :class:`dict`
+        Description of nodes.
+    edges_info: :class:`list` of :class:`dict`
+        Description of edges.
 
     Examples
     ---------
 
-    >>> from stochastic_matching.graphs import HyperPaddle
-    >>> vis_maker_hypergraph(HyperPaddle(), bipartite=True) # doctest: +NORMALIZE_WHITESPACE
-    ([{'id': 0, 'label': '0', 'title': '0', 'x': 0, 'group': 'Node'},
-      {'id': 1, 'label': '1', 'title': '1', 'x': 0, 'group': 'Node'},
-      {'id': 2, 'label': '2', 'title': '2', 'x': 0, 'group': 'Node'},
-      {'id': 3, 'label': '3', 'title': '3', 'x': 0, 'group': 'Node'},
-      {'id': 4, 'label': '4', 'title': '4', 'x': 0, 'group': 'Node'},
-      {'id': 5, 'label': '5', 'title': '5', 'x': 0, 'group': 'Node'},
-      {'id': 6, 'label': '6', 'title': '6', 'x': 0, 'group': 'Node'},
-      {'id': 7, 'title': '0: (0, 1)', 'group': 'HyperEdge', 'x': 480},
-      {'id': 8, 'title': '1: (0, 2)', 'group': 'HyperEdge', 'x': 480},
-      {'id': 9, 'title': '2: (1, 2)', 'group': 'HyperEdge', 'x': 480},
-      {'id': 10, 'title': '3: (4, 5)', 'group': 'HyperEdge', 'x': 480},
-      {'id': 11, 'title': '4: (4, 6)', 'group': 'HyperEdge', 'x': 480},
-      {'id': 12, 'title': '5: (5, 6)', 'group': 'HyperEdge', 'x': 480},
-      {'id': 13, 'title': '6: (2, 3, 4)', 'group': 'HyperEdge', 'x': 480}],
-    [{'from': 0, 'to': 7, 'title': '0 <-> 0: (0, 1)'},
-     {'from': 0, 'to': 8, 'title': '0 <-> 1: (0, 2)'},
-     {'from': 1, 'to': 7, 'title': '1 <-> 0: (0, 1)'},
-     {'from': 1, 'to': 9, 'title': '1 <-> 2: (1, 2)'},
-     {'from': 2, 'to': 8, 'title': '2 <-> 1: (0, 2)'},
-     {'from': 2, 'to': 9, 'title': '2 <-> 2: (1, 2)'},
-     {'from': 2, 'to': 13, 'title': '2 <-> 6: (2, 3, 4)'},
-     {'from': 3, 'to': 13, 'title': '3 <-> 6: (2, 3, 4)'},
-     {'from': 4, 'to': 10, 'title': '4 <-> 3: (4, 5)'},
-     {'from': 4, 'to': 11, 'title': '4 <-> 4: (4, 6)'},
-     {'from': 4, 'to': 13, 'title': '4 <-> 6: (2, 3, 4)'},
-     {'from': 5, 'to': 10, 'title': '5 <-> 3: (4, 5)'},
-     {'from': 5, 'to': 12, 'title': '5 <-> 5: (5, 6)'},
-     {'from': 6, 'to': 11, 'title': '6 <-> 4: (4, 6)'},
-     {'from': 6, 'to': 12, 'title': '6 <-> 5: (5, 6)'}],
-     {'groups': {'HyperEdge': {'fixed': {'x': True}, 'color': {'background': 'black'},
-                               'shape': 'dot', 'size': 5},
-     'Node': {'fixed': {'x': True}}}})
+    It is probably best to play a bit with the options, but the following examples should give the general idea.
+
+    We start with the so-called *pyramid* graph (the names comes from one of its kernel,
+    and not from the shape of the graph itself).
+
+    >>> from stochastic_matching.graphs import Pyramid, KayakPaddle, CycleChain
+    >>> pyramid = Pyramid(names='alpha')
+
+    By default, the label of a node (its displayed name) is its arrival rate,
+    and the label of an edge is its Moore_penrose flow.
+
+    >>> n_i, e_i = info_maker(pyramid)
+    >>> n_i[3]
+    {'id': 3, 'label': '2', 'title': '3: D'}
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': '1'}
+
+    We can disable the display of the arrival rates, so the actual name of the node will be displayed.
+
+    >>> n_i, e_i = info_maker(pyramid, disp_rates=False)
+    >>> n_i[3]
+    {'id': 3, 'label': 'D', 'title': '3: D'}
+
+    We ask for no label on edges.
+
+    >>> n_i, e_i = info_maker(pyramid, disp_flow=False)
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': ''}
+
+    We can set custom weights on the edges, for instance use a different flow vector.
+
+    >>> flow = pyramid.vertices[0]['lambda']
+    >>> n_i, e_i = info_maker(pyramid, flow=flow)
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': '0'}
+    >>> e_i[3]
+    {'title': '3: (B, F)', 'label': '3'}
+
+    We can ask for the kernel basis to be indicated as well.
+
+    >>> n_i, e_i = info_maker(pyramid, flow=flow, disp_kernel=True)
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': '0+α1'}
+    >>> e_i[3]
+    {'title': '3: (B, F)', 'label': '3-α1+α2-α3'}
+
+    We can remove the flow to have just the kernel basis.
+
+    >>> n_i, e_i = info_maker(pyramid, disp_flow=False, disp_kernel=True)
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': '+α1'}
+    >>> e_i[3]
+    {'title': '3: (B, F)', 'label': '-α1+α2-α3'}
+
+    By asking null values to be silent, we get avoid things like `0+...`.
+
+    >>> n_i, e_i = info_maker(pyramid, flow=flow, disp_zero=False, disp_kernel=True)
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': '+α1'}
+    >>> e_i[3]
+    {'title': '3: (B, F)', 'label': '3-α1+α2-α3'}
+
+    If we ask to check the flow, null edges are displayed in orange.
+
+    >>> n_i, e_i = info_maker(pyramid, flow=flow, check_flow=True)
+    >>> e_i[2]
+    {'title': '2: (B, C)', 'label': '0', 'color': 'orange'}
+
+    Note that the kernel basis is not necessarily +/- 1, even on simple graphs.
+
+    >>> kayak = KayakPaddle()
+    >>> n_i, e_i = info_maker(kayak, disp_kernel=True)
+    >>> e_i[3]
+    {'title': '3: (2, 3)', 'label': '1+2α1'}
+
+    When kernel is displayed, edges that are not part of any kernel are shown in black.
+
+    >>> diamond = CycleChain()
+    >>> n_i, e_i = info_maker(diamond, disp_kernel=True)
+    >>> e_i[2]
+    {'title': '2: (1, 2)', 'label': '1', 'color': 'black'}
+
+    Nodes that do not check the conservation law and negative edges are shown in red.
+
+    >>> n_i, e_i = info_maker(diamond, flow=[-1]*5, check_flow=True)
+    >>> n_i[2]
+    {'id': 2, 'label': '3', 'title': '2', 'color': 'red'}
+    >>> e_i[2]
+    {'title': '2: (1, 2)', 'label': '-1', 'color': 'red'}
     """
-    if vis_options is None:
-        vis_options = dict()
+    nodes_info, edges_info = default_description(model)
+    if flow is not None:
+        disp_flow = True
+    for i, node in enumerate(nodes_info):
+        if disp_rates:
+            node['label'] = f"{model.rates[i]:.3g}"
+        else:
+            node['label'] = int_2_str(model, i)
+    if disp_flow:
+        if flow is None:
+            flow = model.base_flow
+        for e, edge in enumerate(edges_info):
+            if np.abs(flow[e]) > model.tol:
+                edge['label'] = f"{flow[e]:.3g}"
+            elif disp_zero:
+                edge['label'] = "0"
+    if disp_kernel:
+        d, m = model.kernel.right.shape
+        for e, edge in enumerate(edges_info):
+            label = ""
+            for i in range(d):
+                alpha = model.kernel.right[i, e]
+                if alpha == 0:
+                    continue
+                if alpha == 1:
+                    label += f"+"
+                elif alpha == -1:
+                    label += f"-"
+                else:
+                    label += f"{alpha:+.3g}"
+                label += f"α{i + 1}"
+            edge['label'] += label
+            if not label:
+                edge['color'] = 'black'
+    if check_flow and disp_flow:
+        out_rate = model.incidence_csr @ flow
+        for i, node in enumerate(nodes_info):
+            if np.abs(model.rates[i] - out_rate[i]) / model.rates[i] > check_tolerance:
+                node['color'] = 'red'
+        for e, edge in enumerate(edges_info):
+            if flow[e] < -model.tol:
+                edge['color'] = 'red'
+            elif flow[e] < model.tol:
+                edge['color'] = 'orange'
+            else:
+                edge['color'] = edge.get('color', 'blue')
+    return nodes_info, edges_info
 
-    vis_options = {**HYPER_GRAPH_VIS_OPTIONS, **vis_options}
-    vis_options['groups']['HyperEdge']['fixed']['x'] = bipartite
-    vis_options['groups']['Node']['fixed']['x'] = bipartite
 
-    inner_width = round(.8 * vis_options.get('width', 600))
-
-    vis_nodes = [{'id': i,
-                  'label': int_2_str(model, i),
-                  'title': f"{i}: {int_2_str(model, i)}" if model.names is not None else str(i),
-                  'x': 0, 'group': 'Node'} for i in range(model.n)]
-    if nodes_info is not None:
-        vis_nodes = [{**internal, **external} for internal, external in zip(vis_nodes, nodes_info)]
-
-    vis_edges = [{'id': model.n + j,
-                  'title': f"{j}: ({', '.join([int_2_str(model, i) for i in neighbors(j, model.incidence_csc)])})",
-                  'group': 'HyperEdge', 'x': inner_width} for j in range(model.m)]
-    if edges_info is not None:
-        vis_edges = [{**internal, **external} for internal, external in zip(vis_edges, edges_info)]
-
-    vis_links = [{'from': i, 'to': model.n + int(j),
-                  'title': f"{int_2_str(model, i)} <-> {vis_edges[j]['title']}"} for i in range(model.n)
-                 for j in neighbors(i, model.incidence_csr)]
-    return vis_nodes + vis_edges, vis_links, vis_options
-
-
-def show_graph(model, nodes_info=None, edges_info=None, vis_options=None, bipartite=False, png=False):
+def show(model, bipartite=False, png=False, **kwargs):
     """
-    Shows the graph.
+    End-to-end display solution for model.
+    It is basically a pipe
+    :class:`~stochastic_matching.model.Model` ->
+    :meth:`~stochastic_matching.display.info_maker` ->
+    :meth:`~stochastic_matching.display.vis_converter` ->
+    :meth:`~stochastic_matching.display.vis_show`.
+
+    The extra arguments are passed when needed on the right spot along the pipe, allowing maximal flexibility.
 
     Parameters
     ----------
     model: :class:`~stochastic_matching.model.Model`
-        A stochastic model.
-    nodes_info: :class:`list` of :class:`dict`
-        Additional / overriding attributes for the nodes.
-    edges_info: :class:`list` of :class:`dict`
-        Additional / overriding attributes for the edges.
-    vis_options: :class:`dict`
-        Additional / overriding options to pass to the vis engine.
+        The model to display.
     bipartite: :class:`bool`, optional
         Tells if the bipartite node/edge structure should be explicitly shown.
     png: :class:`bool`
         Make a mirror PNG that can be saved.
+    kwargs: :class:`dict`
+        Keyword arguments. See :meth:`~stochastic_matching.display.info_maker`,
+        :meth:`~stochastic_matching.display.vis_converter`, and
+        :meth:`~stochastic_matching.display.vis_show` for details.
+
 
     Returns
     -------
     :class:`~IPython.display.HTML`
 
     Examples
-    ---------
+    --------
 
-    >>> from stochastic_matching.graphs import Tadpole
-    >>> paw = Tadpole()
-    >>> show_graph(paw)
+    >>> from stochastic_matching.graphs import Pyramid, Fan
+    >>> pyramid = Pyramid()
+
+    Basic display.
+
+    >>> show(pyramid)
     <IPython.core.display.HTML object>
 
-    If you need to save your graph, pass the option `png`. It will display a mirror png picture that you can save.
+    With this, the nodes and edges will not show anything. The result can be exported as png.
 
-    >>> show_graph(paw, png=True)
+    >>> nodes_info=[{'label': ''} for _ in range(pyramid.n)]
+    >>> edges_info=[{'label': ''} for _ in range(pyramid.m)]
+    >>> show(pyramid, nodes_info=nodes_info, edges_info=edges_info, png=True)
+    <IPython.core.display.HTML object>
+
+    Display of a hypergraph in bipartite mode.
+
+    >>> fan = Fan()
+    >>> show(fan, bipartite=True)
     <IPython.core.display.HTML object>
     """
+    info_kwds = {'disp_rates', 'disp_flow', 'flow', 'disp_kernel', 'disp_zero',
+                 'check_flow', 'check_tolerance'}
+    converter_kwds = {'nodes_info', 'edges_info'}
+    vis_kwds = {'vis_options', 'template', 'vis', 'div_name'}
+
+    info_kwargs = {k: v for k, v in kwargs.items() if k in info_kwds}
+    converter_kwargs = {k: v for k, v in kwargs.items() if k in converter_kwds}
+    vis_kwargs = {k: v for k, v in kwargs.items() if k in vis_kwds}
+
+    nodes_info, edges_info = info_maker(model, **info_kwargs)
+
+    if 'nodes_info' in converter_kwargs:
+        nodes_info = [ {**n1, **n2} for n1, n2 in zip(nodes_info, converter_kwargs['nodes_info'])]
+    if 'edges_info' in converter_kwargs:
+        edges_info = [ {**e1, **e2} for e1, e2 in zip(edges_info, converter_kwargs['edges_info'])]
+
+    vis_nodes, vis_edges = vis_converter(model, nodes_info, edges_info)
+
+    if model.adjacency is None:
+        vis_kwargs['vis_options'] = {**vis_kwargs.get('vis_options', dict()), **HYPER_GRAPH_VIS_OPTIONS}
+        if bipartite:
+            vis_options = vis_kwargs['vis_options']
+            vis_options['groups']['HyperEdge']['fixed']['x'] = True
+            vis_options['groups']['Node']['fixed']['x'] = True
+            inner_width = round(.8 * vis_options.get('width', 600))
+            for vis_node in vis_nodes:
+                if vis_node.get('group') == 'HyperEdge':
+                    vis_node['x'] = inner_width
     if png:
-        template = PNG_TEMPLATE
-    else:
-        template = None
-    if model.adjacency is not None:
-        vis_nodes, vis_edges = vis_maker_simple(model,
-                                                nodes_info=nodes_info,
-                                                edges_info=edges_info,
-                                                )
-    else:
-        vis_nodes, vis_edges, vis_options = vis_maker_hypergraph(model,
-                                                                 nodes_info=nodes_info,
-                                                                 edges_info=edges_info,
-                                                                 vis_options=vis_options,
-                                                                 bipartite=bipartite)
-    vis_show(vis_nodes, vis_edges, vis_options, template=template)
+        vis_kwargs['template'] = PNG_TEMPLATE
+    vis_show(vis_nodes, vis_edges, **vis_kwargs)
 
-
-def make_kernel_options(model, flow=None):
-    """
-    Parameters
-    ----------
-    model: :class:`~stochastic_matching.model.Model`
-        A stochastic model.
-    flow: :class:`~numpy.ndarray` ot :class:`bool`, optional
-        Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.
-        If no flow is given, the model base flow is used.
-
-    Returns
-    -------
-    :class:`list` of :class:`dict`
-        An edge description dictionary to pass to :meth:`~stochastic_matching.display.show_kernel`.
-
-    Examples
-    --------
-
-    >>> from stochastic_matching.graphs import CycleChain, KayakPaddle
-    >>> diamond = CycleChain()
-    >>> diamond.base_flow
-    array([1., 1., 1., 1., 1.])
-    >>> make_kernel_options(diamond)
-    [{'label': '1+α1'}, {'label': '1-α1'}, {'label': '1', 'color': 'black'}, {'label': '1-α1'}, {'label': '1+α1'}]
-    >>> make_kernel_options(diamond, flow=False)
-    [{'label': '+α1'}, {'label': '-α1'}, {'label': '', 'color': 'black'}, {'label': '-α1'}, {'label': '+α1'}]
-
-    # >>> min_flow = problem.optimize_edge(0, -1)
-    #  >>> min_flow
-    array([0., 2., 1., 2., 0.])
-    # >>> problem.kernel_dict(flow=min_flow)
-    [{'label': '+α1'}, {'label': '2-α1'}, {'label': '1', 'color': 'black'}, {'label': '2-α1'}, {'label': '+α1'}]
-
-    >>> kayak = KayakPaddle(l=3)
-    >>> make_kernel_options(kayak) # doctest: +NORMALIZE_WHITESPACE
-    [{'label': '1-α1'}, {'label': '1+α1'}, {'label': '1+α1'},
-     {'label': '1-2α1'}, {'label': '1+2α1'}, {'label': '1-2α1'},
-     {'label': '1+α1'}, {'label': '1+α1'}, {'label': '1-α1'}]
-    """
-    d, m = model.kernel.right.shape
-    edge_description = [dict() for _ in range(m)]
-    for e in range(m):
-        label = ""
-        for i in range(d):
-            alpha = model.kernel.right[i, e]
-            if alpha == 0:
-                continue
-            if alpha == 1:
-                label += f"+"
-            elif alpha == -1:
-                label += f"-"
-            else:
-                label += f"{alpha:+.3g}"
-            label += f"α{i + 1}"
-        edge_description[e]['label'] = label
-        if not label:
-            edge_description[e]['color'] = 'black'
-    if flow is False:
-        return edge_description
-    if flow is None:
-        flow = model.base_flow
-    for e, dico in enumerate(edge_description):
-        if np.abs(flow[e]) > model.tol:
-            dico['label'] = f"{flow[e]:.3g}{dico['label']}"
-    return edge_description
-
-
-def show_kernel(model, rates=True, flow=None, *args, **kwargs):
-    """
-    Parameters
-    ----------
-    model: :class:`~stochastic_matching.model.Model`
-        A stochastic model.
-    rates: :class:`bool`
-        Display model arrival rates. If False, the node names are displayed.
-    flow: :class:`~numpy.ndarray` ot :class:`bool`, optional
-        Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.
-        If no flow is given, the model base flow is used.
-    args: :class:`list`, optional
-        Positional parameters for :meth:`~stochastic_matching.display.show_graph`.
-    kwargs: :class:`dict`, optional
-        Keyword parameters for :meth:`~stochastic_matching.display.show_graph`.
-
-    Returns
-    -------
-    :class:`~IPython.display.HTML`
-
-    Examples
-    --------
-
-    >>> from stochastic_matching.graphs import CycleChain, HyperPaddle
-    >>> diamond = CycleChain()
-    >>> show_kernel(diamond)
-    <IPython.core.display.HTML object>
-    >>> show_kernel(diamond, rates=False)
-    <IPython.core.display.HTML object>
-    >>> candy = HyperPaddle()
-    >>> show_kernel(candy)
-    <IPython.core.display.HTML object>
-    """
-    if rates:
-        rates = model.rates
-        nodes_description = [{'label': f"{rates[i]:.3g}"} for i in range(model.n)]
-    else:
-        nodes_description = None
-    show_graph(model, nodes_info=nodes_description,
-               edges_info=make_kernel_options(model, flow=flow), *args, **kwargs)
