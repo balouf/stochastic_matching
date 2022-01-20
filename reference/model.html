@@ -833,6 +833,114 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.model.Model.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.show" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the model. See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.model.Model.show_flow">
+<span class="sig-name descname"><span class="pre">show_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.show_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.show_flow" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the model (with check on conservation law and edge positivity).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.model.Model.show_graph">
+<span class="sig-name descname"><span class="pre">show_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.show_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.show_graph" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the graph of the model (with node names and no value on edges by default).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.model.Model.show_kernel">
+<span class="sig-name descname"><span class="pre">show_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.show_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.show_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the kernel basis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.model.Model.show_vertex">
+<span class="sig-name descname"><span class="pre">show_vertex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.show_vertex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.show_vertex" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the vertex of indice <em>i</em>. See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – indice of the vertex.</p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="stochastic_matching.model.Model.stabilizable">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stabilizable</span></span><a class="headerlink" href="#stochastic_matching.model.Model.stabilizable" title="Permalink to this definition"></a></dt>

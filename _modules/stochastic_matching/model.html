@@ -84,6 +84,7 @@
 <span class="kn">from</span> <span class="nn">cached_property</span> <span class="kn">import</span> <span class="n">cached_property</span>
 
 <span class="kn">from</span> <span class="nn">stochastic_matching.common</span> <span class="kn">import</span> <span class="n">pseudo_inverse_scalar</span><span class="p">,</span> <span class="n">clean_zeros</span><span class="p">,</span> <span class="n">CharMaker</span><span class="p">,</span> <span class="n">neighbors</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.display</span> <span class="kn">import</span> <span class="n">show</span>
 
 <span class="n">status_names</span> <span class="o">=</span> <span class="p">{(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Nonjective&quot;</span><span class="p">,</span>
                 <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Injective-only&quot;</span><span class="p">,</span>
@@ -1434,7 +1435,132 @@
                 <span class="n">clean_zeros</span><span class="p">(</span><span class="n">dico</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">],</span> <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">)</span>
                 <span class="n">dico</span><span class="p">[</span><span class="s1">&#39;bijective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dico</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span> <span class="o">=</span> <span class="n">res</span>
-        <span class="k">return</span> <span class="n">res</span></div>
+        <span class="k">return</span> <span class="n">res</span>
+
+<div class="viewcode-block" id="Model.show"><a class="viewcode-back" href="../../reference/model.html#stochastic_matching.model.Model.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the model. See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid</span>
+<span class="sd">        &gt;&gt;&gt; pyramid = Pyramid()</span>
+<span class="sd">        &gt;&gt;&gt; pyramid.show()</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.show_graph"><a class="viewcode-back" href="../../reference/model.html#stochastic_matching.model.Model.show_graph">[docs]</a>    <span class="k">def</span> <span class="nf">show_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the graph of the model (with node names and no value on edges by default).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid</span>
+<span class="sd">        &gt;&gt;&gt; pyramid = Pyramid()</span>
+<span class="sd">        &gt;&gt;&gt; pyramid.show_graph()</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;disp_flow&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;disp_rates&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="Model.show_flow"><a class="viewcode-back" href="../../reference/model.html#stochastic_matching.model.Model.show_flow">[docs]</a>    <span class="k">def</span> <span class="nf">show_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the model (with check on conservation law and edge positivity).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid</span>
+<span class="sd">        &gt;&gt;&gt; pyramid = Pyramid()</span>
+<span class="sd">        &gt;&gt;&gt; pyramid.show_flow()</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;check_flow&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="Model.show_kernel"><a class="viewcode-back" href="../../reference/model.html#stochastic_matching.model.Model.show_kernel">[docs]</a>    <span class="k">def</span> <span class="nf">show_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the kernel basis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid</span>
+<span class="sd">        &gt;&gt;&gt; pyramid = Pyramid()</span>
+<span class="sd">        &gt;&gt;&gt; pyramid.show_kernel()</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;disp_kernel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;disp_flow&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;disp_zero&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="Model.show_vertex"><a class="viewcode-back" href="../../reference/model.html#stochastic_matching.model.Model.show_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">show_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the vertex of indice *i*. See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i: :class:`int`</span>
+<span class="sd">            indice of the vertex.</span>
+<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~IPython.display.HTML`</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid</span>
+<span class="sd">        &gt;&gt;&gt; pyramid = Pyramid()</span>
+<span class="sd">        &gt;&gt;&gt; pyramid.show_vertex(2)</span>
+<span class="sd">        &lt;IPython.core.display.HTML object&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;flow&#39;</span><span class="p">:</span> <span class="n">flow</span><span class="p">,</span> <span class="s1">&#39;disp_zero&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;check_flow&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div></div>
+
+
+
 </pre></div>
 
            </div>

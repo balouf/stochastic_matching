@@ -302,331 +302,403 @@
                           <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span> <span class="n">vis</span><span class="o">=</span><span class="n">vis</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="n">div_name</span><span class="p">)))</span></div>
 
 
-<div class="viewcode-block" id="vis_maker_simple"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.vis_maker_simple">[docs]</a><span class="k">def</span> <span class="nf">vis_maker_simple</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="default_description"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.default_description">[docs]</a><span class="k">def</span> <span class="nf">default_description</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The method provides a Vis-ready description of the graph.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        A stochastic model.</span>
-<span class="sd">    nodes_info: :class:`list` of :class:`dict`</span>
-<span class="sd">        Additional / overriding attributed for the nodes.</span>
-<span class="sd">    edges_info: :class:`list` of :class:`dict`</span>
-<span class="sd">        Additional / overriding attributed for the edges.</span>
+<span class="sd">    model: :class:`stochastic_matching.model.Model`</span>
+<span class="sd">        Model to visualize.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`tuple`</span>
-<span class="sd">        Node and edge inputs for the vis engine.</span>
+<span class="sd">    nodes_info :class:`list` of `dict`</span>
+<span class="sd">        Skeleton node description.</span>
+<span class="sd">    nodes_info :class:`list` of `dict`</span>
+<span class="sd">        Skeleton node description.</span>
 
 <span class="sd">    Examples</span>
-<span class="sd">    ---------</span>
+<span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Tadpole</span>
-<span class="sd">    &gt;&gt;&gt; paw = Tadpole()</span>
-<span class="sd">    &gt;&gt;&gt; vis_maker_simple(paw) # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 3, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
-<span class="sd">    [{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;(0, 1)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;(0, 2)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;(1, 2)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (2, 3)&#39;, &#39;label&#39;: &#39;(2, 3)&#39;}])</span>
-
-<span class="sd">    Nodes can have names.</span>
-
-<span class="sd">    &gt;&gt;&gt; paw.names = [&#39;One&#39;, &#39;Two&#39;, &#39;Three&#39;, &#39;Four&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; vis_maker_simple(paw) # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;One&#39;, &#39;title&#39;: &#39;0: One&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 1, &#39;label&#39;: &#39;Two&#39;, &#39;title&#39;: &#39;1: Two&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 2, &#39;label&#39;: &#39;Three&#39;, &#39;title&#39;: &#39;2: Three&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 3, &#39;label&#39;: &#39;Four&#39;, &#39;title&#39;: &#39;3: Four&#39;}],</span>
-<span class="sd">    [{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (One, Two)&#39;, &#39;label&#39;: &#39;(One, Two)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (One, Three)&#39;, &#39;label&#39;: &#39;(One, Three)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (Two, Three)&#39;, &#39;label&#39;: &#39;(Two, Three)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (Three, Four)&#39;, &#39;label&#39;: &#39;(Three, Four)&#39;}])</span>
-
-<span class="sd">    Pass &#39;alpha&#39; to name for automatic letter labeling.</span>
-
-<span class="sd">    &gt;&gt;&gt; paw.names = &#39;alpha&#39;</span>
-<span class="sd">    &gt;&gt;&gt; vis_maker_simple(paw) # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;A&#39;, &#39;title&#39;: &#39;0: A&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 1, &#39;label&#39;: &#39;B&#39;, &#39;title&#39;: &#39;1: B&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 2, &#39;label&#39;: &#39;C&#39;, &#39;title&#39;: &#39;2: C&#39;},</span>
-<span class="sd">    {&#39;id&#39;: 3, &#39;label&#39;: &#39;D&#39;, &#39;title&#39;: &#39;3: D&#39;}],</span>
-<span class="sd">    [{&#39;from&#39;: 0, &#39;to&#39;: 1, &#39;title&#39;: &#39;0: (A, B)&#39;, &#39;label&#39;: &#39;(A, B)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 0, &#39;to&#39;: 2, &#39;title&#39;: &#39;1: (A, C)&#39;, &#39;label&#39;: &#39;(A, C)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 1, &#39;to&#39;: 2, &#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;(B, C)&#39;},</span>
-<span class="sd">    {&#39;from&#39;: 2, &#39;to&#39;: 3, &#39;title&#39;: &#39;3: (C, D)&#39;, &#39;label&#39;: &#39;(C, D)&#39;}])</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain</span>
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; default_description(diamond) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
+<span class="sd">    [{&#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;3: (1, 3)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;4: (2, 3)&#39;, &#39;label&#39;: &#39;&#39;}])</span>
+<span class="sd">    &gt;&gt;&gt; diamond.names = &#39;alpha&#39;</span>
+<span class="sd">    &gt;&gt;&gt; default_description(diamond) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0: A&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1: B&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2: C&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3: D&#39;}],</span>
+<span class="sd">    [{&#39;title&#39;: &#39;0: (A, B)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;1: (A, C)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;3: (B, D)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="sd">     {&#39;title&#39;: &#39;4: (C, D)&#39;, &#39;label&#39;: &#39;&#39;}])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span>
+    <span class="n">nodes_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
                   <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)}</span>
                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="n">nodes_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">nodes_info</span><span class="p">)]</span>
-
-    <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-                  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-                  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">}</span>
-                 <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)]]</span>
-    <span class="k">if</span> <span class="n">edges_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_edges</span><span class="p">,</span> <span class="n">edges_info</span><span class="p">)]</span>
-
-    <span class="k">return</span> <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span></div>
+    <span class="n">edges_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                   <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+                     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)]]</span>
+    <span class="k">return</span> <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span></div>
 
 
-<div class="viewcode-block" id="vis_maker_hypergraph"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.vis_maker_hypergraph">[docs]</a><span class="k">def</span> <span class="nf">vis_maker_hypergraph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bipartite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="vis_converter"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.vis_converter">[docs]</a><span class="k">def</span> <span class="nf">vis_converter</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The method provides a Vis-ready description of the graph.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        A stochastic model.</span>
-<span class="sd">    nodes_info: :class:`list` of :class:`dict`, optional</span>
-<span class="sd">        Additional / overriding attributes for the nodes.</span>
-<span class="sd">    edges_info: :class:`list` of :class:`dict`, optional</span>
-<span class="sd">        Additional / overriding attributes for the edges.</span>
-<span class="sd">    vis_options: :class:`dict`, optional</span>
-<span class="sd">        Additional / overriding options to pass to the vis engine.</span>
-<span class="sd">        One specific key, *bipartite_display*,</span>
-<span class="sd">    bipartite: :class:`bool`, optional</span>
-<span class="sd">        Tells if the bipartite node/edge structure should be explicitly shown.</span>
+<span class="sd">        Model to visualize.</span>
+<span class="sd">    nodes_info: :class:`list` of :class:`dict`</span>
+<span class="sd">        Description of nodes.</span>
+<span class="sd">    edges_info: :class:`list` of :class:`dict`</span>
+<span class="sd">        Description of edges.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`tuple`</span>
-<span class="sd">        Inputs for the vis engine.</span>
+<span class="sd">    vis_nodes: :class:`list` of :class:`dict`</span>
+<span class="sd">        Description of the nodes that will be displayed in vis.</span>
+<span class="sd">        If the graph is simple, this is just the input nodes.</span>
+<span class="sd">        For hypergraphs, both nodes and hyperedges are displayed as nodes in vis.</span>
+<span class="sd">    vis_edges: :class:`list` of :class:`dict`</span>
+<span class="sd">        Description of the edges that will be displayed in vis.</span>
+<span class="sd">        If the graph is simple, this is just the input edges, with endpoints info added for vis.</span>
+<span class="sd">        For hypergraphs, each edge in vis links a node and a hyperedge..</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; nodes, edges = default_description(diamond)</span>
+<span class="sd">    &gt;&gt;&gt; vis_converter(diamond, nodes, edges) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
+<span class="sd">     [{&#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 1},</span>
+<span class="sd">      {&#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 2},</span>
+<span class="sd">      {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 2},</span>
+<span class="sd">      {&#39;title&#39;: &#39;3: (1, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 3},</span>
+<span class="sd">      {&#39;title&#39;: &#39;4: (2, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 2, &#39;to&#39;: 3}])</span>
+<span class="sd">    &gt;&gt;&gt; diamond.adjacency = None</span>
+<span class="sd">    &gt;&gt;&gt; vis_converter(diamond, nodes, edges) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">      {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="sd">      {&#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 1, &#39;id&#39;: 4, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="sd">      {&#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 2, &#39;id&#39;: 5, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="sd">      {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 2, &#39;id&#39;: 6, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="sd">      {&#39;title&#39;: &#39;3: (1, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 3, &#39;id&#39;: 7, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="sd">      {&#39;title&#39;: &#39;4: (2, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 2, &#39;to&#39;: 3, &#39;id&#39;: 8, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600}],</span>
+<span class="sd">     [{&#39;from&#39;: 0, &#39;to&#39;: 4, &#39;title&#39;: &#39;0 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 0, &#39;to&#39;: 5, &#39;title&#39;: &#39;0 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 1, &#39;to&#39;: 4, &#39;title&#39;: &#39;1 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 1, &#39;to&#39;: 6, &#39;title&#39;: &#39;1 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 1, &#39;to&#39;: 7, &#39;title&#39;: &#39;1 &lt;-&gt; 3: (1, 3)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 2, &#39;to&#39;: 5, &#39;title&#39;: &#39;2 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 2, &#39;to&#39;: 6, &#39;title&#39;: &#39;2 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 2, &#39;to&#39;: 8, &#39;title&#39;: &#39;2 &lt;-&gt; 4: (2, 3)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 3, &#39;to&#39;: 7, &#39;title&#39;: &#39;3 &lt;-&gt; 3: (1, 3)&#39;},</span>
+<span class="sd">      {&#39;from&#39;: 3, &#39;to&#39;: 8, &#39;title&#39;: &#39;3 &lt;-&gt; 4: (2, 3)&#39;}])</span>
+<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; vis_nodes, vis_edges = vis_converter(candy, *default_description(candy))</span>
+<span class="sd">    &gt;&gt;&gt; vis_nodes[2]</span>
+<span class="sd">    {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; vis_nodes[13]</span>
+<span class="sd">    {&#39;title&#39;: &#39;6: (2, 3, 4)&#39;, &#39;label&#39;: &#39;&#39;, &#39;id&#39;: 13, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600}</span>
+<span class="sd">    &gt;&gt;&gt; vis_edges[6]</span>
+<span class="sd">    {&#39;from&#39;: 2, &#39;to&#39;: 13, &#39;title&#39;: &#39;2 &lt;-&gt; 6: (2, 3, 4)&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">simple</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">simple</span><span class="p">:</span>
+        <span class="n">vis_nodes</span> <span class="o">=</span> <span class="n">nodes_info</span>
+        <span class="n">vis_edges</span> <span class="o">=</span> <span class="n">edges_info</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">dico</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vis_edges</span><span class="p">):</span>
+            <span class="n">endpoints</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="p">)</span>
+            <span class="n">dico</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">endpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">dico</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">endpoints</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">vis_nodes_1</span> <span class="o">=</span> <span class="n">nodes_info</span>
+        <span class="n">vis_nodes_2</span> <span class="o">=</span> <span class="n">edges_info</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">vis_nodes_1</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Node&#39;</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vis_nodes_2</span><span class="p">):</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">j</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;HyperEdge&#39;</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">600</span>
+        <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">),</span>
+                      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vis_nodes_1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &lt;-&gt; </span><span class="si">{</span><span class="n">vis_nodes_2</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">vis_nodes_1</span><span class="o">+</span><span class="n">vis_nodes_2</span><span class="p">,</span> <span class="n">vis_edges</span></div>
+
+
+<div class="viewcode-block" id="info_maker"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.info_maker">[docs]</a><span class="k">def</span> <span class="nf">info_maker</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+               <span class="n">check_flow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check_tolerance</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to visualize.</span>
+<span class="sd">    disp_rates: :class:`bool`, optional</span>
+<span class="sd">        Labels the nodes with their rates. Otherwise the names are used.</span>
+<span class="sd">    disp_flow: :class:`bool`, optional</span>
+<span class="sd">        Label the edges with the given flow.</span>
+<span class="sd">    flow: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">        Flow to use. If None, the base flow will be used. If not None, overrides `disp_flow`.</span>
+<span class="sd">    disp_kernel: :class:`bool`, optional</span>
+<span class="sd">        Display the kernel basis on the edges. Compatible with the display of a flow.</span>
+<span class="sd">    disp_zero: :class:`bool`, optional</span>
+<span class="sd">        If False, do not label the edge with a null flow.</span>
+<span class="sd">    check_flow: :class:`bool`, optional</span>
+<span class="sd">        If True, color the edges with their positivity and the nodes with their compliance to the conservation law.</span>
+<span class="sd">    check_tolerance: :class:`float`, optional</span>
+<span class="sd">        Relative error when checking conservation law on nodes.</span>
+<span class="sd">        For simulations, a relatively high value is recommended, for example 1e-2.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nodes_info: :class:`list` of :class:`dict`</span>
+<span class="sd">        Description of nodes.</span>
+<span class="sd">    edges_info: :class:`list` of :class:`dict`</span>
+<span class="sd">        Description of edges.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    ---------</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; vis_maker_hypergraph(HyperPaddle(), bipartite=True) # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    ([{&#39;id&#39;: 0, &#39;label&#39;: &#39;0&#39;, &#39;title&#39;: &#39;0&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 1, &#39;label&#39;: &#39;1&#39;, &#39;title&#39;: &#39;1&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 2, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 3, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;3&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 4, &#39;label&#39;: &#39;4&#39;, &#39;title&#39;: &#39;4&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 5, &#39;label&#39;: &#39;5&#39;, &#39;title&#39;: &#39;5&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 6, &#39;label&#39;: &#39;6&#39;, &#39;title&#39;: &#39;6&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
-<span class="sd">      {&#39;id&#39;: 7, &#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
-<span class="sd">      {&#39;id&#39;: 8, &#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
-<span class="sd">      {&#39;id&#39;: 9, &#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
-<span class="sd">      {&#39;id&#39;: 10, &#39;title&#39;: &#39;3: (4, 5)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
-<span class="sd">      {&#39;id&#39;: 11, &#39;title&#39;: &#39;4: (4, 6)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
-<span class="sd">      {&#39;id&#39;: 12, &#39;title&#39;: &#39;5: (5, 6)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480},</span>
-<span class="sd">      {&#39;id&#39;: 13, &#39;title&#39;: &#39;6: (2, 3, 4)&#39;, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 480}],</span>
-<span class="sd">    [{&#39;from&#39;: 0, &#39;to&#39;: 7, &#39;title&#39;: &#39;0 &lt;-&gt; 0: (0, 1)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 0, &#39;to&#39;: 8, &#39;title&#39;: &#39;0 &lt;-&gt; 1: (0, 2)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 1, &#39;to&#39;: 7, &#39;title&#39;: &#39;1 &lt;-&gt; 0: (0, 1)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 1, &#39;to&#39;: 9, &#39;title&#39;: &#39;1 &lt;-&gt; 2: (1, 2)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 2, &#39;to&#39;: 8, &#39;title&#39;: &#39;2 &lt;-&gt; 1: (0, 2)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 2, &#39;to&#39;: 9, &#39;title&#39;: &#39;2 &lt;-&gt; 2: (1, 2)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 2, &#39;to&#39;: 13, &#39;title&#39;: &#39;2 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 3, &#39;to&#39;: 13, &#39;title&#39;: &#39;3 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 4, &#39;to&#39;: 10, &#39;title&#39;: &#39;4 &lt;-&gt; 3: (4, 5)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 4, &#39;to&#39;: 11, &#39;title&#39;: &#39;4 &lt;-&gt; 4: (4, 6)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 4, &#39;to&#39;: 13, &#39;title&#39;: &#39;4 &lt;-&gt; 6: (2, 3, 4)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 5, &#39;to&#39;: 10, &#39;title&#39;: &#39;5 &lt;-&gt; 3: (4, 5)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 5, &#39;to&#39;: 12, &#39;title&#39;: &#39;5 &lt;-&gt; 5: (5, 6)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 6, &#39;to&#39;: 11, &#39;title&#39;: &#39;6 &lt;-&gt; 4: (4, 6)&#39;},</span>
-<span class="sd">     {&#39;from&#39;: 6, &#39;to&#39;: 12, &#39;title&#39;: &#39;6 &lt;-&gt; 5: (5, 6)&#39;}],</span>
-<span class="sd">     {&#39;groups&#39;: {&#39;HyperEdge&#39;: {&#39;fixed&#39;: {&#39;x&#39;: True}, &#39;color&#39;: {&#39;background&#39;: &#39;black&#39;},</span>
-<span class="sd">                               &#39;shape&#39;: &#39;dot&#39;, &#39;size&#39;: 5},</span>
-<span class="sd">     &#39;Node&#39;: {&#39;fixed&#39;: {&#39;x&#39;: True}}}})</span>
+<span class="sd">    It is probably best to play a bit with the options, but the following examples should give the general idea.</span>
+
+<span class="sd">    We start with the so-called *pyramid* graph (the names comes from one of its kernel,</span>
+<span class="sd">    and not from the shape of the graph itself).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid, KayakPaddle, CycleChain</span>
+<span class="sd">    &gt;&gt;&gt; pyramid = Pyramid(names=&#39;alpha&#39;)</span>
+
+<span class="sd">    By default, the label of a node (its displayed name) is its arrival rate,</span>
+<span class="sd">    and the label of an edge is its Moore_penrose flow.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid)</span>
+<span class="sd">    &gt;&gt;&gt; n_i[3]</span>
+<span class="sd">    {&#39;id&#39;: 3, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;3: D&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;1&#39;}</span>
+
+<span class="sd">    We can disable the display of the arrival rates, so the actual name of the node will be displayed.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, disp_rates=False)</span>
+<span class="sd">    &gt;&gt;&gt; n_i[3]</span>
+<span class="sd">    {&#39;id&#39;: 3, &#39;label&#39;: &#39;D&#39;, &#39;title&#39;: &#39;3: D&#39;}</span>
+
+<span class="sd">    We ask for no label on edges.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, disp_flow=False)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;&#39;}</span>
+
+<span class="sd">    We can set custom weights on the edges, for instance use a different flow vector.</span>
+
+<span class="sd">    &gt;&gt;&gt; flow = np.array([0., 2., 0., 3., 1., 1., 0., 2., 0., 2., 0., 1., 1.])</span>
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, flow=flow)</span>
+<span class="sd">    &gt;&gt;&gt; assert np.allclose([float(e_i[i][&#39;label&#39;]) for i in range(pyramid.m)], flow)</span>
+
+<span class="sd">    We can ask for the kernel basis to be indicated as well.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, flow=flow, disp_kernel=True)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;0+α1&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; e_i[3]</span>
+<span class="sd">    {&#39;title&#39;: &#39;3: (B, F)&#39;, &#39;label&#39;: &#39;3-α1+α2-α3&#39;}</span>
+
+<span class="sd">    We can remove the flow to have just the kernel basis.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, disp_flow=False, disp_kernel=True)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;+α1&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; e_i[3]</span>
+<span class="sd">    {&#39;title&#39;: &#39;3: (B, F)&#39;, &#39;label&#39;: &#39;-α1+α2-α3&#39;}</span>
+
+<span class="sd">    By asking null values to be silent, we get avoid things like `0+...`.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, flow=flow, disp_zero=False, disp_kernel=True)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;+α1&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; e_i[3]</span>
+<span class="sd">    {&#39;title&#39;: &#39;3: (B, F)&#39;, &#39;label&#39;: &#39;3-α1+α2-α3&#39;}</span>
+
+<span class="sd">    If we ask to check the flow, null edges are displayed in orange.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(pyramid, flow=flow, check_flow=True)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;0&#39;, &#39;color&#39;: &#39;orange&#39;}</span>
+
+<span class="sd">    Note that the kernel basis is not necessarily +/- 1, even on simple graphs.</span>
+
+<span class="sd">    &gt;&gt;&gt; kayak = KayakPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(kayak, disp_kernel=True)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[3]</span>
+<span class="sd">    {&#39;title&#39;: &#39;3: (2, 3)&#39;, &#39;label&#39;: &#39;1+2α1&#39;}</span>
+
+<span class="sd">    When kernel is displayed, edges that are not part of any kernel are shown in black.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(diamond, disp_kernel=True)</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}</span>
+
+<span class="sd">    Nodes that do not check the conservation law and negative edges are shown in red.</span>
+
+<span class="sd">    &gt;&gt;&gt; n_i, e_i = info_maker(diamond, flow=[-1]*5, check_flow=True)</span>
+<span class="sd">    &gt;&gt;&gt; n_i[2]</span>
+<span class="sd">    {&#39;id&#39;: 2, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;2&#39;, &#39;color&#39;: &#39;red&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; e_i[2]</span>
+<span class="sd">    {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;-1&#39;, &#39;color&#39;: &#39;red&#39;}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">vis_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vis_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span> <span class="o">=</span> <span class="n">default_description</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">flow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">disp_flow</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes_info</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">disp_rates</span><span class="p">:</span>
+            <span class="n">node</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">disp_flow</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">flow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flow</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">base_flow</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges_info</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="n">disp_zero</span><span class="p">:</span>
+                <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+    <span class="k">if</span> <span class="n">disp_kernel</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges_info</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">right</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+&quot;</span>
+                <span class="k">elif</span> <span class="n">alpha</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">+.3g</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">label</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="p">:</span>
+                <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+    <span class="k">if</span> <span class="n">check_flow</span> <span class="ow">and</span> <span class="n">disp_flow</span><span class="p">:</span>
+        <span class="n">out_rate</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span> <span class="o">@</span> <span class="n">flow</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes_info</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">out_rate</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">check_tolerance</span><span class="p">:</span>
+                <span class="n">node</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges_info</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span>
+            <span class="k">elif</span> <span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">model</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span></div>
 
-    <span class="n">vis_options</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">,</span> <span class="o">**</span><span class="n">vis_options</span><span class="p">}</span>
-    <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">][</span><span class="s1">&#39;HyperEdge&#39;</span><span class="p">][</span><span class="s1">&#39;fixed&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bipartite</span>
-    <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">][</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;fixed&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bipartite</span>
 
-    <span class="n">inner_width</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">.8</span> <span class="o">*</span> <span class="n">vis_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
-
-    <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
-                  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span>
-                  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
-                  <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="n">nodes_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vis_nodes</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">nodes_info</span><span class="p">)]</span>
-
-    <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span>
-                  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="p">)])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-                  <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="s1">&#39;HyperEdge&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">inner_width</span><span class="p">}</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="n">edges_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vis_edges</span> <span class="o">=</span> <span class="p">[{</span><span class="o">**</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="n">external</span><span class="p">}</span> <span class="k">for</span> <span class="n">internal</span><span class="p">,</span> <span class="n">external</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vis_edges</span><span class="p">,</span> <span class="n">edges_info</span><span class="p">)]</span>
-
-    <span class="n">vis_links</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">),</span>
-                  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2"> &lt;-&gt; </span><span class="si">{</span><span class="n">vis_edges</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
-                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">vis_nodes</span> <span class="o">+</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_links</span><span class="p">,</span> <span class="n">vis_options</span></div>
-
-
-<div class="viewcode-block" id="show_graph"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.show_graph">[docs]</a><span class="k">def</span> <span class="nf">show_graph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bipartite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">png</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="show"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.show">[docs]</a><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">bipartite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">png</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Shows the graph.</span>
+<span class="sd">    End-to-end display solution for model.</span>
+<span class="sd">    It is basically a pipe</span>
+<span class="sd">    :class:`~stochastic_matching.model.Model` -&gt;</span>
+<span class="sd">    :meth:`~stochastic_matching.display.info_maker` -&gt;</span>
+<span class="sd">    :meth:`~stochastic_matching.display.vis_converter` -&gt;</span>
+<span class="sd">    :meth:`~stochastic_matching.display.vis_show`.</span>
+
+<span class="sd">    The extra arguments are passed when needed on the right spot along the pipe, allowing maximal flexibility.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        A stochastic model.</span>
-<span class="sd">    nodes_info: :class:`list` of :class:`dict`</span>
-<span class="sd">        Additional / overriding attributes for the nodes.</span>
-<span class="sd">    edges_info: :class:`list` of :class:`dict`</span>
-<span class="sd">        Additional / overriding attributes for the edges.</span>
-<span class="sd">    vis_options: :class:`dict`</span>
-<span class="sd">        Additional / overriding options to pass to the vis engine.</span>
+<span class="sd">        The model to display.</span>
 <span class="sd">    bipartite: :class:`bool`, optional</span>
 <span class="sd">        Tells if the bipartite node/edge structure should be explicitly shown.</span>
 <span class="sd">    png: :class:`bool`</span>
 <span class="sd">        Make a mirror PNG that can be saved.</span>
+<span class="sd">    kwargs: :class:`dict`</span>
+<span class="sd">        Keyword arguments. See :meth:`~stochastic_matching.display.info_maker`,</span>
+<span class="sd">        :meth:`~stochastic_matching.display.vis_converter`, and</span>
+<span class="sd">        :meth:`~stochastic_matching.display.vis_show` for details.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`~IPython.display.HTML`</span>
 
 <span class="sd">    Examples</span>
-<span class="sd">    ---------</span>
+<span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Tadpole</span>
-<span class="sd">    &gt;&gt;&gt; paw = Tadpole()</span>
-<span class="sd">    &gt;&gt;&gt; show_graph(paw)</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Pyramid, Fan</span>
+<span class="sd">    &gt;&gt;&gt; pyramid = Pyramid()</span>
+
+<span class="sd">    Basic display.</span>
+
+<span class="sd">    &gt;&gt;&gt; show(pyramid)</span>
 <span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
 
-<span class="sd">    If you need to save your graph, pass the option `png`. It will display a mirror png picture that you can save.</span>
+<span class="sd">    With this, the nodes and edges will not show anything. The result can be exported as png.</span>
 
-<span class="sd">    &gt;&gt;&gt; show_graph(paw, png=True)</span>
+<span class="sd">    &gt;&gt;&gt; nodes_info=[{&#39;label&#39;: &#39;&#39;} for _ in range(pyramid.n)]</span>
+<span class="sd">    &gt;&gt;&gt; edges_info=[{&#39;label&#39;: &#39;&#39;} for _ in range(pyramid.m)]</span>
+<span class="sd">    &gt;&gt;&gt; show(pyramid, nodes_info=nodes_info, edges_info=edges_info, png=True)</span>
+<span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
+
+<span class="sd">    Display of a hypergraph in bipartite mode.</span>
+
+<span class="sd">    &gt;&gt;&gt; fan = Fan()</span>
+<span class="sd">    &gt;&gt;&gt; show(fan, bipartite=True)</span>
 <span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">info_kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;disp_rates&#39;</span><span class="p">,</span> <span class="s1">&#39;disp_flow&#39;</span><span class="p">,</span> <span class="s1">&#39;flow&#39;</span><span class="p">,</span> <span class="s1">&#39;disp_kernel&#39;</span><span class="p">,</span> <span class="s1">&#39;disp_zero&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;check_flow&#39;</span><span class="p">,</span> <span class="s1">&#39;check_tolerance&#39;</span><span class="p">}</span>
+    <span class="n">converter_kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nodes_info&#39;</span><span class="p">,</span> <span class="s1">&#39;edges_info&#39;</span><span class="p">}</span>
+    <span class="n">vis_kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;vis_options&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;vis&#39;</span><span class="p">,</span> <span class="s1">&#39;div_name&#39;</span><span class="p">}</span>
+
+    <span class="n">info_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">info_kwds</span><span class="p">}</span>
+    <span class="n">converter_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">converter_kwds</span><span class="p">}</span>
+    <span class="n">vis_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">vis_kwds</span><span class="p">}</span>
+
+    <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">info_kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;nodes_info&#39;</span> <span class="ow">in</span> <span class="n">converter_kwargs</span><span class="p">:</span>
+        <span class="n">nodes_info</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="o">**</span><span class="n">n1</span><span class="p">,</span> <span class="o">**</span><span class="n">n2</span><span class="p">}</span> <span class="k">for</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nodes_info</span><span class="p">,</span> <span class="n">converter_kwargs</span><span class="p">[</span><span class="s1">&#39;nodes_info&#39;</span><span class="p">])]</span>
+    <span class="k">if</span> <span class="s1">&#39;edges_info&#39;</span> <span class="ow">in</span> <span class="n">converter_kwargs</span><span class="p">:</span>
+        <span class="n">edges_info</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="o">**</span><span class="n">e1</span><span class="p">,</span> <span class="o">**</span><span class="n">e2</span><span class="p">}</span> <span class="k">for</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">edges_info</span><span class="p">,</span> <span class="n">converter_kwargs</span><span class="p">[</span><span class="s1">&#39;edges_info&#39;</span><span class="p">])]</span>
+
+    <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span> <span class="o">=</span> <span class="n">vis_converter</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vis_kwargs</span><span class="p">[</span><span class="s1">&#39;vis_options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">vis_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vis_options&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">()),</span> <span class="o">**</span><span class="n">HYPER_GRAPH_VIS_OPTIONS</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">bipartite</span><span class="p">:</span>
+            <span class="n">vis_options</span> <span class="o">=</span> <span class="n">vis_kwargs</span><span class="p">[</span><span class="s1">&#39;vis_options&#39;</span><span class="p">]</span>
+            <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">][</span><span class="s1">&#39;HyperEdge&#39;</span><span class="p">][</span><span class="s1">&#39;fixed&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">vis_options</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">][</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;fixed&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">inner_width</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">.8</span> <span class="o">*</span> <span class="n">vis_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">vis_node</span> <span class="ow">in</span> <span class="n">vis_nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">vis_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;group&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;HyperEdge&#39;</span><span class="p">:</span>
+                    <span class="n">vis_node</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inner_width</span>
     <span class="k">if</span> <span class="n">png</span><span class="p">:</span>
-        <span class="n">template</span> <span class="o">=</span> <span class="n">PNG_TEMPLATE</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">template</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span> <span class="o">=</span> <span class="n">vis_maker_simple</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
-                                                <span class="n">nodes_info</span><span class="o">=</span><span class="n">nodes_info</span><span class="p">,</span>
-                                                <span class="n">edges_info</span><span class="o">=</span><span class="n">edges_info</span><span class="p">,</span>
-                                                <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span> <span class="o">=</span> <span class="n">vis_maker_hypergraph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
-                                                                 <span class="n">nodes_info</span><span class="o">=</span><span class="n">nodes_info</span><span class="p">,</span>
-                                                                 <span class="n">edges_info</span><span class="o">=</span><span class="n">edges_info</span><span class="p">,</span>
-                                                                 <span class="n">vis_options</span><span class="o">=</span><span class="n">vis_options</span><span class="p">,</span>
-                                                                 <span class="n">bipartite</span><span class="o">=</span><span class="n">bipartite</span><span class="p">)</span>
-    <span class="n">vis_show</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="n">vis_options</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">)</span></div>
+        <span class="n">vis_kwargs</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PNG_TEMPLATE</span>
+    <span class="n">vis_show</span><span class="p">(</span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span><span class="p">,</span> <span class="o">**</span><span class="n">vis_kwargs</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="make_kernel_options"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.make_kernel_options">[docs]</a><span class="k">def</span> <span class="nf">make_kernel_options</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        A stochastic model.</span>
-<span class="sd">    flow: :class:`~numpy.ndarray` ot :class:`bool`, optional</span>
-<span class="sd">        Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.</span>
-<span class="sd">        If no flow is given, the model base flow is used.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    :class:`list` of :class:`dict`</span>
-<span class="sd">        An edge description dictionary to pass to :meth:`~stochastic_matching.display.show_kernel`.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, KayakPaddle</span>
-<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
-<span class="sd">    &gt;&gt;&gt; diamond.base_flow</span>
-<span class="sd">    array([1., 1., 1., 1., 1.])</span>
-<span class="sd">    &gt;&gt;&gt; make_kernel_options(diamond)</span>
-<span class="sd">    [{&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}]</span>
-<span class="sd">    &gt;&gt;&gt; make_kernel_options(diamond, flow=False)</span>
-<span class="sd">    [{&#39;label&#39;: &#39;+α1&#39;}, {&#39;label&#39;: &#39;-α1&#39;}, {&#39;label&#39;: &#39;&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;-α1&#39;}, {&#39;label&#39;: &#39;+α1&#39;}]</span>
-
-<span class="sd">    # &gt;&gt;&gt; min_flow = problem.optimize_edge(0, -1)</span>
-<span class="sd">    #  &gt;&gt;&gt; min_flow</span>
-<span class="sd">    array([0., 2., 1., 2., 0.])</span>
-<span class="sd">    # &gt;&gt;&gt; problem.kernel_dict(flow=min_flow)</span>
-<span class="sd">    [{&#39;label&#39;: &#39;+α1&#39;}, {&#39;label&#39;: &#39;2-α1&#39;}, {&#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}, {&#39;label&#39;: &#39;2-α1&#39;}, {&#39;label&#39;: &#39;+α1&#39;}]</span>
-
-<span class="sd">    &gt;&gt;&gt; kayak = KayakPaddle(l=3)</span>
-<span class="sd">    &gt;&gt;&gt; make_kernel_options(kayak) # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    [{&#39;label&#39;: &#39;1-α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;},</span>
-<span class="sd">     {&#39;label&#39;: &#39;1-2α1&#39;}, {&#39;label&#39;: &#39;1+2α1&#39;}, {&#39;label&#39;: &#39;1-2α1&#39;},</span>
-<span class="sd">     {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1+α1&#39;}, {&#39;label&#39;: &#39;1-α1&#39;}]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">d</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">edge_description</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-            <span class="n">alpha</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">right</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+&quot;</span>
-            <span class="k">elif</span> <span class="n">alpha</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-&quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">+.3g</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">edge_description</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="p">:</span>
-            <span class="n">edge_description</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
-    <span class="k">if</span> <span class="n">flow</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">edge_description</span>
-    <span class="k">if</span> <span class="n">flow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">flow</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">base_flow</span>
-    <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">dico</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edge_description</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
-            <span class="n">dico</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">flow</span><span class="p">[</span><span class="n">e</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}{</span><span class="n">dico</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">return</span> <span class="n">edge_description</span></div>
-
-
-<div class="viewcode-block" id="show_kernel"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.show_kernel">[docs]</a><span class="k">def</span> <span class="nf">show_kernel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        A stochastic model.</span>
-<span class="sd">    rates: :class:`bool`</span>
-<span class="sd">        Display model arrival rates. If False, the node names are displayed.</span>
-<span class="sd">    flow: :class:`~numpy.ndarray` ot :class:`bool`, optional</span>
-<span class="sd">        Base flow of the kernel representation. If False, no base flow is displayed, only the kernel shifts.</span>
-<span class="sd">        If no flow is given, the model base flow is used.</span>
-<span class="sd">    args: :class:`list`, optional</span>
-<span class="sd">        Positional parameters for :meth:`~stochastic_matching.display.show_graph`.</span>
-<span class="sd">    kwargs: :class:`dict`, optional</span>
-<span class="sd">        Keyword parameters for :meth:`~stochastic_matching.display.show_graph`.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    :class:`~IPython.display.HTML`</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
-<span class="sd">    &gt;&gt;&gt; show_kernel(diamond)</span>
-<span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
-<span class="sd">    &gt;&gt;&gt; show_kernel(diamond, rates=False)</span>
-<span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
-<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
-<span class="sd">    &gt;&gt;&gt; show_kernel(candy)</span>
-<span class="sd">    &lt;IPython.core.display.HTML object&gt;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">rates</span><span class="p">:</span>
-        <span class="n">rates</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">rates</span>
-        <span class="n">nodes_description</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">nodes_description</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">show_graph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="n">nodes_description</span><span class="p">,</span>
-               <span class="n">edges_info</span><span class="o">=</span><span class="n">make_kernel_options</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">flow</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

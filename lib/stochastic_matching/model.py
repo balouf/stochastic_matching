@@ -5,6 +5,7 @@ from scipy.spatial import HalfspaceIntersection
 from cached_property import cached_property
 
 from stochastic_matching.common import pseudo_inverse_scalar, clean_zeros, CharMaker, neighbors
+from stochastic_matching.display import show
 
 status_names = {(False, False): "Nonjective",
                 (True, False): "Injective-only",
@@ -1356,3 +1357,128 @@ class Model:
                 dico['bijective'] = ((self.m - self.n) == sum(dico['lambda'] == 0))
         self.__vertices = res
         return res
+
+    def show(self, **kwargs):
+        """
+        Shows the model. See :meth:`~stochastic_matching.display.show` for details.
+
+        Parameters
+        ----------
+        kwargs: :class:`dict.`
+            See :meth:`~stochastic_matching.display.show` for details.
+
+        Returns
+        -------
+        :class:`~IPython.display.HTML`
+
+        Examples
+        --------
+
+        >>> from stochastic_matching.graphs import Pyramid
+        >>> pyramid = Pyramid()
+        >>> pyramid.show()
+        <IPython.core.display.HTML object>
+        """
+        show(self, **kwargs)
+
+    def show_graph(self, **kwargs):
+        """
+        Shows the graph of the model (with node names and no value on edges by default).
+
+        Parameters
+        ----------
+        kwargs: :class:`dict.`
+            See :meth:`~stochastic_matching.display.show` for details.
+
+        Returns
+        -------
+        :class:`~IPython.display.HTML`
+
+        Examples
+        --------
+
+        >>> from stochastic_matching.graphs import Pyramid
+        >>> pyramid = Pyramid()
+        >>> pyramid.show_graph()
+        <IPython.core.display.HTML object>
+        """
+        default = {'disp_flow': False, 'disp_rates': False}
+        show(self, **{**default, **kwargs})
+
+    def show_flow(self, **kwargs):
+        """
+        Shows the model (with check on conservation law and edge positivity).
+
+        Parameters
+        ----------
+        kwargs: :class:`dict.`
+            See :meth:`~stochastic_matching.display.show` for details.
+
+        Returns
+        -------
+        :class:`~IPython.display.HTML`
+
+        Examples
+        --------
+
+        >>> from stochastic_matching.graphs import Pyramid
+        >>> pyramid = Pyramid()
+        >>> pyramid.show_flow()
+        <IPython.core.display.HTML object>
+        """
+        default = {'check_flow': True}
+        show(self, **{**default, **kwargs})
+
+    def show_kernel(self, **kwargs):
+        """
+        Shows the kernel basis.
+
+        Parameters
+        ----------
+        kwargs: :class:`dict.`
+            See :meth:`~stochastic_matching.display.show` for details.
+
+        Returns
+        -------
+        :class:`~IPython.display.HTML`
+
+        Examples
+        --------
+
+        >>> from stochastic_matching.graphs import Pyramid
+        >>> pyramid = Pyramid()
+        >>> pyramid.show_kernel()
+        <IPython.core.display.HTML object>
+        """
+        default = {'disp_kernel': True, 'disp_flow': False, 'disp_zero': False}
+        show(self, **{**default, **kwargs})
+
+    def show_vertex(self, i, **kwargs):
+        """
+        Shows the vertex of indice *i*. See :meth:`~stochastic_matching.display.show` for details.
+
+        Parameters
+        ----------
+        i: :class:`int`
+            indice of the vertex.
+        kwargs: :class:`dict.`
+            See :meth:`~stochastic_matching.display.show` for details.
+
+        Returns
+        -------
+        :class:`~IPython.display.HTML`
+
+        Examples
+        --------
+
+        >>> from stochastic_matching.graphs import Pyramid
+        >>> pyramid = Pyramid()
+        >>> pyramid.show_vertex(2)
+        <IPython.core.display.HTML object>
+        """
+        flow = self.vertices[i]['lambda']
+        default = {'flow': flow, 'disp_zero': False, 'check_flow': True}
+        show(self, **{**default, **kwargs})
+
+
+
