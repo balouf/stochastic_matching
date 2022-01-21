@@ -39,7 +39,6 @@ def adjacency_to_incidence(adjacency):
 
     Convert a diamond adjacency to incidence.
 
-    >>> from stochastic_matching.old.graphs.generators import bicycle_graph
     >>> diamond = np.array([[0, 1, 1, 0],
     ...           [1, 0, 1, 1],
     ...           [1, 1, 0, 1],

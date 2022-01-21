@@ -3,9 +3,10 @@ from abc import ABC
 import numpy as np
 from matplotlib import pyplot as plt
 
-from stochastic_matching.old.simulator.common import create_prob_alias, graph_neighbors_list
-from stochastic_matching.old.simulator.virtual_queue import vq_core
-from stochastic_matching.old.simulator.greedy import qs_core_maker, random_node_selector, longest_queue_selector, \
+from stochastic_matching.display import int_2_str
+from stochastic_matching.simulator.common import create_prob_alias, graph_neighbors_list
+from stochastic_matching.simulator.virtual_queue import vq_core
+from stochastic_matching.simulator.greedy import qs_core_maker, random_node_selector, longest_queue_selector, \
     longest_sum_queue_selector, random_item_selector, random_sum_item_selector, qstate_core_maker, fcfm_selector, \
     fcfm_hyper_selector
 
@@ -16,10 +17,8 @@ class Simulator:
 
     Parameters
     ----------
-    graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`
-        Input graph.
-    mu: :class:`~numpy.ndarray` or :class:`list`
-        Arrival rates on nodes of the graph.
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
     number_events: :class:`int`, optional
         Number of arrivals to simulate.
     seed: :class:`int`, optional
@@ -47,13 +46,12 @@ class Simulator:
     Name that can be used to list all non-abstract classes.
     """
 
-    def __init__(self, graph, mu, number_events=1000000, seed=None, max_queue=1000):
-        self.graph = graph
-        self.mu = np.array(mu)
+    def __init__(self, model, number_events=1000000, seed=None, max_queue=1000):
+        self.model = model
         self.max_queue = max_queue
 
         self.generator = None
-        self.set_generator(mu, number_events, seed)
+        self.set_generator(model.rates, number_events, seed)
 
         self.inners = None
         self.set_inners()
@@ -93,7 +91,7 @@ class Simulator:
         -------
         None
         """
-        self.inners = {'neighbors': graph_neighbors_list(self.graph),
+        self.inners = {'neighbors': graph_neighbors_list(self.model),
                        }
 
     def set_logs(self):
@@ -104,8 +102,8 @@ class Simulator:
         -------
 
         """
-        self.logs = {'trafic': np.zeros(self.graph.m, dtype=np.uint32),
-                     'queue_log': np.zeros((self.graph.n, self.max_queue), dtype=np.uint32),
+        self.logs = {'trafic': np.zeros(self.model.m, dtype=np.uint32),
+                     'queue_log': np.zeros((self.model.n, self.max_queue), dtype=np.uint32),
                      'steps_done': 0}
 
     def set_core(self, **kwargs):
@@ -142,8 +140,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
-        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs import CycleChain
+        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.compute_average_queues()
         array([1.07826087, 0.26086957, 0.07391304, 0.85217391])
@@ -160,13 +158,13 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
-        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs import CycleChain
+        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.total_waiting_time()
         0.36535764375876584
         """
-        return np.sum(self.compute_average_queues())/np.sum(self.mu)
+        return np.sum(self.compute_average_queues())/np.sum(self.model.rates)
 
     def show_average_queues(self, indices=None, sort=False, as_time=False):
         """
@@ -187,8 +185,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
-        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs import CycleChain
+        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
 
         On IPython, this will draw the CCDF, otherwise a fig object is returned.
@@ -203,12 +201,12 @@ class Simulator:
         """
         averages = self.compute_average_queues()
         if as_time:
-            averages = averages / self.mu
+            averages = averages / self.model.rates
         if indices is not None:
             averages = averages[indices]
-            names = [self.graph.int_2_str(i) for i in indices]
+            names = [int_2_str(self.model, i) for i in indices]
         else:
-            names = [self.graph.int_2_str(i) for i in range(self.graph.n)]
+            names = [int_2_str(self.model, i) for i in range(self.model.n)]
         if sort is True:
             ind = np.argsort(-averages)
             averages = averages[ind]
@@ -231,8 +229,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
-        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs import CycleChain
+        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
         >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
         array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,
@@ -246,7 +244,7 @@ class Simulator:
         """
 
         events = self.logs['steps_done']
-        n = self.graph.n
+        n = self.model.n
         # noinspection PyUnresolvedReferences
         return (events - np.cumsum(np.hstack([np.zeros((n, 1)), self.logs['queue_log']]), axis=1)) / events
 
@@ -267,8 +265,8 @@ class Simulator:
         Examples
         --------
 
-        >>> from stochastic_matching.old.graphs.generators import bicycle_graph
-        >>> sim = FCFM(bicycle_graph(), [2, 2.1, 1.1, 1], seed=42, number_events=1000, max_queue=8)
+        >>> from stochastic_matching.graphs import CycleChain
+        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
         >>> sim.run()
 
         On IPython, this will draw the CCDF, otherwise a fig object is returned.
@@ -285,9 +283,9 @@ class Simulator:
 
         if indices is not None:
             ccdf = ccdf[indices, :]
-            names = [self.graph.int_2_str(i) for i in indices]
+            names = [int_2_str(self.model, i) for i in indices]
         else:
-            names = [self.graph.int_2_str(i) for i in range(self.graph.n)]
+            names = [int_2_str(self.model, i) for i in range(self.model.n)]
         if sort is True:
             averages = self.compute_average_queues()
             if indices is not None:
@@ -320,7 +318,7 @@ class QueueSizeSimulator(Simulator, ABC):
         None
         """
         super().set_inners()
-        self.inners['queue_size'] = np.zeros(self.graph.n, dtype=np.uint32)
+        self.inners['queue_size'] = np.zeros(self.model.n, dtype=np.uint32)
 
     def set_core_from_selector(self, simple_selector, hyper_selector):
         """
@@ -337,7 +335,7 @@ class QueueSizeSimulator(Simulator, ABC):
         -------
         None
         """
-        self.core = qs_core_maker(self.graph, simple_selector, hyper_selector)
+        self.core = qs_core_maker(self.model, simple_selector, hyper_selector)
 
 
 class RandomNode(QueueSizeSimulator):
@@ -351,8 +349,8 @@ class RandomNode(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
-    >>> sim = RandomNode(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle
+    >>> sim = RandomNode(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -363,7 +361,10 @@ class RandomNode(QueueSizeSimulator):
 
     Sanity check: results are unchanged if the graph is treated as hypergraph.
 
-    >>> sim = RandomNode(tadpole_graph(n=0).to_hypergraph(), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching.model import Model
+    >>> h_triangle = Model(incidence=Cycle().incidence, rates=[3, 4, 5])
+    >>> h_triangle.adjacency
+    >>> sim = RandomNode(h_triangle, number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -375,7 +376,7 @@ class RandomNode(QueueSizeSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = RandomNode(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = RandomNode(CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([ 7, 10,  1,  4,  7], dtype=uint32),
@@ -387,7 +388,7 @@ class RandomNode(QueueSizeSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = RandomNode(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = RandomNode(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),
@@ -464,8 +465,8 @@ class LongestQueue(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
-    >>> sim = LongestQueue(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle
+    >>> sim = LongestQueue(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -476,7 +477,7 @@ class LongestQueue(QueueSizeSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = LongestQueue(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = LongestQueue(CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([38, 38,  7, 37, 40], dtype=uint32),
@@ -488,7 +489,7 @@ class LongestQueue(QueueSizeSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = LongestQueue(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = LongestQueue(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),
@@ -538,8 +539,8 @@ class RandomItem(QueueSizeSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
-    >>> sim = RandomItem(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle
+    >>> sim = RandomItem(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -550,7 +551,7 @@ class RandomItem(QueueSizeSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = RandomItem(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = RandomItem(CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([12, 11,  4,  8, 10], dtype=uint32),
@@ -562,7 +563,7 @@ class RandomItem(QueueSizeSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = RandomItem(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = RandomItem(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),
@@ -615,9 +616,9 @@ class QueueStateSimulator(Simulator, ABC):
         None
         """
         super().set_inners()
-        self.inners['queue_start'] = np.zeros(self.graph.n, dtype=np.uint32)
-        self.inners['queue_end'] = np.zeros(self.graph.n, dtype=np.uint32)
-        self.inners['items'] = np.zeros((self.graph.n, self.max_queue), dtype=np.uint32)
+        self.inners['queue_start'] = np.zeros(self.model.n, dtype=np.uint32)
+        self.inners['queue_end'] = np.zeros(self.model.n, dtype=np.uint32)
+        self.inners['items'] = np.zeros((self.model.n, self.max_queue), dtype=np.uint32)
 
     def set_core_from_selector(self, simple_selector, hyper_selector):
         """
@@ -634,7 +635,7 @@ class QueueStateSimulator(Simulator, ABC):
         -------
         None
         """
-        self.core = qstate_core_maker(self.graph, simple_selector, hyper_selector)
+        self.core = qstate_core_maker(self.model, simple_selector, hyper_selector)
 
 
 class FCFM(QueueStateSimulator):
@@ -648,8 +649,8 @@ class FCFM(QueueStateSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
-    >>> sim = FCFM(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching.graphs import Tadpole, CycleChain, HyperPaddle, Cycle
+    >>> sim = FCFM(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -660,7 +661,7 @@ class FCFM(QueueStateSimulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = FCFM(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = FCFM(CycleChain(rates=[1, 1, 1, 1]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([34, 42,  7, 41, 36], dtype=uint32),
@@ -672,7 +673,7 @@ class FCFM(QueueStateSimulator):
 
     A working candy (but candies are not good for greedy policies).
 
-    >>> sim = FCFM(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1],
+    >>> sim = FCFM(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]),
     ...            number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -722,8 +723,8 @@ class VQSimulator(Simulator):
     Let start with a working triangle. One can notice the results are different from the ones common to all
     greedy simulator.
 
-    >>> from stochastic_matching.old.graphs.generators import tadpole_graph, bicycle_graph, hyper_paddle
-    >>> sim = VQSimulator(tadpole_graph(n=0), mu=[3, 4, 5], number_events=1000, seed=42, max_queue=10)
+    >>> from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle
+    >>> sim = VQSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -734,7 +735,7 @@ class VQSimulator(Simulator):
 
     A ill braess graph (simulation ends before completion due to drift).
 
-    >>> sim = VQSimulator(bicycle_graph(), mu=[1, 1, 1, 1], number_events=1000, seed=42, max_queue=10)
+    >>> sim = VQSimulator(CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([35, 43,  7, 39, 34], dtype=uint32),
@@ -747,7 +748,7 @@ class VQSimulator(Simulator):
     A working candy. While candies are not good for greedy policies, the virtual queue is
     designed to deal with it.
 
-    >>> sim = VQSimulator(hyper_paddle(), mu=[1, 1, 1.5, 1, 1.5, 1, 1], number_events=1000, seed=42, max_queue=25)
+    >>> sim = VQSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),
@@ -783,14 +784,14 @@ class VQSimulator(Simulator):
         None
         """
         self.inners = dict()
-        self.inners['incid_ptr'] = self.graph.incidence.indptr
-        self.inners['incid_ind'] = self.graph.incidence.indices
-        self.inners['coinc_ptr'] = self.graph.co_incidence.indptr
-        self.inners['coinc_ind'] = self.graph.co_incidence.indices
-        self.inners['ready_edges'] = np.zeros(self.graph.m, dtype=bool)
-        self.inners['scores'] = np.zeros(self.graph.m, dtype=np.int32)
-        self.inners['vq'] = np.zeros(self.graph.m, dtype=np.uint32)
-        self.inners['queue_size'] = np.zeros(self.graph.n, dtype=np.uint32)
+        self.inners['incid_ptr'] = self.model.incidence_csr.indptr
+        self.inners['incid_ind'] = self.model.incidence_csr.indices
+        self.inners['coinc_ptr'] = self.model.incidence_csc.indptr
+        self.inners['coinc_ind'] = self.model.incidence_csc.indices
+        self.inners['ready_edges'] = np.zeros(self.model.m, dtype=bool)
+        self.inners['scores'] = np.zeros(self.model.m, dtype=np.int32)
+        self.inners['vq'] = np.zeros(self.model.m, dtype=np.uint32)
+        self.inners['queue_size'] = np.zeros(self.model.n, dtype=np.uint32)
 
     def set_core(self):
         """
@@ -803,34 +804,34 @@ class VQSimulator(Simulator):
         self.core = vq_core
 
 
-def get_simulator_classes(root=None):
-    """
-    Parameters
-    ----------
-    root: :class:`~stochastic_matching.simulator.classes.Simulator`, optional
-        Starting class (can be abstract).
-
-    Returns
-    -------
-    :class:`dict`
-        Dictionaries of all subclasses that have a name (as in class attribute `name`).
-
-    Examples
-    --------
-    >>> get_simulator_classes() # doctest: +NORMALIZE_WHITESPACE
-    {'virtual_queue': <class 'stochastic_matching.old.simulator.classes.VQSimulator'>,
-     'random_node': <class 'stochastic_matching.old.simulator.classes.RandomNode'>,
-     'longest_queue': <class 'stochastic_matching.old.simulator.classes.LongestQueue'>,
-     'random_item': <class 'stochastic_matching.old.simulator.classes.RandomItem'>,
-     'fcfm': <class 'stochastic_matching.old.simulator.classes.FCFM'>}
-    """
-    if root is None:
-        root = Simulator
-    result = {c.name: c for c in root.__subclasses__() if c.name}
-    for c in root.__subclasses__():
-        result.update(get_simulator_classes(c))
-    return result
-
+# def get_simulator_classes(root=None):
+#     """
+#     Parameters
+#     ----------
+#     root: :class:`~stochastic_matching.simulator.classes.Simulator`, optional
+#         Starting class (can be abstract).
+#
+#     Returns
+#     -------
+#     :class:`dict`
+#         Dictionaries of all subclasses that have a name (as in class attribute `name`).
+#
+#     Examples
+#     --------
+#     >>> get_simulator_classes() # doctest: +NORMALIZE_WHITESPACE
+#     {'virtual_queue': <class 'stochastic_matching.simulator.classes.VQSimulator'>,
+#      'random_node': <class 'stochastic_matching.simulator.classes.RandomNode'>,
+#      'longest_queue': <class 'stochastic_matching.simulator.classes.LongestQueue'>,
+#      'random_item': <class 'stochastic_matching.simulator.classes.RandomItem'>,
+#      'fcfm': <class 'stochastic_matching.simulator.classes.FCFM'>}
+#     """
+#     if root is None:
+#         root = Simulator
+#     result = {c.name: c for c in root.__subclasses__() if c.name}
+#     for c in root.__subclasses__():
+#         result.update(get_simulator_classes(c))
+#     return result
+#
 
 # def display_ccdf(queue_log):
 #     """
