@@ -7,8 +7,8 @@ if os.environ.get("NUMBA_DISABLE_JIT") == "1":
 else:
     from numba.typed import List
 
-from stochastic_matching.old.graphs.classes import SimpleGraph, HyperGraph
-
+# from stochastic_matching.old.graphs.classes import SimpleGraph, HyperGraph
+from stochastic_matching.model import Model
 
 @njit
 def set_seed(value):
@@ -73,14 +73,14 @@ def create_prob_alias(mu):
     return prob, alias
 
 
-def graph_neighbors_list(graph):
+def graph_neighbors_list(model):
     """
-    Extract Numba-compatible neighboring structures from a :class:`~stochastic_matching.graphs.graph.GenericGraph`.
+    Extract Numba-compatible neighboring structures from a :class:`~stochastic_matching.model.Model`.
 
     Parameters
     ----------
-    graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`
-        Graph to transform.
+    model: :class:`~stochastic_matching.model.Model`
+        Model with the graph to transform.
 
     Returns
     -------
@@ -91,11 +91,11 @@ def graph_neighbors_list(graph):
     Examples
     --------
 
-    Consider a Braess graph.
+    Consider a diamond graph.
 
-    >>> from stochastic_matching.old.graphs.generators import bicycle_graph, hyper_paddle
-    >>> braess = bicycle_graph()
-    >>> braess.incidence.toarray().astype(int)
+    >>> from stochastic_matching.graphs import CycleChain, HyperPaddle
+    >>> diamond = CycleChain()
+    >>> diamond.incidence
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
            [0, 1, 1, 0, 1],
@@ -111,7 +111,7 @@ def graph_neighbors_list(graph):
 
     This is exactly what `graph_neighbors_list` outputs, in a numba-compatible way.
 
-    >>> graph_neighbors_list(braess) # doctest: +NORMALIZE_WHITESPACE
+    >>> graph_neighbors_list(diamond) # doctest: +NORMALIZE_WHITESPACE
     [[(0, 1), (1, 2)],
     [(0, 0), (2, 2), (3, 3)],
     [(1, 0), (2, 1), (4, 3)],
@@ -119,7 +119,7 @@ def graph_neighbors_list(graph):
 
     With hypergraph notation, the second term of the tuples is an array instead of an integer.
 
-    >>> g = graph_neighbors_list(braess.to_hypergraph())
+    >>> g = graph_neighbors_list(Model(incidence=diamond.incidence))
     >>> [ [(e, a.astype(int)) for e, a in n] for n in g ] # doctest: +NORMALIZE_WHITESPACE
     [[(0, array([1])), (1, array([2]))],
     [(0, array([0])), (2, array([2])), (3, array([3]))],
@@ -130,8 +130,8 @@ def graph_neighbors_list(graph):
     Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links
     nodes 2, 3, and 4 together.
 
-    >>> candy = hyper_paddle()
-    >>> candy.incidence.toarray().astype(int)
+    >>> candy = HyperPaddle()
+    >>> candy.incidence
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
            [0, 1, 1, 0, 0, 0, 1],
@@ -157,16 +157,17 @@ def graph_neighbors_list(graph):
     >>> graph_neighbors_list(candy.incidence)
     Traceback (most recent call last):
     ...
-    TypeError: graph must be of type SimpleGraph of HyperGraph.
+    TypeError: Input is not a stochastic Model.
     """
-    if not (isinstance(graph, SimpleGraph) or isinstance(graph, HyperGraph)):
-        raise TypeError("graph must be of type SimpleGraph of HyperGraph.")
-    edges = [graph.incidence.indices[graph.incidence.indptr[i]:graph.incidence.indptr[i + 1]] for i in range(graph.n)]
-    if isinstance(graph, SimpleGraph):
-        neighbors = [[[k for k in graph.co_incidence.indices[graph.co_incidence.indptr[e]:graph.co_incidence.indptr[e + 1]] if k != i][0]
-                      for e in edges[i]] for i in range(graph.n)]
-    elif isinstance(graph, HyperGraph):
+    if not isinstance(model, Model):
+        raise TypeError("Input is not a stochastic Model.")
+    edges = [model.incidence_csr.indices[model.incidence_csr.indptr[i]:model.incidence_csr.indptr[i + 1]]
+             for i in range(model.n)]
+    if model.adjacency is not None:
+        neighbors = [[[k for k in model.incidence_csc.indices[model.incidence_csc.indptr[e]:model.incidence_csc.indptr[e + 1]] if k != i][0]
+                      for e in edges[i]] for i in range(model.n)]
+    else:
         neighbors = [
-            [np.array([k for k in graph.co_incidence.indices[graph.co_incidence.indptr[e]:graph.co_incidence.indptr[e + 1]] if k != i], dtype=np.int32)
-             for e in edges[i]] for i in range(graph.n)]
-    return List([List([(e, v) for e, v in zip(edges[i], neighbors[i])]) for i in range(graph.n)])
+            [np.array([k for k in model.incidence_csc.indices[model.incidence_csc.indptr[e]:model.incidence_csc.indptr[e + 1]] if k != i], dtype=np.int32)
+             for e in edges[i]] for i in range(model.n)]
+    return List([List([(e, v) for e, v in zip(edges[i], neighbors[i])]) for i in range(model.n)])
