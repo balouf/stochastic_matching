@@ -9,7 +9,6 @@ Welcome to Stochastic Matching's documentation!
    installation
    tutorials/index
    reference/index
-   coverage
    contributing
    authors
    history

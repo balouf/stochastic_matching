@@ -196,7 +196,8 @@ class SizeChoicer:
 
     >>> diamond.adjacency = None
     >>> choicer = SizeChoicer(diamond).yield_jit()
-    >>> choicer(graph_neighbors_list(diamond), 2, np.array([1, 0, 0, 1]))
+    >>> choices = choicer(graph_neighbors_list(diamond), 2, np.array([1, 0, 0, 1]))
+    >>> [(edge, nodes.astype(int)) for edge, nodes in choices]
     [(1, array([0])), (4, array([3]))]
 
     In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
