@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
@@ -77,7 +76,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for stochastic_matching.common</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="pseudo_inverse_scalar"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.pseudo_inverse_scalar">[docs]</a><span></span><span class="k">def</span> <span class="nf">pseudo_inverse_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span></span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">isclass</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NUMBA_DISABLE_JIT&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+    <span class="n">List</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numba.typed</span> <span class="kn">import</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="pseudo_inverse_scalar"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.pseudo_inverse_scalar">[docs]</a><span class="k">def</span> <span class="nf">pseudo_inverse_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -164,7 +175,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    root: :class:`class`, optional</span>
+<span class="sd">    root: :class:`class`</span>
 <span class="sd">        Starting class (can be abstract).</span>
 
 <span class="sd">    Returns</span>
@@ -195,6 +206,52 @@
         <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_classes</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
+
+<div class="viewcode-block" id="class_converter"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.class_converter">[docs]</a><span class="k">def</span> <span class="nf">class_converter</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="n">motherclass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    subclass: :class:`str` or :class:`class`</span>
+<span class="sd">        Required subclass, or its name.</span>
+<span class="sd">    motherclass: :class:`class`</span>
+<span class="sd">        Ancestor of the subclass.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`class`</span>
+<span class="sd">        The subclass.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.simulator.generic import Simulator</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.simulator.age_based import FCFM</span>
+<span class="sd">    &gt;&gt;&gt; class_converter(&#39;random_node&#39;, Simulator)</span>
+<span class="sd">    &lt;class &#39;stochastic_matching.simulator.size_based.RandomNodeSimulator&#39;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; class_converter(FCFM, Simulator)</span>
+<span class="sd">    &lt;class &#39;stochastic_matching.simulator.age_based.FCFM&#39;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; class_converter(&#39;anything&#39;, Simulator)  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ...</span>
+<span class="sd">    ValueError: anything is not a known name for a subclass of Simulator.</span>
+<span class="sd">    Known names: virtual_queue, fcfm, random_node, longest_queue, random_item, semi_greedy, priority.</span>
+
+<span class="sd">    &gt;&gt;&gt; class_converter(2, Simulator)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ...</span>
+<span class="sd">    TypeError: Subclass must be string or Simulator subclass (not instance).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">class_dict</span> <span class="o">=</span> <span class="n">get_classes</span><span class="p">(</span><span class="n">motherclass</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">subclass</span> <span class="ow">in</span> <span class="n">class_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">class_dict</span><span class="p">[</span><span class="n">subclass</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subclass</span><span class="si">}</span><span class="s2"> is not a known name for a subclass of </span><span class="si">{</span><span class="n">motherclass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;Known names: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">class_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">isclass</span><span class="p">(</span><span class="n">subclass</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="n">motherclass</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">subclass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subclass must be string or </span><span class="si">{</span><span class="n">motherclass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> subclass (not instance).&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -247,6 +304,191 @@
 <span class="sd">    array([0, 1, 2, 3], dtype=int32)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="set_seed"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.set_seed">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change the random generator seed inside numba jitted scope.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        Seed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; set_seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; np.random.rand()</span>
+<span class="sd">    0.3745401188473625</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_prob_alias"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.create_prob_alias">[docs]</a><span class="k">def</span> <span class="nf">create_prob_alias</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prepare vector to draw a distribution with the alias method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu: :class:`list` or :class:`~numpy.ndarray`</span>
+<span class="sd">        Arrival intensities.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prob: :class:`~numpy.ndarray`</span>
+<span class="sd">        Probabilities to stay in the drawn bucket</span>
+<span class="sd">    alias: :class:`~numpy.ndarray`</span>
+<span class="sd">        Redirection array</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; probas, aliases = create_prob_alias([2 ,2, 3, 1])</span>
+<span class="sd">    &gt;&gt;&gt; probas</span>
+<span class="sd">    array([1. , 1. , 1. , 0.5])</span>
+<span class="sd">    &gt;&gt;&gt; aliases</span>
+<span class="sd">    array([0, 0, 0, 2])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cmu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmu</span><span class="p">)</span>
+    <span class="n">alias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="c1"># noinspection PyUnresolvedReferences</span>
+    <span class="n">normalized_intensities</span> <span class="o">=</span> <span class="n">cmu</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cmu</span><span class="p">)</span>
+    <span class="n">small</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">normalized_intensities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">large</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">normalized_intensities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">small</span> <span class="ow">and</span> <span class="n">large</span><span class="p">:</span>
+        <span class="n">l</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="n">large</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">prob</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">alias</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalized_intensities</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">g</span>
+        <span class="n">normalized_intensities</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">+=</span> <span class="n">normalized_intensities</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">normalized_intensities</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">small</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">large</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">large</span> <span class="o">+</span> <span class="n">small</span><span class="p">:</span>
+        <span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">prob</span><span class="p">,</span> <span class="n">alias</span></div>
+
+
+<div class="viewcode-block" id="graph_neighbors_list"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.graph_neighbors_list">[docs]</a><span class="k">def</span> <span class="nf">graph_neighbors_list</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract Numba-compatible neighboring structures from a :class:`~stochastic_matching.model.Model`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model with the graph to transform.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numba.typed.List`</span>
+<span class="sd">        List of neighbors for each node. For one given node yields a list of tuples where the first element is the edge</span>
+<span class="sd">        and the second element the neighbor (for `SimpleGraph`) / array of neighbors (for `HyperGraph`).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Consider a diamond graph.</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; diamond.incidence</span>
+<span class="sd">    array([[1, 1, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 1, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1]])</span>
+
+<span class="sd">    Node 0 is connected with edge 0 to node 1 and with edge 1 to node 2.</span>
+
+<span class="sd">    Node 1 is connected with edge 0 to node 0, with edge 2 to node 2, and with edge 3 to node 3.</span>
+
+<span class="sd">    Node 2 is connected with edge 1 to node 0, with edge 2 to node 1, and with edge 4 to node 3.</span>
+
+<span class="sd">    Node 3 is connected with edge 3 to node 1 and with edge 4 to node 2.</span>
+
+<span class="sd">    This is exactly what `graph_neighbors_list` outputs, in a numba-compatible way.</span>
+
+<span class="sd">    &gt;&gt;&gt; graph_neighbors_list(diamond) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    [[(0, 1), (1, 2)],</span>
+<span class="sd">    [(0, 0), (2, 2), (3, 3)],</span>
+<span class="sd">    [(1, 0), (2, 1), (4, 3)],</span>
+<span class="sd">    [(3, 1), (4, 2)]]</span>
+
+<span class="sd">    To remove some egdes, use the optional parameter forbidden_edges.</span>
+
+<span class="sd">    &gt;&gt;&gt; graph_neighbors_list(diamond, forbidden_edges={0, 4}) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    [[(1, 2)],</span>
+<span class="sd">     [(2, 2), (3, 3)],</span>
+<span class="sd">     [(1, 0), (2, 1)],</span>
+<span class="sd">     [(3, 1)]]</span>
+
+<span class="sd">    With hypergraph notation, the second term of the tuples is an array instead of an integer.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.adjacency = None</span>
+<span class="sd">    &gt;&gt;&gt; g = graph_neighbors_list(diamond)</span>
+<span class="sd">    &gt;&gt;&gt; [ [(e, a.astype(int)) for e, a in n] for n in g ] # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    [[(0, array([1])), (1, array([2]))],</span>
+<span class="sd">    [(0, array([0])), (2, array([2])), (3, array([3]))],</span>
+<span class="sd">    [(1, array([0])), (2, array([1])), (4, array([3]))],</span>
+<span class="sd">    [(3, array([1])), (4, array([2]))]]</span>
+
+
+<span class="sd">    Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links</span>
+<span class="sd">    nodes 2, 3, and 4 together.</span>
+
+<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; candy.incidence</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="sd">           [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 0]])</span>
+
+<span class="sd">    This shows in the output of the function.</span>
+
+<span class="sd">    &gt;&gt;&gt; g = graph_neighbors_list(candy)</span>
+<span class="sd">    &gt;&gt;&gt; [ [(e, a.astype(int)) for e, a in n] for n in g ] # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    [[(0, array([1])), (1, array([2]))],</span>
+<span class="sd">    [(0, array([0])), (2, array([2]))],</span>
+<span class="sd">    [(1, array([0])), (2, array([1])), (6, array([3, 4]))],</span>
+<span class="sd">    [(6, array([2, 4]))],</span>
+<span class="sd">    [(3, array([5])), (4, array([6])), (6, array([2, 3]))],</span>
+<span class="sd">    [(3, array([4])), (5, array([6]))],</span>
+<span class="sd">    [(4, array([4])), (5, array([5]))]]</span>
+
+<span class="sd">    &gt;&gt;&gt; g = graph_neighbors_list(candy, forbidden_edges={1, 3})</span>
+<span class="sd">    &gt;&gt;&gt; [ [(e, a.astype(int)) for e, a in n] for n in g ] # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    [[(0, array([1]))],</span>
+<span class="sd">     [(0, array([0])), (2, array([2]))],</span>
+<span class="sd">     [(2, array([1])), (6, array([3, 4]))],</span>
+<span class="sd">     [(6, array([2, 4]))],</span>
+<span class="sd">     [(4, array([6])), (6, array([2, 3]))],</span>
+<span class="sd">     [(5, array([6]))],</span>
+<span class="sd">     [(4, array([4])), (5, array([5]))]]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">forbidden_edges</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="p">]</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                      <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">i</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">forbidden_edges</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">List</span><span class="p">([</span><span class="n">List</span><span class="p">([(</span><span class="n">e</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">i</span><span class="p">])])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)])</span></div>
 </pre></div>
 
            </div>

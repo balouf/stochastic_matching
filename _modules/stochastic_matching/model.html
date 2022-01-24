@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../coverage.html">Coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
@@ -83,8 +82,9 @@
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">HalfspaceIntersection</span>
 <span class="kn">from</span> <span class="nn">cached_property</span> <span class="kn">import</span> <span class="n">cached_property</span>
 
-<span class="kn">from</span> <span class="nn">stochastic_matching.common</span> <span class="kn">import</span> <span class="n">pseudo_inverse_scalar</span><span class="p">,</span> <span class="n">clean_zeros</span><span class="p">,</span> <span class="n">CharMaker</span><span class="p">,</span> <span class="n">neighbors</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.common</span> <span class="kn">import</span> <span class="n">pseudo_inverse_scalar</span><span class="p">,</span> <span class="n">clean_zeros</span><span class="p">,</span> <span class="n">CharMaker</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">class_converter</span>
 <span class="kn">from</span> <span class="nn">stochastic_matching.display</span> <span class="kn">import</span> <span class="n">show</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
 
 <span class="n">status_names</span> <span class="o">=</span> <span class="p">{(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Nonjective&quot;</span><span class="p">,</span>
                 <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Injective-only&quot;</span><span class="p">,</span>
@@ -948,6 +948,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span> <span class="o">=</span> <span class="n">adjacency</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">rates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1442,7 +1444,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">        **kwargs</span>
 <span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
 
 <span class="sd">        Returns</span>
@@ -1465,7 +1467,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">        **kwargs</span>
 <span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
 
 <span class="sd">        Returns</span>
@@ -1489,7 +1491,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">        **kwargs</span>
 <span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
 
 <span class="sd">        Returns</span>
@@ -1513,7 +1515,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">        **kwargs</span>
 <span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
 
 <span class="sd">        Returns</span>
@@ -1539,7 +1541,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        i: :class:`int`</span>
 <span class="sd">            indice of the vertex.</span>
-<span class="sd">        kwargs: :class:`dict.`</span>
+<span class="sd">        **kwargs</span>
 <span class="sd">            See :meth:`~stochastic_matching.display.show` for details.</span>
 
 <span class="sd">        Returns</span>
@@ -1556,7 +1558,83 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span>
         <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;flow&#39;</span><span class="p">:</span> <span class="n">flow</span><span class="p">,</span> <span class="s1">&#39;disp_zero&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;check_flow&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
-        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div></div>
+        <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="Model.run"><a class="viewcode-back" href="../../reference/model.html#stochastic_matching.model.Model.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All-in-one instantiate and run simulation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simulator: :class:`str` or :class:`~stochastic_matching.simulator.generic.Simulator`</span>
+<span class="sd">            Type of simulator to instantiate.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Arguments to pass to the simulator.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Success of simulation.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        Let start with a working triangle and a greedy simulator.</span>
+
+<span class="sd">        &gt;&gt;&gt; from stochastic_matching.graphs import Tadpole, CycleChain, HyperPaddle, Cycle</span>
+<span class="sd">        &gt;&gt;&gt; triangle = Cycle(rates=[3, 4, 5])</span>
+<span class="sd">        &gt;&gt;&gt; triangle.base_flow</span>
+<span class="sd">        array([1., 2., 3.])</span>
+<span class="sd">        &gt;&gt;&gt; triangle.run(&#39;random_node&#39;, seed=42, number_events=20000)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; triangle.simulation</span>
+<span class="sd">        array([1.044 , 2.0352, 2.9202])</span>
+
+<span class="sd">        A ill diamond graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">        Note that the drift is slow, so if the number of steps is low the simulation may complete without overflowing.</span>
+
+<span class="sd">        &gt;&gt;&gt; diamond = CycleChain(rates=&#39;uniform&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; diamond.base_flow</span>
+<span class="sd">        array([0.5, 0.5, 0. , 0.5, 0.5])</span>
+
+<span class="sd">        &gt;&gt;&gt; diamond.run(&#39;longest_queue&#39;, seed=42, number_events=20000)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">        array([0.501 , 0.4914, 0.0018, 0.478 , 0.5014])</span>
+
+<span class="sd">        A working candy. While candies are not good for greedy policies, the virtual queue is</span>
+<span class="sd">        designed to deal with it.</span>
+
+<span class="sd">        &gt;&gt;&gt; candy = HyperPaddle(rates=[1, 1, 1.1, 1, 1.1, 1, 1])</span>
+<span class="sd">        &gt;&gt;&gt; candy.base_flow</span>
+<span class="sd">        array([0.95, 0.05, 0.05, 0.05, 0.05, 0.95, 1.  ])</span>
+
+<span class="sd">        The above states that the target flow for the hyperedge of the candy (last entry) is 1.</span>
+
+<span class="sd">        &gt;&gt;&gt; candy.run(&#39;longest_queue&#39;, seed=42, number_events=20000)</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; candy.simulator.logs[&#39;steps_done&#39;]</span>
+<span class="sd">        10459</span>
+<span class="sd">        &gt;&gt;&gt; candy.simulation  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,</span>
+<span class="sd">           0.59202601, 0.2939478 ])</span>
+
+<span class="sd">        A greedy simulator performs poorly on the hyperedge.</span>
+
+<span class="sd">        &gt;&gt;&gt; candy.run(&#39;virtual_queue&#39;, seed=42, number_events=20000)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; candy.simulation  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])</span>
+
+<span class="sd">        The virtual queue simulator manages to cope with the target flow on the hyperedge.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">simulator</span> <span class="o">=</span> <span class="n">class_converter</span><span class="p">(</span><span class="n">simulator</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">generator</span><span class="p">[</span><span class="s1">&#39;number_events&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span></div></div>
 
 
 

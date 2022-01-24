@@ -54,10 +54,10 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graphs.html">Graphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="display.html">Display</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html">Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../coverage.html">Coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
@@ -821,6 +821,76 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.model.Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.run" title="Permalink to this definition"></a></dt>
+<dd><p>All-in-one instantiate and run simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator" title="stochastic_matching.simulator.generic.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>) – Type of simulator to instantiate.</p></li>
+<li><p><strong>**kwargs</strong> – Arguments to pass to the simulator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Success of simulation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle and a greedy simulator.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Tadpole</span><span class="p">,</span> <span class="n">CycleChain</span><span class="p">,</span> <span class="n">HyperPaddle</span><span class="p">,</span> <span class="n">Cycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([1., 2., 3.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_node&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([1.044 , 2.0352, 2.9202])</span>
+</pre></div>
+</div>
+<p>A ill diamond graph (simulation ends before completion due to drift).</p>
+<p>Note that the drift is slow, so if the number of steps is low the simulation may complete without overflowing.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([0.5, 0.5, 0. , 0.5, 0.5])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([0.501 , 0.4914, 0.0018, 0.478 , 0.5014])</span>
+</pre></div>
+</div>
+<p>A working candy. While candies are not good for greedy policies, the virtual queue is
+designed to deal with it.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">base_flow</span>
+<span class="go">array([0.95, 0.05, 0.05, 0.05, 0.05, 0.95, 1.  ])</span>
+</pre></div>
+</div>
+<p>The above states that the target flow for the hyperedge of the candy (last entry) is 1.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span>
+<span class="go">10459</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">simulation</span>  
+<span class="go">array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,</span>
+<span class="go">   0.59202601, 0.2939478 ])</span>
+</pre></div>
+</div>
+<p>A greedy simulator performs poorly on the hyperedge.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">simulation</span>  
+<span class="go">array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])</span>
+</pre></div>
+</div>
+<p>The virtual queue simulator manages to cope with the target flow on the hyperedge.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="stochastic_matching.model.Model.seeds">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seeds</span></span><a class="headerlink" href="#stochastic_matching.model.Model.seeds" title="Permalink to this definition"></a></dt>
@@ -839,7 +909,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <dd><p>Shows the model. See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+<dd class="field-odd"><p><strong>**kwargs</strong> – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
@@ -860,7 +930,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <dd><p>Shows the model (with check on conservation law and edge positivity).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+<dd class="field-odd"><p><strong>**kwargs</strong> – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
@@ -881,7 +951,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <dd><p>Shows the graph of the model (with node names and no value on edges by default).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+<dd class="field-odd"><p><strong>**kwargs</strong> – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
@@ -902,7 +972,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <dd><p>Shows the kernel basis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
+<dd class="field-odd"><p><strong>**kwargs</strong> – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
@@ -925,7 +995,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – indice of the vertex.</p></li>
-<li><p><strong>kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict.</span></code>) – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p></li>
+<li><p><strong>**kwargs</strong> – See <a class="reference internal" href="display.html#stochastic_matching.display.show" title="stochastic_matching.display.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> for details.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

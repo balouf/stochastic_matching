@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.simulator.size_based &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
+            <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.simulator.size_based</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.simulator.size_based</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.common</span> <span class="kn">import</span> <span class="n">class_converter</span>
+
+
+<div class="viewcode-block" id="qs_core_maker"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.qs_core_maker">[docs]</a><span class="k">def</span> <span class="nf">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    choicer: callable</span>
+<span class="sd">        Jitted function that extracts the edges that can be selected for a new arrival.</span>
+<span class="sd">        Input signature is (neighbors list, arriving node, queue_size).</span>
+<span class="sd">    selector: callable</span>
+<span class="sd">        Jitted function that extracts one choice amongst several..</span>
+<span class="sd">        Input signature is (choices, queue_size)</span>
+<span class="sd">    forbidden_edges: :class:`list`, optional</span>
+<span class="sd">        Edges that are disabled.</span>
+<span class="sd">    threshold: :class:`int`</span>
+<span class="sd">        Queue size above which forbidden edges become available again.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    callable</span>
+<span class="sd">        A jitted function that will be the core engine of a greedy policy based on the sizes of queues.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">forbidden_edges</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">core_simulator</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">alias</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span>
+                       <span class="n">neighbors</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>
+                       <span class="n">trafic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">forbid</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">forbidden_edges</span><span class="p">}</span>
+
+        <span class="c1"># Retrieve number of nodes and max_queue</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Place threshold out of range if not defined.</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">threshold</span> <span class="o">=</span> <span class="n">max_queue</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Initiate random generator if seed is given</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="c1"># Start main loop</span>
+        <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_events</span><span class="p">):</span>
+
+            <span class="c1"># Update queue states</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Draw an arrival</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">prob</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+
+            <span class="c1"># Check we do not cross the threshold</span>
+            <span class="n">contained</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+
+            <span class="c1"># If the arrival queue is non-empty, no new match is feasible with a greedy policy,</span>
+            <span class="c1"># so we just update and move on unless queue overflows.</span>
+            <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">contained</span><span class="p">:</span>
+                <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Otherwise, we can check for feasible edges</span>
+                <span class="n">choices</span> <span class="o">=</span> <span class="n">choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
+
+                <span class="c1"># Do we restrain the edges?</span>
+                <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">contained</span><span class="p">:</span>
+                    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">ej</span> <span class="k">for</span> <span class="n">ej</span> <span class="ow">in</span> <span class="n">choices</span> <span class="k">if</span> <span class="p">(</span><span class="n">ej</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">forbid</span><span class="p">)]</span>
+
+                <span class="k">if</span> <span class="n">choices</span><span class="p">:</span>  <span class="c1"># At least one possibility</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Exactly one -&gt; take it.</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># More than one -&gt; call the selector</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
+                    <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Add trafic for the selected edge</span>
+                    <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Decrease queue for neighbor(s)</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># No choice -&gt; update and move on unless queue overflows.</span>
+                    <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Return the updated number of steps achieved.</span>
+
+    <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="n">core_simulator</span><span class="p">)</span>  <span class="c1"># Return the jitted core engine.</span></div>
+
+
+<div class="viewcode-block" id="QueueSizeSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator">[docs]</a><span class="k">class</span> <span class="nc">QueueSizeSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class derived from :class:`~stochastic_matching.simulator.generic.Simulator`</span>
+<span class="sd">    for greedy simulator based on queue sizes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">selector</span> <span class="o">=</span> <span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">selector_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selector</span> <span class="o">=</span> <span class="n">class_converter</span><span class="p">(</span><span class="n">selector</span><span class="p">,</span> <span class="n">Selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">selector_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">selector_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selector_kwargs</span> <span class="o">=</span> <span class="n">selector_kwargs</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="QueueSizeSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Incorporate `queue_size` to the inner variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set_inners</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QueueSizeSimulator.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the core engine for a greedy policy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">choicer</span> <span class="o">=</span> <span class="n">SizeChoicer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
+        <span class="n">selector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">selector_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="simple_choicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.simple_choicer">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">simple_choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    neighbors: :class:`~numba.typed.List`</span>
+<span class="sd">        Output of :func:`~stochastic_matching.common.graph_neighbors_list`</span>
+<span class="sd">        (for a simple graph).</span>
+<span class="sd">    node: :class:`int`</span>
+<span class="sd">        Starting node (the node that just got an arrival).</span>
+<span class="sd">    queue_size: :class:`~numpy.ndarray`</span>
+<span class="sd">        Sizes of the different queues.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`list`</span>
+<span class="sd">        The (edge, neighbor) tuples of a given node that can be greedily activated in a simple graph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ej</span> <span class="k">for</span> <span class="n">ej</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="hyper_choicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.hyper_choicer">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">hyper_choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    neighbors: :class:`~numba.typed.List`</span>
+<span class="sd">        Output of :func:`~stochastic_matching.common.graph_neighbors_list`</span>
+<span class="sd">        (with hypergraph input).</span>
+<span class="sd">    node: :class:`int`</span>
+<span class="sd">        Starting node (the node that just got an arrival).</span>
+<span class="sd">    queue_size: :class:`~numpy.ndarray`</span>
+<span class="sd">        Sizes of the different queues.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`list`</span>
+<span class="sd">        The (edge, neighbors) tuples of a given node that can be greedily activated in a hypergraph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ej</span> <span class="k">for</span> <span class="n">ej</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">queue_size</span><span class="p">[</span><span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="SizeChoicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.SizeChoicer">[docs]</a><span class="k">class</span> <span class="nc">SizeChoicer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract possible choices for a greedy policy based on queue size.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model where the choicer will be applied.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    In a diamond graph with non-empty queues in nodes 3 and 0,</span>
+<span class="sd">    an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.common import graph_neighbors_list</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; choicer = SizeChoicer(diamond).yield_jit()</span>
+<span class="sd">    &gt;&gt;&gt; choicer(graph_neighbors_list(diamond), 2, np.array([1, 0, 0, 1]))</span>
+<span class="sd">    [(1, 0), (4, 3)]</span>
+
+<span class="sd">    Same thing with the diamond seen as hypergraph.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.adjacency = None</span>
+<span class="sd">    &gt;&gt;&gt; choicer = SizeChoicer(diamond).yield_jit()</span>
+<span class="sd">    &gt;&gt;&gt; choices = choicer(graph_neighbors_list(diamond), 2, np.array([1, 0, 0, 1]))</span>
+<span class="sd">    &gt;&gt;&gt; [(edge, nodes.astype(int)) for edge, nodes in choices]</span>
+<span class="sd">    [(1, array([0])), (4, array([3]))]</span>
+
+<span class="sd">    In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,</span>
+<span class="sd">    an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).</span>
+
+<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; choicer = SizeChoicer(candy).yield_jit()</span>
+<span class="sd">    &gt;&gt;&gt; choices = choicer(graph_neighbors_list(candy), 2, np.array([1, 0, 0, 1, 1, 0, 0]))</span>
+<span class="sd">    &gt;&gt;&gt; [(e, n.astype(int)) for e, n in choices]</span>
+<span class="sd">    [(1, array([0])), (6, array([3, 4]))]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+<div class="viewcode-block" id="SizeChoicer.yield_jit"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.SizeChoicer.yield_jit">[docs]</a>    <span class="k">def</span> <span class="nf">yield_jit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        choicer: callable</span>
+<span class="sd">            Jitted function that extracts the edges that can be selected for a new arrival.</span>
+<span class="sd">            Input signature is (neighbors list, arriving node, queue_size).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">simple_choicer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">hyper_choicer</span></div></div>
+
+
+<div class="viewcode-block" id="Selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.Selector">[docs]</a><span class="k">class</span> <span class="nc">Selector</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class for greedy edge selection based on queue sizes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model where the choicer will be applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+
+    <span class="k">def</span> <span class="nf">yield_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">yield_jit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yield_selector</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="RandomNodeSelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomNodeSelector">[docs]</a><span class="k">class</span> <span class="nc">RandomNodeSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects a feasible edge at random.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_node&#39;</span>
+
+    <span class="k">def</span> <span class="nf">yield_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">random_node_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="n">random_node_selector</span></div>
+
+
+<div class="viewcode-block" id="RandomNodeSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomNodeSimulator">[docs]</a><span class="k">class</span> <span class="nc">RandomNodeSimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.</span>
+<span class="sd">    When multiple choices are possible, one is chosen uniformly at random.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; triangle = Cycle(rates=[3, 4, 5])</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(triangle, number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">     &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">                         [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">     &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">     Sanity check: results are unchanged if the graph is treated as hypergraph.</span>
+
+<span class="sd">    &gt;&gt;&gt; triangle.adjacency = None</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(triangle, number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">     &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">                         [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">     &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A ill diamond graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([ 7, 10,  1,  4,  7], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[22, 13,  7,  7,  5, 15,  4,  0,  0,  0],</span>
+<span class="sd">           [73,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [69,  3,  1,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 73}</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.compute_flow()</span>
+<span class="sd">    array([0.38356164, 0.54794521, 0.05479452, 0.21917808, 0.38356164])</span>
+
+<span class="sd">    A working candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [313,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  13,   7,  34,  11,   2,   8,  13,</span>
+<span class="sd">             18,  12,  56,  27,   8,  24,  25,   7,   8,   3,   1,   4],</span>
+<span class="sd">           [168,  48,  35,  39,  20,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [278,  25,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 314}</span>
+
+<span class="sd">    Note that you can reset the simulator before starting another run.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.reset()</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [313,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  13,   7,  34,  11,   2,   8,  13,</span>
+<span class="sd">             18,  12,  56,  27,   8,  24,  25,   7,   8,   3,   1,   4],</span>
+<span class="sd">           [168,  48,  35,  39,  20,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [278,  25,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 314}</span>
+
+<span class="sd">    You can display the distribution of queue sizes as a ccdf:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.show_ccdf() # doctest: +ELLIPSIS</span>
+<span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_node&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomNodeSimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s1">&#39;random_node&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LongestSelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.LongestSelector">[docs]</a><span class="k">class</span> <span class="nc">LongestSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects feasible edge with longest queue.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;longest&quot;</span>
+
+<div class="viewcode-block" id="LongestSelector.yield_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.LongestSelector.yield_selector">[docs]</a>    <span class="k">def</span> <span class="nf">yield_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        callable</span>
+<span class="sd">            A longest selector function adapted to the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">longest_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)):</span>
+                    <span class="n">qt</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                    <span class="k">if</span> <span class="n">qt</span> <span class="o">&gt;</span> <span class="n">q</span><span class="p">:</span>
+                        <span class="n">q</span> <span class="o">=</span> <span class="n">qt</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+                <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">longest_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)):</span>
+                    <span class="n">qt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                    <span class="k">if</span> <span class="n">qt</span> <span class="o">&gt;</span> <span class="n">q</span><span class="p">:</span>
+                        <span class="n">q</span> <span class="o">=</span> <span class="n">qt</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+                <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">longest_selector</span></div></div>
+
+
+<div class="viewcode-block" id="LongestSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.LongestSimulator">[docs]</a><span class="k">class</span> <span class="nc">LongestSimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.</span>
+<span class="sd">    When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. Not that the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no decision in a triangle (always at most one non-empty queue under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A non stabilizable diamond (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([38, 38,  7, 37, 40], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],</span>
+<span class="sd">           [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 339}</span>
+
+<span class="sd">    A stabilizable candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
+<span class="sd">             10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
+<span class="sd">           [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 292}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;longest_queue&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LongestSimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomItemSelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomItemSelector">[docs]</a><span class="k">class</span> <span class="nc">RandomItemSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_item&#39;</span>
+
+    <span class="k">def</span> <span class="nf">yield_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">random_item_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+                <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)):</span>
+                    <span class="n">total</span> <span class="o">+=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">total</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">frontier</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">while</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">frontier</span><span class="p">:</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">target</span> <span class="o">-=</span> <span class="n">frontier</span>
+                    <span class="n">frontier</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">random_item_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+                <span class="n">cumsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">queue_size</span><span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">))]))</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">cumsizes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">cumsizes</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">random_item_selector</span></div>
+
+
+<div class="viewcode-block" id="RandomItemSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomItemSimulator">[docs]</a><span class="k">class</span> <span class="nc">RandomItemSimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.</span>
+<span class="sd">    When multiple choices are possible, chooses proportionally to the sizes of the queues</span>
+<span class="sd">    (or sum of queues for hyperedges).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
+<span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([12, 11,  4,  8, 10], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[39, 13, 10,  6,  3,  8, 14,  8,  3,  1],</span>
+<span class="sd">           [96,  5,  3,  1,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [97,  7,  1,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">           [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 105}</span>
+
+<span class="sd">    A working candy (but candies are not good for greedy policies).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[537, 135,  65,  62,  34,  20,  25,  30,  48,  12,   4,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [792, 130,  28,  14,   8,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [861,  71,  19,  15,   5,   1,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 10,   1,   7,   9,   3,  31,  65,  70,  46,  56,  60,  82,  59,</span>
+<span class="sd">             49,  54,  60,  61,  42, 100,  44,  28,  10,  15,   9,   1],</span>
+<span class="sd">           [711, 127,  77,  34,  19,   4,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [800,  97,  50,  22,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [732, 125,  74,  25,  11,   3,   2,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 972}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_item&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomItemSimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s1">&#39;random_item&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SemiGreedy"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.SemiGreedy">[docs]</a><span class="k">class</span> <span class="nc">SemiGreedy</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`</span>
+<span class="sd">        Egdes that should not be used.</span>
+<span class="sd">    threshold: :class:`int`, optional</span>
+<span class="sd">        Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain</span>
+<span class="sd">    &gt;&gt;&gt; diamond = CycleChain(rates=[1, 2, 2, 1])</span>
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;semi_greedy&#39;, forbidden_edges=[0, 4], seed=42,</span>
+<span class="sd">    ...                            threshold=100, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
+
+<span class="sd">    To compare with the priority-based pure greedy version:</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;priority&#39;, weights=[0, 1, 1, 1, 0], number_events=1000, max_queue=1000, seed=42)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.444, 0.63 , 0.966, 0.63 , 0.324])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;semi_greedy&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SemiGreedy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">choicer</span> <span class="o">=</span> <span class="n">SizeChoicer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
+        <span class="n">selector</span> <span class="o">=</span> <span class="n">LongestSelector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>
+
+
+<span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">priority_with_weights</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">weights</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+
+<span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">priority_with_weights_and_threshold</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span>
+                                        <span class="n">threshold</span><span class="p">,</span> <span class="n">counterweights</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">queue_size</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">counterweights</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">weights</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="PrioritySelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.PrioritySelector">[docs]</a><span class="k">class</span> <span class="nc">PrioritySelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects feasible edge based on priorities.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;priority&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">counterweights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">counterweights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">counterweights</span> <span class="o">=</span> <span class="o">-</span><span class="n">weights</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">counterweights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counterweights</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counterweights</span> <span class="o">=</span> <span class="n">counterweights</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counterweights</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PrioritySelector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">yield_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">yield_jit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">weighted_choice</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">priority_with_weights</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">counterweights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counterweights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span>
+
+            <span class="k">def</span> <span class="nf">weighted_choice</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">priority_with_weights_and_threshold</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>
+                                                           <span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">counterweights</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="n">weighted_choice</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PrioritySimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.PrioritySimulator">[docs]</a><span class="k">class</span> <span class="nc">PrioritySimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greedy policy based on pre-determined preferences on edges.</span>
+
+<span class="sd">    A threshold can be specified to alter the weights if the queue sizes get too big.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    weights: :class:`list` or :class:`~numpy.ndarray`</span>
+<span class="sd">        Priorities associated to the edges.</span>
+<span class="sd">    threshold: :class:`int`, optional</span>
+<span class="sd">        Limit on max queue size to apply the weight priority.</span>
+<span class="sd">    counterweights: :class:`list` or :class:`~numpy.ndarray`, optional</span>
+<span class="sd">        Priority to use above threshold (if not provided, reverse weights is used).</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, KayakPaddle</span>
+<span class="sd">    &gt;&gt;&gt; fish = KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])</span>
+<span class="sd">    &gt;&gt;&gt; fish.run(&#39;priority&#39;, weights=[0, 2, 2, 0, 1, 1, 0],</span>
+<span class="sd">    ...                          threshold=50, counterweights = [0, 0, 0, 1, 2, 2, 1],</span>
+<span class="sd">    ...                          number_events=10000, seed=42)</span>
+<span class="sd">    True</span>
+
+<span class="sd">    These priorities are efficient at stabilizing the policy while avoiding edge 3.</span>
+
+<span class="sd">    &gt;&gt;&gt; fish.simulation</span>
+<span class="sd">    array([2.925 , 1.0404, 0.9522, 0.    , 0.9504, 2.0808, 1.0044])</span>
+
+<span class="sd">    The last node is the pseudo-instable node.</span>
+
+<span class="sd">    &gt;&gt;&gt; fish.simulator.compute_average_queues()[-1]</span>
+<span class="sd">    38.3411</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; np.round(np.mean(fish.simulator.compute_average_queues()[:-1]), decimals=2)</span>
+<span class="sd">    0.75</span>
+
+<span class="sd">    Choosing proper counter-weights is important.</span>
+
+<span class="sd">    &gt;&gt;&gt; fish.run(&#39;priority&#39;, weights=[0, 2, 2, 0, 1, 1, 0],</span>
+<span class="sd">    ...                          threshold=50,</span>
+<span class="sd">    ...                          number_events=10000, seed=42)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; fish.simulation</span>
+<span class="sd">    array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])</span>
+<span class="sd">    &gt;&gt;&gt; fish.simulator.compute_average_queues()[-1]</span>
+<span class="sd">    38.5966</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;priority&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">counterweights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PrioritySimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                                                     <span class="n">selector</span><span class="o">=</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span>
+                                                     <span class="n">selector_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="n">weights</span><span class="p">,</span>
+                                                                       <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">,</span>
+                                                                       <span class="s1">&#39;counterweights&#39;</span><span class="p">:</span> <span class="n">counterweights</span><span class="p">},</span>
+                                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

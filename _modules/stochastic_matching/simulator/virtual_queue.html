@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stochastic_matching.simulator.virtual_queue &mdash; Stochastic Matching 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
+            <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Stochastic Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Stochastic Matching</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>stochastic_matching.simulator.virtual_queue</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stochastic_matching.simulator.virtual_queue</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
+
+
+<div class="viewcode-block" id="vq_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.vq_core">[docs]</a><span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">vq_core</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">alias</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span>
+            <span class="n">incid_ptr</span><span class="p">,</span> <span class="n">incid_ind</span><span class="p">,</span> <span class="n">coinc_ptr</span><span class="p">,</span> <span class="n">coinc_ind</span><span class="p">,</span>
+            <span class="n">ready_edges</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">vq</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>
+            <span class="n">trafic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Core virtual queue simulator. Currently fully monobloc for performance.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    prob: :class:`~numpy.ndarray`</span>
+<span class="sd">        Probabilities to stay in the drawn bucket</span>
+<span class="sd">    alias: :class:`~numpy.ndarray`</span>
+<span class="sd">        Redirection array</span>
+<span class="sd">    number_events: :class:`int`</span>
+<span class="sd">        Number of arrivals to simulate.</span>
+<span class="sd">    seed: :class:`int`</span>
+<span class="sd">        Seed of the random generator</span>
+<span class="sd">    incid_ptr: :class:`~numpy.ndarray`</span>
+<span class="sd">        Pointers of the incidence matrix.</span>
+<span class="sd">    incid_ind: :class:`~numpy.ndarray`</span>
+<span class="sd">        Indices of the incidence matrix.</span>
+<span class="sd">    coinc_ptr: :class:`~numpy.ndarray`</span>
+<span class="sd">        Pointers of the co-incidence matrix.</span>
+<span class="sd">    coinc_ind: :class:`~numpy.ndarray`</span>
+<span class="sd">        Indices of the co-incidence matrix.</span>
+<span class="sd">    ready_edges: :class:`~numpy.ndarray`</span>
+<span class="sd">        Boolen array of edges physically ready for activation.</span>
+<span class="sd">    scores: :class:`~numpy.ndarray`</span>
+<span class="sd">        Scores of edges.</span>
+<span class="sd">    vq: :class:`~numpy.ndarray`</span>
+<span class="sd">        Current virtual queue size (can be negative)</span>
+<span class="sd">    queue_size: :class:`~numpy.ndarray`</span>
+<span class="sd">        Current queue sizes.</span>
+<span class="sd">    trafic: :class:`~numpy.ndarray`</span>
+<span class="sd">        Monitor trafic on edges.</span>
+<span class="sd">    queue_log: :class:`~numpy.ndarray`</span>
+<span class="sd">        Monitor queue sizes.</span>
+<span class="sd">    steps_done: :class:`int`</span>
+<span class="sd">        Number of arrivals processed so far.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`int`</span>
+<span class="sd">        Number of steps processed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Retrieve number of nodes and max_queue</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1"># Retrieve number of edges</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trafic</span><span class="p">)</span>
+
+    <span class="c1"># Initiate random generator if seed is given</span>
+    <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># Start main loop</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_events</span><span class="p">):</span>
+
+        <span class="c1"># Update queue logs</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Draw an arrival</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">prob</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+
+        <span class="c1"># Increment queue, deal with overflowing</span>
+        <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Browse adjacent edges</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">incid_ind</span><span class="p">[</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">node</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increase score</span>
+
+            <span class="c1"># Checks if edge turns to feasible</span>
+            <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># noinspection PyUnresolvedReferences</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">queue_size</span><span class="p">[</span><span class="n">coinc_ind</span><span class="p">[</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">ready_edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Select best edge</span>
+        <span class="c1"># noinspection PyUnresolvedReferences</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+
+        <span class="c1"># If the best edge is worthy</span>
+        <span class="k">if</span> <span class="n">scores</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">vq</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Add edge to virtual queue</span>
+
+            <span class="c1"># Virtual pop of items:</span>
+            <span class="c1"># for each node of the edge, lower all adjacent edges by one</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coinc_ind</span><span class="p">[</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">incid_ind</span><span class="p">[</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="c1"># Can a virtual edge be popped?</span>
+            <span class="k">if</span> <span class="n">ready_edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="ow">and</span> <span class="n">vq</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">vq</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># Pop from virtual queue</span>
+                <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Update trafic</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coinc_ind</span><span class="p">[</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+                    <span class="n">queue_size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># Update physical queue sizes</span>
+                    <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Check queue exhaustion</span>
+                        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">incid_ind</span><span class="p">[</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+                            <span class="n">ready_edges</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>  <span class="c1"># Uncomment the break would allow multiple pops per turn.</span>
+
+    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Return the updated number of steps achieved.</span></div>
+
+
+<div class="viewcode-block" id="VQSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator">[docs]</a><span class="k">class</span> <span class="nc">VQSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.generic.Simulator`.</span>
+<span class="sd">    Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are different from the ones common to all</span>
+<span class="sd">    greedy simulator.</span>
+
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">           [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    Unstable diamond (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 329}</span>
+
+<span class="sd">    A stable candy. While candies are not good for greedy policies, the virtual queue is</span>
+<span class="sd">    designed to deal with it.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,</span>
+<span class="sd">              3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [884,  79,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [113,  44,  82, 101,  96,  99,  67,  31,  29,  50,  14,  20,  32,</span>
+<span class="sd">             31,  44,  44,  34,  30,  26,  11,   2,   0,   0,   0,   0],</span>
+<span class="sd">           [239, 154, 138, 103,  75,  69,  58,  67,  52,  33,  12,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [755, 143,  72,  30,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint32),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be use to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VQSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines inner variables for the virtual queue core engine.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;incid_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;incid_ind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;coinc_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;coinc_ind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;ready_edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;vq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VQSimulator.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plug in the virtual queue core engine.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">vq_core</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
