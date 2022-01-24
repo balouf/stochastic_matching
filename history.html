@@ -51,7 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#analysis-update">0.2.0 (2022-01-14): Analysis update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand-new-api">0.2.0 (2022-01-24): Brand new API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2022-01-13): First release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#misc-improvements">0.0.4 (2021-09-30): Misc. improvements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#simulators-are-back">0.0.3 (2021-08-24): Simulators are back!</a></li>
@@ -110,14 +110,37 @@
 </style>
 <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline"></a></h1>
-<section id="analysis-update">
-<h2>0.2.0 (2022-01-14): Analysis update<a class="headerlink" href="#analysis-update" title="Permalink to this headline"></a></h2>
+<section id="brand-new-api">
+<h2>0.2.0 (2022-01-24): Brand new API<a class="headerlink" href="#brand-new-api" title="Permalink to this headline"></a></h2>
+<p>As the package is at early stage, it had to go through a lot of refactoring.
+Hopefully, the result should be more easy to use.</p>
+<p>Major changes:</p>
 <ul class="simple">
+<li><dl class="simple">
+<dt>API completely unified</dt><dd><ul>
+<li><p>Beginners (and intermediate) users should always go through the Model class to use the package.</p></li>
+<li><p>Advanced users: the documentation reference is your oyster!</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>New features</dt><dd><ul>
+<li><p>A few new graph models.</p></li>
+<li><p>New analysis tools: left kernel, right kernel basis change and display (for simple graphs),
+injectivity/surjectivity, connected components, spanners, and vertices!</p></li>
+<li><p>New policies for the simulator: <em>priority</em> and <em>semi-greedy</em>!</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Minor changes:</p>
+<ul class="simple">
+<li><p>Default rates are proportional to degree (but you can ask for ‘uniform’)</p></li>
 <li><p>We have a logo!</p></li>
-<li><p>New generator: graph.</p></li>
-<li><p>Graph tutorial pimped and added.</p></li>
-<li><p>Connected component analysis added.</p></li>
-<li><p>simplified kernel-basis when the graph is simple.</p></li>
+<li><p>Hunt for typos in documentation.</p></li>
+<li><p>Notebooks tutorials have been updated to cope with the new API.</p></li>
 </ul>
 </section>
 <section id="first-release">
@@ -128,7 +151,7 @@
 <li><dl class="simple">
 <dt>The graph submodule has been revamped a bit:</dt><dd><ul>
 <li><p>Obtaining graphs by concatenation of other graphs is now more systematic and optimized.</p></li>
-<li><p>Names of generators have been changes to comply with <em>offical</em> terminology from Wolfram.</p></li>
+<li><p>Names of generators have been changes to comply with <em>official</em> terminology from Wolfram.</p></li>
 <li><p>A few more generators have been added (e.g. complete, lollipop, barbell).</p></li>
 </ul>
 </dd>

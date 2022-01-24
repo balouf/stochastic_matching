@@ -121,6 +121,10 @@
         <span class="c1"># Place threshold out of range if not defined.</span>
         <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">threshold</span> <span class="o">=</span> <span class="n">max_queue</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">no_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">no_threshold</span> <span class="o">=</span> <span class="kc">False</span>
+
 
         <span class="c1"># Initiate random generator if seed is given</span>
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -140,7 +144,7 @@
                 <span class="n">node</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
 
             <span class="c1"># Check we do not cross the threshold</span>
-            <span class="n">contained</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+            <span class="n">contained</span> <span class="o">=</span> <span class="n">no_threshold</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">queue_size</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span>
 
             <span class="c1"># If the arrival queue is non-empty, no new match is feasible with a greedy policy,</span>
             <span class="c1"># so we just update and move on unless queue overflows.</span>
