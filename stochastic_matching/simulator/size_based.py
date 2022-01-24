@@ -43,6 +43,10 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
         # Place threshold out of range if not defined.
         if threshold is None:
             threshold = max_queue + 1
+            no_threshold = True
+        else:
+            no_threshold = False
+
 
         # Initiate random generator if seed is given
         if seed is not None:
@@ -62,7 +66,7 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
                 node = alias[node]
 
             # Check we do not cross the threshold
-            contained = queue_size[node] < threshold
+            contained = no_threshold or np.max(queue_size) < threshold
 
             # If the arrival queue is non-empty, no new match is feasible with a greedy policy,
             # so we just update and move on unless queue overflows.

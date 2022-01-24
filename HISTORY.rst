@@ -3,14 +3,30 @@ History
 =======
 
 -----------------------------------
-0.2.0 (2022-01-14): Analysis update
+0.2.0 (2022-01-24): Brand new API
 -----------------------------------
 
+As the package is at early stage, it had to go through a lot of refactoring.
+Hopefully, the result should be more easy to use.
+
+Major changes:
+
+* API completely unified
+    * Beginners (and intermediate) users should always go through the Model class to use the package.
+    * Advanced users: the documentation reference is your oyster!
+* New features
+    * A few new graph models.
+    * New analysis tools: left kernel, right kernel basis change and display (for simple graphs),
+      injectivity/surjectivity, connected components, spanners, and vertices!
+    * New policies for the simulator: *priority* and *semi-greedy*!
+
+Minor changes:
+
+* Default rates are proportional to degree (but you can ask for 'uniform')
 * We have a logo!
-* New generator: graph.
-* Graph tutorial pimped and added.
-* Connected component analysis added.
-* simplified kernel-basis when the graph is simple.
+* Hunt for typos in documentation.
+* Notebooks tutorials have been updated to cope with the new API.
+
 
 ---------------------------------
 0.1.0 (2022-01-13): First release
@@ -20,7 +36,7 @@ History
 * Refactoring: the package name for the public release is *Stochastic Matching*.
 * The graph submodule has been revamped a bit:
     * Obtaining graphs by concatenation of other graphs is now more systematic and optimized.
-    * Names of generators have been changes to comply with *offical* terminology from Wolfram.
+    * Names of generators have been changes to comply with *official* terminology from Wolfram.
     * A few more generators have been added (e.g. complete, lollipop, barbell).
 * Current compatibility: 3.6 -> 3.9
 

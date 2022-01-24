@@ -8,3 +8,4 @@ Tutorials
    quickstart
    graphs
    analysis
+   simulator
