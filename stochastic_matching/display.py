@@ -582,9 +582,17 @@ def show(model, bipartite=False, png=False, **kwargs):
     >>> show(pyramid, nodes_info=nodes_info, edges_info=edges_info, png=True)
     <IPython.core.display.HTML object>
 
-    Display of a hypergraph in bipartite mode.
+    Fan is a true hypergraph.
 
     >>> fan = sm.Fan()
+
+    To display:
+
+    >>> show(fan)
+    <IPython.core.display.HTML object>
+
+    To display in bipartite mode:
+
     >>> show(fan, bipartite=True)
     <IPython.core.display.HTML object>
     """
@@ -608,8 +616,8 @@ def show(model, bipartite=False, png=False, **kwargs):
 
     if model.adjacency is None:
         vis_kwargs['vis_options'] = {**vis_kwargs.get('vis_options', dict()), **HYPER_GRAPH_VIS_OPTIONS.copy()}
+        vis_options = vis_kwargs['vis_options']
         if bipartite:
-            vis_options = vis_kwargs['vis_options']
             vis_options['groups']['HyperEdge']['fixed']['x'] = True
             vis_options['groups']['Node']['fixed']['x'] = True
             inner_width = round(.8 * vis_options.get('width', 600))
@@ -617,7 +625,6 @@ def show(model, bipartite=False, png=False, **kwargs):
                 if vis_node.get('group') == 'HyperEdge':
                     vis_node['x'] = inner_width
         else:
-            vis_options = vis_kwargs['vis_options']
             vis_options['groups']['HyperEdge']['fixed']['x'] = False
             vis_options['groups']['Node']['fixed']['x'] = False
     if png:
