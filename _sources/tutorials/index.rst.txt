@@ -7,3 +7,4 @@ Tutorials
 .. toctree::
    quickstart
    graphs
+   analysis

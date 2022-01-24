@@ -1251,6 +1251,13 @@ class Model:
         [{'kernel_coordinates': None, 'edge_coordinates': array([1., 1., 1., 1.]),
           'null_edges': [], 'bijective': True}]
 
+        Note that vertices is soft-cached: as long as the graph and rates do not change they are not re-computed.
+
+        >>> paw.vertices  # doctest: +NORMALIZE_WHITESPACE
+        [{'kernel_coordinates': None, 'edge_coordinates': array([1., 1., 1., 1.]),
+          'null_edges': [], 'bijective': True}]
+
+
         >>> star = sm.Star()
         >>> star.vertices  # doctest: +NORMALIZE_WHITESPACE
         [{'kernel_coordinates': None, 'edge_coordinates': array([1., 1., 1.]),

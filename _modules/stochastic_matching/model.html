@@ -1329,6 +1329,13 @@
 <span class="sd">        [{&#39;kernel_coordinates&#39;: None, &#39;edge_coordinates&#39;: array([1., 1., 1., 1.]),</span>
 <span class="sd">          &#39;null_edges&#39;: [], &#39;bijective&#39;: True}]</span>
 
+<span class="sd">        Note that vertices is soft-cached: as long as the graph and rates do not change they are not re-computed.</span>
+
+<span class="sd">        &gt;&gt;&gt; paw.vertices  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        [{&#39;kernel_coordinates&#39;: None, &#39;edge_coordinates&#39;: array([1., 1., 1., 1.]),</span>
+<span class="sd">          &#39;null_edges&#39;: [], &#39;bijective&#39;: True}]</span>
+
+
 <span class="sd">        &gt;&gt;&gt; star = sm.Star()</span>
 <span class="sd">        &gt;&gt;&gt; star.vertices  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        [{&#39;kernel_coordinates&#39;: None, &#39;edge_coordinates&#39;: array([1., 1., 1.]),</span>

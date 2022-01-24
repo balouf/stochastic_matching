@@ -1031,6 +1031,12 @@ designed to deal with it.</p>
 <span class="go">  &#39;null_edges&#39;: [], &#39;bijective&#39;: True}]</span>
 </pre></div>
 </div>
+<p>Note that vertices is soft-cached: as long as the graph and rates do not change they are not re-computed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span><span class="o">.</span><span class="n">vertices</span>  
+<span class="go">[{&#39;kernel_coordinates&#39;: None, &#39;edge_coordinates&#39;: array([1., 1., 1., 1.]),</span>
+<span class="go">  &#39;null_edges&#39;: [], &#39;bijective&#39;: True}]</span>
+</pre></div>
+</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">star</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Star</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">star</span><span class="o">.</span><span class="n">vertices</span>  
 <span class="go">[{&#39;kernel_coordinates&#39;: None, &#39;edge_coordinates&#39;: array([1., 1., 1.]),</span>
