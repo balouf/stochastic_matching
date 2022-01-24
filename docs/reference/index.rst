@@ -7,4 +7,5 @@ Reference
    model
    graphs
    display
+   simulator
    common

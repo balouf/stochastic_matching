@@ -4,8 +4,9 @@ from scipy.optimize import linprog
 from scipy.spatial import HalfspaceIntersection
 from cached_property import cached_property
 
-from stochastic_matching.common import pseudo_inverse_scalar, clean_zeros, CharMaker, neighbors
+from stochastic_matching.common import pseudo_inverse_scalar, clean_zeros, CharMaker, neighbors, class_converter
 from stochastic_matching.display import show
+from stochastic_matching.simulator.generic import Simulator
 
 status_names = {(False, False): "Nonjective",
                 (True, False): "Injective-only",
@@ -869,6 +870,8 @@ class Model:
         self.adjacency = adjacency
         self.rates = rates
         self.names = names
+        self.simulator = None
+        self.simulation = None
 
     @property
     def names(self):
@@ -1478,6 +1481,82 @@ class Model:
         flow = self.vertices[i]['lambda']
         default = {'flow': flow, 'disp_zero': False, 'check_flow': True}
         show(self, **{**default, **kwargs})
+
+    def run(self, simulator, **kwargs):
+        """
+        All-in-one instantiate and run simulation.
+
+        Parameters
+        ----------
+        simulator: :class:`str` or :class:`~stochastic_matching.simulator.generic.Simulator`
+            Type of simulator to instantiate.
+        kwargs: :class:`dict`
+            Arguments to pass to the simulator.
+
+        Returns
+        -------
+        bool
+            Success of simulation.
+
+        Examples
+        --------
+
+        Let start with a working triangle and a greedy simulator.
+
+        >>> from stochastic_matching.graphs import Tadpole, CycleChain, HyperPaddle, Cycle
+        >>> triangle = Cycle(rates=[3, 4, 5])
+        >>> triangle.base_flow
+        array([1., 2., 3.])
+        >>> triangle.run('random_node', seed=42, number_events=20000)
+        True
+        >>> triangle.simulation
+        array([1.044 , 2.0352, 2.9202])
+
+        A ill diamond graph (simulation ends before completion due to drift).
+
+        Note that the drift is slow, so if the number of steps is low the simulation may complete without overflowing.
+
+        >>> diamond = CycleChain(rates='uniform')
+        >>> diamond.base_flow
+        array([0.5, 0.5, 0. , 0.5, 0.5])
+
+        >>> diamond.run('longest_queue', seed=42, number_events=20000)
+        True
+        >>> diamond.simulation
+        array([0.501 , 0.4914, 0.0018, 0.478 , 0.5014])
+
+        A working candy. While candies are not good for greedy policies, the virtual queue is
+        designed to deal with it.
+
+        >>> candy = HyperPaddle(rates=[1, 1, 1.1, 1, 1.1, 1, 1])
+        >>> candy.base_flow
+        array([0.95, 0.05, 0.05, 0.05, 0.05, 0.95, 1.  ])
+
+        The above states that the target flow for the hyperedge of the candy (last entry) is 1.
+
+        >>> candy.run('longest_queue', seed=42, number_events=20000)
+        False
+        >>> candy.simulator.logs['steps_done']
+        10459
+        >>> candy.simulation  # doctest: +NORMALIZE_WHITESPACE
+        array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,
+           0.59202601, 0.2939478 ])
+
+        A greedy simulator performs poorly on the hyperedge.
+
+        >>> candy.run('virtual_queue', seed=42, number_events=20000)
+        True
+        >>> candy.simulation  # doctest: +NORMALIZE_WHITESPACE
+        array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])
+
+        The virtual queue simulator manages to cope with the target flow on the hyperedge.
+        """
+        simulator = class_converter(simulator, Simulator)
+        self.simulator = simulator(self, **kwargs)
+        self.simulator.run()
+        self.simulation = self.simulator.compute_flow()
+        self.base_flow = self.simulation
+        return self.simulator.generator['number_events'] == self.simulator.logs['steps_done']
 
 
 
