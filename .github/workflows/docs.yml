@@ -30,7 +30,6 @@ jobs:
       - name: Build Sphinx documentation
         run: |
           sphinx-build -a -E -b html docs build
-          tox -e py
 
       - name: Deploy Sphinx documentation on Github Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
