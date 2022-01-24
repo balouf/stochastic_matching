@@ -33,6 +33,68 @@ class Simulator:
         queue size distribution, and number of steps achieved).
     core: callable
         Core simulator, usually a numba function. Must return the total number of steps achieved.
+
+    Examples
+    --------
+
+    >>> from stochastic_matching.graphs import CycleChain
+    >>> from stochastic_matching.simulator.age_based import FCFM
+    >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
+    >>> sim
+    Simulator of type fcfm.
+
+    Use :meth:`~stochastic_matching.simulator.generic.Simulator.run` to make the simulation.
+
+    >>> sim.run()
+
+    Raw results are stored in `logs`.
+
+    >>> sim.logs #doctest: +NORMALIZE_WHITESPACE
+    {'trafic': array([43, 17, 14, 23, 12], dtype=uint32),
+    'queue_log': array([[119,  47,  26,  15,  14,   7,   1,   1],
+       [189,  25,  13,   3,   0,   0,   0,   0],
+       [218,   8,   3,   1,   0,   0,   0,   0],
+       [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint32), 'steps_done': 230}
+
+    Different methods are proposed to provide various indicators.
+
+    >>> sim.compute_average_queues()
+    array([1.07826087, 0.26086957, 0.07391304, 0.85217391])
+
+    >>> sim.total_waiting_time()
+    0.36535764375876584
+
+    >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
+    array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,
+        0.03913043, 0.00869565, 0.00434783, 0.        ],
+       [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,
+        0.        , 0.        , 0.        , 0.        ],
+       [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,
+        0.        , 0.        , 0.        , 0.        ],
+       [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,
+        0.01304348, 0.        , 0.        , 0.        ]])
+
+
+    >>> sim.compute_flow()
+    array([1.15913043, 0.45826087, 0.3773913 , 0.62      , 0.32347826])
+
+    You can also draw the average or CCDF of the queues.
+
+    >>> fig = sim.show_average_queues()
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+
+    >>> fig = sim.show_average_queues(indices=[0, 3, 2], sort=True, as_time=True)
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+
+    >>> fig = sim.show_ccdf()
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+
+    >>> fig = sim.show_ccdf(indices=[0, 3, 2], sort=True)
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
     """
 
     name = None
@@ -123,6 +185,7 @@ class Simulator:
 
         Returns
         -------
+        None
         """
         self.logs['steps_done'] = self.core(**self.generator,
                                             **self.inners, **self.logs)
@@ -133,16 +196,6 @@ class Simulator:
         -------
         :class:`~numpy.ndarray`
             Average queue sizes.
-
-        Examples
-        --------
-
-        >>> from stochastic_matching.graphs import CycleChain
-        >>> from stochastic_matching.simulator.age_based import FCFM
-        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
-        >>> sim.run()
-        >>> sim.compute_average_queues()
-        array([1.07826087, 0.26086957, 0.07391304, 0.85217391])
         """
         return self.logs['queue_log'].dot(np.arange(self.max_queue)) / self.logs['steps_done']
 
@@ -152,16 +205,6 @@ class Simulator:
         -------
         :class:`float`
             Average waiting time
-
-        Examples
-        --------
-
-        >>> from stochastic_matching.graphs import CycleChain
-        >>> from stochastic_matching.simulator.age_based import FCFM
-        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
-        >>> sim.run()
-        >>> sim.total_waiting_time()
-        0.36535764375876584
         """
         return np.sum(self.compute_average_queues())/np.sum(self.model.rates)
 
@@ -180,24 +223,6 @@ class Simulator:
         -------
         :class:`~matplotlib.figure.Figure`
             A figure of the CCDFs of the queues.
-
-        Examples
-        --------
-
-        >>> from stochastic_matching.graphs import CycleChain
-        >>> from stochastic_matching.simulator.age_based import FCFM
-        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
-        >>> sim.run()
-
-        On IPython, this will draw the CCDF, otherwise a fig object is returned.
-
-        >>> fig = sim.show_average_queues()
-        >>> fig #doctest: +ELLIPSIS
-        <Figure size ...x... with 1 Axes>
-
-        >>> fig = sim.show_average_queues(indices=[0, 3, 2], sort=True, as_time=True)
-        >>> fig #doctest: +ELLIPSIS
-        <Figure size ...x... with 1 Axes>
         """
         averages = self.compute_average_queues()
         if as_time:
@@ -225,23 +250,6 @@ class Simulator:
         -------
         :class:`~numpy.ndarray`
             CCDFs of the queues.
-
-        Examples
-        --------
-
-        >>> from stochastic_matching.graphs import CycleChain
-        >>> from stochastic_matching.simulator.age_based import FCFM
-        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
-        >>> sim.run()
-        >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
-        array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,
-            0.03913043, 0.00869565, 0.00434783, 0.        ],
-           [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,
-            0.        , 0.        , 0.        , 0.        ],
-           [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,
-            0.        , 0.        , 0.        , 0.        ],
-           [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,
-            0.01304348, 0.        , 0.        , 0.        ]])
         """
 
         events = self.logs['steps_done']
@@ -275,26 +283,6 @@ class Simulator:
         -------
         :class:`~matplotlib.figure.Figure`
             A figure of the CCDFs of the queues.
-
-        Examples
-        --------
-
-        >>> from stochastic_matching.graphs import CycleChain
-        >>> from stochastic_matching.simulator.age_based import FCFM
-        >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
-        >>> sim
-        Simulator of type fcfm.
-        >>> sim.run()
-
-        On IPython, this will draw the CCDF, otherwise a fig object is returned.
-
-        >>> fig = sim.show_ccdf()
-        >>> fig #doctest: +ELLIPSIS
-        <Figure size ...x... with 1 Axes>
-
-        >>> fig = sim.show_ccdf(indices=[0, 3, 2], sort=True)
-        >>> fig #doctest: +ELLIPSIS
-        <Figure size ...x... with 1 Axes>
         """
         ccdf = self.compute_ccdf()
 

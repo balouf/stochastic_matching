@@ -1366,7 +1366,7 @@ class Model:
 
         Parameters
         ----------
-        kwargs: :class:`dict.`
+        **kwargs
             See :meth:`~stochastic_matching.display.show` for details.
 
         Returns
@@ -1389,7 +1389,7 @@ class Model:
 
         Parameters
         ----------
-        kwargs: :class:`dict.`
+        **kwargs
             See :meth:`~stochastic_matching.display.show` for details.
 
         Returns
@@ -1413,7 +1413,7 @@ class Model:
 
         Parameters
         ----------
-        kwargs: :class:`dict.`
+        **kwargs
             See :meth:`~stochastic_matching.display.show` for details.
 
         Returns
@@ -1437,7 +1437,7 @@ class Model:
 
         Parameters
         ----------
-        kwargs: :class:`dict.`
+        **kwargs
             See :meth:`~stochastic_matching.display.show` for details.
 
         Returns
@@ -1463,7 +1463,7 @@ class Model:
         ----------
         i: :class:`int`
             indice of the vertex.
-        kwargs: :class:`dict.`
+        **kwargs
             See :meth:`~stochastic_matching.display.show` for details.
 
         Returns
@@ -1490,7 +1490,7 @@ class Model:
         ----------
         simulator: :class:`str` or :class:`~stochastic_matching.simulator.generic.Simulator`
             Type of simulator to instantiate.
-        kwargs: :class:`dict`
+        **kwargs
             Arguments to pass to the simulator.
 
         Returns

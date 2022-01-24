@@ -135,7 +135,7 @@ def simple_choicer(neighbors, node, queue_size):
     Parameters
     ----------
     neighbors: :class:`~numba.typed.List`
-        Output of :func:`~stochastic_matching.simulator.common.graph_neighbors_list`
+        Output of :func:`~stochastic_matching.common.graph_neighbors_list`
         (for a simple graph).
     node: :class:`int`
         Starting node (the node that just got an arrival).
@@ -155,7 +155,7 @@ def hyper_choicer(neighbors, node, queue_size):
     Parameters
     ----------
     neighbors: :class:`~numba.typed.List`
-        Output of :func:`~stochastic_matching.simulator.common.graph_neighbors_list`
+        Output of :func:`~stochastic_matching.common.graph_neighbors_list`
         (with hypergraph input).
     node: :class:`int`
         Starting node (the node that just got an arrival).
@@ -263,6 +263,15 @@ class RandomNodeSimulator(QueueSizeSimulator):
     Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.
     When multiple choices are possible, one is chosen uniformly at random.
 
+    Parameters
+    ----------
+
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    **kwargs
+        Keyword arguments.
+
+
     Examples
     --------
 
@@ -369,7 +378,14 @@ class LongestSelector(Selector):
     Selects feasible edge with longest queue.
     """
     name = "longest"
+
     def yield_selector(self):
+        """
+        Returns
+        -------
+        callable
+            A longest selector function adapted to the model.
+        """
         if self.model.adjacency is not None:
             def longest_selector(choices, queue_size):
                 i = 0
@@ -398,11 +414,19 @@ class LongestSimulator(QueueSizeSimulator):
     Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.
     When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.
 
+    Parameters
+    ----------
+
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    **kwargs
+        Keyword arguments.
+
     Examples
     --------
 
-    Let start with a working triangle. One can notice the results are the same for all greedy simulator because
-    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
+    Let start with a working triangle. Not that the results are the same for all greedy simulator because
+    there are no decision in a triangle (always at most one non-empty queue under a greedy policy).
 
     >>> from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle
     >>> sim = LongestSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
@@ -414,7 +438,7 @@ class LongestSimulator(QueueSizeSimulator):
        [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),
     'steps_done': 1000}
 
-    A ill braess graph (simulation ends before completion due to drift).
+    A non stabilizable diamond (simulation ends before completion due to drift).
 
     >>> sim = LongestSimulator(CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
@@ -426,7 +450,7 @@ class LongestSimulator(QueueSizeSimulator):
            [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint32),
     'steps_done': 339}
 
-    A working candy (but candies are not good for greedy policies).
+    A stabilizable candy (but candies are not good for greedy policies).
 
     >>> sim = LongestSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
@@ -457,6 +481,7 @@ class LongestSimulator(QueueSizeSimulator):
 
 class RandomItemSelector(Selector):
     name = 'random_item'
+
     def yield_selector(self):
         if self.model.adjacency is not None:
             def random_item_selector(choices, queue_size):
@@ -487,6 +512,14 @@ class RandomItemSimulator(QueueSizeSimulator):
     Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.
     When multiple choices are possible, chooses proportionally to the sizes of the queues
     (or sum of queues for hyperedges).
+
+    Parameters
+    ----------
+
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    **kwargs
+        Keyword arguments.
 
     Examples
     --------
@@ -549,6 +582,17 @@ class SemiGreedy(QueueSizeSimulator):
     """
     Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.
 
+    Parameters
+    ----------
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`
+        Egdes that should not be used.
+    threshold: :class:`int`, optional
+        Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).
+    **kwargs
+        Keyword arguments.
+
     Examples
     --------
 
@@ -594,9 +638,60 @@ def priority_with_weights_and_threshold(choices, queue_size, weights,
 
 class PrioritySelector(Selector):
     """
+    Selects feasible edge based on priorities.
+    """
+    name = 'priority'
+
+    def __init__(self, model, weights, threshold=None, counterweights=None):
+        weights = np.array(weights)
+        self.weights = weights
+        self.threshold = threshold
+        if threshold is not None:
+            if counterweights is None:
+                counterweights = -weights
+            else:
+                counterweights = np.array(counterweights)
+            self.counterweights = counterweights
+        else:
+            self.counterweights = None
+        super(PrioritySelector, self).__init__(model)
+
+    def yield_selector(self):
+        pass
+
+    def yield_jit(self):
+        weights = self.weights.copy()
+        if self.threshold is None:
+            def weighted_choice(choices, queue_size):
+                return priority_with_weights(choices, queue_size, weights)
+        else:
+            counterweights = self.counterweights.copy()
+            threshold = self.threshold
+
+            def weighted_choice(choices, queue_size):
+                return priority_with_weights_and_threshold(choices, queue_size,
+                                                           weights, threshold, counterweights)
+        return njit(weighted_choice)
+
+
+class PrioritySimulator(QueueSizeSimulator):
+    """
     Greedy policy based on pre-determined preferences on edges.
 
     A threshold can be specified to alter the weights if the queue sizes get too big.
+
+    Parameters
+    ----------
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    weights: :class:`list` or :class:`~numpy.ndarray`
+        Priorities associated to the edges.
+    threshold: :class:`int`, optional
+        Limit on max queue size to apply the weight priority.
+    counterweights: :class:`list` or :class:`~numpy.ndarray`, optional
+        Priority to use above threshold (if not provided, reverse weights is used).
+    **kwargs
+        Keyword arguments.
 
     Examples
     --------
@@ -613,7 +708,7 @@ class PrioritySelector(Selector):
     >>> fish.simulation
     array([2.925 , 1.0404, 0.9522, 0.    , 0.9504, 2.0808, 1.0044])
 
-    Node 5 is the pseudo-instable node.
+    The last node is the pseudo-instable node.
 
     >>> fish.simulator.compute_average_queues()[-1]
     38.3411
@@ -634,37 +729,6 @@ class PrioritySelector(Selector):
     """
     name = 'priority'
 
-    def __init__(self, model, weights, threshold=None, counterweights=None):
-        weights = np.array(weights)
-        self.weights = weights
-        self.threshold = threshold
-        if threshold is not None:
-            if counterweights is None:
-                counterweights = -weights
-            else:
-                counterweights = np.array(counterweights)
-            self.counterweights = counterweights
-        else:
-            self.counterweights = None
-        super(PrioritySelector, self).__init__(model)
-
-    def yield_jit(self):
-        weights = self.weights.copy()
-        if self.threshold is None:
-            def weighted_choice(choices, queue_size):
-                return priority_with_weights(choices, queue_size, weights)
-        else:
-            counterweights = self.counterweights.copy()
-            threshold = self.threshold
-
-            def weighted_choice(choices, queue_size):
-                return priority_with_weights_and_threshold(choices, queue_size,
-                                                           weights, threshold, counterweights)
-        return njit(weighted_choice)
-
-
-class PrioritySimulator(QueueSizeSimulator):
-    name = 'priority'
     def __init__(self, model, weights=None, threshold=None, counterweights=None, **kwargs):
         super(PrioritySimulator, self).__init__(model,
                                                      selector='priority',

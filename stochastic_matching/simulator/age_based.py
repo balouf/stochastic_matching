@@ -81,6 +81,8 @@ def qstate_core_maker(model, simple_selector, hyper_selector):
                 else:  # No choice -> update and move on unless queue overflows.
                     items[node, queue_end[node] % max_queue] = age
                     queue_end[node] += 1
+                    if (queue_end[node] - queue_start[node]) == max_queue:
+                        return steps_done + age + 1
         return steps_done + age + 1  # Return the updated number of steps achieved.
 
     return njit(core_simulator, cache=True)  # Return the jitted core engine.
@@ -88,7 +90,7 @@ def qstate_core_maker(model, simple_selector, hyper_selector):
 
 class QueueStateSimulator(Simulator, ABC):
     """
-    Abstract class derived from :class:`~stochastic_matching.simulator.classes.Simulator`
+    Abstract class derived from :class:`~stochastic_matching.simulator.generic.Simulator`
     for greedy simulator based on the states of queues (including age of items).
     """
 
@@ -129,8 +131,7 @@ def simple_state_choicer(neighbors, node, queue_start, queue_end):
     Parameters
     ----------
     neighbors: :class:`~numba.typed.List`
-        Output of :func:`~stochastic_matching.common.graph_neighbors_list`
-        (with :class:`~stochastic_matching.graphs.classes.SimpleGraph` input).
+        Output of :func:`~stochastic_matching.common.graph_neighbors_list`.
     node: :class:`int`
         Starting node (the node that just got an arrival).
     queue_start: :class:`~numpy.ndarray`
@@ -146,7 +147,7 @@ def simple_state_choicer(neighbors, node, queue_start, queue_end):
     Examples
     --------
 
-    In a Braess graph with non-empty queues in nodes 3 and 0,
+    In a diamond with non-empty queues in nodes 3 and 0,
     an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).
 
     >>> from stochastic_matching.graphs import CycleChain
@@ -163,8 +164,7 @@ def hyper_state_choicer(neighbors, node, queue_start, queue_end):
     Parameters
     ----------
     neighbors: :class:`~numba.typed.List`
-        Output of :func:`~stochastic_matching.common.graph_neighbors_list`
-        (with :class:`~stochastic_matching.graphs.classes.HyperGraph` input).
+        Output of :func:`~stochastic_matching.common.graph_neighbors_list`.
     node: :class:`int`
         Starting node (the node that just got an arrival).
     queue_start: :class:`~numpy.ndarray`
@@ -306,7 +306,7 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
 
 class FCFM(QueueStateSimulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueStateSimulator`.
+    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.age_based.QueueStateSimulator`.
     When multiple choices are possible, the oldest item is chosen.
 
     Examples
@@ -325,7 +325,7 @@ class FCFM(QueueStateSimulator):
        [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),
     'steps_done': 1000}
 
-    A ill braess graph (simulation ends before completion due to drift).
+    Unstable diamond (simulation ends before completion due to drift).
 
     >>> sim = FCFM(CycleChain(rates=[1, 1, 1, 1]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
@@ -337,7 +337,7 @@ class FCFM(QueueStateSimulator):
            [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]], dtype=uint32),
     'steps_done': 339}
 
-    A working candy (but candies are not good for greedy policies).
+    A stable candy (but candies are not good for greedy policies).
 
     >>> sim = FCFM(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]),
     ...            number_events=1000, seed=42, max_queue=25)

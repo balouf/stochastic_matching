@@ -118,7 +118,7 @@ def vq_core(prob, alias, number_events, seed,
 
 class VQSimulator(Simulator):
     """
-    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.Simulator`.
+    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.generic.Simulator`.
     Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).
 
     Examples
@@ -137,7 +137,7 @@ class VQSimulator(Simulator):
            [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint32),
     'steps_done': 1000}
 
-    A ill braess graph (simulation ends before completion due to drift).
+    Unstable diamond (simulation ends before completion due to drift).
 
     >>> sim = VQSimulator(CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
@@ -149,7 +149,7 @@ class VQSimulator(Simulator):
            [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint32),
     'steps_done': 329}
 
-    A working candy. While candies are not good for greedy policies, the virtual queue is
+    A stable candy. While candies are not good for greedy policies, the virtual queue is
     designed to deal with it.
 
     >>> sim = VQSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
