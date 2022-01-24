@@ -159,8 +159,8 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">CycleChain</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">default_description</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span> 
 <span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;},</span>
 <span class="go">  {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;},</span>
@@ -215,8 +215,8 @@ For simulations, a relatively high value is recommended, for example 1e-2.</p></
 <p>It is probably best to play a bit with the options, but the following examples should give the general idea.</p>
 <p>We start with the so-called <em>pyramid</em> graph (the names comes from one of its kernel,
 and not from the shape of the graph itself).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span><span class="p">,</span> <span class="n">KayakPaddle</span><span class="p">,</span> <span class="n">CycleChain</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Pyramid</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>By default, the label of a node (its displayed name) is its arrival rate,
@@ -277,14 +277,14 @@ and the label of an edge is its Moore_penrose flow.</p>
 </pre></div>
 </div>
 <p>Note that the kernel basis is not necessarily +/- 1, even on simple graphs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak</span> <span class="o">=</span> <span class="n">KayakPaddle</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">kayak</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 <span class="go">{&#39;title&#39;: &#39;3: (2, 3)&#39;, &#39;label&#39;: &#39;1+2α1&#39;}</span>
 </pre></div>
 </div>
 <p>When kernel is displayed, edges that are not part of any kernel are shown in black.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="go">{&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}</span>
@@ -318,8 +318,8 @@ and the label of an edge is its Moore_penrose flow.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">CycleChain</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">int_2_str</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="go">&#39;2&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;One&#39;</span><span class="p">,</span> <span class="s1">&#39;Two&#39;</span><span class="p">,</span> <span class="s1">&#39;Three&#39;</span><span class="p">,</span> <span class="s1">&#39;Four&#39;</span><span class="p">]</span>
@@ -348,7 +348,7 @@ It is basically a pipe
 <li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – The model to display.</p></li>
 <li><p><strong>bipartite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Tells if the bipartite node/edge structure should be explicitly shown.</p></li>
 <li><p><strong>png</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Make a mirror PNG that can be saved.</p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Keyword arguments. See <a class="reference internal" href="#stochastic_matching.display.info_maker" title="stochastic_matching.display.info_maker"><code class="xref py py-meth docutils literal notranslate"><span class="pre">info_maker()</span></code></a>,
+<li><p><strong>**kwargs</strong> – Keyword arguments. See <a class="reference internal" href="#stochastic_matching.display.info_maker" title="stochastic_matching.display.info_maker"><code class="xref py py-meth docutils literal notranslate"><span class="pre">info_maker()</span></code></a>,
 <a class="reference internal" href="#stochastic_matching.display.vis_converter" title="stochastic_matching.display.vis_converter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_converter()</span></code></a>, and
 <a class="reference internal" href="#stochastic_matching.display.vis_show" title="stochastic_matching.display.vis_show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_show()</span></code></a> for details.</p></li>
 </ul>
@@ -358,8 +358,8 @@ It is basically a pipe
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">Pyramid</span><span class="p">,</span> <span class="n">Fan</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Pyramid</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Basic display.</p>
@@ -375,7 +375,7 @@ It is basically a pipe
 </pre></div>
 </div>
 <p>Display of a hypergraph in bipartite mode.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fan</span> <span class="o">=</span> <span class="n">Fan</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fan</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Fan</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">show</span><span class="p">(</span><span class="n">fan</span><span class="p">,</span> <span class="n">bipartite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">&lt;IPython.core.display.HTML object&gt;</span>
 </pre></div>
@@ -458,8 +458,8 @@ For hypergraphs, each edge in vis links a node and a hyperedge..</p></li>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">CycleChain</span><span class="p">,</span> <span class="n">HyperPaddle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">default_description</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vis_converter</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span> 
 <span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;},</span>
@@ -492,7 +492,7 @@ For hypergraphs, each edge in vis links a node and a hyperedge..</p></li>
 <span class="go">  {&#39;from&#39;: 2, &#39;to&#39;: 8, &#39;title&#39;: &#39;2 &lt;-&gt; 4: (2, 3)&#39;},</span>
 <span class="go">  {&#39;from&#39;: 3, &#39;to&#39;: 7, &#39;title&#39;: &#39;3 &lt;-&gt; 3: (1, 3)&#39;},</span>
 <span class="go">  {&#39;from&#39;: 3, &#39;to&#39;: 8, &#39;title&#39;: &#39;3 &lt;-&gt; 4: (2, 3)&#39;}])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">HyperPaddle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span> <span class="o">=</span> <span class="n">vis_converter</span><span class="p">(</span><span class="n">candy</span><span class="p">,</span> <span class="o">*</span><span class="n">default_description</span><span class="p">(</span><span class="n">candy</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vis_nodes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;}</span>

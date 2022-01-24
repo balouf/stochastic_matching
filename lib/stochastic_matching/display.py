@@ -24,8 +24,8 @@ def int_2_str(model, i):
     Examples
     --------
 
-    >>> from stochastic_matching.graphs import CycleChain
-    >>> diamond = CycleChain()
+    >>> import stochastic_matching as sm
+    >>> diamond = sm.CycleChain()
     >>> int_2_str(diamond, 2)
     '2'
     >>> diamond.names = ['One', 'Two', 'Three', 'Four']
@@ -240,8 +240,8 @@ def default_description(model):
     Examples
     --------
 
-    >>> from stochastic_matching.graphs import CycleChain
-    >>> diamond = CycleChain()
+    >>> import stochastic_matching as sm
+    >>> diamond = sm.CycleChain()
     >>> default_description(diamond) # doctest: +NORMALIZE_WHITESPACE
     ([{'id': 0, 'label': '', 'title': '0'},
       {'id': 1, 'label': '', 'title': '1'},
@@ -298,8 +298,8 @@ def vis_converter(model, nodes_info, edges_info):
 
     Examples
     --------
-    >>> from stochastic_matching.graphs import CycleChain, HyperPaddle
-    >>> diamond = CycleChain()
+    >>> import stochastic_matching as sm
+    >>> diamond = sm.CycleChain()
     >>> nodes, edges = default_description(diamond)
     >>> vis_converter(diamond, nodes, edges) # doctest: +NORMALIZE_WHITESPACE
     ([{'id': 0, 'label': '', 'title': '0'},
@@ -332,7 +332,7 @@ def vis_converter(model, nodes_info, edges_info):
       {'from': 2, 'to': 8, 'title': '2 <-> 4: (2, 3)'},
       {'from': 3, 'to': 7, 'title': '3 <-> 3: (1, 3)'},
       {'from': 3, 'to': 8, 'title': '3 <-> 4: (2, 3)'}])
-    >>> candy = HyperPaddle()
+    >>> candy = sm.HyperPaddle()
     >>> vis_nodes, vis_edges = vis_converter(candy, *default_description(candy))
     >>> vis_nodes[2]
     {'id': 2, 'label': '', 'title': '2', 'x': 0, 'group': 'Node'}
@@ -404,8 +404,8 @@ def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=Fa
     We start with the so-called *pyramid* graph (the names comes from one of its kernel,
     and not from the shape of the graph itself).
 
-    >>> from stochastic_matching.graphs import Pyramid, KayakPaddle, CycleChain
-    >>> pyramid = Pyramid(names='alpha')
+    >>> import stochastic_matching as sm
+    >>> pyramid = sm.Pyramid(names='alpha')
 
     By default, the label of a node (its displayed name) is its arrival rate,
     and the label of an edge is its Moore_penrose flow.
@@ -466,14 +466,14 @@ def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=Fa
 
     Note that the kernel basis is not necessarily +/- 1, even on simple graphs.
 
-    >>> kayak = KayakPaddle()
+    >>> kayak = sm.KayakPaddle()
     >>> n_i, e_i = info_maker(kayak, disp_kernel=True)
     >>> e_i[3]
     {'title': '3: (2, 3)', 'label': '1+2α1'}
 
     When kernel is displayed, edges that are not part of any kernel are shown in black.
 
-    >>> diamond = CycleChain()
+    >>> diamond = sm.CycleChain()
     >>> n_i, e_i = info_maker(diamond, disp_kernel=True)
     >>> e_i[2]
     {'title': '2: (1, 2)', 'label': '1', 'color': 'black'}
@@ -554,7 +554,7 @@ def show(model, bipartite=False, png=False, **kwargs):
         Tells if the bipartite node/edge structure should be explicitly shown.
     png: :class:`bool`
         Make a mirror PNG that can be saved.
-    kwargs: :class:`dict`
+    **kwargs
         Keyword arguments. See :meth:`~stochastic_matching.display.info_maker`,
         :meth:`~stochastic_matching.display.vis_converter`, and
         :meth:`~stochastic_matching.display.vis_show` for details.
@@ -567,8 +567,8 @@ def show(model, bipartite=False, png=False, **kwargs):
     Examples
     --------
 
-    >>> from stochastic_matching.graphs import Pyramid, Fan
-    >>> pyramid = Pyramid()
+    >>> import stochastic_matching as sm
+    >>> pyramid = sm.Pyramid()
 
     Basic display.
 
@@ -584,7 +584,7 @@ def show(model, bipartite=False, png=False, **kwargs):
 
     Display of a hypergraph in bipartite mode.
 
-    >>> fan = Fan()
+    >>> fan = sm.Fan()
     >>> show(fan, bipartite=True)
     <IPython.core.display.HTML object>
     """
@@ -607,7 +607,7 @@ def show(model, bipartite=False, png=False, **kwargs):
     vis_nodes, vis_edges = vis_converter(model, nodes_info, edges_info)
 
     if model.adjacency is None:
-        vis_kwargs['vis_options'] = {**vis_kwargs.get('vis_options', dict()), **HYPER_GRAPH_VIS_OPTIONS}
+        vis_kwargs['vis_options'] = {**vis_kwargs.get('vis_options', dict()), **HYPER_GRAPH_VIS_OPTIONS.copy()}
         if bipartite:
             vis_options = vis_kwargs['vis_options']
             vis_options['groups']['HyperEdge']['fixed']['x'] = True
@@ -616,6 +616,10 @@ def show(model, bipartite=False, png=False, **kwargs):
             for vis_node in vis_nodes:
                 if vis_node.get('group') == 'HyperEdge':
                     vis_node['x'] = inner_width
+        else:
+            vis_options = vis_kwargs['vis_options']
+            vis_options['groups']['HyperEdge']['fixed']['x'] = False
+            vis_options['groups']['Node']['fixed']['x'] = False
     if png:
         vis_kwargs['template'] = PNG_TEMPLATE
     vis_show(vis_nodes, vis_edges, **vis_kwargs)

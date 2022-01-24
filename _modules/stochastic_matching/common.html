@@ -185,8 +185,8 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.model import Model</span>
-<span class="sd">    &gt;&gt;&gt; get_classes(Model) # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; get_classes(sm.Model) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;Path&#39;: &lt;class &#39;stochastic_matching.graphs.Path&#39;&gt;,</span>
 <span class="sd">     &#39;Star&#39;: &lt;class &#39;stochastic_matching.graphs.Star&#39;&gt;,</span>
 <span class="sd">     &#39;Cycle&#39;: &lt;class &#39;stochastic_matching.graphs.Cycle&#39;&gt;,</span>
@@ -224,11 +224,11 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching.simulator.generic import Simulator</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.simulator.age_based import FCFM</span>
 <span class="sd">    &gt;&gt;&gt; class_converter(&#39;random_node&#39;, Simulator)</span>
 <span class="sd">    &lt;class &#39;stochastic_matching.simulator.size_based.RandomNodeSimulator&#39;&gt;</span>
-<span class="sd">    &gt;&gt;&gt; class_converter(FCFM, Simulator)</span>
+<span class="sd">    &gt;&gt;&gt; class_converter(sm.FCFM, Simulator)</span>
 <span class="sd">    &lt;class &#39;stochastic_matching.simulator.age_based.FCFM&#39;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; class_converter(&#39;anything&#39;, Simulator)  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traceback (most recent call last):</span>
@@ -252,6 +252,7 @@
         <span class="k">return</span> <span class="n">subclass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subclass must be string or </span><span class="si">{</span><span class="n">motherclass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> subclass (not instance).&quot;</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -334,6 +335,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prepare vector to draw a distribution with the alias method.</span>
 
+<span class="sd">    Based on https://www.keithschwarz.com/darts-dice-coins/.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    mu: :class:`list` or :class:`~numpy.ndarray`</span>
@@ -397,8 +400,8 @@
 
 <span class="sd">    Consider a diamond graph.</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain()</span>
 <span class="sd">    &gt;&gt;&gt; diamond.incidence</span>
 <span class="sd">    array([[1, 1, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 1, 0],</span>
@@ -443,7 +446,7 @@
 <span class="sd">    Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links</span>
 <span class="sd">    nodes 2, 3, and 4 together.</span>
 
-<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; candy = sm.HyperPaddle()</span>
 <span class="sd">    &gt;&gt;&gt; candy.incidence</span>
 <span class="sd">    array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="sd">           [1, 0, 1, 0, 0, 0, 0],</span>

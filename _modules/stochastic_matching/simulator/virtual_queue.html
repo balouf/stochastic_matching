@@ -205,8 +205,8 @@
 <span class="sd">    Let start with a working triangle. One can notice the results are different from the ones common to all</span>
 <span class="sd">    greedy simulator.</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
@@ -217,7 +217,7 @@
 
 <span class="sd">    Unstable diamond (simulation ends before completion due to drift).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(sm.CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint32),</span>
@@ -230,7 +230,7 @@
 <span class="sd">    A stable candy. While candies are not good for greedy policies, the virtual queue is</span>
 <span class="sd">    designed to deal with it.</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim = VQSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),</span>

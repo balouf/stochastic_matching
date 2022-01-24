@@ -150,8 +150,8 @@ def simple_state_choicer(neighbors, node, queue_start, queue_end):
     In a diamond with non-empty queues in nodes 3 and 0,
     an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).
 
-    >>> from stochastic_matching.graphs import CycleChain
-    >>> simple_state_choicer(graph_neighbors_list(CycleChain()), 2,
+    >>> import stochastic_matching as sm
+    >>> simple_state_choicer(graph_neighbors_list(sm.CycleChain()), 2,
     ...                      np.array([10, 14, 7, 8]), np.array([11, 14, 7, 9]))
     [(1, 0), (4, 3)]
     """
@@ -183,8 +183,8 @@ def hyper_state_choicer(neighbors, node, queue_start, queue_end):
     In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,
     an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).
 
-    >>> from stochastic_matching.graphs import HyperPaddle
-    >>> choices = hyper_state_choicer(graph_neighbors_list(HyperPaddle()), 2,
+    >>> import stochastic_matching as sm
+    >>> choices = hyper_state_choicer(graph_neighbors_list(sm.HyperPaddle()), 2,
     ...                     np.array([21, 10, 7, 4, 3, 2, 50]), np.array([22, 10, 7, 5, 4, 2, 50]))
     >>> [(e, n.astype(int)) for e, n in choices]
     [(1, array([0])), (6, array([3, 4]))]
@@ -218,14 +218,15 @@ def fcfm_selector(choices, max_queue, queue_start, queue_end, items):
 
     Examples
     --------
-    >>> from stochastic_matching.graphs import CycleChain
+
+    >>> import stochastic_matching as sm
     >>> start = np.array([1, 0, 0, 2])
     >>> end = np.array([2, 0, 0, 4])
     >>> items_list = np.array([[1, 5, 6, 0, 0],
     ...                   [0, 0, 0, 0, 0],
     ...                   [0, 0, 0, 0, 0],
     ...                   [2, 3, 4, 7, 8],])
-    >>> fcfm_selector(simple_state_choicer(graph_neighbors_list(CycleChain()), 2,
+    >>> fcfm_selector(simple_state_choicer(graph_neighbors_list(sm.CycleChain()), 2,
     ...                                             start, end),
     ...                        5, start, end, items_list)
     (4, 3)
@@ -267,11 +268,12 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
 
     Examples
     --------
-    >>> from stochastic_matching.graphs import HyperPaddle
+
+    >>> import stochastic_matching as sm
     >>> start = np.array([0, 0, 0, 0, 0, 0, 0])
     >>> end = np.array([1, 0, 0, 1, 1, 0, 0])
     >>> items_list = np.array([[2, 0], [0, 0], [0, 0], [1, 0], [3, 0], [0, 0], [0, 0]])
-    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(HyperPaddle()), 2,
+    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(sm.HyperPaddle()), 2,
     ...                                             start, end),
     ...                        2, start, end, items_list)
     >>> e
@@ -279,7 +281,7 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
     >>> n.astype(int)
     array([3, 4])
     >>> items_list = np.array([[1, 0], [0, 0], [0, 0], [2, 0], [3, 0], [0, 0], [0, 0]])
-    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(HyperPaddle()), 2,
+    >>> e, n = fcfm_hyper_selector(hyper_state_choicer(graph_neighbors_list(sm.HyperPaddle()), 2,
     ...                                             start, end),
     ...                        2, start, end, items_list)
     >>> e
@@ -315,8 +317,8 @@ class FCFM(QueueStateSimulator):
     Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
-    >>> from stochastic_matching.graphs import Tadpole, CycleChain, HyperPaddle, Cycle
-    >>> sim = FCFM(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
+    >>> import stochastic_matching as sm
+    >>> sim = sm.FCFM(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint32),
@@ -327,7 +329,7 @@ class FCFM(QueueStateSimulator):
 
     Unstable diamond (simulation ends before completion due to drift).
 
-    >>> sim = FCFM(CycleChain(rates=[1, 1, 1, 1]), number_events=1000, seed=42, max_queue=10)
+    >>> sim = FCFM(sm.CycleChain(rates=[1, 1, 1, 1]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([34, 42,  7, 41, 36], dtype=uint32),
@@ -339,7 +341,7 @@ class FCFM(QueueStateSimulator):
 
     A stable candy (but candies are not good for greedy policies).
 
-    >>> sim = FCFM(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]),
+    >>> sim = FCFM(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]),
     ...            number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE

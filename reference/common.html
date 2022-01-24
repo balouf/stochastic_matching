@@ -149,11 +149,11 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.simulator.age_based</span> <span class="kn">import</span> <span class="n">FCFM</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">class_converter</span><span class="p">(</span><span class="s1">&#39;random_node&#39;</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
 <span class="go">&lt;class &#39;stochastic_matching.simulator.size_based.RandomNodeSimulator&#39;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">class_converter</span><span class="p">(</span><span class="n">FCFM</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">class_converter</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">FCFM</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
 <span class="go">&lt;class &#39;stochastic_matching.simulator.age_based.FCFM&#39;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">class_converter</span><span class="p">(</span><span class="s1">&#39;anything&#39;</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>  
 <span class="gt">Traceback (most recent call last):</span>
@@ -200,6 +200,7 @@
 <dt class="sig sig-object py" id="stochastic_matching.common.create_prob_alias">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">create_prob_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#create_prob_alias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.create_prob_alias" title="Permalink to this definition"></a></dt>
 <dd><p>Prepare vector to draw a distribution with the alias method.</p>
+<p>Based on <a class="reference external" href="https://www.keithschwarz.com/darts-dice-coins/">https://www.keithschwarz.com/darts-dice-coins/</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Arrival intensities.</p>
@@ -237,8 +238,8 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.model</span> <span class="kn">import</span> <span class="n">Model</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">get_classes</span><span class="p">(</span><span class="n">Model</span><span class="p">)</span> 
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_classes</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">)</span> 
 <span class="go">{&#39;Path&#39;: &lt;class &#39;stochastic_matching.graphs.Path&#39;&gt;,</span>
 <span class="go"> &#39;Star&#39;: &lt;class &#39;stochastic_matching.graphs.Star&#39;&gt;,</span>
 <span class="go"> &#39;Cycle&#39;: &lt;class &#39;stochastic_matching.graphs.Cycle&#39;&gt;,</span>
@@ -274,8 +275,8 @@ and the second element the neighbor (for <cite>SimpleGraph</cite>) / array of ne
 </dl>
 <p class="rubric">Examples</p>
 <p>Consider a diamond graph.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">stochastic_matching.graphs</span> <span class="kn">import</span> <span class="n">CycleChain</span><span class="p">,</span> <span class="n">HyperPaddle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">incidence</span>
 <span class="go">array([[1, 1, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 1, 0],</span>
@@ -315,7 +316,7 @@ and the second element the neighbor (for <cite>SimpleGraph</cite>) / array of ne
 </div>
 <p>Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links
 nodes 2, 3, and 4 together.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">HyperPaddle</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span>
 <span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
 <span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>

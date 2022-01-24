@@ -263,9 +263,9 @@
 <span class="sd">    In a diamond graph with non-empty queues in nodes 3 and 0,</span>
 <span class="sd">    an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</span>
 
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; from stochastic_matching.common import graph_neighbors_list</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; diamond = CycleChain()</span>
+<span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain()</span>
 <span class="sd">    &gt;&gt;&gt; choicer = SizeChoicer(diamond).yield_jit()</span>
 <span class="sd">    &gt;&gt;&gt; choicer(graph_neighbors_list(diamond), 2, np.array([1, 0, 0, 1]))</span>
 <span class="sd">    [(1, 0), (4, 3)]</span>
@@ -281,7 +281,7 @@
 <span class="sd">    In a candy hypergraph with non-empty queues in nodes 0, 3, and 4,</span>
 <span class="sd">    an arrival at node 2 activates (edge, nodes) (1, [0]) and (6, [3, 4]).</span>
 
-<span class="sd">    &gt;&gt;&gt; candy = HyperPaddle()</span>
+<span class="sd">    &gt;&gt;&gt; candy = sm.HyperPaddle()</span>
 <span class="sd">    &gt;&gt;&gt; choicer = SizeChoicer(candy).yield_jit()</span>
 <span class="sd">    &gt;&gt;&gt; choices = choicer(graph_neighbors_list(candy), 2, np.array([1, 0, 0, 1, 1, 0, 0]))</span>
 <span class="sd">    &gt;&gt;&gt; [(e, n.astype(int)) for e, n in choices]</span>
@@ -357,8 +357,8 @@
 <span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
 <span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; triangle = Cycle(rates=[3, 4, 5])</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; triangle = sm.Cycle(rates=[3, 4, 5])</span>
 <span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(triangle, number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
@@ -382,7 +382,7 @@
 
 <span class="sd">    A ill diamond graph (simulation ends before completion due to drift).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(sm.CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([ 7, 10,  1,  4,  7], dtype=uint32),</span>
@@ -397,7 +397,7 @@
 
 <span class="sd">    A working candy (but candies are not good for greedy policies).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomNodeSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
@@ -507,8 +507,8 @@
 <span class="sd">    Let start with a working triangle. Not that the results are the same for all greedy simulator because</span>
 <span class="sd">    there are no decision in a triangle (always at most one non-empty queue under a greedy policy).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
@@ -519,7 +519,7 @@
 
 <span class="sd">    A non stabilizable diamond (simulation ends before completion due to drift).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(sm.CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([38, 38,  7, 37, 40], dtype=uint32),</span>
@@ -531,7 +531,7 @@
 
 <span class="sd">    A stabilizable candy (but candies are not good for greedy policies).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim = LongestSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
@@ -606,8 +606,8 @@
 <span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
 <span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import Cycle, CycleChain, HyperPaddle</span>
-<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
@@ -618,7 +618,7 @@
 
 <span class="sd">    A ill braess graph (simulation ends before completion due to drift).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(sm.CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([12, 11,  4,  8, 10], dtype=uint32),</span>
@@ -630,7 +630,7 @@
 
 <span class="sd">    A working candy (but candies are not good for greedy policies).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim = RandomItemSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;trafic&#39;: array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),</span>
@@ -675,8 +675,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain</span>
-<span class="sd">    &gt;&gt;&gt; diamond = CycleChain(rates=[1, 2, 2, 1])</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain(rates=[1, 2, 2, 1])</span>
 <span class="sd">    &gt;&gt;&gt; diamond.run(&#39;semi_greedy&#39;, forbidden_edges=[0, 4], seed=42,</span>
 <span class="sd">    ...                            threshold=100, number_events=1000, max_queue=1000)</span>
 <span class="sd">    True</span>
@@ -775,8 +775,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain, KayakPaddle</span>
-<span class="sd">    &gt;&gt;&gt; fish = KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; fish = sm.KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])</span>
 <span class="sd">    &gt;&gt;&gt; fish.run(&#39;priority&#39;, weights=[0, 2, 2, 0, 1, 1, 0],</span>
 <span class="sd">    ...                          threshold=50, counterweights = [0, 0, 0, 1, 2, 2, 1],</span>
 <span class="sd">    ...                          number_events=10000, seed=42)</span>

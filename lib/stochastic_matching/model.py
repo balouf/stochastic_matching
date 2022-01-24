@@ -80,8 +80,8 @@ def incidence_to_adjacency(incidence):
 
     Convert a diamond graph from incidence to adjacency.
 
-    >>> from stochastic_matching.graphs import CycleChain, HyperPaddle
-    >>> diamond = CycleChain()
+    >>> import stochastic_matching as sm
+    >>> diamond = sm.CycleChain()
     >>> diamond.incidence
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
@@ -95,7 +95,7 @@ def incidence_to_adjacency(incidence):
 
     An error occurs if one tries to convert a hypergraph.
 
-    >>> candy = HyperPaddle()
+    >>> candy = sm.HyperPaddle()
     >>> candy.incidence
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
@@ -137,8 +137,8 @@ class Kernel:
     Examples
     --------
 
-    >>> from stochastic_matching.graphs import Tadpole
-    >>> paw = Tadpole()
+    >>> import stochastic_matching.graphs as sm
+    >>> paw = sm.Tadpole()
     >>> kernel  = Kernel(paw.incidence)
 
     The inverse is:
@@ -193,7 +193,7 @@ class Kernel:
 
     Now consider a bipartite version, the banner graph :
 
-    >>> banner = Tadpole(m=4)
+    >>> banner = sm.Tadpole(m=4)
     >>> kernel = Kernel(banner.incidence)
 
     The pseudo-inverse is:
@@ -245,8 +245,7 @@ class Kernel:
 
     Consider now the diamond graph, surjective (n<m, non bipartite).
 
-    >>> from stochastic_matching.graphs import CycleChain
-    >>> diamond = CycleChain()
+    >>> diamond = sm.CycleChain()
     >>> kernel = Kernel(diamond.incidence)
 
     The inverse is:
@@ -293,8 +292,7 @@ class Kernel:
 
     Consider now a star graph, injective (tree).
 
-    >>> from stochastic_matching.graphs import Star
-    >>> star = Star()
+    >>> star = sm.Star()
     >>> kernel = Kernel(star.incidence)
 
     The inverse is:
@@ -340,8 +338,7 @@ class Kernel:
 
     Next, a surjective hypergraph:
 
-    >>> from stochastic_matching.graphs import Fan
-    >>> clover = Fan()
+    >>> clover = sm.Fan()
     >>> kernel = Kernel(clover.incidence)
 
     Incidence matrix dimensions:
@@ -386,7 +383,7 @@ class Kernel:
 
     Lastly, observe a *bipartite* hypergraph (in the sense of with non-trivial left kernel).
 
-    >>> clover = Fan(cycle_size=4)
+    >>> clover = sm.Fan(cycle_size=4)
     >>> kernel = Kernel(clover.incidence)
 
     Incidence matrix dimensions:
@@ -561,11 +558,11 @@ def simple_right_kernel(edge_kernel, seeds):
 
     Start with the co-domino.
 
-    >>> from stochastic_matching.graphs import Codomino, Pyramid
+    >>> import stochastic_matching.graphs as sm
 
     Default decomposition is a square and an hex.
 
-    >>> right = Codomino().kernel.right
+    >>> right = sm.Codomino().kernel.right
     >>> right
     array([[ 0,  0,  1, -1, -1,  1,  0,  0],
            [ 1, -1,  0, -1,  1,  0, -1,  1]])
@@ -578,7 +575,7 @@ def simple_right_kernel(edge_kernel, seeds):
 
     Another example with the pyramid.
 
-    >>> right = Pyramid().kernel.right
+    >>> right = sm.Pyramid().kernel.right
 
     Default decomposition: cycles of length 8, 10, and 6.
 
@@ -622,8 +619,8 @@ def simple_left_kernel(left):
 
     By default the kernel vector are 2-normalized.
 
-    >>> from stochastic_matching.graphs import concatenate, Cycle, Star
-    >>> sample = concatenate([Cycle(4), Star(5)], 0)
+    >>> import stochastic_matching.graphs as sm
+    >>> sample = sm.concatenate([sm.Cycle(4), sm.Star(5)], 0)
     >>> raw_kernel = Kernel(sample.incidence)
     >>> raw_kernel.left
     array([[ 0.5      ,  0.       ],
@@ -676,8 +673,8 @@ def traversal(model):
 
     For simple graphs, the method provides a lot of information on each connected component.
 
-    >>> from stochastic_matching.graphs import Cycle, Complete, CycleChain, Tadpole, Star, Pyramid, concatenate
-    >>> tutti = concatenate([Cycle(4), Complete(4), CycleChain(), Tadpole(), Star()], 0)
+    >>> import stochastic_matching.graphs as sm
+    >>> tutti = sm.concatenate([sm.Cycle(4), sm.Complete(4), sm.CycleChain(), sm.Tadpole(), sm.Star()], 0)
     >>> traversal(tutti) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3}, 'edges': {0, 1, 2, 3},
     'spanner': {0, 1, 2}, 'pivot': False, 'seeds': {3},
@@ -697,7 +694,7 @@ def traversal(model):
 
     These informations make the analysis worthy even in the cases where the graph is connected.
 
-    >>> traversal(Pyramid()) # doctest: +NORMALIZE_WHITESPACE
+    >>> traversal(sm.Pyramid()) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
     'edges': {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
     'spanner': {0, 1, 3, 4, 5, 7, 8, 9, 11},
@@ -706,7 +703,8 @@ def traversal(model):
 
     If the graph is treated as hypergraph, a lot less information is available.
 
-    >>> traversal(Model(incidence=list(tutti.incidence))) # doctest: +NORMALIZE_WHITESPACE
+    >>> tutti.adjacency = None
+    >>> traversal(tutti) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3}, 'edges': {0, 1, 2, 3}},
     {'nodes': {4, 5, 6, 7}, 'edges': {4, 5, 6, 7, 8, 9}},
     {'nodes': {8, 9, 10, 11}, 'edges': {10, 11, 12, 13, 14}},
@@ -786,8 +784,8 @@ class Model:
 
     Is a triangle that checks triangular inequality stable?
 
-    >>> from stochastic_matching.graphs import Cycle, Tadpole, CycleChain
-    >>> triangle = Cycle(rates="uniform")
+    >>> import stochastic_matching.graphs as sm
+    >>> triangle = sm.Cycle(rates="uniform")
     >>> triangle.stabilizable
     True
 
@@ -820,7 +818,7 @@ class Model:
 
     Now a bipartite example.
 
-    >>> banner = Tadpole(m=4, rates='proportional')
+    >>> banner = sm.Tadpole(m=4, rates='proportional')
 
     Notice that we have a perfectly working solution with respect to conservation law.
 
@@ -846,7 +844,7 @@ class Model:
 
     Note that the base flow can be negative even if there is a positive solution.
 
-    >>> diamond = CycleChain(rates=[5, 6, 2, 1])
+    >>> diamond = sm.CycleChain(rates=[5, 6, 2, 1])
     >>> diamond.base_flow
     array([ 3.5,  1.5,  1. ,  1.5, -0.5])
     >>> diamond.stabilizable
@@ -1055,8 +1053,8 @@ class Model:
 
         Consider the codomino graph with a kernel with a kayak paddle.
 
-        >>> from stochastic_matching.graphs import Codomino
-        >>> codomino = Codomino(rates = [3, 12, 3, 3, 12, 3])
+        >>> import stochastic_matching.graphs as sm
+        >>> codomino = sm.Codomino(rates = [3, 12, 3, 3, 12, 3])
 
         Default seeds of the codomino:
 
@@ -1117,8 +1115,8 @@ class Model:
 
         Consider the codomino graph with a kernel with a kayak paddle.
 
-        >>> from stochastic_matching.graphs import Codomino
-        >>> codomino = Codomino(rates=[3, 12, 3, 3, 12, 3])
+        >>> import stochastic_matching.graphs as sm
+        >>> codomino = sm.Codomino(rates=[3, 12, 3, 3, 12, 3])
         >>> codomino.kernel.right # doctest: +NORMALIZE_WHITESPACE
         array([[ 0,  0,  1, -1, -1,  1,  0,  0],
            [ 1, -1,  0, -1,  1,  0, -1,  1]])
@@ -1247,34 +1245,38 @@ class Model:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs import Star, Tadpole, Cycle, CycleChain, Codomino, Pyramid
-        >>> paw = Tadpole()
-        >>> paw.vertices
-        [{'alpha': None, 'lambda': array([1., 1., 1., 1.]), 'bijective': True}]
-        >>> paw.vertices # This uses previous computation.
-        [{'alpha': None, 'lambda': array([1., 1., 1., 1.]), 'bijective': True}]
+        >>> import stochastic_matching.graphs as sm
+        >>> paw = sm.Tadpole()
+        >>> paw.vertices  # doctest: +NORMALIZE_WHITESPACE
+        [{'kernel_coordinates': None, 'edge_coordinates': array([1., 1., 1., 1.]),
+          'null_edges': [], 'bijective': True}]
 
+        >>> star = sm.Star()
+        >>> star.vertices  # doctest: +NORMALIZE_WHITESPACE
+        [{'kernel_coordinates': None, 'edge_coordinates': array([1., 1., 1.]),
+          'null_edges': [], 'bijective': False}]
 
-        >>> star = Star()
-        >>> star.vertices
-        [{'alpha': None, 'lambda': array([1., 1., 1.]), 'bijective': False}]
-
-        >>> cycle = Cycle(4, rates=[3, 3, 3, 1])
+        >>> cycle = sm.Cycle(4, rates=[3, 3, 3, 1])
         >>> cycle.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-0.75]), 'lambda': array([1. , 1.5, 2.5, 0. ]), 'bijective': False},
-         {'alpha': array([0.75]), 'lambda': array([2.5, 0. , 1. , 1.5]), 'bijective': False}]
+        [{'kernel_coordinates': array([-0.75]),
+          'edge_coordinates': array([1. , 1.5, 2.5, 0. ]),
+          'null_edges': [3], 'bijective': False},
+         {'kernel_coordinates': array([0.75]), 'edge_coordinates': array([2.5, 0. , 1. , 1.5]),
+          'null_edges': [1], 'bijective': False}]
 
-        >>> diamond = CycleChain(rates=[3, 3, 3, 1])
+        >>> diamond = sm.CycleChain(rates=[3, 3, 3, 1])
         >>> diamond.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-0.5]), 'lambda': array([1., 2., 1., 1., 0.]), 'bijective': True},
-         {'alpha': array([0.5]), 'lambda': array([2., 1., 1., 0., 1.]), 'bijective': True}]
-
+        [{'kernel_coordinates': array([-0.5]), 'edge_coordinates': array([1., 2., 1., 1., 0.]),
+          'null_edges': [4], 'bijective': True},
+         {'kernel_coordinates': array([0.5]), 'edge_coordinates': array([2., 1., 1., 0., 1.]),
+         'null_edges': [3], 'bijective': True}]
 
         >>> diamond.rates = [2, 3, 2, 1]
         >>> diamond.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-0.25]), 'lambda': array([1., 1., 1., 1., 0.]), 'bijective': True},
-         {'alpha': array([0.75]), 'lambda': array([2., 0., 1., 0., 1.]), 'bijective': False}]
-
+        [{'kernel_coordinates': array([-0.25]), 'edge_coordinates': array([1., 1., 1., 1., 0.]),
+          'null_edges': [4], 'bijective': True},
+         {'kernel_coordinates': array([0.75]), 'edge_coordinates': array([2., 0., 1., 0., 1.]),
+          'null_edges': [1, 3], 'bijective': False}]
 
         >>> diamond.rates = [1, 3, 1, 1]
         >>> diamond.vertices  # doctest: +NORMALIZE_WHITESPACE
@@ -1284,31 +1286,41 @@ class Model:
 
         >>> diamond.rates = None
         >>> diamond.vertices  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([-1.]), 'lambda': array([0., 2., 1., 2., 0.]), 'bijective': False},
-         {'alpha': array([1.]), 'lambda': array([2., 0., 1., 0., 2.]), 'bijective': False}]
+        [{'kernel_coordinates': array([-1.]), 'edge_coordinates': array([0., 2., 1., 2., 0.]),
+          'null_edges': [0, 4], 'bijective': False},
+         {'kernel_coordinates': array([1.]), 'edge_coordinates': array([2., 0., 1., 0., 2.]),
+          'null_edges': [1, 3], 'bijective': False}]
 
-        >>> codomino = Codomino()
+        >>> codomino = sm.Codomino()
         >>> codomino.rates = [4, 5, 5, 3, 3, 2]
         >>> codomino.seeds = [1, 2]
         >>> codomino.base_flow = codomino.maximin
         >>> sorted(codomino.vertices, key=str)  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([ 1., -1.]), 'lambda': array([1., 3., 1., 3., 1., 0., 2., 0.]), 'bijective': True},
-         {'alpha': array([-1.,  0.]), 'lambda': array([3., 1., 2., 0., 2., 1., 0., 2.]), 'bijective': True},
-         {'alpha': array([-1., -1.]), 'lambda': array([3., 1., 1., 1., 3., 0., 0., 2.]), 'bijective': True},
-         {'alpha': array([0., 1.]), 'lambda': array([2., 2., 3., 0., 0., 2., 1., 1.]), 'bijective': True},
-         {'alpha': array([1., 0.]), 'lambda': array([1., 3., 2., 2., 0., 1., 2., 0.]), 'bijective': True}]
+        [{'kernel_coordinates': array([ 1., -1.]), 'edge_coordinates': array([1., 3., 1., 3., 1., 0., 2., 0.]),
+        'null_edges': [5, 7], 'bijective': True},
+        {'kernel_coordinates': array([-1.,  0.]), 'edge_coordinates': array([3., 1., 2., 0., 2., 1., 0., 2.]),
+        'null_edges': [3, 6], 'bijective': True},
+        {'kernel_coordinates': array([-1., -1.]), 'edge_coordinates': array([3., 1., 1., 1., 3., 0., 0., 2.]),
+        'null_edges': [5, 6], 'bijective': True},
+        {'kernel_coordinates': array([0., 1.]), 'edge_coordinates': array([2., 2., 3., 0., 0., 2., 1., 1.]),
+        'null_edges': [3, 4], 'bijective': True},
+        {'kernel_coordinates': array([1., 0.]), 'edge_coordinates': array([1., 3., 2., 2., 0., 1., 2., 0.]),
+        'null_edges': [4, 7], 'bijective': True}]
 
         >>> codomino.rates = [2, 4, 2, 2, 4, 2]
         >>> codomino.base_flow = np.array([1.0, 1.0, 1.0, 2.0, 0.0, 1.0, 1.0, 1.0])
         >>> sorted(codomino.vertices, key=str)  # doctest: +NORMALIZE_WHITESPACE
-        [{'alpha': array([ 1., -1.]), 'lambda': array([0., 2., 0., 4., 0., 0., 2., 0.]), 'bijective': False},
-         {'alpha': array([-1.,  1.]), 'lambda': array([2., 0., 2., 0., 0., 2., 0., 2.]), 'bijective': False},
-         {'alpha': array([-1., -1.]), 'lambda': array([2., 0., 0., 2., 2., 0., 0., 2.]), 'bijective': False}]
+        [{'kernel_coordinates': array([ 1., -1.]), 'edge_coordinates': array([0., 2., 0., 4., 0., 0., 2., 0.]),
+        'null_edges': [0, 2, 4, 5, 7], 'bijective': False},
+        {'kernel_coordinates': array([-1.,  1.]), 'edge_coordinates': array([2., 0., 2., 0., 0., 2., 0., 2.]),
+        'null_edges': [1, 3, 4, 6], 'bijective': False},
+        {'kernel_coordinates': array([-1., -1.]), 'edge_coordinates': array([2., 0., 0., 2., 2., 0., 0., 2.]),
+        'null_edges': [1, 2, 5, 6], 'bijective': False}]
 
-        >>> pyramid = Pyramid(rates=[4, 3, 3, 3, 6, 6, 3, 4, 4, 4])
+        >>> pyramid = sm.Pyramid(rates=[4, 3, 3, 3, 6, 6, 3, 4, 4, 4])
         >>> pyramid.seeds = [0, 12, 2]
         >>> pyramid.base_flow = pyramid.kernel_to_edge([1/6, 1/6, 1/6] )
-        >>> sorted([(v['alpha'], v['bijective']) for v in pyramid.vertices], key=str) # doctest: +NORMALIZE_WHITESPACE
+        >>> sorted([(v['kernel_coordinates'], v['bijective']) for v in pyramid.vertices], key=str) # doctest: +NORMALIZE_WHITESPACE
         [(array([ 1., -1.,  0.]), True),
          (array([-1.,  1.,  0.]), True),
          (array([-1., -1.,  0.]), True),
@@ -1321,8 +1333,9 @@ class Model:
             raise ValueError("The matching model admits no positive solution.")
         d, m = self.kernel.right.shape
         if d == 0:
-            dico = {'alpha': None, 'lambda': self.maximin}
-            dico['bijective'] = ((self.m - self.n) == sum(dico['lambda'] == 0))
+            dico = {'kernel_coordinates': None, 'edge_coordinates': self.maximin,
+                    'null_edges': [i for i in range(m) if self.maximin[i]==0]}
+            dico['bijective'] = ((self.m - self.n) == len(dico['null_edges']))
             res = [dico]
         else:
             if d > 1:
@@ -1353,10 +1366,11 @@ class Model:
             v = verts.shape[0]
             res = [dict() for _ in range(v)]
             for i, dico in enumerate(res):
-                dico['alpha'] = verts[i, :]
-                dico['lambda'] = self.kernel_to_edge(dico['alpha'])
-                clean_zeros(dico['lambda'], tol=self.tol)
-                dico['bijective'] = ((self.m - self.n) == sum(dico['lambda'] == 0))
+                dico['kernel_coordinates'] = verts[i, :]
+                dico['edge_coordinates'] = self.kernel_to_edge(dico['kernel_coordinates'])
+                clean_zeros(dico['edge_coordinates'], tol=self.tol)
+                dico['null_edges'] = [ i for i in range(m) if dico['edge_coordinates'][i] == 0 ]
+                dico['bijective'] = ((self.m - self.n) == len(dico['null_edges']))
         self.__vertices = res
         return res
 
@@ -1376,8 +1390,8 @@ class Model:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs import Pyramid
-        >>> pyramid = Pyramid()
+        >>> import stochastic_matching.graphs as sm
+        >>> pyramid = sm.Pyramid()
         >>> pyramid.show()
         <IPython.core.display.HTML object>
         """
@@ -1399,8 +1413,8 @@ class Model:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs import Pyramid
-        >>> pyramid = Pyramid()
+        >>> import stochastic_matching.graphs as sm
+        >>> pyramid = sm.Pyramid()
         >>> pyramid.show_graph()
         <IPython.core.display.HTML object>
         """
@@ -1423,8 +1437,8 @@ class Model:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs import Pyramid
-        >>> pyramid = Pyramid()
+        >>> import stochastic_matching.graphs as sm
+        >>> pyramid = sm.Pyramid()
         >>> pyramid.show_flow()
         <IPython.core.display.HTML object>
         """
@@ -1447,8 +1461,8 @@ class Model:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs import Pyramid
-        >>> pyramid = Pyramid()
+        >>> import stochastic_matching.graphs as sm
+        >>> pyramid = sm.Pyramid()
         >>> pyramid.show_kernel()
         <IPython.core.display.HTML object>
         """
@@ -1473,12 +1487,12 @@ class Model:
         Examples
         --------
 
-        >>> from stochastic_matching.graphs import Pyramid
-        >>> pyramid = Pyramid()
+        >>> import stochastic_matching.graphs as sm
+        >>> pyramid = sm.Pyramid()
         >>> pyramid.show_vertex(2)
         <IPython.core.display.HTML object>
         """
-        flow = self.vertices[i]['lambda']
+        flow = self.vertices[i]['edge_coordinates']
         default = {'flow': flow, 'disp_zero': False, 'check_flow': True}
         show(self, **{**default, **kwargs})
 
@@ -1503,8 +1517,8 @@ class Model:
 
         Let start with a working triangle and a greedy simulator.
 
-        >>> from stochastic_matching.graphs import Tadpole, CycleChain, HyperPaddle, Cycle
-        >>> triangle = Cycle(rates=[3, 4, 5])
+        >>> import stochastic_matching.graphs as sm
+        >>> triangle = sm.Cycle(rates=[3, 4, 5])
         >>> triangle.base_flow
         array([1., 2., 3.])
         >>> triangle.run('random_node', seed=42, number_events=20000)
@@ -1516,7 +1530,7 @@ class Model:
 
         Note that the drift is slow, so if the number of steps is low the simulation may complete without overflowing.
 
-        >>> diamond = CycleChain(rates='uniform')
+        >>> diamond = sm.CycleChain(rates='uniform')
         >>> diamond.base_flow
         array([0.5, 0.5, 0. , 0.5, 0.5])
 
@@ -1528,7 +1542,7 @@ class Model:
         A working candy. While candies are not good for greedy policies, the virtual queue is
         designed to deal with it.
 
-        >>> candy = HyperPaddle(rates=[1, 1, 1.1, 1, 1.1, 1, 1])
+        >>> candy = sm.HyperPaddle(rates=[1, 1, 1.1, 1, 1.1, 1, 1])
         >>> candy.base_flow
         array([0.95, 0.05, 0.05, 0.05, 0.05, 0.95, 1.  ])
 
@@ -1557,6 +1571,3 @@ class Model:
         self.simulation = self.simulator.compute_flow()
         self.base_flow = self.simulation
         return self.simulator.generator['number_events'] == self.simulator.logs['steps_done']
-
-
-

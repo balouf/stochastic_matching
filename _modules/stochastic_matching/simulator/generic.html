@@ -115,9 +115,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.graphs import CycleChain</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.simulator.age_based import FCFM</span>
-<span class="sd">    &gt;&gt;&gt; sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)</span>
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; sim = sm.FCFM(sm.CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)</span>
 <span class="sd">    &gt;&gt;&gt; sim</span>
 <span class="sd">    Simulator of type fcfm.</span>
 
