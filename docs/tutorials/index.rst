@@ -5,4 +5,5 @@ Tutorials
 =========
 
 .. toctree::
+   quickstart
    graphs

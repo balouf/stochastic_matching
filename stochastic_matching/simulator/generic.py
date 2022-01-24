@@ -37,9 +37,8 @@ class Simulator:
     Examples
     --------
 
-    >>> from stochastic_matching.graphs import CycleChain
-    >>> from stochastic_matching.simulator.age_based import FCFM
-    >>> sim = FCFM(CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
+    >>> import stochastic_matching as sm
+    >>> sim = sm.FCFM(sm.CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, number_events=1000, max_queue=8)
     >>> sim
     Simulator of type fcfm.
 

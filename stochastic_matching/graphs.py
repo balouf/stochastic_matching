@@ -28,9 +28,9 @@ class Path(Model):
     ----------
     n: :class:`int`
         Number of nodes.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -81,9 +81,9 @@ def star_adjacency(n=4):
         Adjacency matrix of a star graph :math:`S_n` (https://mathworld.wolfram.com/StarGraph.html).
     """
     adja = np.zeros([n, n], dtype=int)
-    for i in range(n-1):
-        adja[0, i+1] = 1
-        adja[i+1, 0] = 1
+    for i in range(n - 1):
+        adja[0, i + 1] = 1
+        adja[i + 1, 0] = 1
     return adja
 
 
@@ -94,9 +94,9 @@ class Star(Model):
 
     n: :class:`int`
         Number of nodes.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -152,9 +152,9 @@ class Cycle(Model):
     ----------
     n: :class:`int`
         Number of nodes.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -215,9 +215,9 @@ class Complete(Model):
     ----------
     n: :class:`int`
         Length of the cycle.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -290,7 +290,7 @@ def concatenate_adjacency(adja_list, overlap=None):
         overlap = 1
     if type(overlap) == int:
         overlap = [overlap] * (na - 1)
-    n = sum( adja.shape[0] for adja in adja_list) - sum(overlap)
+    n = sum(adja.shape[0] for adja in adja_list) - sum(overlap)
     adja = np.zeros([n, n], dtype=int)
     c_a = adja_list[0]
     c_n = c_a.shape[0]
@@ -298,9 +298,9 @@ def concatenate_adjacency(adja_list, overlap=None):
     pointer = c_n
     for i, o in enumerate(overlap):
         pointer -= o
-        c_a = adja_list[i+1]
+        c_a = adja_list[i + 1]
         c_n = c_a.shape[0]
-        adja[pointer:pointer+c_n, pointer:pointer+c_n] = c_a
+        adja[pointer:pointer + c_n, pointer:pointer + c_n] = c_a
         pointer += c_n
     return adja
 
@@ -313,9 +313,9 @@ def concatenate(model_list, overlap=None, *args, **kwargs):
         The graphs that one want to merge. They must all be simple (and in particular have an adjacency matrix).
     overlap: :class:`int` or :class:`list` of :class:`int`, optional
         Number of nodes that are common to two consecutive graphs. Default to 1.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Returns
@@ -342,14 +342,13 @@ def concatenate(model_list, overlap=None, *args, **kwargs):
     return Model(adjacency=adja, *args, **kwargs)
 
 
-
 class Codomino(Model):
     """
     Parameters
     ----------
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -374,9 +373,9 @@ class Pyramid(Model):
     """
     Parameters
     ----------
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -410,9 +409,9 @@ class Tadpole(Model):
         Length of the cycle.
     n: :class:`int`
         Length of the tail.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
 
@@ -465,9 +464,9 @@ class Lollipop(Model):
         Length of the complete graph.
     n: :class:`int`
         Length of the tail.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -502,6 +501,7 @@ class Lollipop(Model):
         adja = concatenate_adjacency(adja_list=[complete_adjacency(m), path_adjacency(n + 1)], overlap=1)
         super(Lollipop, self).__init__(adjacency=adja, *args, **kwargs)
 
+
 class KayakPaddle(Model):
     """
     Parameters
@@ -512,9 +512,9 @@ class KayakPaddle(Model):
         Length of the path that joins the two cycles.
     m: :class:`int`, optional
         Size of the second cycle. Default to the size of the first cycle.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -562,9 +562,9 @@ class Barbell(Model):
         Size of the second complete graph. Default to the size of the first complete graph.
     l: :class:`int`
         Length of the path that joins the two complete graphs.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -628,9 +628,9 @@ class CycleChain(Model):
         Number of copies.
     o: :class:`int`
         Overlap between cycles.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -680,7 +680,7 @@ class CycleChain(Model):
     name = "Cycle Chain"
 
     def __init__(self, n=3, c=2, o=2, *args, **kwargs):
-        adja = concatenate_adjacency([cycle_adjacency(n)]*c, o )
+        adja = concatenate_adjacency([cycle_adjacency(n)] * c, o)
         super(CycleChain, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -694,9 +694,9 @@ class HyperPaddle(Model):
         Size of the second cycle.
     l: :class:`int`
         Length of the path of 3-edges that joins the two cycles.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs: :class:`dict`, optional
         Keyword parameters for the model.
 
     Examples
@@ -743,7 +743,7 @@ class HyperPaddle(Model):
     name = "Hyper Kayak Paddle"
 
     def __init__(self, k=3, m=3, l=1, *args, **kwargs):
-        n = k+m+l
+        n = k + m + l
         incidence = np.zeros((n, n), dtype=int)
         left = Cycle(n=k).incidence
         incidence[:k, :k] = left
@@ -764,9 +764,9 @@ class Fan(Model):
         Size of cycles
     hyperedges: :class:`int`
         Number of hyperedges that connect the cycles.
-    args: :class:`list`, optional
+    *args
         Positional parameters for the model.
-    kwargs: :class:`dict`, optional
+    **kwargs
         Keyword parameters for the model.
 
     Examples
@@ -835,3 +835,4 @@ class Fan(Model):
             for h in range(hyperedges):
                 incidence[c * cycle_size + h, h - hyperedges] = 1
         super(Fan, self).__init__(incidence=incidence, *args, **kwargs)
+

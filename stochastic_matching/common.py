@@ -107,8 +107,8 @@ def get_classes(root):
 
     Examples
     --------
-    >>> from stochastic_matching.model import Model
-    >>> get_classes(Model) # doctest: +NORMALIZE_WHITESPACE
+    >>> import stochastic_matching as sm
+    >>> get_classes(sm.Model) # doctest: +NORMALIZE_WHITESPACE
     {'Path': <class 'stochastic_matching.graphs.Path'>,
      'Star': <class 'stochastic_matching.graphs.Star'>,
      'Cycle': <class 'stochastic_matching.graphs.Cycle'>,
@@ -146,11 +146,11 @@ def class_converter(subclass, motherclass):
     Examples
     --------
 
+    >>> import stochastic_matching as sm
     >>> from stochastic_matching.simulator.generic import Simulator
-    >>> from stochastic_matching.simulator.age_based import FCFM
     >>> class_converter('random_node', Simulator)
     <class 'stochastic_matching.simulator.size_based.RandomNodeSimulator'>
-    >>> class_converter(FCFM, Simulator)
+    >>> class_converter(sm.FCFM, Simulator)
     <class 'stochastic_matching.simulator.age_based.FCFM'>
     >>> class_converter('anything', Simulator)  # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
@@ -174,6 +174,7 @@ def class_converter(subclass, motherclass):
         return subclass
     else:
         raise TypeError(f"Subclass must be string or {motherclass.__name__} subclass (not instance).")
+
 
 def neighbors(i, compressed_incidence):
     """
@@ -256,6 +257,8 @@ def create_prob_alias(mu):
     """
     Prepare vector to draw a distribution with the alias method.
 
+    Based on https://www.keithschwarz.com/darts-dice-coins/.
+
     Parameters
     ----------
     mu: :class:`list` or :class:`~numpy.ndarray`
@@ -319,8 +322,8 @@ def graph_neighbors_list(model, forbidden_edges=None):
 
     Consider a diamond graph.
 
-    >>> from stochastic_matching.graphs import CycleChain, HyperPaddle
-    >>> diamond = CycleChain()
+    >>> import stochastic_matching as sm
+    >>> diamond = sm.CycleChain()
     >>> diamond.incidence
     array([[1, 1, 0, 0, 0],
            [1, 0, 1, 1, 0],
@@ -365,7 +368,7 @@ def graph_neighbors_list(model, forbidden_edges=None):
     Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links
     nodes 2, 3, and 4 together.
 
-    >>> candy = HyperPaddle()
+    >>> candy = sm.HyperPaddle()
     >>> candy.incidence
     array([[1, 1, 0, 0, 0, 0, 0],
            [1, 0, 1, 0, 0, 0, 0],
