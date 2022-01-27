@@ -2,6 +2,15 @@
 History
 =======
 
+------------------------------------------------
+0.2.1 (2022-01-27): Improved linear programming
+------------------------------------------------
+
+* Default model tolerance raised to 1e-7 for better detection of null edges.
+* New optimize_rates for Model. Outputs a flow that optimizes the rates according to some reward weights.
+* New option weights for semi-greedy simulators. Auto-computes the forbidden edges to optimize the reward according to weights.
+* Tutorials modified to introduce the new features.
+
 -----------------------------------
 0.2.0 (2022-01-24): Brand new API
 -----------------------------------

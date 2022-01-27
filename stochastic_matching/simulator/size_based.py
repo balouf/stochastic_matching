@@ -591,8 +591,11 @@ class SemiGreedy(QueueSizeSimulator):
     ----------
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
-    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`
+    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`, optional
         Egdes that should not be used.
+    weights: :class:`~numpy.ndarray`, optional
+        Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
+        (overrides forbidden_edges argument).
     threshold: :class:`int`, optional
         Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).
     **kwargs
@@ -609,17 +612,60 @@ class SemiGreedy(QueueSizeSimulator):
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 
+    Same result can be achieved by putting low weights on 0 and 4.
+
+    >>> diamond.run('semi_greedy', weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            threshold=100, number_events=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([0.   , 0.954, 0.966, 0.954, 0.   ])
+
     To compare with the priority-based pure greedy version:
 
     >>> diamond.run('priority', weights=[0, 1, 1, 1, 0], number_events=1000, max_queue=1000, seed=42)
     True
     >>> diamond.simulation
     array([0.444, 0.63 , 0.966, 0.63 , 0.324])
+
+    Another example with other rates.
+
+    >>> diamond.rates=[4, 5, 2, 1]
+
+    Optimize with the first and last edges that provide less reward.
+
+    >>> diamond.run('semi_greedy', weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            threshold=100, number_events=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([3.264, 0.888, 0.948, 0.84 , 0.   ])
+
+    Increase the reward on the first edge.
+
+    >>> diamond.run('semi_greedy', weights=[4, 2, 2, 2, 1], seed=42,
+    ...                            threshold=100, number_events=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([4.152, 0.   , 0.996, 0.   , 0.84 ])
+
+    On bijective graphs, no edge is forbidden whatever the weights.
+
+    >>> paw = sm.Tadpole()
+    >>> paw.run('semi_greedy', weights=[6, 3, 1, 2], seed=42,
+    ...                            threshold=100, number_events=1000, max_queue=1000)
+    True
+    >>> paw.simulation
+    array([1.048, 1.056, 1.016, 0.88 ])
     """
     name = 'semi_greedy'
 
-    def __init__(self, model, forbidden_edges=None, threshold=None, **kwargs):
+    def __init__(self, model, forbidden_edges=None, threshold=None, weights=None, **kwargs):
         super(SemiGreedy, self).__init__(model, **kwargs)
+        if weights is not None:
+            weights = np.array(weights)
+            flow = model.optimize_rates(weights)
+            forbidden_edges = [i for i in range(model.m) if flow[i]==0]
+            if len(forbidden_edges) == 0:
+                forbidden_edges = None
         choicer = SizeChoicer(self.model).yield_jit()
         selector = LongestSelector(self.model).yield_jit()
         self.core = qs_core_maker(choicer, selector, forbidden_edges=forbidden_edges, threshold=threshold)
