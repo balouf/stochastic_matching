@@ -11,4 +11,4 @@ from stochastic_matching.simulator.age_based import FCFM
 from stochastic_matching.simulator.virtual_queue import VQSimulator
 from stochastic_matching.simulator.size_based import LongestSimulator, PrioritySimulator, QueueSizeSimulator, \
     RandomItemSimulator, \
-    RandomNodeSimulator, SemiGreedy
+    RandomNodeSimulator, FilteringGreedy

@@ -404,6 +404,78 @@ queue size distribution, and number of steps achieved).</p>
 <section id="module-stochastic_matching.simulator.size_based">
 <span id="queue-size-based-policies"></span><h2>Queue-size based policies<a class="headerlink" href="#module-stochastic_matching.simulator.size_based" title="Permalink to this headline"></a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.size_based.FilteringGreedy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.size_based.</span></span><span class="sig-name descname"><span class="pre">FilteringGreedy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/size_based.html#FilteringGreedy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.size_based.FilteringGreedy" title="Permalink to this definition"></a></dt>
+<dd><p>Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
+<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Egdes that should not be used.</p></li>
+<li><p><strong>weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
+(overrides forbidden_edges argument).</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
+</pre></div>
+</div>
+<p>Same result can be achieved by putting low weights on 0 and 4.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
+</pre></div>
+</div>
+<p>To compare with the priority-based pure greedy version:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([0.444, 0.63 , 0.966, 0.63 , 0.324])</span>
+</pre></div>
+</div>
+<p>Another example with other rates.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Optimize with the first and last edges that provide less reward.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([3.264, 0.888, 0.948, 0.84 , 0.   ])</span>
+</pre></div>
+</div>
+<p>Increase the reward on the first edge.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([4.152, 0.   , 0.996, 0.   , 0.84 ])</span>
+</pre></div>
+</div>
+<p>On bijective graphs, no edge is forbidden whatever the weights.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span><span class="o">.</span><span class="n">simulation</span>
+<span class="go">array([1.048, 1.056, 1.016, 0.88 ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.size_based.LongestSelector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.size_based.</span></span><span class="sig-name descname"><span class="pre">LongestSelector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/size_based.html#LongestSelector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.size_based.LongestSelector" title="Permalink to this definition"></a></dt>
 <dd><p>Selects feasible edge with longest queue.</p>
@@ -768,78 +840,6 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model where the choicer will be applied.</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="stochastic_matching.simulator.size_based.SemiGreedy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.size_based.</span></span><span class="sig-name descname"><span class="pre">SemiGreedy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/size_based.html#SemiGreedy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.size_based.SemiGreedy" title="Permalink to this definition"></a></dt>
-<dd><p>Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
-<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Egdes that should not be used.</p></li>
-<li><p><strong>weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
-(overrides forbidden_edges argument).</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).</p></li>
-<li><p><strong>**kwargs</strong> – Keyword arguments.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
-</pre></div>
-</div>
-<p>Same result can be achieved by putting low weights on 0 and 4.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
-</pre></div>
-</div>
-<p>To compare with the priority-based pure greedy version:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([0.444, 0.63 , 0.966, 0.63 , 0.324])</span>
-</pre></div>
-</div>
-<p>Another example with other rates.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>Optimize with the first and last edges that provide less reward.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([3.264, 0.888, 0.948, 0.84 , 0.   ])</span>
-</pre></div>
-</div>
-<p>Increase the reward on the first edge.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([4.152, 0.   , 0.996, 0.   , 0.84 ])</span>
-</pre></div>
-</div>
-<p>On bijective graphs, no edge is forbidden whatever the weights.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<span class="gp">... </span>                           <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([1.048, 1.056, 1.016, 0.88 ])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py class">

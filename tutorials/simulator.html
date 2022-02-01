@@ -61,7 +61,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#Diamond">Diamond</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-greedy-policy">Trying to reach an extreme feasible solution with a greedy policy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-semi-greedy-policy">Trying to reach an extreme feasible solution with a semi-greedy policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy">Trying to reach an extreme feasible solution with a filtering policy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Reward-maximization-variant">Reward maximization variant</a></li>
 </ul>
 </li>
@@ -392,11 +392,12 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;virtual_queue&#39;: stochastic_matching.simulator.virtual_queue.VQSimulator,
+ &#39;generic_queue_size&#39;: stochastic_matching.simulator.size_based.QueueSizeSimulator,
  &#39;fcfm&#39;: stochastic_matching.simulator.age_based.FCFM,
  &#39;random_node&#39;: stochastic_matching.simulator.size_based.RandomNodeSimulator,
  &#39;longest_queue&#39;: stochastic_matching.simulator.size_based.LongestSimulator,
  &#39;random_item&#39;: stochastic_matching.simulator.size_based.RandomItemSimulator,
- &#39;semi_greedy&#39;: stochastic_matching.simulator.size_based.SemiGreedy,
+ &#39;filtering&#39;: stochastic_matching.simulator.size_based.FilteringGreedy,
  &#39;priority&#39;: stochastic_matching.simulator.size_based.PrioritySimulator}
 </pre></div></div>
 </div>
@@ -421,7 +422,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="ecfd87a5-fa52-41d5-ba88-423f21890b3f"></div>
+<div id="98414f92-7606-4731-b7f1-1e919a784d14"></div>
 <script>
 require.config({
     paths: {
@@ -436,7 +437,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('ecfd87a5-fa52-41d5-ba88-423f21890b3f');
+var container = document.getElementById('98414f92-7606-4731-b7f1-1e919a784d14');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -456,7 +457,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="ac982a28-2207-4825-97b6-e256cf6604a8"></div>
+<div id="dae74025-11d9-43b9-9220-4a71daf80f6b"></div>
 <script>
 require.config({
     paths: {
@@ -471,7 +472,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('ac982a28-2207-4825-97b6-e256cf6604a8');
+var container = document.getElementById('dae74025-11d9-43b9-9220-4a71daf80f6b');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -511,7 +512,7 @@ False
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-485422
+1111956
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -526,7 +527,7 @@ False
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="89e774a3-d342-44e5-85f5-8beb65aed150"></div>
+<div id="6f6d159b-2921-4073-8264-16fdefa66b0c"></div>
 <script>
 require.config({
     paths: {
@@ -535,13 +536,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4"}, {"id": 5, "label": "1", "title": "5"}, {"id": 6, "label": "1", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.995", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.00186", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.00433", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.994", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.00539", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "0.987", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.00672", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "0.99", "color": "blue", "from": 6, "to": 7}];
+var edges = [{"title": "0: (0, 1)", "label": "0.992", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.00587", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.00851", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.992", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.00513", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "0.991", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.00399", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "0.994", "color": "blue", "from": 6, "to": 7}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('89e774a3-d342-44e5-85f5-8beb65aed150');
+var container = document.getElementById('6f6d159b-2921-4073-8264-16fdefa66b0c');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -620,7 +621,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="573e95bc-62f9-4ec9-ad4a-2d5c4ed96a38"></div>
+<div id="42075241-f1fc-4347-aa31-c93b1a1d56e3"></div>
 <script>
 require.config({
     paths: {
@@ -629,13 +630,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "2", "title": "4"}, {"id": 5, "label": "2", "title": "5"}, {"id": 6, "label": "2", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.501", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.5", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.499", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.501", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.501", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.998", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "1", "color": "blue", "from": 6, "to": 7}];
+var edges = [{"title": "0: (0, 1)", "label": "0.5", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.499", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.5", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.501", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.499", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.997", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "1", "color": "blue", "from": 6, "to": 7}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('573e95bc-62f9-4ec9-ad4a-2d5c4ed96a38');
+var container = document.getElementById('42075241-f1fc-4347-aa31-c93b1a1d56e3');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -717,7 +718,7 @@ False
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="adcf25be-2f1f-4a2a-979f-5e9314647cf8"></div>
+<div id="afbf603d-6e34-40f2-be93-5fd6c13d2401"></div>
 <script>
 require.config({
     paths: {
@@ -726,13 +727,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0", "color": "red"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2", "color": "red"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4", "color": "red"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.499", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.167", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.502", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.166", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.666", "color": "blue", "from": 3, "to": 4}];
+var edges = [{"title": "0: (0, 1)", "label": "0.499", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.168", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.499", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.167", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.664", "color": "blue", "from": 3, "to": 4}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('adcf25be-2f1f-4a2a-979f-5e9314647cf8');
+var container = document.getElementById('afbf603d-6e34-40f2-be93-5fd6c13d2401');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -794,7 +795,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="c9070253-010e-451a-bd25-eaffa3d9156c"></div>
+<div id="15d19ddb-4e52-4a9a-b871-54abd5ee5d90"></div>
 <script>
 require.config({
     paths: {
@@ -803,13 +804,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "1", "title": "4"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.498", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.498", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.499", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.501", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "1", "color": "blue", "from": 3, "to": 4}];
+var edges = [{"title": "0: (0, 1)", "label": "0.502", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.5", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.497", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.5", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "1", "color": "blue", "from": 3, "to": 4}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('c9070253-010e-451a-bd25-eaffa3d9156c');
+var container = document.getElementById('15d19ddb-4e52-4a9a-b871-54abd5ee5d90');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -910,7 +911,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="858940de-f0bd-45a3-91ea-0f6fb758b216"></div>
+<div id="8db12216-dc21-40c9-a1ec-a07d8913cf5d"></div>
 <script>
 require.config({
     paths: {
@@ -925,7 +926,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('858940de-f0bd-45a3-91ea-0f6fb758b216');
+var container = document.getElementById('8db12216-dc21-40c9-a1ec-a07d8913cf5d');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -993,7 +994,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="dadd37b1-885b-4488-87dd-cb8ad811cccf"></div>
+<div id="46961921-5df6-4cf0-b4de-d58c30c9c09a"></div>
 <script>
 require.config({
     paths: {
@@ -1008,7 +1009,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('dadd37b1-885b-4488-87dd-cb8ad811cccf');
+var container = document.getElementById('46961921-5df6-4cf0-b4de-d58c30c9c09a');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1075,7 +1076,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="e7cf5601-4b5f-4789-9709-b49d66ad0d25"></div>
+<div id="a3665a8f-b967-4ff2-9f98-c61d93adef97"></div>
 <script>
 require.config({
     paths: {
@@ -1090,7 +1091,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('e7cf5601-4b5f-4789-9709-b49d66ad0d25');
+var container = document.getElementById('a3665a8f-b967-4ff2-9f98-c61d93adef97');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1144,7 +1145,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="fee5faa1-e145-468f-a1ab-a72f23d3880c"></div>
+<div id="5bc027c3-f0e5-43b8-98a6-58e03b07dd39"></div>
 <script>
 require.config({
     paths: {
@@ -1159,7 +1160,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('fee5faa1-e145-468f-a1ab-a72f23d3880c');
+var container = document.getElementById('5bc027c3-f0e5-43b8-98a6-58e03b07dd39');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1170,7 +1171,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="7bb43821-8c35-4dfb-96c2-c73e8cb527d9"></div>
+<div id="32b256c8-1285-4cfc-8c63-85375c9caf7a"></div>
 <script>
 require.config({
     paths: {
@@ -1185,7 +1186,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('7bb43821-8c35-4dfb-96c2-c73e8cb527d9');
+var container = document.getElementById('32b256c8-1285-4cfc-8c63-85375c9caf7a');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1206,7 +1207,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="0216a5dc-b3c0-412d-9576-526e946b2600"></div>
+<div id="10e45b4a-f3fb-4bf6-b97c-bf4d378002cb"></div>
 <script>
 require.config({
     paths: {
@@ -1221,7 +1222,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('0216a5dc-b3c0-412d-9576-526e946b2600');
+var container = document.getElementById('10e45b4a-f3fb-4bf6-b97c-bf4d378002cb');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1241,7 +1242,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="29c8a751-2ac0-4dc3-aa3a-5b11926e00a5"></div>
+<div id="0295678c-d71f-4cb7-915f-791bfac8a40f"></div>
 <script>
 require.config({
     paths: {
@@ -1256,17 +1257,17 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('29c8a751-2ac0-4dc3-aa3a-5b11926e00a5');
+var container = document.getElementById('0295678c-d71f-4cb7-915f-791bfac8a40f');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
 });
 </script></div>
 </div>
-<p>Not bad, but not perfect. To reach a vertex, we may need to use a semi-greedy policy.</p>
+<p>Not bad, but not perfect. To reach a vertex, we may need to use a filtering policy.</p>
 </section>
-<section id="Trying-to-reach-an-extreme-feasible-solution-with-a-semi-greedy-policy">
-<h3>Trying to reach an extreme feasible solution with a semi-greedy policy<a class="headerlink" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-semi-greedy-policy" title="Permalink to this headline"></a></h3>
+<section id="Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy">
+<h3>Trying to reach an extreme feasible solution with a filtering policy<a class="headerlink" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy" title="Permalink to this headline"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
@@ -1296,7 +1297,7 @@ network.fit({
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1321,7 +1322,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="23d8db7b-17d0-4102-a8c8-1b1647085b89"></div>
+<div id="a817f641-a007-49f9-bf9f-90d10d06a325"></div>
 <script>
 require.config({
     paths: {
@@ -1336,7 +1337,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('23d8db7b-17d0-4102-a8c8-1b1647085b89');
+var container = document.getElementById('a817f641-a007-49f9-bf9f-90d10d06a325');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1397,7 +1398,7 @@ array([1.000128  , 1.000912  , 0.198784  , 1.00017152, 0.        ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1422,7 +1423,7 @@ False
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="232d1346-f3c6-49af-a5c9-afe61e06a49a"></div>
+<div id="9baafbe5-c10b-4700-937c-4e0764f32d96"></div>
 <script>
 require.config({
     paths: {
@@ -1437,7 +1438,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('232d1346-f3c6-49af-a5c9-afe61e06a49a');
+var container = document.getElementById('9baafbe5-c10b-4700-937c-4e0764f32d96');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1493,12 +1494,12 @@ array([1.99512693, 0.        , 0.20336808, 0.        , 0.99846916])
 <img alt="../_images/tutorials_simulator_92_0.png" src="../_images/tutorials_simulator_92_0.png" />
 </div>
 </div>
-<p>The solution in that case is to use a semi-greedy policy with threshold.</p>
+<p>The solution in that case is to use a semi-filtering policy (i.e. with threshold).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1523,7 +1524,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="164a78e3-8a7e-4918-9d92-d8c3910cbcd3"></div>
+<div id="e252165b-86ba-48e8-9114-deb6bcdd354f"></div>
 <script>
 require.config({
     paths: {
@@ -1538,7 +1539,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('164a78e3-8a7e-4918-9d92-d8c3910cbcd3');
+var container = document.getElementById('e252165b-86ba-48e8-9114-deb6bcdd354f');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1598,7 +1599,7 @@ array([1.99940288e+00, 6.00320000e-04, 2.01430400e-01, 0.00000000e+00,
 </section>
 <section id="Reward-maximization-variant">
 <h3>Reward maximization variant<a class="headerlink" href="#Reward-maximization-variant" title="Permalink to this headline"></a></h3>
-<p>In many use cases, one may want to optimize the flow based on some reward associated to each edge. It turns out that this equivalent to finding a subset of edges to forbid such that the flow(s) on that subgraph will maximize the reward. <code class="docutils literal notranslate"><span class="pre">stochastic_matching</span></code> automatically implements this in two ways: - It gives an optimal flow associated to a vector of rewards; - the semi-greedy policy can take a vector of rewards as arguments and automatically discard the null edges of one optimal solution.</p>
+<p>In many use cases, one may want to optimize the flow based on some reward associated to each edge. It turns out that this equivalent to finding a subset of edges to forbid such that the flow(s) on that subgraph will maximize the reward. <code class="docutils literal notranslate"><span class="pre">stochastic_matching</span></code> automatically implements this in two ways: - It gives an optimal flow associated to a vector of rewards; - the filtering policy can take a vector of rewards as arguments and automatically discard the null edges of one optimal solution.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
@@ -1621,7 +1622,7 @@ array([2. , 0. , 0.2, 0. , 1. ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1646,7 +1647,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="75ff27d2-a2a9-47b2-a602-06074c6fbdbc"></div>
+<div id="cf2d5117-9ef8-4deb-9ac7-18d8dcf0ca25"></div>
 <script>
 require.config({
     paths: {
@@ -1661,7 +1662,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('75ff27d2-a2a9-47b2-a602-06074c6fbdbc');
+var container = document.getElementById('cf2d5117-9ef8-4deb-9ac7-18d8dcf0ca25');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1716,7 +1717,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="489abeb6-ed3f-4669-847d-a723239134ab"></div>
+<div id="5c38f68b-0ae8-4d7e-ae2e-0d0538a9e699"></div>
 <script>
 require.config({
     paths: {
@@ -1731,7 +1732,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('489abeb6-ed3f-4669-847d-a723239134ab');
+var container = document.getElementById('5c38f68b-0ae8-4d7e-ae2e-0d0538a9e699');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1752,7 +1753,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="4a1604dd-387d-46f4-8b73-a25f1145117d"></div>
+<div id="00857f37-b824-4f99-9d0e-a48c09c8fce5"></div>
 <script>
 require.config({
     paths: {
@@ -1767,7 +1768,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('4a1604dd-387d-46f4-8b73-a25f1145117d');
+var container = document.getElementById('00857f37-b824-4f99-9d0e-a48c09c8fce5');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1778,7 +1779,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="a3c3d4b9-188c-4bff-a9ec-58b33b15ba45"></div>
+<div id="145e1d78-66f9-4ae2-b306-4b91a2c1a25c"></div>
 <script>
 require.config({
     paths: {
@@ -1793,7 +1794,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('a3c3d4b9-188c-4bff-a9ec-58b33b15ba45');
+var container = document.getElementById('145e1d78-66f9-4ae2-b306-4b91a2c1a25c');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1831,7 +1832,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="3ee2b555-18eb-40f3-879b-1ab941c1045e"></div>
+<div id="4b609049-d593-432d-88f0-40dfb5070eaa"></div>
 <script>
 require.config({
     paths: {
@@ -1846,7 +1847,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('3ee2b555-18eb-40f3-879b-1ab941c1045e');
+var container = document.getElementById('4b609049-d593-432d-88f0-40dfb5070eaa');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1891,7 +1892,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="cc1fc6a9-0fbb-4ed2-947d-3f9116bc7c5c"></div>
+<div id="0959665f-d2cb-4d72-bdad-94cb962903ba"></div>
 <script>
 require.config({
     paths: {
@@ -1906,7 +1907,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('cc1fc6a9-0fbb-4ed2-947d-3f9116bc7c5c');
+var container = document.getElementById('0959665f-d2cb-4d72-bdad-94cb962903ba');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1973,7 +1974,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="503f86e1-c9cc-4125-8ce2-a695756da0a5"></div>
+<div id="0ffa0141-76a5-431b-bd60-60dc7ee64d31"></div>
 <script>
 require.config({
     paths: {
@@ -1988,7 +1989,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('503f86e1-c9cc-4125-8ce2-a695756da0a5');
+var container = document.getElementById('0ffa0141-76a5-431b-bd60-60dc7ee64d31');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2061,12 +2062,12 @@ network.fit({
   &#39;bijective&#39;: False}]
 </pre></div></div>
 </div>
-<p>In particular the second vertex is made of three unconnected pairs:</p>
+<p>In particular the first vertex is made of three unconnected pairs:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2074,7 +2075,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="16a0a618-7720-4e3c-93f3-eed53938de59"></div>
+<div id="6f74b1ca-3ab2-485b-91b4-7743abc659cc"></div>
 <script>
 require.config({
     paths: {
@@ -2083,25 +2084,25 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "", "color": "orange", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('16a0a618-7720-4e3c-93f3-eed53938de59');
+var container = document.getElementById('6f74b1ca-3ab2-485b-91b4-7743abc659cc');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
 });
 </script></div>
 </div>
-<p>Let try to reach it with a semi-greedy policy without threshold.</p>
+<p>Let try to reach it with a filtering policy without threshold.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2126,7 +2127,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="27092959-7d5e-455f-875d-608401aacde5"></div>
+<div id="537c310e-7d8d-4f38-a1d5-6bd4f52416a4"></div>
 <script>
 require.config({
     paths: {
@@ -2135,20 +2136,20 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "0", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0", "color": "orange", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('27092959-7d5e-455f-875d-608401aacde5');
+var container = document.getElementById('537c310e-7d8d-4f38-a1d5-6bd4f52416a4');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
 });
 </script></div>
 </div>
-<p>As this is a pure semi-greedy, the desired edges are indeed null.</p>
+<p>As this is pure filtering, the desired edges are indeed null.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
@@ -2163,8 +2164,8 @@ network.fit({
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1.9985296, 0.       , 0.       , 2.0021648, 2.000592 , 0.       ,
-       0.       , 1.9950912])
+array([0.       , 1.9985296, 0.       , 3.997256 , 0.       , 0.       ,
+       1.9985872, 0.       ])
 </pre></div></div>
 </div>
 <p>But performance is awful!</p>
@@ -2198,12 +2199,12 @@ array([1.9985296, 0.       , 0.       , 2.0021648, 2.000592 , 0.       ,
 <img alt="../_images/tutorials_simulator_140_0.png" src="../_images/tutorials_simulator_140_0.png" />
 </div>
 </div>
-<p>The solution in that case is to use a semi-greedy policy with threshold.</p>
+<p>The solution in that case is to use a semi-filtering policy (i.e. with threshold).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2228,7 +2229,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="4d4ca399-9aa1-4c60-8f8f-2de40edc7f1a"></div>
+<div id="9f32f0df-b82d-40df-803c-27a198a35ed4"></div>
 <script>
 require.config({
     paths: {
@@ -2237,13 +2238,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.0023", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.000909", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.00119", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "0.00217", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0013", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.99", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.000114", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.00195", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.99", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.00631", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('4d4ca399-9aa1-4c60-8f8f-2de40edc7f1a');
+var container = document.getElementById('9f32f0df-b82d-40df-803c-27a198a35ed4');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2265,8 +2266,8 @@ network.fit({
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1.9972288e+00, 2.3040000e-03, 9.0880000e-04, 1.9995008e+00,
-       1.9956176e+00, 1.1920000e-03, 0.0000000e+00, 2.0019792e+00])
+array([2.1712000e-03, 1.9980704e+00, 1.3040000e-03, 3.9941632e+00,
+       1.1360000e-04, 1.9520000e-03, 1.9947440e+00, 6.3104000e-03])
 </pre></div></div>
 </div>
 <p>Performance is controlled by the threshold.</p>
@@ -2304,7 +2305,7 @@ array([1.9972288e+00, 2.3040000e-03, 9.0880000e-04, 1.9995008e+00,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;semi_greedy&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2329,7 +2330,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="f037c21c-608b-43f5-9841-14c433974026"></div>
+<div id="bde9c7f3-3970-4dea-99c6-7ddc49b30bce"></div>
 <script>
 require.config({
     paths: {
@@ -2338,13 +2339,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "1.98", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.0199", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0245", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "1.99", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "1.95", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.0238", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0.0199", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "1.98", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "0.0481", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1.95", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0343", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.92", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.0124", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.0337", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.95", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.0494", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('f037c21c-608b-43f5-9841-14c433974026');
+var container = document.getElementById('bde9c7f3-3970-4dea-99c6-7ddc49b30bce');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2365,8 +2366,8 @@ network.fit({
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1.9807568, 0.019856 , 0.0244784, 1.994264 , 1.9548768, 0.0237872,
-       0.0199216, 1.9819664])
+array([0.0481312, 1.952512 , 0.0343424, 3.917024 , 0.0124016, 0.0336848,
+       1.9524992, 0.0493792])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
