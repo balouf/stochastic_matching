@@ -101,6 +101,8 @@ class QueueSizeSimulator(Simulator, ABC):
     Class derived from :class:`~stochastic_matching.simulator.generic.Simulator`
     for greedy simulator based on queue sizes.
     """
+    name = 'generic_queue_size'
+
     def __init__(self, model, selector = 'longest', selector_kwargs=None,
                               **kwargs):
         self.selector = class_converter(selector, Selector)
