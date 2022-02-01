@@ -179,6 +179,8 @@
 <span class="sd">    Class derived from :class:`~stochastic_matching.simulator.generic.Simulator`</span>
 <span class="sd">    for greedy simulator based on queue sizes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;generic_queue_size&#39;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">selector</span> <span class="o">=</span> <span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">selector_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selector</span> <span class="o">=</span> <span class="n">class_converter</span><span class="p">(</span><span class="n">selector</span><span class="p">,</span> <span class="n">Selector</span><span class="p">)</span>
@@ -669,8 +671,11 @@
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
 <span class="sd">        Model to simulate.</span>
-<span class="sd">    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`</span>
+<span class="sd">    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`, optional</span>
 <span class="sd">        Egdes that should not be used.</span>
+<span class="sd">    weights: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">        Target rewards on edges. If weights are given, the forbidden edges are computed to match the target</span>
+<span class="sd">        (overrides forbidden_edges argument).</span>
 <span class="sd">    threshold: :class:`int`, optional</span>
 <span class="sd">        Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).</span>
 <span class="sd">    **kwargs</span>
@@ -687,17 +692,60 @@
 <span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
 <span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
 
+<span class="sd">    Same result can be achieved by putting low weights on 0 and 4.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;semi_greedy&#39;, weights=[1, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            threshold=100, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
+
 <span class="sd">    To compare with the priority-based pure greedy version:</span>
 
 <span class="sd">    &gt;&gt;&gt; diamond.run(&#39;priority&#39;, weights=[0, 1, 1, 1, 0], number_events=1000, max_queue=1000, seed=42)</span>
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
 <span class="sd">    array([0.444, 0.63 , 0.966, 0.63 , 0.324])</span>
+
+<span class="sd">    Another example with other rates.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.rates=[4, 5, 2, 1]</span>
+
+<span class="sd">    Optimize with the first and last edges that provide less reward.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;semi_greedy&#39;, weights=[1, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            threshold=100, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([3.264, 0.888, 0.948, 0.84 , 0.   ])</span>
+
+<span class="sd">    Increase the reward on the first edge.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;semi_greedy&#39;, weights=[4, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            threshold=100, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([4.152, 0.   , 0.996, 0.   , 0.84 ])</span>
+
+<span class="sd">    On bijective graphs, no edge is forbidden whatever the weights.</span>
+
+<span class="sd">    &gt;&gt;&gt; paw = sm.Tadpole()</span>
+<span class="sd">    &gt;&gt;&gt; paw.run(&#39;semi_greedy&#39;, weights=[6, 3, 1, 2], seed=42,</span>
+<span class="sd">    ...                            threshold=100, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; paw.simulation</span>
+<span class="sd">    array([1.048, 1.056, 1.016, 0.88 ])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;semi_greedy&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SemiGreedy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">flow</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="k">if</span> <span class="n">flow</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">forbidden_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">choicer</span> <span class="o">=</span> <span class="n">SizeChoicer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
         <span class="n">selector</span> <span class="o">=</span> <span class="n">LongestSelector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>

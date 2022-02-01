@@ -409,7 +409,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="be2237d9-71b8-4a7d-af37-3f17d64b59c9"></div>
+<div id="1390e411-2996-43a4-a676-53d6a791d159"></div>
 <script>
 require.config({
     paths: {
@@ -424,7 +424,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('be2237d9-71b8-4a7d-af37-3f17d64b59c9');
+var container = document.getElementById('1390e411-2996-43a4-a676-53d6a791d159');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -456,7 +456,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="0caa4431-ceab-462c-b87c-75058c08bbf0"></div>
+<div id="12cf4c28-3e8e-4be1-877c-8141440b488f"></div>
 <script>
 require.config({
     paths: {
@@ -471,7 +471,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}};
-var container = document.getElementById('0caa4431-ceab-462c-b87c-75058c08bbf0');
+var container = document.getElementById('12cf4c28-3e8e-4be1-877c-8141440b488f');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -492,7 +492,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="aa0c67ad-083e-466e-98af-7c82ed141bfe"></div>
+<div id="8731b42f-817a-4307-9806-98cbd5c724f4"></div>
 <script>
 require.config({
     paths: {
@@ -507,7 +507,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('aa0c67ad-083e-466e-98af-7c82ed141bfe');
+var container = document.getElementById('8731b42f-817a-4307-9806-98cbd5c724f4');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -527,7 +527,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="f7191dad-9a64-496c-b1ae-7bb4ff0d5492"></div>
+<div id="6fc65ab0-27e0-4086-9870-20c246d3259e"></div>
 <script>
 require.config({
     paths: {
@@ -542,7 +542,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}};
-var container = document.getElementById('f7191dad-9a64-496c-b1ae-7bb4ff0d5492');
+var container = document.getElementById('6fc65ab0-27e0-4086-9870-20c246d3259e');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -677,12 +677,12 @@ array([2., 0., 1., 0., 1.])
 array([1., 1., 1., 1., 0.])
 </pre></div></div>
 </div>
-<p>We can also provide the incompressible flow, i.e. for each edge the minimal rate that goes through in any solution.</p>
+<p>Another possibility is to ask to maximize some reward based on weights on the edges.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">incompressible_flow</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -692,12 +692,48 @@ array([1., 1., 1., 1., 0.])
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+array([1., 1., 1., 1., 0.])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2., 0., 1., 0., 1.])
+</pre></div></div>
+</div>
+<p>Another possibility is to ask to maximize some reward based on weights on the edges.</p>
+<p>We can also provide the incompressible flow, i.e. for each edge the minimal rate that goes through in any solution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">incompressible_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 array([1., 0., 1., 0., 0.])
 </pre></div></div>
 </div>
 <p>Flows can be displayed using the <code class="docutils literal notranslate"><span class="pre">show_flow</span></code> method. If no flow is provided, the base flow is displayed.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -708,7 +744,7 @@ array([1., 0., 1., 0., 0.])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="3f55fd2b-de7c-4724-b1a7-e4aaa4bb61c1"></div>
+<div id="69ca69fb-f2e6-4d48-9ff1-a46c7c7a07f8"></div>
 <script>
 require.config({
     paths: {
@@ -723,7 +759,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('3f55fd2b-de7c-4724-b1a7-e4aaa4bb61c1');
+var container = document.getElementById('69ca69fb-f2e6-4d48-9ff1-a46c7c7a07f8');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -731,7 +767,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">maximin</span><span class="p">)</span>
@@ -742,7 +778,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="adc5d989-c6a9-4ae1-9859-f1653c5838af"></div>
+<div id="998604b0-35c3-4b88-b52a-4d1bc3ead6c3"></div>
 <script>
 require.config({
     paths: {
@@ -757,7 +793,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('adc5d989-c6a9-4ae1-9859-f1653c5838af');
+var container = document.getElementById('998604b0-35c3-4b88-b52a-4d1bc3ead6c3');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -766,7 +802,7 @@ network.fit({
 </div>
 <p>A color code shows the problematic nodes with flow conservation issues and non-positive edges.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -777,7 +813,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="e6e7dda9-68dc-4136-88ac-de83c7af022f"></div>
+<div id="99f05e08-2592-4411-bb2b-c5798ca3ad61"></div>
 <script>
 require.config({
     paths: {
@@ -792,7 +828,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('e6e7dda9-68dc-4136-88ac-de83c7af022f');
+var container = document.getElementById('99f05e08-2592-4411-bb2b-c5798ca3ad61');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -801,7 +837,7 @@ network.fit({
 </div>
 <p>If you want to have a closer look to the polytope of solutions, you can display the kernel:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">maximin</span><span class="p">)</span>
@@ -812,7 +848,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="26b1bd46-a50a-4b48-acf2-514ef7d6f85e"></div>
+<div id="cff3cb9e-de96-434b-b4e7-cc0c6b94302b"></div>
 <script>
 require.config({
     paths: {
@@ -827,7 +863,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('26b1bd46-a50a-4b48-acf2-514ef7d6f85e');
+var container = document.getElementById('cff3cb9e-de96-434b-b4e7-cc0c6b94302b');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -836,7 +872,7 @@ network.fit({
 </div>
 <p>You can access the vertices of the polytope.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span>
@@ -844,22 +880,24 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[{&#39;alpha&#39;: array([-0.25]),
-  &#39;lambda&#39;: array([1., 1., 1., 1., 0.]),
+[{&#39;kernel_coordinates&#39;: array([-0.25]),
+  &#39;edge_coordinates&#39;: array([1., 1., 1., 1., 0.]),
+  &#39;null_edges&#39;: [4],
   &#39;bijective&#39;: True},
- {&#39;alpha&#39;: array([0.75]),
-  &#39;lambda&#39;: array([2., 0., 1., 0., 1.]),
+ {&#39;kernel_coordinates&#39;: array([0.75]),
+  &#39;edge_coordinates&#39;: array([2., 0., 1., 0., 1.]),
+  &#39;null_edges&#39;: [1, 3],
   &#39;bijective&#39;: False}]
 </pre></div></div>
 </div>
 <p>You can display a vertex.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -870,7 +908,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="07b81c60-cc08-4f7c-86d4-887c617e10a7"></div>
+<div id="55929604-7031-4646-b20b-0c4f42184fa6"></div>
 <script>
 require.config({
     paths: {
@@ -885,7 +923,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('07b81c60-cc08-4f7c-86d4-887c617e10a7');
+var container = document.getElementById('55929604-7031-4646-b20b-0c4f42184fa6');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -893,7 +931,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -904,7 +942,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="31d41036-00dc-429e-bc33-847b2a9ee861"></div>
+<div id="2f18684f-8615-4556-bd0a-7010eb957bd0"></div>
 <script>
 require.config({
     paths: {
@@ -919,7 +957,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('31d41036-00dc-429e-bc33-847b2a9ee861');
+var container = document.getElementById('2f18684f-8615-4556-bd0a-7010eb957bd0');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -939,7 +977,7 @@ network.fit({
 </ul>
 <p>The simulator returns an estimate of the stability of the policy: False if a queue was maxed before the end, True otherwise.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest_queue&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
@@ -947,7 +985,7 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -962,7 +1000,7 @@ True
 <li><p>Number of steps performed</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span>
@@ -970,23 +1008,23 @@ True
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;trafic&#39;: array([1665326,  833127, 1249774,  835336,  416437], dtype=uint32),
- &#39;queue_log&#39;: array([[7417071, 1428725,  651965, ...,       0,       0,       0],
-        [6665969, 1334523,  799533, ...,       0,       0,       0],
-        [8890495,  740647,  246464, ...,       0,       0,       0],
-        [7669385, 1461360,  557412, ...,       0,       0,       0]],
+{&#39;trafic&#39;: array([1666294,  833161, 1248177,  834437,  417930], dtype=uint32),
+ &#39;queue_log&#39;: array([[7406591, 1430663,  656181, ...,       0,       0,       0],
+        [6669353, 1331370,  799199, ...,       0,       0,       0],
+        [8891848,  739561,  246527, ...,       0,       0,       0],
+        [7655252, 1463697,  563651, ...,       0,       0,       0]],
        dtype=uint32),
  &#39;steps_done&#39;: 10000000}
 </pre></div></div>
 </div>
 <p>The flow can be displayed.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -997,7 +1035,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="1ea8ad22-e205-464e-86d9-c82fa362bcc5"></div>
+<div id="9bface2e-5565-434a-a0ae-25f3dd6c16bf"></div>
 <script>
 require.config({
     paths: {
@@ -1006,13 +1044,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0: A"}, {"id": 1, "label": "3", "title": "1: B"}, {"id": 2, "label": "2", "title": "2: C"}, {"id": 3, "label": "1", "title": "3: D"}];
-var edges = [{"title": "0: (A, B)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (A, C)", "label": "0.667", "color": "blue", "from": 0, "to": 2}, {"title": "2: (B, C)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (B, D)", "label": "0.668", "color": "blue", "from": 1, "to": 3}, {"title": "4: (C, D)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (A, B)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (A, C)", "label": "0.667", "color": "blue", "from": 0, "to": 2}, {"title": "2: (B, C)", "label": "0.999", "color": "blue", "from": 1, "to": 2}, {"title": "3: (B, D)", "label": "0.668", "color": "blue", "from": 1, "to": 3}, {"title": "4: (C, D)", "label": "0.334", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-var container = document.getElementById('1ea8ad22-e205-464e-86d9-c82fa362bcc5');
+var container = document.getElementById('9bface2e-5565-434a-a0ae-25f3dd6c16bf');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1021,7 +1059,7 @@ network.fit({
 </div>
 <p>The CCDFs can be computed and shown.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_ccdf</span><span class="p">()[:,</span> <span class="p">:</span><span class="mi">20</span><span class="p">]</span>
@@ -1029,35 +1067,35 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([[1.000000e+00, 2.582929e-01, 1.154204e-01, 5.022390e-02,
-        2.143610e-02, 9.007900e-03, 3.747600e-03, 1.559900e-03,
-        6.353000e-04, 2.551000e-04, 1.025000e-04, 3.970000e-05,
-        1.660000e-05, 6.800000e-06, 2.200000e-06, 1.100000e-06,
-        3.000000e-07, 0.000000e+00, 0.000000e+00, 0.000000e+00],
-       [1.000000e+00, 3.334031e-01, 1.999508e-01, 1.199975e-01,
-        7.199010e-02, 4.316370e-02, 2.584430e-02, 1.548140e-02,
-        9.271100e-03, 5.537400e-03, 3.292700e-03, 1.938900e-03,
-        1.134100e-03, 6.558000e-04, 3.793000e-04, 2.200000e-04,
-        1.271000e-04, 7.550000e-05, 4.410000e-05, 2.540000e-05],
-       [1.000000e+00, 1.109505e-01, 3.688580e-02, 1.223940e-02,
-        4.031200e-03, 1.307700e-03, 4.224000e-04, 1.394000e-04,
-        4.580000e-05, 1.540000e-05, 5.100000e-06, 1.400000e-06,
-        3.000000e-07, 0.000000e+00, 0.000000e+00, 0.000000e+00,
+array([[1.000000e+00, 2.593409e-01, 1.162746e-01, 5.065650e-02,
+        2.159100e-02, 9.096500e-03, 3.808300e-03, 1.580500e-03,
+        6.548000e-04, 2.794000e-04, 1.233000e-04, 5.540000e-05,
+        2.420000e-05, 9.500000e-06, 3.600000e-06, 1.600000e-06,
+        5.000000e-07, 1.000000e-07, 0.000000e+00, 0.000000e+00],
+       [1.000000e+00, 3.330647e-01, 1.999277e-01, 1.200078e-01,
+        7.199580e-02, 4.318020e-02, 2.594250e-02, 1.561390e-02,
+        9.367200e-03, 5.598400e-03, 3.347400e-03, 1.991900e-03,
+        1.175400e-03, 6.882000e-04, 3.905000e-04, 2.103000e-04,
+        1.165000e-04, 6.600000e-05, 3.670000e-05, 2.200000e-05],
+       [1.000000e+00, 1.108152e-01, 3.685910e-02, 1.220640e-02,
+        4.029900e-03, 1.323500e-03, 4.437000e-04, 1.550000e-04,
+        5.620000e-05, 1.990000e-05, 7.400000e-06, 3.500000e-06,
+        1.600000e-06, 4.000000e-07, 0.000000e+00, 0.000000e+00,
         0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00],
-       [1.000000e+00, 2.330615e-01, 8.692550e-02, 3.118430e-02,
-        1.098130e-02, 3.776400e-03, 1.271700e-03, 4.528000e-04,
-        1.699000e-04, 6.460000e-05, 2.760000e-05, 1.180000e-05,
-        5.600000e-06, 1.800000e-06, 3.000000e-07, 0.000000e+00,
+       [1.000000e+00, 2.344748e-01, 8.810510e-02, 3.174000e-02,
+        1.125920e-02, 3.962500e-03, 1.374000e-03, 4.892000e-04,
+        1.919000e-04, 9.260000e-05, 4.360000e-05, 2.190000e-05,
+        8.800000e-06, 1.800000e-06, 1.000000e-07, 0.000000e+00,
         0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00]])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1068,12 +1106,12 @@ array([[1.000000e+00, 2.582929e-01, 1.154204e-01, 5.022390e-02,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_quickstart_56_0.png" src="../_images/tutorials_quickstart_56_0.png" />
+<img alt="../_images/tutorials_quickstart_60_0.png" src="../_images/tutorials_quickstart_60_0.png" />
 </div>
 </div>
 <p>The queues occupancies are given by:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
@@ -1081,17 +1119,17 @@ array([[1.000000e+00, 2.582929e-01, 1.154204e-01, 5.022390e-02,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([0.4607483, 0.8326024, 0.1660444, 0.3679351])
+array([0.4635007, 0.8327802, 0.1659218, 0.3717655])
 </pre></div></div>
 </div>
 <p>They can be displayed (optionally sorted).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1102,12 +1140,12 @@ array([0.4607483, 0.8326024, 0.1660444, 0.3679351])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_quickstart_60_0.png" src="../_images/tutorials_quickstart_60_0.png" />
+<img alt="../_images/tutorials_quickstart_64_0.png" src="../_images/tutorials_quickstart_64_0.png" />
 </div>
 </div>
 <p>It is possible to use the arrival rates to express the results as waiting times.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1118,7 +1156,7 @@ array([0.4607483, 0.8326024, 0.1660444, 0.3679351])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_quickstart_62_0.png" src="../_images/tutorials_quickstart_62_0.png" />
+<img alt="../_images/tutorials_quickstart_66_0.png" src="../_images/tutorials_quickstart_66_0.png" />
 </div>
 </div>
 <p>See the <a class="reference internal" href="simulator.html"><span class="doc">Simulation notebook</span></a> for more details.</p>

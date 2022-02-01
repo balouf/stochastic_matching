@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.sparse import csr_matrix, csc_matrix
+import scipy.sparse as sp
 from scipy.optimize import linprog
 from scipy.spatial import HalfspaceIntersection
 from cached_property import cached_property
@@ -112,7 +112,7 @@ def incidence_to_adjacency(incidence):
     # noinspection PyUnresolvedReferences
     if not np.all(np.sum(incidence, axis=0) == 2):
         raise ValueError("The incidence matrix does not seem to correspond to a simple graph.")
-    incidence = csc_matrix(incidence)
+    incidence = sp.csc_matrix(incidence)
     n, m = incidence.shape
     adjacency = np.zeros((n, n), dtype=int)
     for j in range(m):
@@ -860,7 +860,7 @@ class Model:
     """
     name = "Generic"
 
-    def __init__(self, incidence=None, adjacency=None, rates=None, names=None, tol=1e-10):
+    def __init__(self, incidence=None, adjacency=None, rates=None, names=None, tol=1e-7):
         self.tol = tol
         self.base_flow = None
         self.__seeds = None
@@ -918,8 +918,8 @@ class Model:
         else:
             if type(incidence) == list:
                 incidence = np.array(incidence).astype(int)
-            self._incidence = csr_matrix(incidence)
-            self._co_incidence = csc_matrix(incidence)
+            self._incidence = sp.csr_matrix(incidence)
+            self._co_incidence = sp.csc_matrix(incidence)
             self._adjacency = None
 
     @property
@@ -936,8 +936,8 @@ class Model:
         if adjacency is not None:
             adjacency = np.array(adjacency)
             incidence = adjacency_to_incidence(adjacency)
-            self._incidence = csr_matrix(incidence)
-            self._co_incidence = csc_matrix(incidence)
+            self._incidence = sp.csr_matrix(incidence)
+            self._co_incidence = sp.csc_matrix(incidence)
         self._adjacency = adjacency
 
     @property
@@ -1169,18 +1169,87 @@ class Model:
             if d == 0:
                 self.__maximin = self.moore_penrose
             else:
+                # Better in theory but better precision with the legacy approach
+                # c = np.zeros(m + 1)
+                # c[-1] = -1
+                # a_ub = sp.hstack([-sp.identity(m), sp.csr_matrix(np.ones((m, 1)))])
+                # b_ub = np.zeros(m)
+                # a_eq = sp.csr_matrix((self.incidence_csr.data,
+                #                    self.incidence_csr.indices,
+                #                    self.incidence_csr.indptr), shape=(self.n, m + 1))
+                # b_eq = self.rates
+                # optimizer = linprog(c=c,
+                #                     A_ub=a_ub,
+                #                     b_ub=b_ub,
+                #                     A_eq=a_eq,
+                #                     b_eq=b_eq,
+                #                     bounds=[(None, None)] * (m + 1),
+                #                     options={'sparse': True}
+                #                     )
+                # flow = optimizer.x[:-1]
+
                 c = np.zeros(d + 1)
                 c[d] = 1
                 a_ub = -np.vstack([self.kernel.right, np.ones(m)]).T
                 optimizer = linprog(c=c,
                                     A_ub=a_ub,
-                                    b_ub=self.base_flow,
+                                    b_ub=self.moore_penrose,
                                     bounds=[(None, None)] * (d + 1)
                                     )
                 flow = optimizer.slack - optimizer.x[-1]
                 clean_zeros(flow, tol=self.tol)
                 self.__maximin = flow
         return self.__maximin
+
+    def optimize_rates(self, weights):
+        """
+        Tries to find a positive solution that minimizes/maximizes a given edge.
+
+        Parameters
+        ----------
+        weights: :class:`~numpy.ndarray` or :class:`list`
+            Rewards associated to each edge.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Optimized flow that maximize the total reward.
+
+        Examples
+        --------
+
+        >>> import stochastic_matching as sm
+        >>> diamond = sm.CycleChain(rates=[4, 5, 2, 1])
+
+        Optimize with the first edge that provides no reward.
+
+        >>> diamond.optimize_rates([0, 1, 1, 1, 1])
+        array([3., 1., 1., 1., 0.])
+
+        Optimize with the first edge that provides more reward.
+
+        >>> diamond.optimize_rates([2, 1, 1, 1, 1])
+        array([4., 0., 1., 0., 1.])
+
+        On bijective graphs, the method directly returns the unique solution.
+
+        >>> paw = sm.Tadpole()
+        >>> paw.optimize_rates([6, 3, 1, 2])
+        array([1., 1., 1., 1.])
+        """
+        d, m = self.kernel.right.shape
+        if d == 0:
+            return self.moore_penrose
+        else:
+            weights = np.array(weights)
+            c = - self.kernel.right @ weights
+            optimizer = linprog(c=c,
+                                A_ub=-self.kernel.right.T,
+                                b_ub=self.moore_penrose,
+                                bounds=[(None, None)] * d
+                                )
+            clean_zeros(optimizer.slack, tol=self.tol)
+            return optimizer.slack
 
     def optimize_edge(self, edge, sign=1):
         """
@@ -1200,15 +1269,11 @@ class Model:
         """
         d, m = self.kernel.right.shape
         if d == 0:
-            return self.base_flow
+            return self.moore_penrose
         else:
-            optimizer = linprog(c=-sign * self.kernel.right[:, edge],
-                                A_ub=-self.kernel.right.T,
-                                b_ub=self.base_flow,
-                                bounds=[(None, None)] * d
-                                )
-            clean_zeros(optimizer.slack, tol=self.tol)
-            return optimizer.slack
+            weights = np.zeros(self.m)
+            weights[edge] = sign
+            return self.optimize_rates(weights)
 
     def incompressible_flow(self):
         """

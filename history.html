@@ -51,6 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#improved-linear-programming">0.2.1 (2022-01-27): Improved linear programming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand-new-api">0.2.0 (2022-01-24): Brand new API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2022-01-13): First release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#misc-improvements">0.0.4 (2021-09-30): Misc. improvements</a></li>
@@ -110,6 +111,15 @@
 </style>
 <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline"></a></h1>
+<section id="improved-linear-programming">
+<h2>0.2.1 (2022-01-27): Improved linear programming<a class="headerlink" href="#improved-linear-programming" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Default model tolerance raised to 1e-7 for better detection of null edges.</p></li>
+<li><p>New optimize_rates for Model. Outputs a flow that optimizes the rates according to some reward weights.</p></li>
+<li><p>New option weights for semi-greedy simulators. Auto-computes the forbidden edges to optimize the reward according to weights.</p></li>
+<li><p>Tutorials modified to introduce the new features.</p></li>
+</ul>
+</section>
 <section id="brand-new-api">
 <h2>0.2.0 (2022-01-24): Brand new API<a class="headerlink" href="#brand-new-api" title="Permalink to this headline"></a></h2>
 <p>As the package is at early stage, it had to go through a lot of refactoring.
