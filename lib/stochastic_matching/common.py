@@ -156,7 +156,7 @@ def class_converter(subclass, motherclass):
     Traceback (most recent call last):
     ...
     ValueError: anything is not a known name for a subclass of Simulator.
-    Known names: virtual_queue, fcfm, random_node, longest_queue, random_item, semi_greedy, priority.
+    Known names: virtual_queue, generic_queue_size, fcfm, random_node, longest_queue, random_item, semi_greedy, priority.
 
     >>> class_converter(2, Simulator)
     Traceback (most recent call last):
