@@ -585,7 +585,7 @@ class RandomItemSimulator(QueueSizeSimulator):
         super(RandomItemSimulator, self).__init__(model, selector='random_item', **kwargs)
 
 
-class SemiGreedy(QueueSizeSimulator):
+class FilteringGreedy(QueueSizeSimulator):
     """
     Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.
 
@@ -608,7 +608,7 @@ class SemiGreedy(QueueSizeSimulator):
 
     >>> import stochastic_matching as sm
     >>> diamond = sm.CycleChain(rates=[1, 2, 2, 1])
-    >>> diamond.run('semi_greedy', forbidden_edges=[0, 4], seed=42,
+    >>> diamond.run('filtering', forbidden_edges=[0, 4], seed=42,
     ...                            threshold=100, number_events=1000, max_queue=1000)
     True
     >>> diamond.simulation
@@ -616,7 +616,7 @@ class SemiGreedy(QueueSizeSimulator):
 
     Same result can be achieved by putting low weights on 0 and 4.
 
-    >>> diamond.run('semi_greedy', weights=[1, 2, 2, 2, 1], seed=42,
+    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
     ...                            threshold=100, number_events=1000, max_queue=1000)
     True
     >>> diamond.simulation
@@ -624,7 +624,7 @@ class SemiGreedy(QueueSizeSimulator):
 
     To compare with the priority-based pure greedy version:
 
-    >>> diamond.run('priority', weights=[0, 1, 1, 1, 0], number_events=1000, max_queue=1000, seed=42)
+    >>> diamond.run('priority', weights=[1, 2, 2, 2, 1], number_events=1000, max_queue=1000, seed=42)
     True
     >>> diamond.simulation
     array([0.444, 0.63 , 0.966, 0.63 , 0.324])
@@ -635,7 +635,7 @@ class SemiGreedy(QueueSizeSimulator):
 
     Optimize with the first and last edges that provide less reward.
 
-    >>> diamond.run('semi_greedy', weights=[1, 2, 2, 2, 1], seed=42,
+    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
     ...                            threshold=100, number_events=1000, max_queue=1000)
     True
     >>> diamond.simulation
@@ -643,7 +643,7 @@ class SemiGreedy(QueueSizeSimulator):
 
     Increase the reward on the first edge.
 
-    >>> diamond.run('semi_greedy', weights=[4, 2, 2, 2, 1], seed=42,
+    >>> diamond.run('filtering', weights=[4, 2, 2, 2, 1], seed=42,
     ...                            threshold=100, number_events=1000, max_queue=1000)
     True
     >>> diamond.simulation
@@ -652,16 +652,16 @@ class SemiGreedy(QueueSizeSimulator):
     On bijective graphs, no edge is forbidden whatever the weights.
 
     >>> paw = sm.Tadpole()
-    >>> paw.run('semi_greedy', weights=[6, 3, 1, 2], seed=42,
+    >>> paw.run('filtering', weights=[6, 3, 1, 2], seed=42,
     ...                            threshold=100, number_events=1000, max_queue=1000)
     True
     >>> paw.simulation
     array([1.048, 1.056, 1.016, 0.88 ])
     """
-    name = 'semi_greedy'
+    name = 'filtering'
 
     def __init__(self, model, forbidden_edges=None, threshold=None, weights=None, **kwargs):
-        super(SemiGreedy, self).__init__(model, **kwargs)
+        super(FilteringGreedy, self).__init__(model, **kwargs)
         if weights is not None:
             weights = np.array(weights)
             flow = model.optimize_rates(weights)
