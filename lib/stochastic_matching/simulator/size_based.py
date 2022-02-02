@@ -290,10 +290,10 @@ class RandomNodeSimulator(QueueSizeSimulator):
     >>> sim = RandomNodeSimulator(triangle, number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([125, 162, 213], dtype=uint32),
+    {'trafic': array([125, 162, 213], dtype=uint64),
      'queue_log': array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],
                          [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],
-                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),
+                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),
      'steps_done': 1000}
 
      Sanity check: results are unchanged if the graph is treated as hypergraph.
@@ -302,10 +302,10 @@ class RandomNodeSimulator(QueueSizeSimulator):
     >>> sim = RandomNodeSimulator(triangle, number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([125, 162, 213], dtype=uint32),
+    {'trafic': array([125, 162, 213], dtype=uint64),
      'queue_log': array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],
                          [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],
-                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),
+                         [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),
      'steps_done': 1000}
 
     A ill diamond graph (simulation ends before completion due to drift).
@@ -313,11 +313,11 @@ class RandomNodeSimulator(QueueSizeSimulator):
     >>> sim = RandomNodeSimulator(sm.CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([ 7, 10,  1,  4,  7], dtype=uint32),
+    {'trafic': array([ 7, 10,  1,  4,  7], dtype=uint64),
     'queue_log': array([[22, 13,  7,  7,  5, 15,  4,  0,  0,  0],
            [73,  0,  0,  0,  0,  0,  0,  0,  0,  0],
            [69,  3,  1,  0,  0,  0,  0,  0,  0,  0],
-           [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint32),
+           [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint64),
     'steps_done': 73}
 
     >>> sim.compute_flow()
@@ -328,7 +328,7 @@ class RandomNodeSimulator(QueueSizeSimulator):
     >>> sim = RandomNodeSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),
+    {'trafic': array([26, 21,  4, 25, 34, 10, 16], dtype=uint64),
     'queue_log': array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -343,7 +343,7 @@ class RandomNodeSimulator(QueueSizeSimulator):
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],
-          dtype=uint32),
+          dtype=uint64),
     'steps_done': 314}
 
     Note that you can reset the simulator before starting another run.
@@ -351,7 +351,7 @@ class RandomNodeSimulator(QueueSizeSimulator):
     >>> sim.reset()
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),
+    {'trafic': array([26, 21,  4, 25, 34, 10, 16], dtype=uint64),
     'queue_log': array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -366,7 +366,7 @@ class RandomNodeSimulator(QueueSizeSimulator):
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],
-          dtype=uint32),
+          dtype=uint64),
     'steps_done': 314}
 
     You can display the distribution of queue sizes as a ccdf:
@@ -439,10 +439,10 @@ class LongestSimulator(QueueSizeSimulator):
     >>> sim = LongestSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([125, 162, 213], dtype=uint32),
+    {'trafic': array([125, 162, 213], dtype=uint64),
     'queue_log': array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],
        [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],
-       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),
+       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),
     'steps_done': 1000}
 
     A non stabilizable diamond (simulation ends before completion due to drift).
@@ -450,11 +450,11 @@ class LongestSimulator(QueueSizeSimulator):
     >>> sim = LongestSimulator(sm.CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([38, 38,  7, 37, 40], dtype=uint32),
+    {'trafic': array([38, 38,  7, 37, 40], dtype=uint64),
     'queue_log': array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],
            [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],
            [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],
-           [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint32),
+           [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint64),
     'steps_done': 339}
 
     A stabilizable candy (but candies are not good for greedy policies).
@@ -462,7 +462,7 @@ class LongestSimulator(QueueSizeSimulator):
     >>> sim = LongestSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),
+    {'trafic': array([24, 17,  2, 23, 33, 12, 13], dtype=uint64),
     'queue_log': array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -477,7 +477,7 @@ class LongestSimulator(QueueSizeSimulator):
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],
-          dtype=uint32),
+          dtype=uint64),
     'steps_done': 292}
     """
     name = "longest_queue"
@@ -538,10 +538,10 @@ class RandomItemSimulator(QueueSizeSimulator):
     >>> sim = RandomItemSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([125, 162, 213], dtype=uint32),
+    {'trafic': array([125, 162, 213], dtype=uint64),
     'queue_log': array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],
        [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],
-       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),
+       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),
     'steps_done': 1000}
 
     A ill braess graph (simulation ends before completion due to drift).
@@ -549,11 +549,11 @@ class RandomItemSimulator(QueueSizeSimulator):
     >>> sim = RandomItemSimulator(sm.CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([12, 11,  4,  8, 10], dtype=uint32),
+    {'trafic': array([12, 11,  4,  8, 10], dtype=uint64),
     'queue_log': array([[39, 13, 10,  6,  3,  8, 14,  8,  3,  1],
            [96,  5,  3,  1,  0,  0,  0,  0,  0,  0],
            [97,  7,  1,  0,  0,  0,  0,  0,  0,  0],
-           [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint32),
+           [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint64),
     'steps_done': 105}
 
     A working candy (but candies are not good for greedy policies).
@@ -561,7 +561,7 @@ class RandomItemSimulator(QueueSizeSimulator):
     >>> sim = RandomItemSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),
+    {'trafic': array([83, 62, 36, 58, 75, 48, 74], dtype=uint64),
     'queue_log': array([[537, 135,  65,  62,  34,  20,  25,  30,  48,  12,   4,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [792, 130,  28,  14,   8,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -576,7 +576,7 @@ class RandomItemSimulator(QueueSizeSimulator):
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [732, 125,  74,  25,  11,   3,   2,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],
-          dtype=uint32),
+          dtype=uint64),
     'steps_done': 972}
     """
     name = 'random_item'

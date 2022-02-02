@@ -131,10 +131,10 @@ class VQSimulator(Simulator):
     >>> sim = VQSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([125, 162, 213], dtype=uint32),
+    {'trafic': array([125, 162, 213], dtype=uint64),
     'queue_log': array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],
            [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],
-           [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint32),
+           [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint64),
     'steps_done': 1000}
 
     Unstable diamond (simulation ends before completion due to drift).
@@ -142,11 +142,11 @@ class VQSimulator(Simulator):
     >>> sim = VQSimulator(sm.CycleChain(rates='uniform'), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([35, 43,  7, 39, 34], dtype=uint32),
+    {'trafic': array([35, 43,  7, 39, 34], dtype=uint64),
     'queue_log': array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],
            [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],
            [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],
-           [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint32),
+           [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint64),
     'steps_done': 329}
 
     A stable candy. While candies are not good for greedy policies, the virtual queue is
@@ -155,7 +155,7 @@ class VQSimulator(Simulator):
     >>> sim = VQSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),
+    {'trafic': array([109,  29,  17,  59,  58,  62, 107], dtype=uint64),
     'queue_log': array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,
               3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -170,7 +170,7 @@ class VQSimulator(Simulator):
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],
-          dtype=uint32),
+          dtype=uint64),
     'steps_done': 1000}
     """
 

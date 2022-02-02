@@ -127,11 +127,11 @@
 <span class="sd">    Raw results are stored in `logs`.</span>
 
 <span class="sd">    &gt;&gt;&gt; sim.logs #doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;trafic&#39;: array([43, 17, 14, 23, 12], dtype=uint32),</span>
+<span class="sd">    {&#39;trafic&#39;: array([43, 17, 14, 23, 12], dtype=uint64),</span>
 <span class="sd">    &#39;queue_log&#39;: array([[119,  47,  26,  15,  14,   7,   1,   1],</span>
 <span class="sd">       [189,  25,  13,   3,   0,   0,   0,   0],</span>
 <span class="sd">       [218,   8,   3,   1,   0,   0,   0,   0],</span>
-<span class="sd">       [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint32), &#39;steps_done&#39;: 230}</span>
+<span class="sd">       [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint64), &#39;steps_done&#39;: 230}</span>
 
 <span class="sd">    Different methods are proposed to provide various indicators.</span>
 
@@ -238,8 +238,8 @@
 <span class="sd">        -------</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trafic&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">),</span>
-                     <span class="s1">&#39;queue_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trafic&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">),</span>
+                     <span class="s1">&#39;queue_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">),</span>
                      <span class="s1">&#39;steps_done&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span></div>
 
     <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

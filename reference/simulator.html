@@ -194,11 +194,11 @@ queue size distribution, and number of steps achieved).</p>
 </div>
 <p>Raw results are stored in <cite>logs</cite>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([43, 17, 14, 23, 12], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([43, 17, 14, 23, 12], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[119,  47,  26,  15,  14,   7,   1,   1],</span>
 <span class="go">   [189,  25,  13,   3,   0,   0,   0,   0],</span>
 <span class="go">   [218,   8,   3,   1,   0,   0,   0,   0],</span>
-<span class="go">   [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint32), &#39;steps_done&#39;: 230}</span>
+<span class="go">   [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint64), &#39;steps_done&#39;: 230}</span>
 </pre></div>
 </div>
 <p>Different methods are proposed to provide various indicators.</p>
@@ -514,10 +514,10 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">LongestSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
 <span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
@@ -525,11 +525,11 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">LongestSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([38, 38,  7, 37, 40], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([38, 38,  7, 37, 40], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],</span>
 <span class="go">       [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint32),</span>
+<span class="go">       [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 339}</span>
 </pre></div>
 </div>
@@ -537,7 +537,7 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">LongestSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
@@ -552,7 +552,7 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
-<span class="go">      dtype=uint32),</span>
+<span class="go">      dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 292}</span>
 </pre></div>
 </div>
@@ -670,10 +670,10 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItemSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
 <span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
@@ -681,11 +681,11 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItemSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([12, 11,  4,  8, 10], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([12, 11,  4,  8, 10], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[39, 13, 10,  6,  3,  8, 14,  8,  3,  1],</span>
 <span class="go">       [96,  5,  3,  1,  0,  0,  0,  0,  0,  0],</span>
 <span class="go">       [97,  7,  1,  0,  0,  0,  0,  0,  0,  0],</span>
-<span class="go">       [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint32),</span>
+<span class="go">       [41, 18, 13, 13,  8,  5,  1,  2,  3,  1]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 105}</span>
 </pre></div>
 </div>
@@ -693,7 +693,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItemSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([83, 62, 36, 58, 75, 48, 74], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([83, 62, 36, 58, 75, 48, 74], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[537, 135,  65,  62,  34,  20,  25,  30,  48,  12,   4,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [792, 130,  28,  14,   8,   0,   0,   0,   0,   0,   0,   0,   0,</span>
@@ -708,7 +708,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [732, 125,  74,  25,  11,   3,   2,   0,   0,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
-<span class="go">      dtype=uint32),</span>
+<span class="go">      dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 972}</span>
 </pre></div>
 </div>
@@ -741,10 +741,10 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNodeSimulator</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
 <span class="go"> &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
 <span class="go">                     [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">                     [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">                     [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
 <span class="go"> &#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
@@ -755,10 +755,10 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNodeSimulator</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
 <span class="go"> &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
 <span class="go">                     [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">                     [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">                     [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
 <span class="go"> &#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
@@ -766,11 +766,11 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNodeSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([ 7, 10,  1,  4,  7], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([ 7, 10,  1,  4,  7], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[22, 13,  7,  7,  5, 15,  4,  0,  0,  0],</span>
 <span class="go">       [73,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
 <span class="go">       [69,  3,  1,  0,  0,  0,  0,  0,  0,  0],</span>
-<span class="go">       [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint32),</span>
+<span class="go">       [13, 10, 11,  4,  4,  4,  2,  9, 11,  5]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 73}</span>
 </pre></div>
 </div>
@@ -782,7 +782,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomNodeSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
@@ -797,7 +797,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
-<span class="go">      dtype=uint32),</span>
+<span class="go">      dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 314}</span>
 </pre></div>
 </div>
@@ -805,7 +805,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([26, 21,  4, 25, 34, 10, 16], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[ 85,  37,  36,  41,  22,  29,  46,  17,   1,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [275,  32,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
@@ -820,7 +820,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [268,  23,  16,   6,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
-<span class="go">      dtype=uint32),</span>
+<span class="go">      dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 314}</span>
 </pre></div>
 </div>
@@ -975,10 +975,10 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">FCFM</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
 <span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
@@ -986,11 +986,11 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([34, 42,  7, 41, 36], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([34, 42,  7, 41, 36], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[127,  70,  22,  26,  29,  12,  23,  15,  10,   5],</span>
 <span class="go">       [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]], dtype=uint32),</span>
+<span class="go">       [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 339}</span>
 </pre></div>
 </div>
@@ -999,7 +999,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">... </span>           <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([24, 17,  2, 23, 33, 12, 13], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
@@ -1014,7 +1014,7 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
-<span class="go">      dtype=uint32),</span>
+<span class="go">      dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 292}</span>
 </pre></div>
 </div>
@@ -1252,10 +1252,10 @@ greedy simulator.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],</span>
 <span class="go">       [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">       [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint32),</span>
+<span class="go">       [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
@@ -1263,11 +1263,11 @@ greedy simulator.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],</span>
 <span class="go">       [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint32),</span>
+<span class="go">       [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 329}</span>
 </pre></div>
 </div>
@@ -1276,7 +1276,7 @@ designed to deal with it.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint32),</span>
+<span class="go">{&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint64),</span>
 <span class="go">&#39;queue_log&#39;: array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,</span>
 <span class="go">          3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,</span>
@@ -1291,7 +1291,7 @@ designed to deal with it.</p>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
 <span class="go">       [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
 <span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
-<span class="go">      dtype=uint32),</span>
+<span class="go">      dtype=uint64),</span>
 <span class="go">&#39;steps_done&#39;: 1000}</span>
 </pre></div>
 </div>
