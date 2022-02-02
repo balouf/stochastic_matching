@@ -49,11 +49,11 @@ class Simulator:
     Raw results are stored in `logs`.
 
     >>> sim.logs #doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([43, 17, 14, 23, 12], dtype=uint32),
+    {'trafic': array([43, 17, 14, 23, 12], dtype=uint64),
     'queue_log': array([[119,  47,  26,  15,  14,   7,   1,   1],
        [189,  25,  13,   3,   0,   0,   0,   0],
        [218,   8,   3,   1,   0,   0,   0,   0],
-       [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint32), 'steps_done': 230}
+       [126,  50,  31,  11,   9,   3,   0,   0]], dtype=uint64), 'steps_done': 230}
 
     Different methods are proposed to provide various indicators.
 
@@ -160,8 +160,8 @@ class Simulator:
         -------
 
         """
-        self.logs = {'trafic': np.zeros(self.model.m, dtype=np.uint32),
-                     'queue_log': np.zeros((self.model.n, self.max_queue), dtype=np.uint32),
+        self.logs = {'trafic': np.zeros(self.model.m, dtype=np.uint64),
+                     'queue_log': np.zeros((self.model.n, self.max_queue), dtype=np.uint64),
                      'steps_done': 0}
 
     def set_core(self, **kwargs):
