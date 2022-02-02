@@ -8,6 +8,7 @@ message: >-
   metadata from this file.
 type: software
 authors:
-  - name-particle: Fabien
-    family-names: Mathieu
+  - family-names: Mathieu
+    given-names: Fabien
     email: fabien.mathieu@normalesup.org
+url: "https://balouf.github.io/stochastic_matching/index.html"
