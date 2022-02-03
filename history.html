@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>History &mdash; Stochastic Matching 0.2.0 documentation</title>
+  <title>History &mdash; Stochastic Matching 0.2.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.2.0
+                0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -51,7 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#improved-linear-programming">0.2.1 (2022-01-27): Improved linear programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#big-little-update">0.2.1 (2022-02-03): Big little update</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand-new-api">0.2.0 (2022-01-24): Brand new API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2022-01-13): First release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#misc-improvements">0.0.4 (2021-09-30): Misc. improvements</a></li>
@@ -111,13 +111,16 @@
 </style>
 <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline"></a></h1>
-<section id="improved-linear-programming">
-<h2>0.2.1 (2022-01-27): Improved linear programming<a class="headerlink" href="#improved-linear-programming" title="Permalink to this headline"></a></h2>
+<section id="big-little-update">
+<h2>0.2.1 (2022-02-03): Big little update<a class="headerlink" href="#big-little-update" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Default model tolerance raised to 1e-7 for better detection of null edges.</p></li>
 <li><p>New optimize_rates for Model. Outputs a flow that optimizes the rates according to some reward weights.</p></li>
-<li><p>New option weights for semi-greedy simulators. Auto-computes the forbidden edges to optimize the reward according to weights.</p></li>
+<li><p>Refactoring: policies formerly called semi-greedy are now called (semi)-filtering.</p></li>
+<li><p>New option weights for filtering policies. Auto-computes the forbidden edges to optimize the reward according to weights.</p></li>
+<li><p>Default model tolerance raised to 1e-7 for better detection of null edges.</p></li>
 <li><p>Tutorials modified to introduce the new features.</p></li>
+<li><p>The notebook used for paper <a class="reference external" href="https://hal.archives-ouvertes.fr/hal-03502084">https://hal.archives-ouvertes.fr/hal-03502084</a> is now included in the documentation.</p></li>
+<li><p>Bug hunt: very large simulation could overflow silently (solved by switching logs from uint32 to uint64).</p></li>
 </ul>
 </section>
 <section id="brand-new-api">
