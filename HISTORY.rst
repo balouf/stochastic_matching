@@ -3,13 +3,16 @@ History
 =======
 
 ------------------------------------------------
-0.2.1 (2022-01-27): Improved linear programming
+0.2.1 (2022-02-03): Big little update
 ------------------------------------------------
 
-* Default model tolerance raised to 1e-7 for better detection of null edges.
 * New optimize_rates for Model. Outputs a flow that optimizes the rates according to some reward weights.
-* New option weights for semi-greedy simulators. Auto-computes the forbidden edges to optimize the reward according to weights.
+* Refactoring: policies formerly called semi-greedy are now called (semi)-filtering.
+* New option weights for filtering policies. Auto-computes the forbidden edges to optimize the reward according to weights.
+* Default model tolerance raised to 1e-7 for better detection of null edges.
 * Tutorials modified to introduce the new features.
+* The notebook used for paper https://hal.archives-ouvertes.fr/hal-03502084 is now included in the documentation.
+* Bug hunt: very large simulation could overflow silently (solved by switching logs from uint32 to uint64).
 
 -----------------------------------
 0.2.0 (2022-01-24): Brand new API
