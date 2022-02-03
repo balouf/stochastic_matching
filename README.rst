@@ -26,7 +26,6 @@ Stochastic Matching
         :alt: Code Coverage
 
 
-
 Stochastic Matching provides tools to analyze the behavior of stochastic matching problems.
 
 
@@ -47,6 +46,20 @@ Features
     * Adding new policies is feasible out-of-the-box.
 * Lot of display features, including `Vis JS Network`_.
 
+
+---------------------
+Installation
+---------------------
+
+To install Stochastic Matching, run this command in your terminal:
+
+.. code-block:: console
+
+    $ pip install stochastic_matching
+
+This is the preferred method to install Stochastic Matching, as it will always install the most recent stable release.
+
+
 ---------------------------
 Acknowledging package
 ---------------------------
@@ -54,7 +67,6 @@ Acknowledging package
 If you publish results based on `Stochastic Matching`_, **please acknowledge** the usage of the package by quoting the following paper.
 
 * Céline Comte, Fabien Mathieu, Ana Bušić. `Stochastic dynamic matching: A mixed graph-theory and linear-algebra approach <https://hal.archives-ouvertes.fr/hal-03502084>`_. 2022.
-
 
 -------
 Credits
