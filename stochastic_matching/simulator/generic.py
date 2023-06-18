@@ -91,7 +91,7 @@ class Simulator:
     >>> fig #doctest: +ELLIPSIS
     <Figure size ...x... with 1 Axes>
 
-    >>> fig = sim.show_ccdf(indices=[0, 3, 2], sort=True)
+    >>> fig = sim.show_ccdf(indices=[0, 3, 2], sort=True, strict=True)
     >>> fig #doctest: +ELLIPSIS
     <Figure size ...x... with 1 Axes>
     """
