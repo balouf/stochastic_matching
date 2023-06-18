@@ -7,6 +7,7 @@ History
 ------------------------------------------------
 
 * Add a function to draw the (discrete) CCDFs piecewise
+* New range of officially supported Python versions: 3.6 -> 3.11
 
 ------------------------------------------------
 0.2.1 (2022-02-03): Big little update
