@@ -213,18 +213,18 @@ def neighbors(i, compressed_incidence):
 
     Egde of node 3:
 
-    >>> neighbors(3, csr_matrix(incidence))
-    array([2])
+    >>> neighbors(3, csr_matrix(incidence)) # doctest: +ELLIPSIS
+    array([2]...)
 
     Nodes of edge 0:
 
-    >>> neighbors(0, csc_matrix(incidence))
-    array([0, 1])
+    >>> neighbors(0, csc_matrix(incidence)) # doctest: +ELLIPSIS
+    array([0, 1]...)
 
     Nodes of hyperedge 2:
 
-    >>> neighbors(2, csc_matrix(incidence))
-    array([0, 1, 2, 3])
+    >>> neighbors(2, csc_matrix(incidence)) # doctest: +ELLIPSIS
+    array([0, 1, 2, 3]...)
     """
     return compressed_incidence.indices[compressed_incidence.indptr[i]:compressed_incidence.indptr[i + 1]]
 
