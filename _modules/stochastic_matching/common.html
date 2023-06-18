@@ -11,10 +11,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>stochastic_matching.common</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stochastic_matching.common</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -89,7 +94,7 @@
 
 
 <div class="viewcode-block" id="pseudo_inverse_scalar"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.pseudo_inverse_scalar">[docs]</a><span class="k">def</span> <span class="nf">pseudo_inverse_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x: :class:`float`</span>
@@ -111,7 +116,7 @@
 
 
 <div class="viewcode-block" id="clean_zeros"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.clean_zeros">[docs]</a><span class="k">def</span> <span class="nf">clean_zeros</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Replace in-place all small values of a matrix by 0.</span>
 
 <span class="sd">    Parameters</span>
@@ -139,7 +144,7 @@
 
 
 <div class="viewcode-block" id="CharMaker"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.CharMaker">[docs]</a><span class="k">class</span> <span class="nc">CharMaker</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that acts as an infinite list of letters. Used to provide letter-labels to nodes</span>
 
 <span class="sd">    Examples</span>
@@ -172,7 +177,7 @@
 
 
 <div class="viewcode-block" id="get_classes"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.get_classes">[docs]</a><span class="k">def</span> <span class="nf">get_classes</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    root: :class:`class`</span>
@@ -208,7 +213,7 @@
 
 
 <div class="viewcode-block" id="class_converter"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.class_converter">[docs]</a><span class="k">def</span> <span class="nf">class_converter</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="n">motherclass</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    subclass: :class:`str` or :class:`class`</span>
@@ -255,7 +260,7 @@
 
 
 <div class="viewcode-block" id="neighbors"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.neighbors">[docs]</a><span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">compressed_incidence</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return neighbors of a node/edge with respect to an incident matrix.</span>
 <span class="sd">    Neighborhood is defined on hypergraph level, not on adjacency level:</span>
 <span class="sd">    neighbors of a node are edges, neighbors of an edge are nodes.</span>
@@ -287,29 +292,29 @@
 <span class="sd">    Edges of node 0:</span>
 
 <span class="sd">    &gt;&gt;&gt; neighbors(0, csr_matrix(incidence))</span>
-<span class="sd">    array([0, 1, 2], dtype=int32)</span>
+<span class="sd">    array([0, 1, 2])</span>
 
 <span class="sd">    Egde of node 3:</span>
 
 <span class="sd">    &gt;&gt;&gt; neighbors(3, csr_matrix(incidence))</span>
-<span class="sd">    array([2], dtype=int32)</span>
+<span class="sd">    array([2])</span>
 
 <span class="sd">    Nodes of edge 0:</span>
 
 <span class="sd">    &gt;&gt;&gt; neighbors(0, csc_matrix(incidence))</span>
-<span class="sd">    array([0, 1], dtype=int32)</span>
+<span class="sd">    array([0, 1])</span>
 
 <span class="sd">    Nodes of hyperedge 2:</span>
 
 <span class="sd">    &gt;&gt;&gt; neighbors(2, csc_matrix(incidence))</span>
-<span class="sd">    array([0, 1, 2, 3], dtype=int32)</span>
+<span class="sd">    array([0, 1, 2, 3])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
 
 
 <div class="viewcode-block" id="set_seed"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.set_seed">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Change the random generator seed inside numba jitted scope.</span>
 
 <span class="sd">    Parameters</span>
@@ -332,7 +337,7 @@
 
 
 <div class="viewcode-block" id="create_prob_alias"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.create_prob_alias">[docs]</a><span class="k">def</span> <span class="nf">create_prob_alias</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prepare vector to draw a distribution with the alias method.</span>
 
 <span class="sd">    Based on https://www.keithschwarz.com/darts-dice-coins/.</span>
@@ -380,7 +385,7 @@
 
 
 <div class="viewcode-block" id="graph_neighbors_list"><a class="viewcode-back" href="../../reference/common.html#stochastic_matching.common.graph_neighbors_list">[docs]</a><span class="k">def</span> <span class="nf">graph_neighbors_list</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extract Numba-compatible neighboring structures from a :class:`~stochastic_matching.model.Model`.</span>
 
 <span class="sd">    Parameters</span>

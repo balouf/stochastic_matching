@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Common &mdash; Stochastic Matching 0.2.1 documentation</title>
@@ -12,10 +12,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -29,15 +30,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -53,7 +58,18 @@
 <li class="toctree-l2"><a class="reference internal" href="graphs.html">Graphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="display.html">Display</a></li>
 <li class="toctree-l2"><a class="reference internal" href="simulator.html">Simulation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Common</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Common</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.CharMaker"><code class="docutils literal notranslate"><span class="pre">CharMaker</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.class_converter"><code class="docutils literal notranslate"><span class="pre">class_converter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.clean_zeros"><code class="docutils literal notranslate"><span class="pre">clean_zeros()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.create_prob_alias"><code class="docutils literal notranslate"><span class="pre">create_prob_alias()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.get_classes"><code class="docutils literal notranslate"><span class="pre">get_classes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.graph_neighbors_list"><code class="docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.neighbors"><code class="docutils literal notranslate"><span class="pre">neighbors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.pseudo_inverse_scalar"><code class="docutils literal notranslate"><span class="pre">pseudo_inverse_scalar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.common.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
@@ -74,9 +90,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Reference</a> &raquo;</li>
-      <li>Common</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">Common</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/reference/common.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,32 +102,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="common">
-<h1>Common<a class="headerlink" href="#common" title="Permalink to this headline"></a></h1>
+  <section id="common">
+<h1>Common<a class="headerlink" href="#common" title="Permalink to this heading"></a></h1>
 <p>Multipurpose methods and classes.</p>
 <span class="target" id="module-stochastic_matching.common"></span><dl class="py class">
 <dt class="sig sig-object py" id="stochastic_matching.common.CharMaker">
@@ -135,16 +127,16 @@
 <dt class="sig sig-object py" id="stochastic_matching.common.class_converter">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">class_converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subclass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motherclass</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#class_converter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.class_converter" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>subclass</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">class</span></code>) – Required subclass, or its name.</p></li>
+<li><p><strong>subclass</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">class</span></code>) – Required subclass, or its name.</p></li>
 <li><p><strong>motherclass</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">class</span></code>) – Ancestor of the subclass.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The subclass.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">class</span></code></p>
 </dd>
 </dl>
@@ -159,7 +151,7 @@
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
 <span class="gr">ValueError</span>: <span class="n">anything is not a known name for a subclass of Simulator.</span>
-<span class="go">Known names: virtual_queue, generic_queue_size, fcfm, random_node, longest_queue, random_item, filtering, priority.</span>
+<span class="x">Known names: virtual_queue, generic_queue_size, fcfm, random_node, longest_queue, random_item, filtering, priority.</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">class_converter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
@@ -175,13 +167,13 @@
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">clean_zeros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#clean_zeros"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.clean_zeros" title="Permalink to this definition"></a></dt>
 <dd><p>Replace in-place all small values of a matrix by 0.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Matrix to clean.</p></li>
-<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – Threshold. All entries with absolute value lower than <cite>tol</cite> are put to zero.</p></li>
+<li><p><strong>matrix</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Matrix to clean.</p></li>
+<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – Threshold. All entries with absolute value lower than <cite>tol</cite> are put to zero.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -202,13 +194,13 @@
 <dd><p>Prepare vector to draw a distribution with the alias method.</p>
 <p>Based on <a class="reference external" href="https://www.keithschwarz.com/darts-dice-coins/">https://www.keithschwarz.com/darts-dice-coins/</a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Arrival intensities.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Arrival intensities.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>prob</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Probabilities to stay in the drawn bucket</p></li>
-<li><p><strong>alias</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Redirection array</p></li>
+<li><p><strong>prob</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Probabilities to stay in the drawn bucket</p></li>
+<li><p><strong>alias</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Redirection array</p></li>
 </ul>
 </p>
 </dd>
@@ -227,14 +219,14 @@
 <dt class="sig sig-object py" id="stochastic_matching.common.get_classes">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">get_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#get_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.get_classes" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>root</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">class</span></code>) – Starting class (can be abstract).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Dictionaries of all subclasses that have a name (as in class attribute <cite>name</cite>).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -262,14 +254,14 @@
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">graph_neighbors_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#graph_neighbors_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.graph_neighbors_list" title="Permalink to this definition"></a></dt>
 <dd><p>Extract Numba-compatible neighboring structures from a <a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model with the graph to transform.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of neighbors for each node. For one given node yields a list of tuples where the first element is the edge
 and the second element the neighbor (for <cite>SimpleGraph</cite>) / array of neighbors (for <cite>HyperGraph</cite>).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></p>
 </dd>
 </dl>
@@ -359,17 +351,17 @@ nodes 2, 3, and 4 together.</p>
 Neighborhood is defined on hypergraph level, not on adjacency level:
 neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Index of the node/edge to probe.</p></li>
-<li><p><strong>compressed_incidence</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>) – Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Index of the node/edge to probe.</p></li>
+<li><p><strong>compressed_incidence</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.10.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.10.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>) – Compressed sparse incidence matrix on rows (for nodes) or columns (for edges).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Neighbors of <em>i</em>.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -384,22 +376,22 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 </div>
 <p>Edges of node 0:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
-<span class="go">array([0, 1, 2], dtype=int32)</span>
+<span class="go">array([0, 1, 2])</span>
 </pre></div>
 </div>
 <p>Egde of node 3:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
-<span class="go">array([2], dtype=int32)</span>
+<span class="go">array([2])</span>
 </pre></div>
 </div>
 <p>Nodes of edge 0:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
-<span class="go">array([0, 1], dtype=int32)</span>
+<span class="go">array([0, 1])</span>
 </pre></div>
 </div>
 <p>Nodes of hyperedge 2:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighbors</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">incidence</span><span class="p">))</span>
-<span class="go">array([0, 1, 2, 3], dtype=int32)</span>
+<span class="go">array([0, 1, 2, 3])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -408,14 +400,14 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <dt class="sig sig-object py" id="stochastic_matching.common.pseudo_inverse_scalar">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">pseudo_inverse_scalar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#pseudo_inverse_scalar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.pseudo_inverse_scalar" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – </p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Inverse of x if it is not 0.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -432,10 +424,10 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.set_seed" title="Permalink to this definition"></a></dt>
 <dd><p>Change the random generator seed inside numba jitted scope.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>

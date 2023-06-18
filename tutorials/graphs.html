@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simple and Hyper Graphs &mdash; Stochastic Matching 0.2.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -31,15 +33,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -99,9 +105,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Tutorials</a> &raquo;</li>
-      <li>Simple and Hyper Graphs</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Simple and Hyper Graphs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorials/graphs.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -111,278 +117,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt *,
-div.nbinput.container div.input_area pre,
-div.nboutput.container div.output_area pre,
-div.nbinput.container div.input_area .highlight,
-div.nboutput.container div.output_area .highlight {
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-div.nbinput.container > div[class*=highlight],
-div.nboutput.container > div[class*=highlight] {
-    margin: 0;
-}
-
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt * {
-    background: none;
-}
-
-div.nboutput.container div.output_area .highlight,
-div.nboutput.container div.output_area pre {
-    background: unset;
-}
-
-div.nboutput.container div.output_area div.highlight {
-    color: unset;  /* override Pygments text color */
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    /*background: #f5f5f5;*/
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-    margin: 0;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt .copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="Simple-and-Hyper-Graphs">
-<h1>Simple and Hyper Graphs<a class="headerlink" href="#Simple-and-Hyper-Graphs" title="Permalink to this headline"></a></h1>
+  <section id="Simple-and-Hyper-Graphs">
+<h1>Simple and Hyper Graphs<a class="headerlink" href="#Simple-and-Hyper-Graphs" title="Permalink to this heading"></a></h1>
 <p><em>Stochastic Matchings</em> allows to build arbitrary models from their graph adjacency or incidence matrix, but also to directly instantiate some families. This tutorial gives a tour of these families and details the graph behavior of a <em>Model</em> instance.</p>
 <p>First, we load the package.</p>
 <div class="nbinput nblast docutils container">
@@ -394,7 +130,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <section id="Simple-graph:-manual-definition-and-basic-usage">
-<h2>Simple graph: manual definition and basic usage<a class="headerlink" href="#Simple-graph:-manual-definition-and-basic-usage" title="Permalink to this headline"></a></h2>
+<h2>Simple graph: manual definition and basic usage<a class="headerlink" href="#Simple-graph:-manual-definition-and-basic-usage" title="Permalink to this heading"></a></h2>
 <p>A simple graph can be defined by providing its adjacency or incidence matrix. We give a tour of the possibilities using the diamond graph as running example.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -690,7 +426,7 @@ network.fit({
 </div>
 </section>
 <section id="Pre-defined-models">
-<h2>Pre-defined models<a class="headerlink" href="#Pre-defined-models" title="Permalink to this headline"></a></h2>
+<h2>Pre-defined models<a class="headerlink" href="#Pre-defined-models" title="Permalink to this heading"></a></h2>
 <p>For convenience, many graph families are provided. You can have the list with the <code class="docutils literal notranslate"><span class="pre">get_class</span></code> method.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -722,8 +458,8 @@ network.fit({
 </pre></div></div>
 </div>
 <section id="Path-graphs">
-<h3>Path graphs<a class="headerlink" href="#Path-graphs" title="Permalink to this headline"></a></h3>
-<p>Paths are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> (the size, e.g. number of nodes) that defaults to 2.</p>
+<h3>Path graphs<a class="headerlink" href="#Path-graphs" title="Permalink to this heading"></a></h3>
+<p>Paths are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> (the size, e.g. number of nodes) that defaults to 2.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -794,7 +530,7 @@ network.fit({
 </div>
 </section>
 <section id="Cycle-graphs">
-<h3>Cycle graphs<a class="headerlink" href="#Cycle-graphs" title="Permalink to this headline"></a></h3>
+<h3>Cycle graphs<a class="headerlink" href="#Cycle-graphs" title="Permalink to this heading"></a></h3>
 <p>Cycles are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> that defaults to 3.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
@@ -866,7 +602,7 @@ network.fit({
 </div>
 </section>
 <section id="Star-graphs">
-<h3>Star graphs<a class="headerlink" href="#Star-graphs" title="Permalink to this headline"></a></h3>
+<h3>Star graphs<a class="headerlink" href="#Star-graphs" title="Permalink to this heading"></a></h3>
 <p>Stars are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> (the number of nodes) that defaults to 4.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
@@ -938,7 +674,7 @@ network.fit({
 </div>
 </section>
 <section id="Complete-graphs">
-<h3>Complete graphs<a class="headerlink" href="#Complete-graphs" title="Permalink to this headline"></a></h3>
+<h3>Complete graphs<a class="headerlink" href="#Complete-graphs" title="Permalink to this heading"></a></h3>
 <p>Complete graphs are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> that defaults to 3.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
@@ -1010,7 +746,7 @@ network.fit({
 </div>
 </section>
 <section id="Tadpole-graphs">
-<h3>Tadpole graphs<a class="headerlink" href="#Tadpole-graphs" title="Permalink to this headline"></a></h3>
+<h3>Tadpole graphs<a class="headerlink" href="#Tadpole-graphs" title="Permalink to this heading"></a></h3>
 <p>A tadpole combines a cycle of length <span class="math notranslate nohighlight">\(m\)</span> and a path of length <span class="math notranslate nohighlight">\(n\)</span>. Default is the paw graph (<span class="math notranslate nohighlight">\(m=3, n=1\)</span>)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
@@ -1155,7 +891,7 @@ network.fit({
 </div>
 </section>
 <section id="Lollipop-graphs">
-<h3>Lollipop graphs<a class="headerlink" href="#Lollipop-graphs" title="Permalink to this headline"></a></h3>
+<h3>Lollipop graphs<a class="headerlink" href="#Lollipop-graphs" title="Permalink to this heading"></a></h3>
 <p>A lollipop combines a complete graph of size <span class="math notranslate nohighlight">\(m\)</span> and a path of length <span class="math notranslate nohighlight">\(n\)</span>. Default is the paw graph (<span class="math notranslate nohighlight">\(m=3, n=1\)</span>)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
@@ -1262,7 +998,7 @@ network.fit({
 </div>
 </section>
 <section id="Kayak-paddle-graphs">
-<h3>Kayak paddle graphs<a class="headerlink" href="#Kayak-paddle-graphs" title="Permalink to this headline"></a></h3>
+<h3>Kayak paddle graphs<a class="headerlink" href="#Kayak-paddle-graphs" title="Permalink to this heading"></a></h3>
 <p>Combines a cycle of length <span class="math notranslate nohighlight">\(k\)</span>, a path of length <span class="math notranslate nohighlight">\(l\)</span>, and a cycle of length <span class="math notranslate nohighlight">\(m\)</span>. Defaults to <span class="math notranslate nohighlight">\(k=3, l=1, m=k\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
@@ -1369,7 +1105,7 @@ network.fit({
 </div>
 </section>
 <section id="Barbell-graph">
-<h3>Barbell graph<a class="headerlink" href="#Barbell-graph" title="Permalink to this headline"></a></h3>
+<h3>Barbell graph<a class="headerlink" href="#Barbell-graph" title="Permalink to this heading"></a></h3>
 <p>Combines a complete graph of size <span class="math notranslate nohighlight">\(k\)</span>, a path of length <span class="math notranslate nohighlight">\(l\)</span>, and a complete graph of size <span class="math notranslate nohighlight">\(m\)</span>. Defaults to <span class="math notranslate nohighlight">\(k=3, l=1, m=k\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
@@ -1475,7 +1211,7 @@ network.fit({
 </div>
 </section>
 <section id="Chained-cycle-graphs">
-<h3>Chained cycle graphs<a class="headerlink" href="#Chained-cycle-graphs" title="Permalink to this headline"></a></h3>
+<h3>Chained cycle graphs<a class="headerlink" href="#Chained-cycle-graphs" title="Permalink to this heading"></a></h3>
 <p>Concatenates cycles of size <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(c\)</span> of them. Each cycle has <span class="math notranslate nohighlight">\(o\)</span> nodes that overlap with the next one. Defaults to <span class="math notranslate nohighlight">\(n=3, c=2, o=2\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
@@ -1689,7 +1425,7 @@ network.fit({
 </div>
 </section>
 <section id="Concatenation">
-<h3>Concatenation<a class="headerlink" href="#Concatenation" title="Permalink to this headline"></a></h3>
+<h3>Concatenation<a class="headerlink" href="#Concatenation" title="Permalink to this heading"></a></h3>
 <p>Building more elaborate graphs on top of the provided generators is relatively easy.).</p>
 <p>One way to build these graphs is to use concatenation.</p>
 <p>Concatenation generalizes the chained cycles above. It uses a list of graphs and the overlapping between graph. Overlapping can be uniform or heterogeneous (you need then to provide a list of overlaps).</p>
@@ -1871,7 +1607,7 @@ network.fit({
 </div>
 </section>
 <section id="Package-logo">
-<h3>Package logo<a class="headerlink" href="#Package-logo" title="Permalink to this headline"></a></h3>
+<h3>Package logo<a class="headerlink" href="#Package-logo" title="Permalink to this heading"></a></h3>
 <p>The logo of <code class="docutils literal notranslate"><span class="pre">stochastic</span> <span class="pre">matching</span></code> was made with <code class="docutils literal notranslate"><span class="pre">stochastic</span> <span class="pre">matching</span></code>. Here is the code that produced the big version.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
@@ -1977,10 +1713,10 @@ network.fit({
 </section>
 </section>
 <section id="Hypergraphs">
-<h2>Hypergraphs<a class="headerlink" href="#Hypergraphs" title="Permalink to this headline"></a></h2>
+<h2>Hypergraphs<a class="headerlink" href="#Hypergraphs" title="Permalink to this heading"></a></h2>
 <p>Hypergraph egdes can link an arbitrary number of nodes (nor necessarily 2). Hypergraphs mainly differ from simple graphs by the absence of adjacency matrix (only the incidence matrix is used) and a different way of been displayed.</p>
 <section id="Simple-graphs-as-hypergraphs">
-<h3>Simple graphs as hypergraphs<a class="headerlink" href="#Simple-graphs-as-hypergraphs" title="Permalink to this headline"></a></h3>
+<h3>Simple graphs as hypergraphs<a class="headerlink" href="#Simple-graphs-as-hypergraphs" title="Permalink to this heading"></a></h3>
 <p>All simple graphs are hypergraphs if you remove the adjacency.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
@@ -2055,7 +1791,7 @@ network.fit({
 </div>
 </section>
 <section id="Hyper-paddle">
-<h3>Hyper paddle<a class="headerlink" href="#Hyper-paddle" title="Permalink to this headline"></a></h3>
+<h3>Hyper paddle<a class="headerlink" href="#Hyper-paddle" title="Permalink to this heading"></a></h3>
 <p>Hyper paddles are like regular kayak paddles except that the <em>center</em> is made of 3-edges. For example, the <em>candy</em> graph, which is an important example when considering stability.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
@@ -2130,7 +1866,7 @@ network.fit({
 </div>
 </section>
 <section id="Fans">
-<h3>Fans<a class="headerlink" href="#Fans" title="Permalink to this headline"></a></h3>
+<h3>Fans<a class="headerlink" href="#Fans" title="Permalink to this heading"></a></h3>
 <p>A fan is a certain number of cycles hyperconnected. They are useful to show simple examples of hypergraphs with non-trivial kernels, possibly degenerated. The simplest is the clover.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:

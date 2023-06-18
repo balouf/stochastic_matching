@@ -11,10 +11,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>stochastic_matching.display</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stochastic_matching.display</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -86,7 +91,7 @@
 
 
 <div class="viewcode-block" id="int_2_str"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.int_2_str">[docs]</a><span class="k">def</span> <span class="nf">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
@@ -195,7 +200,7 @@
 
 <div class="viewcode-block" id="vis_code"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.vis_code">[docs]</a><span class="k">def</span> <span class="nf">vis_code</span><span class="p">(</span><span class="n">vis_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vis_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">vis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create HTML to display a Vis network graph.</span>
 
 <span class="sd">    Parameters</span>
@@ -268,7 +273,7 @@
 
 <div class="viewcode-block" id="vis_show"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.vis_show">[docs]</a><span class="k">def</span> <span class="nf">vis_show</span><span class="p">(</span><span class="n">vis_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vis_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">vis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">div_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display a Vis graph (within a IPython / Jupyter session).</span>
 
 <span class="sd">    Parameters</span>
@@ -302,7 +307,7 @@
 
 
 <div class="viewcode-block" id="default_description"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.default_description">[docs]</a><span class="k">def</span> <span class="nf">default_description</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`stochastic_matching.model.Model`</span>
@@ -343,16 +348,16 @@
 <span class="sd">     {&#39;title&#39;: &#39;4: (C, D)&#39;, &#39;label&#39;: &#39;&#39;}])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nodes_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)}</span>
+                  <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)}</span>
                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
-    <span class="n">edges_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+    <span class="n">edges_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">int_2_str</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
                    <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
                      <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)]]</span>
     <span class="k">return</span> <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span></div>
 
 
 <div class="viewcode-block" id="vis_converter"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.vis_converter">[docs]</a><span class="k">def</span> <span class="nf">vis_converter</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
@@ -446,7 +451,7 @@
 
 <div class="viewcode-block" id="info_maker"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.info_maker">[docs]</a><span class="k">def</span> <span class="nf">info_maker</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                <span class="n">check_flow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check_tolerance</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
@@ -594,7 +599,7 @@
                     <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">+.3g</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">label</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">label</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="p">:</span>
                 <span class="n">edge</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
@@ -614,7 +619,7 @@
 
 
 <div class="viewcode-block" id="show"><a class="viewcode-back" href="../../reference/display.html#stochastic_matching.display.show">[docs]</a><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">bipartite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">png</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    End-to-end display solution for model.</span>
 <span class="sd">    It is basically a pipe</span>
 <span class="sd">    :class:`~stochastic_matching.model.Model` -&gt;</span>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reference &mdash; Stochastic Matching 0.2.1 documentation</title>
@@ -12,10 +12,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -29,15 +30,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -74,8 +79,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Reference</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/reference/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,45 +90,198 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="reference">
-<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline"></a></h1>
+  <section id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="graphs.html">Graphs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="display.html">Display</a></li>
-<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.generic">Generic Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.size_based">Queue-size based policies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.age_based">First-Come First Served</a></li>
-<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.virtual_queue">Virtual queue policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.Kernel"><code class="docutils literal notranslate"><span class="pre">Kernel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.adjacency"><code class="docutils literal notranslate"><span class="pre">Model.adjacency</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.connected_components"><code class="docutils literal notranslate"><span class="pre">Model.connected_components</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.degree"><code class="docutils literal notranslate"><span class="pre">Model.degree</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.edge_to_kernel"><code class="docutils literal notranslate"><span class="pre">Model.edge_to_kernel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incidence"><code class="docutils literal notranslate"><span class="pre">Model.incidence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incidence_csc"><code class="docutils literal notranslate"><span class="pre">Model.incidence_csc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incidence_csr"><code class="docutils literal notranslate"><span class="pre">Model.incidence_csr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incompressible_flow"><code class="docutils literal notranslate"><span class="pre">Model.incompressible_flow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.kernel"><code class="docutils literal notranslate"><span class="pre">Model.kernel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.kernel_to_edge"><code class="docutils literal notranslate"><span class="pre">Model.kernel_to_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.m"><code class="docutils literal notranslate"><span class="pre">Model.m</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.maximin"><code class="docutils literal notranslate"><span class="pre">Model.maximin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.moore_penrose"><code class="docutils literal notranslate"><span class="pre">Model.moore_penrose</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.n"><code class="docutils literal notranslate"><span class="pre">Model.n</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.names"><code class="docutils literal notranslate"><span class="pre">Model.names</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.optimize_edge"><code class="docutils literal notranslate"><span class="pre">Model.optimize_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.optimize_rates"><code class="docutils literal notranslate"><span class="pre">Model.optimize_rates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.rates"><code class="docutils literal notranslate"><span class="pre">Model.rates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.run"><code class="docutils literal notranslate"><span class="pre">Model.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.seeds"><code class="docutils literal notranslate"><span class="pre">Model.seeds</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show"><code class="docutils literal notranslate"><span class="pre">Model.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_flow"><code class="docutils literal notranslate"><span class="pre">Model.show_flow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_graph"><code class="docutils literal notranslate"><span class="pre">Model.show_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_kernel"><code class="docutils literal notranslate"><span class="pre">Model.show_kernel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_vertex"><code class="docutils literal notranslate"><span class="pre">Model.show_vertex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.stabilizable"><code class="docutils literal notranslate"><span class="pre">Model.stabilizable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.vertices"><code class="docutils literal notranslate"><span class="pre">Model.vertices</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.adjacency_to_incidence"><code class="docutils literal notranslate"><span class="pre">adjacency_to_incidence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.incidence_to_adjacency"><code class="docutils literal notranslate"><span class="pre">incidence_to_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.kernel_inverse"><code class="docutils literal notranslate"><span class="pre">kernel_inverse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.simple_left_kernel"><code class="docutils literal notranslate"><span class="pre">simple_left_kernel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.simple_right_kernel"><code class="docutils literal notranslate"><span class="pre">simple_right_kernel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.status_names"><code class="docutils literal notranslate"><span class="pre">status_names</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.status_names_simple_connected"><code class="docutils literal notranslate"><span class="pre">status_names_simple_connected</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.traversal"><code class="docutils literal notranslate"><span class="pre">traversal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Graphs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Barbell"><code class="docutils literal notranslate"><span class="pre">Barbell</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Codomino"><code class="docutils literal notranslate"><span class="pre">Codomino</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Complete"><code class="docutils literal notranslate"><span class="pre">Complete</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Cycle"><code class="docutils literal notranslate"><span class="pre">Cycle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.CycleChain"><code class="docutils literal notranslate"><span class="pre">CycleChain</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Fan"><code class="docutils literal notranslate"><span class="pre">Fan</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.HyperPaddle"><code class="docutils literal notranslate"><span class="pre">HyperPaddle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.KayakPaddle"><code class="docutils literal notranslate"><span class="pre">KayakPaddle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Lollipop"><code class="docutils literal notranslate"><span class="pre">Lollipop</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Pyramid"><code class="docutils literal notranslate"><span class="pre">Pyramid</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Star"><code class="docutils literal notranslate"><span class="pre">Star</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Tadpole"><code class="docutils literal notranslate"><span class="pre">Tadpole</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.complete_adjacency"><code class="docutils literal notranslate"><span class="pre">complete_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.concatenate"><code class="docutils literal notranslate"><span class="pre">concatenate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.concatenate_adjacency"><code class="docutils literal notranslate"><span class="pre">concatenate_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.cycle_adjacency"><code class="docutils literal notranslate"><span class="pre">cycle_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.path_adjacency"><code class="docutils literal notranslate"><span class="pre">path_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.star_adjacency"><code class="docutils literal notranslate"><span class="pre">star_adjacency()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Display</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.HTML_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">HYPER_GRAPH_VIS_OPTIONS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.PNG_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">PNG_TEMPLATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.VIS_LOCATION"><code class="docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">VIS_OPTIONS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.default_description"><code class="docutils literal notranslate"><span class="pre">default_description()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.info_maker"><code class="docutils literal notranslate"><span class="pre">info_maker()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.int_2_str"><code class="docutils literal notranslate"><span class="pre">int_2_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.vis_code"><code class="docutils literal notranslate"><span class="pre">vis_code()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.vis_converter"><code class="docutils literal notranslate"><span class="pre">vis_converter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.vis_show"><code class="docutils literal notranslate"><span class="pre">vis_show()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.generic">Generic Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.generator"><code class="docutils literal notranslate"><span class="pre">Simulator.generator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.inners"><code class="docutils literal notranslate"><span class="pre">Simulator.inners</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.logs"><code class="docutils literal notranslate"><span class="pre">Simulator.logs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.core"><code class="docutils literal notranslate"><span class="pre">Simulator.core</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.compute_average_queues"><code class="docutils literal notranslate"><span class="pre">Simulator.compute_average_queues()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.compute_ccdf"><code class="docutils literal notranslate"><span class="pre">Simulator.compute_ccdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.compute_flow"><code class="docutils literal notranslate"><span class="pre">Simulator.compute_flow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.name"><code class="docutils literal notranslate"><span class="pre">Simulator.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.reset"><code class="docutils literal notranslate"><span class="pre">Simulator.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.run"><code class="docutils literal notranslate"><span class="pre">Simulator.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.set_generator"><code class="docutils literal notranslate"><span class="pre">Simulator.set_generator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.set_inners"><code class="docutils literal notranslate"><span class="pre">Simulator.set_inners()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.set_logs"><code class="docutils literal notranslate"><span class="pre">Simulator.set_logs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.show_average_queues"><code class="docutils literal notranslate"><span class="pre">Simulator.show_average_queues()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.show_ccdf"><code class="docutils literal notranslate"><span class="pre">Simulator.show_ccdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator.total_waiting_time"><code class="docutils literal notranslate"><span class="pre">Simulator.total_waiting_time()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.size_based">Queue-size based policies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.FilteringGreedy"><code class="docutils literal notranslate"><span class="pre">FilteringGreedy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.FilteringGreedy.name"><code class="docutils literal notranslate"><span class="pre">FilteringGreedy.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.LongestSelector"><code class="docutils literal notranslate"><span class="pre">LongestSelector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.LongestSelector.yield_selector"><code class="docutils literal notranslate"><span class="pre">LongestSelector.yield_selector()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.LongestSimulator"><code class="docutils literal notranslate"><span class="pre">LongestSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.LongestSimulator.name"><code class="docutils literal notranslate"><span class="pre">LongestSimulator.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.PrioritySelector"><code class="docutils literal notranslate"><span class="pre">PrioritySelector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.PrioritySimulator"><code class="docutils literal notranslate"><span class="pre">PrioritySimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.PrioritySimulator.name"><code class="docutils literal notranslate"><span class="pre">PrioritySimulator.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator"><code class="docutils literal notranslate"><span class="pre">QueueSizeSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.name"><code class="docutils literal notranslate"><span class="pre">QueueSizeSimulator.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.set_core"><code class="docutils literal notranslate"><span class="pre">QueueSizeSimulator.set_core()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.set_inners"><code class="docutils literal notranslate"><span class="pre">QueueSizeSimulator.set_inners()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.RandomItemSelector"><code class="docutils literal notranslate"><span class="pre">RandomItemSelector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.RandomItemSimulator"><code class="docutils literal notranslate"><span class="pre">RandomItemSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.RandomItemSimulator.name"><code class="docutils literal notranslate"><span class="pre">RandomItemSimulator.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.RandomNodeSelector"><code class="docutils literal notranslate"><span class="pre">RandomNodeSelector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.RandomNodeSimulator"><code class="docutils literal notranslate"><span class="pre">RandomNodeSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.RandomNodeSimulator.name"><code class="docutils literal notranslate"><span class="pre">RandomNodeSimulator.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.Selector"><code class="docutils literal notranslate"><span class="pre">Selector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.SizeChoicer"><code class="docutils literal notranslate"><span class="pre">SizeChoicer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.SizeChoicer.yield_jit"><code class="docutils literal notranslate"><span class="pre">SizeChoicer.yield_jit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.hyper_choicer"><code class="docutils literal notranslate"><span class="pre">hyper_choicer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.qs_core_maker"><code class="docutils literal notranslate"><span class="pre">qs_core_maker()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.size_based.simple_choicer"><code class="docutils literal notranslate"><span class="pre">simple_choicer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.age_based">First-Come First Served</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.FCFM"><code class="docutils literal notranslate"><span class="pre">FCFM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.FCFM.name"><code class="docutils literal notranslate"><span class="pre">FCFM.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.FCFM.set_core"><code class="docutils literal notranslate"><span class="pre">FCFM.set_core()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.QueueStateSimulator"><code class="docutils literal notranslate"><span class="pre">QueueStateSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.QueueStateSimulator.set_core_from_selector"><code class="docutils literal notranslate"><span class="pre">QueueStateSimulator.set_core_from_selector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.QueueStateSimulator.set_inners"><code class="docutils literal notranslate"><span class="pre">QueueStateSimulator.set_inners()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.fcfm_hyper_selector"><code class="docutils literal notranslate"><span class="pre">fcfm_hyper_selector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.fcfm_selector"><code class="docutils literal notranslate"><span class="pre">fcfm_selector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.hyper_state_choicer"><code class="docutils literal notranslate"><span class="pre">hyper_state_choicer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.qstate_core_maker"><code class="docutils literal notranslate"><span class="pre">qstate_core_maker()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.age_based.simple_state_choicer"><code class="docutils literal notranslate"><span class="pre">simple_state_choicer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.virtual_queue">Virtual queue policy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator"><code class="docutils literal notranslate"><span class="pre">VQSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator.name"><code class="docutils literal notranslate"><span class="pre">VQSimulator.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator.set_core"><code class="docutils literal notranslate"><span class="pre">VQSimulator.set_core()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator.set_inners"><code class="docutils literal notranslate"><span class="pre">VQSimulator.set_inners()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.vq_core"><code class="docutils literal notranslate"><span class="pre">vq_core()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.CharMaker"><code class="docutils literal notranslate"><span class="pre">CharMaker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.class_converter"><code class="docutils literal notranslate"><span class="pre">class_converter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.clean_zeros"><code class="docutils literal notranslate"><span class="pre">clean_zeros()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.create_prob_alias"><code class="docutils literal notranslate"><span class="pre">create_prob_alias()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.get_classes"><code class="docutils literal notranslate"><span class="pre">get_classes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.graph_neighbors_list"><code class="docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.neighbors"><code class="docutils literal notranslate"><span class="pre">neighbors()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.pseudo_inverse_scalar"><code class="docutils literal notranslate"><span class="pre">pseudo_inverse_scalar()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>

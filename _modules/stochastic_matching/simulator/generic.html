@@ -11,10 +11,11 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>stochastic_matching.simulator.generic</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stochastic_matching.simulator.generic</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -84,7 +89,7 @@
 
 
 <div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.</span>
 
 <span class="sd">    Parameters</span>
@@ -169,13 +174,13 @@
 <span class="sd">    &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
 <span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
 
-<span class="sd">    &gt;&gt;&gt; fig = sim.show_ccdf(indices=[0, 3, 2], sort=True)</span>
+<span class="sd">    &gt;&gt;&gt; fig = sim.show_ccdf(indices=[0, 3, 2], sort=True, strict=True)</span>
 <span class="sd">    &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
 <span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Name that can be used to list all non-abstract classes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -199,7 +204,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_core</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Simulator.set_generator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.set_generator">[docs]</a>    <span class="k">def</span> <span class="nf">set_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Populate the generator parameters.</span>
 
 <span class="sd">        Parameters</span>
@@ -220,7 +225,7 @@
                           <span class="s1">&#39;number_events&#39;</span><span class="p">:</span> <span class="n">number_events</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">seed</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="Simulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Populate the inner parameters.</span>
 
 <span class="sd">        Returns</span>
@@ -231,7 +236,7 @@
                        <span class="p">}</span></div>
 
 <div class="viewcode-block" id="Simulator.set_logs"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.set_logs">[docs]</a>    <span class="k">def</span> <span class="nf">set_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Populate the monitored variables.</span>
 
 <span class="sd">        Returns</span>
@@ -246,7 +251,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 <div class="viewcode-block" id="Simulator.reset"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reset inner and monitored variables.</span>
 
 <span class="sd">        Returns</span>
@@ -257,7 +262,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_logs</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Simulator.run"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run simulation (results are stored in the attribute :attr:`~stochastic_matching.simulator.classes.Simulator.logs`).</span>
 
 <span class="sd">        Returns</span>
@@ -268,7 +273,7 @@
                                             <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Simulator.compute_average_queues"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.compute_average_queues">[docs]</a>    <span class="k">def</span> <span class="nf">compute_average_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`~numpy.ndarray`</span>
@@ -277,7 +282,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;queue_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Simulator.total_waiting_time"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.total_waiting_time">[docs]</a>    <span class="k">def</span> <span class="nf">total_waiting_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`float`</span>
@@ -286,7 +291,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">())</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Simulator.show_average_queues"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.show_average_queues">[docs]</a>    <span class="k">def</span> <span class="nf">show_average_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        indices: :class:`list`, optional</span>
@@ -322,7 +327,7 @@
         <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Simulator.compute_ccdf"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.compute_ccdf">[docs]</a>    <span class="k">def</span> <span class="nf">compute_ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`~numpy.ndarray`</span>
@@ -335,7 +340,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">events</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;queue_log&#39;</span><span class="p">]]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">events</span></div>
 
 <div class="viewcode-block" id="Simulator.compute_flow"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.compute_flow">[docs]</a>    <span class="k">def</span> <span class="nf">compute_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Normalize the simulated flow.</span>
 
 <span class="sd">        Returns</span>
@@ -347,14 +352,16 @@
         <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;trafic&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">tot_mu</span><span class="o">/</span><span class="n">steps</span></div>
 
-<div class="viewcode-block" id="Simulator.show_ccdf"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.show_ccdf">[docs]</a>    <span class="k">def</span> <span class="nf">show_ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Simulator.show_ccdf"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.generic.Simulator.show_ccdf">[docs]</a>    <span class="k">def</span> <span class="nf">show_ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        indices: :class:`list`, optional</span>
 <span class="sd">            Indices of the nodes to display</span>
 <span class="sd">        sort: :class:`bool`, optional</span>
 <span class="sd">            If True, order the nodes by decreasing average queue size</span>
+<span class="sd">        strict: :class:`bool`, default = False</span>
+<span class="sd">            Draws the curves as a true piece-wise function</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -376,7 +383,18 @@
             <span class="n">ccdf</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span>
             <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">n_d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n_d</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">x</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_d</span><span class="p">)</span>
+                <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_d</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">y</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+                <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>

@@ -11,10 +11,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>stochastic_matching.graphs</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stochastic_matching.graphs</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -82,7 +87,7 @@
 
 
 <div class="viewcode-block" id="path_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.path_adjacency">[docs]</a><span class="k">def</span> <span class="nf">path_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -101,7 +106,7 @@
 
 
 <div class="viewcode-block" id="Path"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Path">[docs]</a><span class="k">class</span> <span class="nc">Path</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -147,7 +152,7 @@
 
 
 <div class="viewcode-block" id="star_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.star_adjacency">[docs]</a><span class="k">def</span> <span class="nf">star_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -166,7 +171,7 @@
 
 
 <div class="viewcode-block" id="Star"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Star">[docs]</a><span class="k">class</span> <span class="nc">Star</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
@@ -207,7 +212,7 @@
 
 
 <div class="viewcode-block" id="cycle_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.cycle_adjacency">[docs]</a><span class="k">def</span> <span class="nf">cycle_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -225,7 +230,7 @@
 
 
 <div class="viewcode-block" id="Cycle"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Cycle">[docs]</a><span class="k">class</span> <span class="nc">Cycle</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -273,7 +278,7 @@
 
 
 <div class="viewcode-block" id="complete_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.complete_adjacency">[docs]</a><span class="k">def</span> <span class="nf">complete_adjacency</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -288,7 +293,7 @@
 
 
 <div class="viewcode-block" id="Complete"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Complete">[docs]</a><span class="k">class</span> <span class="nc">Complete</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -336,7 +341,7 @@
 
 
 <div class="viewcode-block" id="concatenate_adjacency"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.concatenate_adjacency">[docs]</a><span class="k">def</span> <span class="nf">concatenate_adjacency</span><span class="p">(</span><span class="n">adja_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    adja_list: :class:`list` of :class:`~numpy.ndarray`</span>
@@ -384,7 +389,7 @@
 
 
 <div class="viewcode-block" id="concatenate"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.concatenate">[docs]</a><span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">model_list</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model_list: :class:`list` of :class:`~stochastic_matching.model.Model`</span>
@@ -421,7 +426,7 @@
 
 
 <div class="viewcode-block" id="Codomino"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Codomino">[docs]</a><span class="k">class</span> <span class="nc">Codomino</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    *args</span>
@@ -448,7 +453,7 @@
 
 
 <div class="viewcode-block" id="Pyramid"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Pyramid">[docs]</a><span class="k">class</span> <span class="nc">Pyramid</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    *args</span>
@@ -480,7 +485,7 @@
 
 
 <div class="viewcode-block" id="Tadpole"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Tadpole">[docs]</a><span class="k">class</span> <span class="nc">Tadpole</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    m: :class:`int`</span>
@@ -535,7 +540,7 @@
 
 
 <div class="viewcode-block" id="Lollipop"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Lollipop">[docs]</a><span class="k">class</span> <span class="nc">Lollipop</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    m: :class:`int`</span>
@@ -581,7 +586,7 @@
 
 
 <div class="viewcode-block" id="KayakPaddle"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.KayakPaddle">[docs]</a><span class="k">class</span> <span class="nc">KayakPaddle</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    k: :class:`int`</span>
@@ -631,7 +636,7 @@
 
 
 <div class="viewcode-block" id="Barbell"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Barbell">[docs]</a><span class="k">class</span> <span class="nc">Barbell</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    k: :class:`int`</span>
@@ -697,7 +702,7 @@
 
 
 <div class="viewcode-block" id="CycleChain"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.CycleChain">[docs]</a><span class="k">class</span> <span class="nc">CycleChain</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: :class:`int`</span>
@@ -763,7 +768,7 @@
 
 
 <div class="viewcode-block" id="HyperPaddle"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.HyperPaddle">[docs]</a><span class="k">class</span> <span class="nc">HyperPaddle</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    k: :class:`int`</span>
@@ -833,7 +838,7 @@
 
 
 <div class="viewcode-block" id="Fan"><a class="viewcode-back" href="../../reference/graphs.html#stochastic_matching.graphs.Fan">[docs]</a><span class="k">class</span> <span class="nc">Fan</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    cycles: :class:`int`</span>

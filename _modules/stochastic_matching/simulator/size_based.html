@@ -11,10 +11,11 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>stochastic_matching.simulator.size_based</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stochastic_matching.simulator.size_based</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -86,7 +91,7 @@
 
 
 <div class="viewcode-block" id="qs_core_maker"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.qs_core_maker">[docs]</a><span class="k">def</span> <span class="nf">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    choicer: callable</span>
@@ -175,7 +180,7 @@
 
 
 <div class="viewcode-block" id="QueueSizeSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator">[docs]</a><span class="k">class</span> <span class="nc">QueueSizeSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class derived from :class:`~stochastic_matching.simulator.generic.Simulator`</span>
 <span class="sd">    for greedy simulator based on queue sizes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -190,7 +195,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="QueueSizeSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Incorporate `queue_size` to the inner variables.</span>
 
 <span class="sd">        Returns</span>
@@ -201,7 +206,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;queue_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="QueueSizeSimulator.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.QueueSizeSimulator.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the core engine for a greedy policy.</span>
 
 <span class="sd">        Returns</span>
@@ -215,7 +220,7 @@
 
 <div class="viewcode-block" id="simple_choicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.simple_choicer">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">simple_choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    neighbors: :class:`~numba.typed.List`</span>
@@ -235,7 +240,7 @@
 
 <div class="viewcode-block" id="hyper_choicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.hyper_choicer">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">hyper_choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    neighbors: :class:`~numba.typed.List`</span>
@@ -255,7 +260,7 @@
 
 
 <div class="viewcode-block" id="SizeChoicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.SizeChoicer">[docs]</a><span class="k">class</span> <span class="nc">SizeChoicer</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extract possible choices for a greedy policy based on queue size.</span>
 
 <span class="sd">    Parameters</span>
@@ -297,7 +302,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
 <div class="viewcode-block" id="SizeChoicer.yield_jit"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.SizeChoicer.yield_jit">[docs]</a>    <span class="k">def</span> <span class="nf">yield_jit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        choicer: callable</span>
@@ -311,7 +316,7 @@
 
 
 <div class="viewcode-block" id="Selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.Selector">[docs]</a><span class="k">class</span> <span class="nc">Selector</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class for greedy edge selection based on queue sizes.</span>
 
 <span class="sd">    Parameters</span>
@@ -332,7 +337,7 @@
 
 
 <div class="viewcode-block" id="RandomNodeSelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomNodeSelector">[docs]</a><span class="k">class</span> <span class="nc">RandomNodeSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Selects a feasible edge at random.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;random_node&#39;</span>
@@ -344,7 +349,7 @@
 
 
 <div class="viewcode-block" id="RandomNodeSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomNodeSimulator">[docs]</a><span class="k">class</span> <span class="nc">RandomNodeSimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.</span>
 <span class="sd">    When multiple choices are possible, one is chosen uniformly at random.</span>
 
@@ -459,13 +464,13 @@
 
 
 <div class="viewcode-block" id="LongestSelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.LongestSelector">[docs]</a><span class="k">class</span> <span class="nc">LongestSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Selects feasible edge with longest queue.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;longest&quot;</span>
 
 <div class="viewcode-block" id="LongestSelector.yield_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.LongestSelector.yield_selector">[docs]</a>    <span class="k">def</span> <span class="nf">yield_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        callable</span>
@@ -495,7 +500,7 @@
 
 
 <div class="viewcode-block" id="LongestSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.LongestSimulator">[docs]</a><span class="k">class</span> <span class="nc">LongestSimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.</span>
 <span class="sd">    When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.</span>
 
@@ -593,7 +598,7 @@
 
 
 <div class="viewcode-block" id="RandomItemSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.RandomItemSimulator">[docs]</a><span class="k">class</span> <span class="nc">RandomItemSimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.</span>
 <span class="sd">    When multiple choices are possible, chooses proportionally to the sizes of the queues</span>
 <span class="sd">    (or sum of queues for hyperedges).</span>
@@ -664,7 +669,7 @@
 
 
 <div class="viewcode-block" id="FilteringGreedy"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.FilteringGreedy">[docs]</a><span class="k">class</span> <span class="nc">FilteringGreedy</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.</span>
 
 <span class="sd">    Parameters</span>
@@ -768,7 +773,7 @@
 
 
 <div class="viewcode-block" id="PrioritySelector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.PrioritySelector">[docs]</a><span class="k">class</span> <span class="nc">PrioritySelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Selects feasible edge based on priorities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;priority&#39;</span>
@@ -806,7 +811,7 @@
 
 
 <div class="viewcode-block" id="PrioritySimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.PrioritySimulator">[docs]</a><span class="k">class</span> <span class="nc">PrioritySimulator</span><span class="p">(</span><span class="n">QueueSizeSimulator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Greedy policy based on pre-determined preferences on edges.</span>
 
 <span class="sd">    A threshold can be specified to alter the weights if the queue sizes get too big.</span>

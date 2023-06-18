@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>History &mdash; Stochastic Matching 0.2.1 documentation</title>
@@ -12,10 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -28,15 +29,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Stochastic Matching
-            <img src="_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -51,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#improved-ccdf">0.2.2 (2023-06-18): Improved CCDF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#big-little-update">0.2.1 (2022-02-03): Big little update</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand-new-api">0.2.0 (2022-01-24): Brand new API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2022-01-13): First release</a></li>
@@ -74,8 +80,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>History</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">History</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/history.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,34 +91,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="history">
-<h1>History<a class="headerlink" href="#history" title="Permalink to this headline"></a></h1>
+  <section id="history">
+<h1>History<a class="headerlink" href="#history" title="Permalink to this heading"></a></h1>
+<section id="improved-ccdf">
+<h2>0.2.2 (2023-06-18): Improved CCDF<a class="headerlink" href="#improved-ccdf" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add a function to draw the (discrete) CCDFs piecewise</p></li>
+</ul>
+</section>
 <section id="big-little-update">
-<h2>0.2.1 (2022-02-03): Big little update<a class="headerlink" href="#big-little-update" title="Permalink to this headline"></a></h2>
+<h2>0.2.1 (2022-02-03): Big little update<a class="headerlink" href="#big-little-update" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>New optimize_rates for Model. Outputs a flow that optimizes the rates according to some reward weights.</p></li>
 <li><p>Refactoring: policies formerly called semi-greedy are now called (semi)-filtering.</p></li>
@@ -124,7 +112,7 @@
 </ul>
 </section>
 <section id="brand-new-api">
-<h2>0.2.0 (2022-01-24): Brand new API<a class="headerlink" href="#brand-new-api" title="Permalink to this headline"></a></h2>
+<h2>0.2.0 (2022-01-24): Brand new API<a class="headerlink" href="#brand-new-api" title="Permalink to this heading"></a></h2>
 <p>As the package is at early stage, it had to go through a lot of refactoring.
 Hopefully, the result should be more easy to use.</p>
 <p>Major changes:</p>
@@ -157,7 +145,7 @@ injectivity/surjectivity, connected components, spanners, and vertices!</p></li>
 </ul>
 </section>
 <section id="first-release">
-<h2>0.1.0 (2022-01-13): First release<a class="headerlink" href="#first-release" title="Permalink to this headline"></a></h2>
+<h2>0.1.0 (2022-01-13): First release<a class="headerlink" href="#first-release" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>First release on PyPI.</p></li>
 <li><p>Refactoring: the package name for the public release is <em>Stochastic Matching</em>.</p></li>
@@ -174,7 +162,7 @@ injectivity/surjectivity, connected components, spanners, and vertices!</p></li>
 </ul>
 </section>
 <section id="misc-improvements">
-<h2>0.0.4 (2021-09-30): Misc. improvements<a class="headerlink" href="#misc-improvements" title="Permalink to this headline"></a></h2>
+<h2>0.0.4 (2021-09-30): Misc. improvements<a class="headerlink" href="#misc-improvements" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Add possibility to specify node names. The names are used for all display operations</p></li>
 <li><p>New simulator method compute_ccdf to allow access outside show_ccdf</p></li>
@@ -187,7 +175,7 @@ and as_time (divide by arrival rates)</p></li>
 </ul>
 </section>
 <section id="simulators-are-back">
-<h2>0.0.3 (2021-08-24): Simulators are back!<a class="headerlink" href="#simulators-are-back" title="Permalink to this headline"></a></h2>
+<h2>0.0.3 (2021-08-24): Simulators are back!<a class="headerlink" href="#simulators-are-back" title="Permalink to this heading"></a></h2>
 <p>This update reintroduces simulators, fully revamped</p>
 <ul class="simple">
 <li><dl class="simple">
@@ -221,7 +209,7 @@ Older incidence attribute (plain matrix) removed.</p></li>
 </ul>
 </section>
 <section id="hyper-graph-release">
-<h2>0.0.2 (2021-07-22): Hyper-graph release<a class="headerlink" href="#hyper-graph-release" title="Permalink to this headline"></a></h2>
+<h2>0.0.2 (2021-07-22): Hyper-graph release<a class="headerlink" href="#hyper-graph-release" title="Permalink to this heading"></a></h2>
 <p>Lots of changes in this update.</p>
 <ul class="simple">
 <li><dl class="simple">

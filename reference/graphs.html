@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Graphs &mdash; Stochastic Matching 0.2.1 documentation</title>
@@ -12,10 +12,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -31,15 +32,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -52,7 +57,28 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="model.html">Model</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Graphs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Barbell"><code class="docutils literal notranslate"><span class="pre">Barbell</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Codomino"><code class="docutils literal notranslate"><span class="pre">Codomino</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Complete"><code class="docutils literal notranslate"><span class="pre">Complete</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Cycle"><code class="docutils literal notranslate"><span class="pre">Cycle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.CycleChain"><code class="docutils literal notranslate"><span class="pre">CycleChain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Fan"><code class="docutils literal notranslate"><span class="pre">Fan</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.HyperPaddle"><code class="docutils literal notranslate"><span class="pre">HyperPaddle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.KayakPaddle"><code class="docutils literal notranslate"><span class="pre">KayakPaddle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Lollipop"><code class="docutils literal notranslate"><span class="pre">Lollipop</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Pyramid"><code class="docutils literal notranslate"><span class="pre">Pyramid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Star"><code class="docutils literal notranslate"><span class="pre">Star</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.Tadpole"><code class="docutils literal notranslate"><span class="pre">Tadpole</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.complete_adjacency"><code class="docutils literal notranslate"><span class="pre">complete_adjacency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.concatenate"><code class="docutils literal notranslate"><span class="pre">concatenate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.concatenate_adjacency"><code class="docutils literal notranslate"><span class="pre">concatenate_adjacency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.cycle_adjacency"><code class="docutils literal notranslate"><span class="pre">cycle_adjacency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.path_adjacency"><code class="docutils literal notranslate"><span class="pre">path_adjacency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.graphs.star_adjacency"><code class="docutils literal notranslate"><span class="pre">star_adjacency()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="display.html">Display</a></li>
 <li class="toctree-l2"><a class="reference internal" href="simulator.html">Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
@@ -76,9 +102,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Reference</a> &raquo;</li>
-      <li>Graphs</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">Graphs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/reference/graphs.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,42 +114,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="graphs">
-<h1>Graphs<a class="headerlink" href="#graphs" title="Permalink to this headline"></a></h1>
+  <section id="graphs">
+<h1>Graphs<a class="headerlink" href="#graphs" title="Permalink to this heading"></a></h1>
 <p>This module defines models for different graphs.</p>
 <span class="target" id="module-stochastic_matching.graphs"></span><dl class="py class">
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Barbell">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Barbell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Barbell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Barbell" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first complete graph.</p></li>
-<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second complete graph. Default to the size of the first complete graph.</p></li>
-<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two complete graphs.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first complete graph.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second complete graph. Default to the size of the first complete graph.</p></li>
+<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two complete graphs.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -175,7 +177,7 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Codomino">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Codomino</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Codomino"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Codomino" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
@@ -199,9 +201,9 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Complete">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Complete" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -241,9 +243,9 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Cycle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Cycle" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -283,11 +285,11 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.CycleChain">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">CycleChain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#CycleChain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.CycleChain" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the cycles.</p></li>
-<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of copies.</p></li>
-<li><p><strong>o</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Overlap between cycles.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the cycles.</p></li>
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of copies.</p></li>
+<li><p><strong>o</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Overlap between cycles.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -341,11 +343,11 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Fan">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Fan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycle_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperedges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Fan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Fan" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cycles</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of cycles</p></li>
-<li><p><strong>cycle_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of cycles</p></li>
-<li><p><strong>hyperedges</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of hyperedges that connect the cycles.</p></li>
+<li><p><strong>cycles</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of cycles</p></li>
+<li><p><strong>cycle_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of cycles</p></li>
+<li><p><strong>hyperedges</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of hyperedges that connect the cycles.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -409,13 +411,13 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.HyperPaddle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">HyperPaddle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#HyperPaddle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.HyperPaddle" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
-<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
-<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path of 3-edges that joins the two cycles.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
+<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path of 3-edges that joins the two cycles.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
-<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Keyword parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Keyword parameters for the model.</p></li>
 </ul>
 </dd>
 </dl>
@@ -464,11 +466,11 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.KayakPaddle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">KayakPaddle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#KayakPaddle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.KayakPaddle" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
-<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two cycles.</p></li>
-<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second cycle. Default to the size of the first cycle.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two cycles.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second cycle. Default to the size of the first cycle.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -504,10 +506,10 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Lollipop">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Lollipop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Lollipop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Lollipop" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the complete graph.</p></li>
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the complete graph.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -542,9 +544,9 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Path">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Path" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -583,7 +585,7 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Pyramid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Pyramid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Pyramid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Pyramid" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
@@ -611,9 +613,9 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Star">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Star"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Star" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -645,10 +647,10 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.Tadpole">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Tadpole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Tadpole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Tadpole" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
@@ -692,14 +694,14 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.complete_adjacency">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">complete_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#complete_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.complete_adjacency" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Adjacency matrix of a complete graph <span class="math notranslate nohighlight">\(K_n\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/CompleteGraph.html">https://mathworld.wolfram.com/CompleteGraph.html</a>).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -708,18 +710,18 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.concatenate">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.concatenate" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – The graphs that one want to merge. They must all be simple (and in particular have an adjacency matrix).</p></li>
-<li><p><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of nodes that are common to two consecutive graphs. Default to 1.</p></li>
+<li><p><strong>model_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – The graphs that one want to merge. They must all be simple (and in particular have an adjacency matrix).</p></li>
+<li><p><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of nodes that are common to two consecutive graphs. Default to 1.</p></li>
 <li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Model of the concatenated graph.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
 </dd>
 </dl>
@@ -741,17 +743,17 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.concatenate_adjacency">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">concatenate_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adja_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#concatenate_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.concatenate_adjacency" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>adja_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The adjacency matrices that one wants to merge.</p></li>
-<li><p><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of nodes that are common to two consecutive graphs. Default to 1.</p></li>
+<li><p><strong>adja_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The adjacency matrices that one wants to merge.</p></li>
+<li><p><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of nodes that are common to two consecutive graphs. Default to 1.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Concatenated adjacency.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -771,14 +773,14 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.cycle_adjacency">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">cycle_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#cycle_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.cycle_adjacency" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Adjacency matrix of a cycle graph <span class="math notranslate nohighlight">\(C_n\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/CycleGraph.html">https://mathworld.wolfram.com/CycleGraph.html</a>).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -787,14 +789,14 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.path_adjacency">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">path_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#path_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.path_adjacency" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Adjacency matrix of a path graph <span class="math notranslate nohighlight">\(P_n\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/PathGraph.html">https://mathworld.wolfram.com/PathGraph.html</a>).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -803,14 +805,14 @@
 <dt class="sig sig-object py" id="stochastic_matching.graphs.star_adjacency">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">star_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#star_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.star_adjacency" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Adjacency matrix of a star graph <span class="math notranslate nohighlight">\(S_n\)</span> (<a class="reference external" href="https://mathworld.wolfram.com/StarGraph.html">https://mathworld.wolfram.com/StarGraph.html</a>).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

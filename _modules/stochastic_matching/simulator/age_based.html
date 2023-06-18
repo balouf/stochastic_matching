@@ -11,10 +11,11 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../../../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>stochastic_matching.simulator.age_based</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stochastic_matching.simulator.age_based</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -86,7 +91,7 @@
 
 
 <div class="viewcode-block" id="qstate_core_maker"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.qstate_core_maker">[docs]</a><span class="k">def</span> <span class="nf">qstate_core_maker</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">simple_selector</span><span class="p">,</span> <span class="n">hyper_selector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    graph: :class:`~stochastic_matching.graphs.classes.SimpleGraph` or :class:`~stochastic_matching.graphs.classes.HyperGraph`</span>
@@ -167,13 +172,13 @@
 
 
 <div class="viewcode-block" id="QueueStateSimulator"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.QueueStateSimulator">[docs]</a><span class="k">class</span> <span class="nc">QueueStateSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class derived from :class:`~stochastic_matching.simulator.generic.Simulator`</span>
 <span class="sd">    for greedy simulator based on the states of queues (including age of items).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="QueueStateSimulator.set_inners"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.QueueStateSimulator.set_inners">[docs]</a>    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Incorporate `queue_start`, `queue_end`, and `items` to the inner variables.</span>
 
 <span class="sd">        Returns</span>
@@ -186,7 +191,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="QueueStateSimulator.set_core_from_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.QueueStateSimulator.set_core_from_selector">[docs]</a>    <span class="k">def</span> <span class="nf">set_core_from_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple_selector</span><span class="p">,</span> <span class="n">hyper_selector</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the core engine for a greedy policy.</span>
 
 <span class="sd">        Parameters</span>
@@ -205,7 +210,7 @@
 
 <div class="viewcode-block" id="simple_state_choicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.simple_state_choicer">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">simple_state_choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    neighbors: :class:`~numba.typed.List`</span>
@@ -238,7 +243,7 @@
 
 <div class="viewcode-block" id="hyper_state_choicer"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.hyper_state_choicer">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">hyper_state_choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    neighbors: :class:`~numba.typed.List`</span>
@@ -273,7 +278,7 @@
 
 <div class="viewcode-block" id="fcfm_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.fcfm_selector">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">fcfm_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">max_queue</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Select the edge with oldest item.</span>
 
 <span class="sd">    Parameters</span>
@@ -323,7 +328,7 @@
 
 <div class="viewcode-block" id="fcfm_hyper_selector"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.fcfm_hyper_selector">[docs]</a><span class="nd">@njit</span>
 <span class="k">def</span> <span class="nf">fcfm_hyper_selector</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">max_queue</span><span class="p">,</span> <span class="n">queue_start</span><span class="p">,</span> <span class="n">queue_end</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Select the edge with oldest item.</span>
 
 <span class="sd">    Parameters</span>
@@ -385,7 +390,7 @@
 
 
 <div class="viewcode-block" id="FCFM"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.FCFM">[docs]</a><span class="k">class</span> <span class="nc">FCFM</span><span class="p">(</span><span class="n">QueueStateSimulator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.age_based.QueueStateSimulator`.</span>
 <span class="sd">    When multiple choices are possible, the oldest item is chosen.</span>
 
@@ -443,12 +448,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fcfm&#39;</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    String that can be use to refer to that simulator.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="FCFM.set_core"><a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.age_based.FCFM.set_core">[docs]</a>    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Build the core engine to choose the oldest item.</span>
 
 <span class="sd">        Returns</span>

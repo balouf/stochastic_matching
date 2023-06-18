@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Display &mdash; Stochastic Matching 0.2.1 documentation</title>
@@ -12,10 +12,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -29,15 +30,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Stochastic Matching
-            <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Stochastic Matching
+              <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 0.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -51,7 +56,21 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graphs.html">Graphs</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Display</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Display</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.HTML_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">HYPER_GRAPH_VIS_OPTIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.PNG_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">PNG_TEMPLATE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION"><code class="docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">VIS_OPTIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.default_description"><code class="docutils literal notranslate"><span class="pre">default_description()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.info_maker"><code class="docutils literal notranslate"><span class="pre">info_maker()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.int_2_str"><code class="docutils literal notranslate"><span class="pre">int_2_str()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.vis_code"><code class="docutils literal notranslate"><span class="pre">vis_code()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.vis_converter"><code class="docutils literal notranslate"><span class="pre">vis_converter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic_matching.display.vis_show"><code class="docutils literal notranslate"><span class="pre">vis_show()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="simulator.html">Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
 </ul>
@@ -74,9 +93,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Reference</a> &raquo;</li>
-      <li>Display</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">Display</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/reference/display.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,32 +105,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="display">
-<h1>Display<a class="headerlink" href="#display" title="Permalink to this headline"></a></h1>
+  <section id="display">
+<h1>Display<a class="headerlink" href="#display" title="Permalink to this heading"></a></h1>
 <p>Display method (mostly using visJS).</p>
 <span class="target" id="module-stochastic_matching.display"></span><dl class="py data">
 <dt class="sig sig-object py" id="stochastic_matching.display.HTML_TEMPLATE">
@@ -147,13 +142,13 @@
 <dt class="sig sig-object py" id="stochastic_matching.display.default_description">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">default_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#default_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.default_description" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">stochastic_matching.model.Model</span></code></a>) – Model to visualize.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p>nodes_info <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <cite>dict</cite> – Skeleton node description.</p></li>
-<li><p>nodes_info <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <cite>dict</cite> – Skeleton node description.</p></li>
+<li><p>nodes_info <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <cite>dict</cite> – Skeleton node description.</p></li>
+<li><p>nodes_info <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <cite>dict</cite> – Skeleton node description.</p></li>
 </ul>
 </p>
 </dd>
@@ -190,23 +185,23 @@
 <dt class="sig sig-object py" id="stochastic_matching.display.info_maker">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">info_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#info_maker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.info_maker" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to visualize.</p></li>
-<li><p><strong>disp_rates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Labels the nodes with their rates. Otherwise the names are used.</p></li>
-<li><p><strong>disp_flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Label the edges with the given flow.</p></li>
-<li><p><strong>flow</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Flow to use. If None, the base flow will be used. If not None, overrides <cite>disp_flow</cite>.</p></li>
-<li><p><strong>disp_kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Display the kernel basis on the edges. Compatible with the display of a flow.</p></li>
-<li><p><strong>disp_zero</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If False, do not label the edge with a null flow.</p></li>
-<li><p><strong>check_flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If True, color the edges with their positivity and the nodes with their compliance to the conservation law.</p></li>
-<li><p><strong>check_tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – Relative error when checking conservation law on nodes.
+<li><p><strong>disp_rates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Labels the nodes with their rates. Otherwise the names are used.</p></li>
+<li><p><strong>disp_flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Label the edges with the given flow.</p></li>
+<li><p><strong>flow</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Flow to use. If None, the base flow will be used. If not None, overrides <cite>disp_flow</cite>.</p></li>
+<li><p><strong>disp_kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Display the kernel basis on the edges. Compatible with the display of a flow.</p></li>
+<li><p><strong>disp_zero</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If False, do not label the edge with a null flow.</p></li>
+<li><p><strong>check_flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If True, color the edges with their positivity and the nodes with their compliance to the conservation law.</p></li>
+<li><p><strong>check_tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – Relative error when checking conservation law on nodes.
 For simulations, a relatively high value is recommended, for example 1e-2.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>nodes_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of nodes.</p></li>
-<li><p><strong>edges_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of edges.</p></li>
+<li><p><strong>nodes_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of nodes.</p></li>
+<li><p><strong>edges_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of edges.</p></li>
 </ul>
 </p>
 </dd>
@@ -304,17 +299,17 @@ and the label of an edge is its Moore_penrose flow.</p>
 <dt class="sig sig-object py" id="stochastic_matching.display.int_2_str">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">int_2_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#int_2_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.int_2_str" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – A stochastic model.</p></li>
-<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Node index.</p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Node index.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Name of the node.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -343,18 +338,18 @@ It is basically a pipe
 <a class="reference internal" href="#stochastic_matching.display.vis_show" title="stochastic_matching.display.vis_show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_show()</span></code></a>.</p>
 <p>The extra arguments are passed when needed on the right spot along the pipe, allowing maximal flexibility.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – The model to display.</p></li>
-<li><p><strong>bipartite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Tells if the bipartite node/edge structure should be explicitly shown.</p></li>
-<li><p><strong>png</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Make a mirror PNG that can be saved.</p></li>
+<li><p><strong>bipartite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Tells if the bipartite node/edge structure should be explicitly shown.</p></li>
+<li><p><strong>png</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Make a mirror PNG that can be saved.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword arguments. See <a class="reference internal" href="#stochastic_matching.display.info_maker" title="stochastic_matching.display.info_maker"><code class="xref py py-meth docutils literal notranslate"><span class="pre">info_maker()</span></code></a>,
 <a class="reference internal" href="#stochastic_matching.display.vis_converter" title="stochastic_matching.display.vis_converter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_converter()</span></code></a>, and
 <a class="reference internal" href="#stochastic_matching.display.vis_show" title="stochastic_matching.display.vis_show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_show()</span></code></a> for details.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.14.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -395,21 +390,21 @@ It is basically a pipe
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">vis_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vis_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#vis_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.vis_code" title="Permalink to this definition"></a></dt>
 <dd><p>Create HTML to display a Vis network graph.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
-<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
-<li><p><strong>vis_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
-<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Template to use. Default to <a class="reference internal" href="#stochastic_matching.display.HTML_TEMPLATE" title="stochastic_matching.display.HTML_TEMPLATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code></a>.</p></li>
-<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js. Default to <a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION" title="stochastic_matching.display.VIS_LOCATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></p></li>
-<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
+<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
+<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
+<li><p><strong>vis_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Template to use. Default to <a class="reference internal" href="#stochastic_matching.display.HTML_TEMPLATE" title="stochastic_matching.display.HTML_TEMPLATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code></a>.</p></li>
+<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js. Default to <a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION" title="stochastic_matching.display.VIS_LOCATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></p></li>
+<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vis code (HTML by default).</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -446,19 +441,19 @@ It is basically a pipe
 <dt class="sig sig-object py" id="stochastic_matching.display.vis_converter">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">vis_converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#vis_converter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.vis_converter" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to visualize.</p></li>
-<li><p><strong>nodes_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of nodes.</p></li>
-<li><p><strong>edges_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of edges.</p></li>
+<li><p><strong>nodes_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of nodes.</p></li>
+<li><p><strong>edges_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of edges.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of the nodes that will be displayed in vis.
+<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of the nodes that will be displayed in vis.
 If the graph is simple, this is just the input nodes.
 For hypergraphs, both nodes and hyperedges are displayed as nodes in vis.</p></li>
-<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of the edges that will be displayed in vis.
+<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of the edges that will be displayed in vis.
 If the graph is simple, this is just the input edges, with endpoints info added for vis.
 For hypergraphs, each edge in vis links a node and a hyperedge..</p></li>
 </ul>
@@ -517,18 +512,18 @@ For hypergraphs, each edge in vis links a node and a hyperedge..</p></li>
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">vis_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vis_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#vis_show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.vis_show" title="Permalink to this definition"></a></dt>
 <dd><p>Display a Vis graph (within a IPython / Jupyter session).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
-<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
-<li><p><strong>vis_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
-<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Template to use. Default to <a class="reference internal" href="#stochastic_matching.display.HTML_TEMPLATE" title="stochastic_matching.display.HTML_TEMPLATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code></a>.</p></li>
-<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js. Default to <a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION" title="stochastic_matching.display.VIS_LOCATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></p></li>
-<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
+<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
+<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
+<li><p><strong>vis_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Template to use. Default to <a class="reference internal" href="#stochastic_matching.display.HTML_TEMPLATE" title="stochastic_matching.display.HTML_TEMPLATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code></a>.</p></li>
+<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js. Default to <a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION" title="stochastic_matching.display.VIS_LOCATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></p></li>
+<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v8.14.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
