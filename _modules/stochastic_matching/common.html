@@ -296,18 +296,18 @@
 
 <span class="sd">    Egde of node 3:</span>
 
-<span class="sd">    &gt;&gt;&gt; neighbors(3, csr_matrix(incidence))</span>
-<span class="sd">    array([2])</span>
+<span class="sd">    &gt;&gt;&gt; neighbors(3, csr_matrix(incidence)) # doctest: +ELLIPSIS</span>
+<span class="sd">    array([2]...)</span>
 
 <span class="sd">    Nodes of edge 0:</span>
 
-<span class="sd">    &gt;&gt;&gt; neighbors(0, csc_matrix(incidence))</span>
-<span class="sd">    array([0, 1])</span>
+<span class="sd">    &gt;&gt;&gt; neighbors(0, csc_matrix(incidence)) # doctest: +ELLIPSIS</span>
+<span class="sd">    array([0, 1]...)</span>
 
 <span class="sd">    Nodes of hyperedge 2:</span>
 
-<span class="sd">    &gt;&gt;&gt; neighbors(2, csc_matrix(incidence))</span>
-<span class="sd">    array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; neighbors(2, csc_matrix(incidence)) # doctest: +ELLIPSIS</span>
+<span class="sd">    array([0, 1, 2, 3]...)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">compressed_incidence</span><span class="o">.</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span></div>
 
