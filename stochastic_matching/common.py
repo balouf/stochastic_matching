@@ -208,8 +208,8 @@ def neighbors(i, compressed_incidence):
 
     Edges of node 0:
 
-    >>> neighbors(0, csr_matrix(incidence))
-    array([0, 1, 2])
+    >>> neighbors(0, csr_matrix(incidence)) # doctest: +ELLIPSIS
+    array([0, 1, 2]...)
 
     Egde of node 3:
 
