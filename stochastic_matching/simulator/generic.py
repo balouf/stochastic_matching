@@ -269,7 +269,7 @@ class Simulator:
         steps = self.logs['steps_done']
         return self.logs['trafic']*tot_mu/steps
 
-    def show_ccdf(self, indices=None, sort=None):
+    def show_ccdf(self, indices=None, sort=None, strict=False):
         """
         Parameters
         ----------
@@ -277,6 +277,8 @@ class Simulator:
             Indices of the nodes to display
         sort: :class:`bool`, optional
             If True, order the nodes by decreasing average queue size
+        strict: :class:`bool`, default = False
+            Draws the curves as a true piece-wise function
 
         Returns
         -------
@@ -298,7 +300,18 @@ class Simulator:
             ccdf = ccdf[ind, :]
             names = [names[i] for i in ind]
         for i, name in enumerate(names):
-            plt.semilogy(ccdf[i, ccdf[i, :] > 0], label=name)
+            if strict:
+                data = ccdf[i, ccdf[i, :] > 0]
+                n_d = len(data)
+                x = np.zeros(2*n_d-1)
+                x[::2] = np.arange(n_d)
+                x[1::2] = np.arange(n_d-1)
+                y = np.zeros(2 * n_d - 1)
+                y[::2] = data
+                y[1::2] = data[1:]
+                plt.semilogy(x, y, label=name)
+            else:
+                plt.semilogy(ccdf[i, ccdf[i, :] > 0], label=name)
         plt.legend()
         plt.xlim([0, None])
         plt.ylim([None, 1])
