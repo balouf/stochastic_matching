@@ -1,124 +1,466 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple and Hyper Graphs &mdash; Stochastic Matching 0.2.2 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simple and Hyper Graphs &#8212; Stochastic Matching 0.2.2 documentation</title>
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="../_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=000c92bf"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/graphs';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Analysis of rates" href="analysis.html" />
-    <link rel="prev" title="Getting Started" href="quickstart.html" /> 
-</head>
+    <link rel="prev" title="Getting Started" href="quickstart.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            Stochastic Matching
-              <img src="../_static/sm_logo_short.png" class="logo" alt="Logo"/>
-          </a>
-              <div class="version">
-                0.2.2
-              </div>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Stochastic Matching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Simple and Hyper Graphs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Simple-graph:-manual-definition-and-basic-usage">Simple graph: manual definition and basic usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Pre-defined-models">Pre-defined models</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Path-graphs">Path graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Cycle-graphs">Cycle graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Star-graphs">Star graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Complete-graphs">Complete graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Tadpole-graphs">Tadpole graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Lollipop-graphs">Lollipop graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Kayak-paddle-graphs">Kayak paddle graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Barbell-graph">Barbell graph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Chained-cycle-graphs">Chained cycle graphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Concatenation">Concatenation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Package-logo">Package logo</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#Hypergraphs">Hypergraphs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Simple-graphs-as-hypergraphs">Simple graphs as hypergraphs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Hyper-paddle">Hyper paddle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Fans">Fans</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="analysis.html">Analysis of rates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="simulator.html">Simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reproducibility.html">Stochastic matching on simple graphs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-</ul>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-        </div>
-      </div>
-    </nav>
+  
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Stochastic Matching</a>
-      </nav>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.2.2 documentation - Home"/>
+    <script>document.write(`<img src="../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.2.2 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../readme.html">
+                        Stochastic Matching
+                      </a>
+                    </li>
+                
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
-      <li class="breadcrumb-item active">Simple and Hyper Graphs</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/tutorials/graphs.ipynb.txt" rel="nofollow"> View page source</a>
-      </li>
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Tutorials
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../authors.html">
+                        Credits
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../history.html">
+                        History
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../readme.html">
+                        Stochastic Matching
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Tutorials
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../authors.html">
+                        Credits
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../history.html">
+                        History
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Simple and Hyper Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis of rates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducibility.html">Stochastic matching on simple graphs</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Simple and...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="Simple-and-Hyper-Graphs">
-<h1>Simple and Hyper Graphs<a class="headerlink" href="#Simple-and-Hyper-Graphs" title="Permalink to this heading"></a></h1>
+<h1>Simple and Hyper Graphs<a class="headerlink" href="#Simple-and-Hyper-Graphs" title="Link to this heading">#</a></h1>
 <p><em>Stochastic Matchings</em> allows to build arbitrary models from their graph adjacency or incidence matrix, but also to directly instantiate some families. This tutorial gives a tour of these families and details the graph behavior of a <em>Model</em> instance.</p>
 <p>First, we load the package.</p>
 <div class="nbinput nblast docutils container">
@@ -130,7 +472,7 @@
 </div>
 </div>
 <section id="Simple-graph:-manual-definition-and-basic-usage">
-<h2>Simple graph: manual definition and basic usage<a class="headerlink" href="#Simple-graph:-manual-definition-and-basic-usage" title="Permalink to this heading"></a></h2>
+<h2>Simple graph: manual definition and basic usage<a class="headerlink" href="#Simple-graph:-manual-definition-and-basic-usage" title="Link to this heading">#</a></h2>
 <p>A simple graph can be defined by providing its adjacency or incidence matrix. We give a tour of the possibilities using the diamond graph as running example.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -426,7 +768,7 @@ network.fit({
 </div>
 </section>
 <section id="Pre-defined-models">
-<h2>Pre-defined models<a class="headerlink" href="#Pre-defined-models" title="Permalink to this heading"></a></h2>
+<h2>Pre-defined models<a class="headerlink" href="#Pre-defined-models" title="Link to this heading">#</a></h2>
 <p>For convenience, many graph families are provided. You can have the list with the <code class="docutils literal notranslate"><span class="pre">get_class</span></code> method.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -458,7 +800,7 @@ network.fit({
 </pre></div></div>
 </div>
 <section id="Path-graphs">
-<h3>Path graphs<a class="headerlink" href="#Path-graphs" title="Permalink to this heading"></a></h3>
+<h3>Path graphs<a class="headerlink" href="#Path-graphs" title="Link to this heading">#</a></h3>
 <p>Paths are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> (the size, e.g. number of nodes) that defaults to 2.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
@@ -530,7 +872,7 @@ network.fit({
 </div>
 </section>
 <section id="Cycle-graphs">
-<h3>Cycle graphs<a class="headerlink" href="#Cycle-graphs" title="Permalink to this heading"></a></h3>
+<h3>Cycle graphs<a class="headerlink" href="#Cycle-graphs" title="Link to this heading">#</a></h3>
 <p>Cycles are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> that defaults to 3.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
@@ -602,7 +944,7 @@ network.fit({
 </div>
 </section>
 <section id="Star-graphs">
-<h3>Star graphs<a class="headerlink" href="#Star-graphs" title="Permalink to this heading"></a></h3>
+<h3>Star graphs<a class="headerlink" href="#Star-graphs" title="Link to this heading">#</a></h3>
 <p>Stars are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> (the number of nodes) that defaults to 4.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
@@ -674,7 +1016,7 @@ network.fit({
 </div>
 </section>
 <section id="Complete-graphs">
-<h3>Complete graphs<a class="headerlink" href="#Complete-graphs" title="Permalink to this heading"></a></h3>
+<h3>Complete graphs<a class="headerlink" href="#Complete-graphs" title="Link to this heading">#</a></h3>
 <p>Complete graphs are defined by a parameter <span class="math notranslate nohighlight">\(n\)</span> that defaults to 3.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
@@ -746,7 +1088,7 @@ network.fit({
 </div>
 </section>
 <section id="Tadpole-graphs">
-<h3>Tadpole graphs<a class="headerlink" href="#Tadpole-graphs" title="Permalink to this heading"></a></h3>
+<h3>Tadpole graphs<a class="headerlink" href="#Tadpole-graphs" title="Link to this heading">#</a></h3>
 <p>A tadpole combines a cycle of length <span class="math notranslate nohighlight">\(m\)</span> and a path of length <span class="math notranslate nohighlight">\(n\)</span>. Default is the paw graph (<span class="math notranslate nohighlight">\(m=3, n=1\)</span>)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
@@ -891,7 +1233,7 @@ network.fit({
 </div>
 </section>
 <section id="Lollipop-graphs">
-<h3>Lollipop graphs<a class="headerlink" href="#Lollipop-graphs" title="Permalink to this heading"></a></h3>
+<h3>Lollipop graphs<a class="headerlink" href="#Lollipop-graphs" title="Link to this heading">#</a></h3>
 <p>A lollipop combines a complete graph of size <span class="math notranslate nohighlight">\(m\)</span> and a path of length <span class="math notranslate nohighlight">\(n\)</span>. Default is the paw graph (<span class="math notranslate nohighlight">\(m=3, n=1\)</span>)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
@@ -998,7 +1340,7 @@ network.fit({
 </div>
 </section>
 <section id="Kayak-paddle-graphs">
-<h3>Kayak paddle graphs<a class="headerlink" href="#Kayak-paddle-graphs" title="Permalink to this heading"></a></h3>
+<h3>Kayak paddle graphs<a class="headerlink" href="#Kayak-paddle-graphs" title="Link to this heading">#</a></h3>
 <p>Combines a cycle of length <span class="math notranslate nohighlight">\(k\)</span>, a path of length <span class="math notranslate nohighlight">\(l\)</span>, and a cycle of length <span class="math notranslate nohighlight">\(m\)</span>. Defaults to <span class="math notranslate nohighlight">\(k=3, l=1, m=k\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
@@ -1105,7 +1447,7 @@ network.fit({
 </div>
 </section>
 <section id="Barbell-graph">
-<h3>Barbell graph<a class="headerlink" href="#Barbell-graph" title="Permalink to this heading"></a></h3>
+<h3>Barbell graph<a class="headerlink" href="#Barbell-graph" title="Link to this heading">#</a></h3>
 <p>Combines a complete graph of size <span class="math notranslate nohighlight">\(k\)</span>, a path of length <span class="math notranslate nohighlight">\(l\)</span>, and a complete graph of size <span class="math notranslate nohighlight">\(m\)</span>. Defaults to <span class="math notranslate nohighlight">\(k=3, l=1, m=k\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
@@ -1211,7 +1553,7 @@ network.fit({
 </div>
 </section>
 <section id="Chained-cycle-graphs">
-<h3>Chained cycle graphs<a class="headerlink" href="#Chained-cycle-graphs" title="Permalink to this heading"></a></h3>
+<h3>Chained cycle graphs<a class="headerlink" href="#Chained-cycle-graphs" title="Link to this heading">#</a></h3>
 <p>Concatenates cycles of size <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(c\)</span> of them. Each cycle has <span class="math notranslate nohighlight">\(o\)</span> nodes that overlap with the next one. Defaults to <span class="math notranslate nohighlight">\(n=3, c=2, o=2\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
@@ -1425,7 +1767,7 @@ network.fit({
 </div>
 </section>
 <section id="Concatenation">
-<h3>Concatenation<a class="headerlink" href="#Concatenation" title="Permalink to this heading"></a></h3>
+<h3>Concatenation<a class="headerlink" href="#Concatenation" title="Link to this heading">#</a></h3>
 <p>Building more elaborate graphs on top of the provided generators is relatively easy.).</p>
 <p>One way to build these graphs is to use concatenation.</p>
 <p>Concatenation generalizes the chained cycles above. It uses a list of graphs and the overlapping between graph. Overlapping can be uniform or heterogeneous (you need then to provide a list of overlaps).</p>
@@ -1607,7 +1949,7 @@ network.fit({
 </div>
 </section>
 <section id="Package-logo">
-<h3>Package logo<a class="headerlink" href="#Package-logo" title="Permalink to this heading"></a></h3>
+<h3>Package logo<a class="headerlink" href="#Package-logo" title="Link to this heading">#</a></h3>
 <p>The logo of <code class="docutils literal notranslate"><span class="pre">stochastic</span> <span class="pre">matching</span></code> was made with <code class="docutils literal notranslate"><span class="pre">stochastic</span> <span class="pre">matching</span></code>. Here is the code that produced the big version.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
@@ -1713,10 +2055,10 @@ network.fit({
 </section>
 </section>
 <section id="Hypergraphs">
-<h2>Hypergraphs<a class="headerlink" href="#Hypergraphs" title="Permalink to this heading"></a></h2>
+<h2>Hypergraphs<a class="headerlink" href="#Hypergraphs" title="Link to this heading">#</a></h2>
 <p>Hypergraph egdes can link an arbitrary number of nodes (nor necessarily 2). Hypergraphs mainly differ from simple graphs by the absence of adjacency matrix (only the incidence matrix is used) and a different way of been displayed.</p>
 <section id="Simple-graphs-as-hypergraphs">
-<h3>Simple graphs as hypergraphs<a class="headerlink" href="#Simple-graphs-as-hypergraphs" title="Permalink to this heading"></a></h3>
+<h3>Simple graphs as hypergraphs<a class="headerlink" href="#Simple-graphs-as-hypergraphs" title="Link to this heading">#</a></h3>
 <p>All simple graphs are hypergraphs if you remove the adjacency.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
@@ -1791,7 +2133,7 @@ network.fit({
 </div>
 </section>
 <section id="Hyper-paddle">
-<h3>Hyper paddle<a class="headerlink" href="#Hyper-paddle" title="Permalink to this heading"></a></h3>
+<h3>Hyper paddle<a class="headerlink" href="#Hyper-paddle" title="Link to this heading">#</a></h3>
 <p>Hyper paddles are like regular kayak paddles except that the <em>center</em> is made of 3-edges. For example, the <em>candy</em> graph, which is an important example when considering stability.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
@@ -1866,7 +2208,7 @@ network.fit({
 </div>
 </section>
 <section id="Fans">
-<h3>Fans<a class="headerlink" href="#Fans" title="Permalink to this heading"></a></h3>
+<h3>Fans<a class="headerlink" href="#Fans" title="Link to this heading">#</a></h3>
 <p>A fan is a certain number of cycles hyperconnected. They are useful to show simple examples of hypergraphs with non-trivial kernels, possibly degenerated. The simplest is the clover.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
@@ -1942,34 +2284,138 @@ network.fit({
 </section>
 
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="quickstart.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="analysis.html" class="btn btn-neutral float-right" title="Analysis of rates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, Fabien Mathieu.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="quickstart.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Getting Started</p>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+    <a class="right-next"
+       href="analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Analysis of rates</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-</body>
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Simple-graph:-manual-definition-and-basic-usage">Simple graph: manual definition and basic usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Pre-defined-models">Pre-defined models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Path-graphs">Path graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Cycle-graphs">Cycle graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Star-graphs">Star graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Complete-graphs">Complete graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Tadpole-graphs">Tadpole graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Lollipop-graphs">Lollipop graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Kayak-paddle-graphs">Kayak paddle graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Barbell-graph">Barbell graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Chained-cycle-graphs">Chained cycle graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Concatenation">Concatenation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Package-logo">Package logo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Hypergraphs">Hypergraphs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Simple-graphs-as-hypergraphs">Simple graphs as hypergraphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Hyper-paddle">Hyper paddle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Fans">Fans</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/tutorials/graphs.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>
