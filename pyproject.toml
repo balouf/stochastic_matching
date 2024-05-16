@@ -54,6 +54,8 @@ python =
 
 [testenv]
 passenv = PYTHON_VERSION
+setenv =
+    NUMBA_DISABLE_JIT=1
 allowlist_externals = poetry
 commands =
     poetry install -v
