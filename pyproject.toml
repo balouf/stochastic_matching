@@ -16,6 +16,7 @@ matplotlib = "^3.9.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^5.0.0"
+tox = "^4.15.0"
 
 
 [tool.poetry.group.docs.dependencies]
