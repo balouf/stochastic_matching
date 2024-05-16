@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "stochastic-matching"
+version = "0.2.2"
+description = "Stochastic Matching provides tools to analyze the behavior of stochastic matching problems."
+authors = ["Fabien Mathieu <fabien.mathieu@normalesup.org>"]
+license = "GPLv3"
+readme = "README.rst"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numba = "^0.59.1"
+scipy = "^1.13.0"
+cached-property = "^1.5.2"
+ipython = "^8.24.0"
+matplotlib = "^3.9.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+
+
+[tool.poetry.group.docs.dependencies]
+pydata-sphinx-theme = "^0.15.2"
+sphinx-mdinclude = "^0.6.0"
+nbsphinx = "^0.9.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.coverage.run]
+branch = true
+source = ["stochastic_matching"]
+
+[tool.coverage.html]
+directory = "cov"
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --ignore=hooks --cov --cov-config=pyproject.toml --cov-report xml --cov-report html --showlocals --capture=no --exitfirst --failed-first"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist = true
+
+[gh-actions]
+python =
+    3.10: py310
+    3.11: py311
+    3.12: py312
+
+[testenv]
+passenv = PYTHON_VERSION
+allowlist_externals = poetry
+commands =
+    poetry install -v
+    pytest
+"""
+
+[tool.poetry_bumpversion.file."stochastic_matching/__init__.py"]
+
+

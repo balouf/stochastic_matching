@@ -33,7 +33,7 @@ import stochastic_matching
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.napoleon', 'sphinx.ext.githubpages',
               'sphinx.ext.intersphinx', 'nbsphinx', 'IPython.sphinxext.ipython_console_highlighting',
-              'sphinx.ext.imgconverter']
+              'sphinx.ext.imgconverter', 'sphinx_mdinclude']
 
 # Add the possibility to access python documentation.
 intersphinx_mapping = {'python':('https://docs.python.org/3', None),
@@ -52,8 +52,8 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
+# source_suffix = '.rst'
 
 # Favicon
 html_favicon = 'favicon.ico'
@@ -103,13 +103,30 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 # html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
+# html_theme = 'sphinx_rtd_theme'
+html_theme = "pydata_sphinx_theme"
+
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.  For a list of options available for each theme, see the
 # documentation.
 #
 # html_theme_options = {}
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/balouf/stochastic_matching",
+            "icon": "fa-brands fa-github",
+        },
+    ],
+    "header_links_before_dropdown": 5,
+    "show_nav_level": 2,
+    "show_toc_level": 2,
+    "navigation_depth": 2,
+}
+
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

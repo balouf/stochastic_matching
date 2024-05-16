@@ -1,17 +1,20 @@
-=======
-History
-=======
+# History
 
-------------------------------------------------
-0.2.2 (2023-06-18): Improved CCDF
-------------------------------------------------
+## 0.3.0 (2024-05-17): Let's boost things
+
+* Switch to Poetry
+  * Easier package maintainance
+  * Pydata documentation style
+  * Supported Python version: >=3.10
+* TODO: Stolyar
+* TODO: epsilon
+
+## 0.2.2 (2023-06-18): Improved CCDF
 
 * Add a function to draw the (discrete) CCDFs piecewise
 * New range of officially supported Python versions: 3.6 -> 3.11
 
-------------------------------------------------
-0.2.1 (2022-02-03): Big little update
-------------------------------------------------
+## 0.2.1 (2022-02-03): Big little update
 
 * New optimize_rates for Model. Outputs a flow that optimizes the rates according to some reward weights.
 * Refactoring: policies formerly called semi-greedy are now called (semi)-filtering.
@@ -21,9 +24,7 @@ History
 * The notebook used for paper https://hal.archives-ouvertes.fr/hal-03502084 is now included in the documentation.
 * Bug hunt: very large simulation could overflow silently (solved by switching logs from uint32 to uint64).
 
------------------------------------
-0.2.0 (2022-01-24): Brand new API
------------------------------------
+## 0.2.0 (2022-01-24): Brand new API
 
 As the package is at early stage, it had to go through a lot of refactoring.
 Hopefully, the result should be more easy to use.
@@ -47,9 +48,7 @@ Minor changes:
 * Notebooks tutorials have been updated to cope with the new API.
 
 
----------------------------------
-0.1.0 (2022-01-13): First release
----------------------------------
+## 0.1.0 (2022-01-13): First release
 
 * First release on PyPI.
 * Refactoring: the package name for the public release is *Stochastic Matching*.
@@ -60,9 +59,7 @@ Minor changes:
 * Current compatibility: 3.6 -> 3.9
 
 
-----------------------------------------
-0.0.4 (2021-09-30): Misc. improvements
-----------------------------------------
+## 0.0.4 (2021-09-30): Misc. improvements
 
 * Add possibility to specify node names. The names are used for all display operations
 * New simulator method compute_ccdf to allow access outside show_ccdf
@@ -75,9 +72,7 @@ Minor changes:
 
 
 
-----------------------------------------
-0.0.3 (2021-08-24): Simulators are back!
-----------------------------------------
+## 0.0.3 (2021-08-24): Simulators are back!
 
 This update reintroduces simulators, fully revamped
 
@@ -101,9 +96,7 @@ This update reintroduces simulators, fully revamped
 * Old files removed from git for cleanliness
 
 
----------------------------------------
-0.0.2 (2021-07-22): Hyper-graph release
----------------------------------------
+## 0.0.2 (2021-07-22): Hyper-graph release
 
 Lots of changes in this update.
 
