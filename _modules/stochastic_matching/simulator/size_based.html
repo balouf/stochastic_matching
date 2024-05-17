@@ -447,7 +447,7 @@ document.write(`
 
 <div class="viewcode-block" id="qs_core_maker">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.size_based.qs_core_maker">[docs]</a>
-<span class="k">def</span> <span class="nf">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -459,8 +459,11 @@ document.write(`
 <span class="sd">        Input signature is (choices, queue_size)</span>
 <span class="sd">    forbidden_edges: :class:`list`, optional</span>
 <span class="sd">        Edges that are disabled.</span>
-<span class="sd">    threshold: :class:`int`</span>
+<span class="sd">    threshold: :class:`int`, optional</span>
 <span class="sd">        Queue size above which forbidden edges become available again.</span>
+<span class="sd">    epsilon: :class:`float`, optional</span>
+<span class="sd">        Probability to enable forbidden edges.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -469,24 +472,30 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">forbidden_edges</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">check_forbid</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+        <span class="k">elif</span> <span class="n">epsilon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">check_forbid</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">epsilon</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">check_forbid</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">check_forbid</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">check_forbid</span> <span class="o">=</span> <span class="n">njit</span><span class="p">(</span><span class="n">check_forbid</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">core_simulator</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">alias</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span>
                        <span class="n">neighbors</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>
-                       <span class="n">trafic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">):</span>
+                       <span class="n">trafic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">forbid</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">forbidden_edges</span><span class="p">}</span>
 
         <span class="c1"># Retrieve number of nodes and max_queue</span>
         <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
-
-        <span class="c1"># Place threshold out of range if not defined.</span>
-        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">threshold</span> <span class="o">=</span> <span class="n">max_queue</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">no_threshold</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">no_threshold</span> <span class="o">=</span> <span class="kc">False</span>
-
 
         <span class="c1"># Initiate random generator if seed is given</span>
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -505,12 +514,12 @@ document.write(`
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">prob</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
                 <span class="n">node</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
 
-            <span class="c1"># Check we do not cross the threshold</span>
-            <span class="n">contained</span> <span class="o">=</span> <span class="n">no_threshold</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">queue_size</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+            <span class="c1"># Check application of forbidden edges</span>
+            <span class="n">cf</span> <span class="o">=</span> <span class="n">check_forbid</span><span class="p">(</span><span class="n">queue_size</span><span class="p">)</span>
 
             <span class="c1"># If the arrival queue is non-empty, no new match is feasible with a greedy policy,</span>
             <span class="c1"># so we just update and move on unless queue overflows.</span>
-            <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">contained</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">cf</span><span class="p">:</span>
                 <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
@@ -519,7 +528,7 @@ document.write(`
                 <span class="n">choices</span> <span class="o">=</span> <span class="n">choicer</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
 
                 <span class="c1"># Do we restrain the edges?</span>
-                <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">contained</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cf</span><span class="p">:</span>
                     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">ej</span> <span class="k">for</span> <span class="n">ej</span> <span class="ow">in</span> <span class="n">choices</span> <span class="k">if</span> <span class="p">(</span><span class="n">ej</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">forbid</span><span class="p">)]</span>
 
                 <span class="k">if</span> <span class="n">choices</span><span class="p">:</span>  <span class="c1"># At least one possibility</span>
@@ -1088,6 +1097,8 @@ document.write(`
 <span class="sd">        (overrides forbidden_edges argument).</span>
 <span class="sd">    threshold: :class:`int`, optional</span>
 <span class="sd">        Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).</span>
+<span class="sd">    epsilon: :class:`float`, optional</span>
+<span class="sd">        Probability to enable forbidden edges (enforce stability on injective-only vertices).</span>
 <span class="sd">    **kwargs</span>
 <span class="sd">        Keyword arguments.</span>
 
@@ -1109,6 +1120,39 @@ document.write(`
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
 <span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
+
+<span class="sd">    Note that if the threshold is too low some exceptions are done to limit the queue sizes.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;filtering&#39;, weights=[1, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            threshold=10, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.102, 0.936, 0.966, 0.936, 0.018])</span>
+
+<span class="sd">    Having no relaxation usually leads to large, possibly overflowing, queues.</span>
+<span class="sd">    However, this doesn&#39;t show on small simulations.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;filtering&#39;, weights=[1, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            number_events=1000, max_queue=100)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulator.compute_average_queues()</span>
+<span class="sd">    array([7.495, 7.797, 1.067, 1.363])</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
+
+<span class="sd">    Using epsilon instead of threshold will apply epsilon-filtering.</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;filtering&#39;, weights=[1, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            epsilon=.01, number_events=1000, max_queue=1000)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.   , 0.984, 0.996, 0.966, 0.   ])</span>
+
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;filtering&#39;, weights=[1, 2, 2, 2, 1], seed=42,</span>
+<span class="sd">    ...                            epsilon=.1, number_events=1000, max_queue=100)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
+<span class="sd">    array([0.066, 0.912, 0.996, 0.894, 0.126])</span>
 
 <span class="sd">    To compare with the priority-based pure greedy version:</span>
 
@@ -1148,7 +1192,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;filtering&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">FilteringGreedy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
@@ -1158,7 +1202,7 @@ document.write(`
                 <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">choicer</span> <span class="o">=</span> <span class="n">SizeChoicer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
         <span class="n">selector</span> <span class="o">=</span> <span class="n">LongestSelector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">yield_jit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">qs_core_maker</span><span class="p">(</span><span class="n">choicer</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
 
 
 
