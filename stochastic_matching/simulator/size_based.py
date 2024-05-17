@@ -7,7 +7,7 @@ from stochastic_matching.simulator.generic import Simulator
 from stochastic_matching.common import class_converter
 
 
-def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
+def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None, epsilon=None):
     """
     Parameters
     ----------
@@ -19,8 +19,11 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
         Input signature is (choices, queue_size)
     forbidden_edges: :class:`list`, optional
         Edges that are disabled.
-    threshold: :class:`int`
+    threshold: :class:`int`, optional
         Queue size above which forbidden edges become available again.
+    epsilon: :class:`float`, optional
+        Probability to enable forbidden edges.
+
 
     Returns
     -------
@@ -29,24 +32,30 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
     """
     if forbidden_edges is not None:
         forbidden_edges = np.array(forbidden_edges)
+        if threshold is not None:
+            def check_forbid(qs):
+                return np.max(qs) < threshold
+        elif epsilon is not None:
+            def check_forbid(qs):
+                return np.random.rand() > epsilon
+        else:
+            def check_forbid(qs):
+                return True
+    else:
+        def check_forbid(qs):
+            return True
+
+    check_forbid = njit(check_forbid)
 
     def core_simulator(prob, alias, number_events, seed,
                        neighbors, queue_size,
-                       trafic, queue_log, steps_done, threshold=threshold):
+                       trafic, queue_log, steps_done):
 
         if forbidden_edges is not None:
             forbid = {k: True for k in forbidden_edges}
 
         # Retrieve number of nodes and max_queue
         n, max_queue = queue_log.shape
-
-        # Place threshold out of range if not defined.
-        if threshold is None:
-            threshold = max_queue + 1
-            no_threshold = True
-        else:
-            no_threshold = False
-
 
         # Initiate random generator if seed is given
         if seed is not None:
@@ -65,12 +74,12 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
             if np.random.rand() > prob[node]:
                 node = alias[node]
 
-            # Check we do not cross the threshold
-            contained = no_threshold or np.max(queue_size) < threshold
+            # Check application of forbidden edges
+            cf = check_forbid(queue_size)
 
             # If the arrival queue is non-empty, no new match is feasible with a greedy policy,
             # so we just update and move on unless queue overflows.
-            if queue_size[node] > 0 and contained:
+            if queue_size[node] > 0 and cf:
                 queue_size[node] += 1
                 if queue_size[node] == max_queue:
                     return steps_done + age + 1
@@ -79,7 +88,7 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None):
                 choices = choicer(neighbors, node, queue_size)
 
                 # Do we restrain the edges?
-                if forbidden_edges is not None and contained:
+                if forbidden_edges is not None and cf:
                     choices = [ej for ej in choices if (ej[0] not in forbid)]
 
                 if choices:  # At least one possibility
@@ -600,6 +609,8 @@ class FilteringGreedy(QueueSizeSimulator):
         (overrides forbidden_edges argument).
     threshold: :class:`int`, optional
         Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).
+    epsilon: :class:`float`, optional
+        Probability to enable forbidden edges (enforce stability on injective-only vertices).
     **kwargs
         Keyword arguments.
 
@@ -621,6 +632,39 @@ class FilteringGreedy(QueueSizeSimulator):
     True
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
+
+    Note that if the threshold is too low some exceptions are done to limit the queue sizes.
+
+    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            threshold=10, number_events=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([0.102, 0.936, 0.966, 0.936, 0.018])
+
+    Having no relaxation usually leads to large, possibly overflowing, queues.
+    However, this doesn't show on small simulations.
+
+    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            number_events=1000, max_queue=100)
+    True
+    >>> diamond.simulator.compute_average_queues()
+    array([7.495, 7.797, 1.067, 1.363])
+    >>> diamond.simulation
+    array([0.   , 0.954, 0.966, 0.954, 0.   ])
+
+    Using epsilon instead of threshold will apply epsilon-filtering.
+
+    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            epsilon=.01, number_events=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([0.   , 0.984, 0.996, 0.966, 0.   ])
+
+    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            epsilon=.1, number_events=1000, max_queue=100)
+    True
+    >>> diamond.simulation
+    array([0.066, 0.912, 0.996, 0.894, 0.126])
 
     To compare with the priority-based pure greedy version:
 
@@ -660,7 +704,7 @@ class FilteringGreedy(QueueSizeSimulator):
     """
     name = 'filtering'
 
-    def __init__(self, model, forbidden_edges=None, threshold=None, weights=None, **kwargs):
+    def __init__(self, model, forbidden_edges=None, threshold=None, epsilon=None, weights=None, **kwargs):
         super(FilteringGreedy, self).__init__(model, **kwargs)
         if weights is not None:
             weights = np.array(weights)
@@ -670,7 +714,7 @@ class FilteringGreedy(QueueSizeSimulator):
                 forbidden_edges = None
         choicer = SizeChoicer(self.model).yield_jit()
         selector = LongestSelector(self.model).yield_jit()
-        self.core = qs_core_maker(choicer, selector, forbidden_edges=forbidden_edges, threshold=threshold)
+        self.core = qs_core_maker(choicer, selector, forbidden_edges=forbidden_edges, threshold=threshold, epsilon=epsilon)
 
 
 @njit

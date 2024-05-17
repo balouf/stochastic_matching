@@ -8,7 +8,7 @@ from stochastic_matching.simulator.generic import Simulator
 def vq_core(prob, alias, number_events, seed,
             incid_ptr, incid_ind, coinc_ptr, coinc_ind,
             ready_edges, scores, vq, queue_size,
-            trafic, queue_log, steps_done):
+            trafic, queue_log, steps_done, forbidden_edges):
     """
     Core virtual queue simulator. Currently fully monobloc for performance.
 
@@ -31,7 +31,7 @@ def vq_core(prob, alias, number_events, seed,
     coinc_ind: :class:`~numpy.ndarray`
         Indices of the co-incidence matrix.
     ready_edges: :class:`~numpy.ndarray`
-        Boolen array of edges physically ready for activation.
+        Boolean array of edges physically ready for activation.
     scores: :class:`~numpy.ndarray`
         Scores of edges.
     vq: :class:`~numpy.ndarray`
@@ -44,6 +44,9 @@ def vq_core(prob, alias, number_events, seed,
         Monitor queue sizes.
     steps_done: :class:`int`
         Number of arrivals processed so far.
+    forbidden_edges: :class:`list`
+        Edges that are disabled.
+
 
     Returns
     -------
@@ -59,6 +62,11 @@ def vq_core(prob, alias, number_events, seed,
     # Initiate random generator if seed is given
     if seed is not None:
         np.random.seed(seed)
+
+    if forbidden_edges is not None:
+        forbid = {k: True for k in forbidden_edges}
+        for k in forbid:
+            scores[k] = -1
 
     # Start main loop
     age = 0
@@ -80,13 +88,14 @@ def vq_core(prob, alias, number_events, seed,
 
         # Browse adjacent edges
         for e in incid_ind[incid_ptr[node]:incid_ptr[node + 1]]:
-            scores[e] += 1  # Increase score
+            if forbidden_edges is None or e not in forbid:
+                scores[e] += 1  # Increase score
 
-            # Checks if edge turns to feasible
-            if queue_size[node] == 1:
-                # noinspection PyUnresolvedReferences
-                if np.all(queue_size[coinc_ind[coinc_ptr[e]:coinc_ptr[e + 1]]] > 0):
-                    ready_edges[e] = True
+                # Checks if edge turns to feasible
+                if queue_size[node] == 1:
+                    # noinspection PyUnresolvedReferences
+                    if np.all(queue_size[coinc_ind[coinc_ptr[e]:coinc_ptr[e + 1]]] > 0):
+                        ready_edges[e] = True
 
         # Select best edge
         # noinspection PyUnresolvedReferences
@@ -121,6 +130,20 @@ class VQSimulator(Simulator):
     Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.generic.Simulator`.
     Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).
 
+    Parameters
+    ----------
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    weights: :class:`~numpy.ndarray`, optional
+        Target rewards on edges.
+    beta: :class:`float`
+        Stabilization parameter. Close to 0, reward maximization is better but queues are more full.
+    forbidden_edges: :class:`list`, optional
+        Edges that are disabled.
+    **kwargs
+        Keyword arguments.
+
+
     Examples
     --------
 
@@ -149,6 +172,38 @@ class VQSimulator(Simulator):
            [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint64),
     'steps_done': 329}
 
+    Stable diamond without reward optimization:
+
+    >>> sim = VQSimulator(sm.CycleChain(rates=[1, 2, 2, 1]), number_events=1000, seed=42, max_queue=10)
+    >>> sim.run()
+    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    {'trafic': array([ 95,  84, 161,  84,  75], dtype=uint64),
+    'queue_log': array([[834, 123,  33,  10,   0,   0,   0,   0,   0,   0],
+           [642, 205,  77,  43,  24,   8,   1,   0,   0,   0],
+           [667, 224,  76,  25,   7,   1,   0,   0,   0,   0],
+           [814, 117,  36,  22,   5,   6,   0,   0,   0,   0]], dtype=uint64), 'steps_done': 1000}
+
+    Let's optimize (kill traffic on first and last edges).
+
+    >>> sim = VQSimulator(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0], number_events=1000, seed=42, max_queue=10)
+    >>> sim.run()
+    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    {'trafic': array([ 0, 29, 34, 28,  0], dtype=uint64),
+    'queue_log': array([[181,  16,   3,   0,   0,   0,   0,   0,   0,   0],
+           [157,  14,   8,   6,   7,   4,   3,   1,   0,   0],
+           [ 75,  24,  16,  14,  18,  25,   9,   7,   7,   5],
+           [ 88,  27,  11,  11,  14,  16,  17,  10,   6,   0]], dtype=uint64), 'steps_done': 200}
+
+    OK, it's working but we reached the maximal queue size quite fast. Let's reduce the pressure.
+
+    >>> sim = VQSimulator(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0], beta=.8, number_events=1000, seed=42, max_queue=10)
+    >>> sim.run()
+    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    {'trafic': array([ 32, 147, 160, 146,  13], dtype=uint64), 'queue_log': array([[741, 174,  61,  23,   1,   0,   0,   0,   0,   0],
+           [514, 128, 119, 114,  56,  38,  21,   9,   1,   0],
+           [675, 160,  96,  39,  22,   5,   2,   1,   0,   0],
+           [716, 162,  75,  29,  12,   6,   0,   0,   0,   0]], dtype=uint64), 'steps_done': 1000}
+
     A stable candy. While candies are not good for greedy policies, the virtual queue is
     designed to deal with it.
 
@@ -176,8 +231,14 @@ class VQSimulator(Simulator):
 
     name = 'virtual_queue'
     """
-    String that can be use to refer to that simulator.
+    String that can be used to refer to that simulator.
     """
+
+    def __init__(self, model, weights=None, beta=.01, forbidden_edges=None, **kwargs):
+        self.weight = np.array(weights) if weights is not None else None
+        self.beta = beta
+        self.forbidden_edges = forbidden_edges
+        super(VQSimulator, self).__init__(model, **kwargs)
 
     def set_inners(self):
         """
@@ -193,9 +254,11 @@ class VQSimulator(Simulator):
         self.inners['coinc_ptr'] = self.model.incidence_csc.indptr
         self.inners['coinc_ind'] = self.model.incidence_csc.indices
         self.inners['ready_edges'] = np.zeros(self.model.m, dtype=bool)
-        self.inners['scores'] = np.zeros(self.model.m, dtype=np.int32)
+        self.inners['scores'] = np.zeros(self.model.m) if self.weight is None else self.weight/self.beta
         self.inners['vq'] = np.zeros(self.model.m, dtype=np.uint32)
         self.inners['queue_size'] = np.zeros(self.model.n, dtype=np.uint32)
+        self.inners['forbidden_edges'] = self.forbidden_edges
+
 
     def set_core(self):
         """

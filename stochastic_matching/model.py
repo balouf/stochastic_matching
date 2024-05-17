@@ -63,7 +63,7 @@ def adjacency_to_incidence(adjacency):
 def incidence_to_adjacency(incidence):
     """
     Converts incidence matrix to adjacency matrix.
-    If the incidence matrix does not corresponds to a simple graph, an error is thrown.
+    If the incidence matrix does not correspond to a simple graph, an error is thrown.
 
     Parameters
     ----------
@@ -692,7 +692,7 @@ def traversal(model):
     'spanner': {19, 20, 21}, 'pivot': False, 'seeds': set(),
     'type': 'Tree'}]
 
-    These informations make the analysis worthy even in the cases where the graph is connected.
+    This information makes the analysis worthy even in the cases where the graph is connected.
 
     >>> traversal(sm.Pyramid()) # doctest: +NORMALIZE_WHITESPACE
     [{'nodes': {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},

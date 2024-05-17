@@ -101,9 +101,7 @@ class Simulator:
     Name that can be used to list all non-abstract classes.
     """
 
-    def __init__(self, model, number_events=1000000, seed=None, max_queue=1000, forbidden_edges=None):
-
-        self.forbidden_edges = forbidden_edges
+    def __init__(self, model, number_events=1000000, seed=None, max_queue=1000):
 
         self.model = model
         self.max_queue = max_queue
