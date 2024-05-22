@@ -705,7 +705,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;forbidden_edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_edges</span></div>
 
 
-
 <div class="viewcode-block" id="VQSimulator.set_core">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.VQSimulator.set_core">[docs]</a>
     <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -717,6 +716,284 @@ document.write(`
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">vq_core</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="true_vq_core">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.true_vq_core">[docs]</a>
+<span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">true_vq_core</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">alias</span><span class="p">,</span> <span class="n">number_events</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span>
+            <span class="n">incid_ptr</span><span class="p">,</span> <span class="n">incid_ind</span><span class="p">,</span> <span class="n">coinc_ptr</span><span class="p">,</span> <span class="n">coinc_ind</span><span class="p">,</span>
+            <span class="n">scores</span><span class="p">,</span> <span class="n">trafic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Core virtual queue simulator. Currently fully monobloc for performance.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    prob: :class:`~numpy.ndarray`</span>
+<span class="sd">        Probabilities to stay in the drawn bucket</span>
+<span class="sd">    alias: :class:`~numpy.ndarray`</span>
+<span class="sd">        Redirection array</span>
+<span class="sd">    number_events: :class:`int`</span>
+<span class="sd">        Number of arrivals to simulate.</span>
+<span class="sd">    seed: :class:`int`</span>
+<span class="sd">        Seed of the random generator</span>
+<span class="sd">    incid_ptr: :class:`~numpy.ndarray`</span>
+<span class="sd">        Pointers of the incidence matrix.</span>
+<span class="sd">    incid_ind: :class:`~numpy.ndarray`</span>
+<span class="sd">        Indices of the incidence matrix.</span>
+<span class="sd">    coinc_ptr: :class:`~numpy.ndarray`</span>
+<span class="sd">        Pointers of the co-incidence matrix.</span>
+<span class="sd">    coinc_ind: :class:`~numpy.ndarray`</span>
+<span class="sd">        Indices of the co-incidence matrix.</span>
+<span class="sd">    scores: :class:`~numpy.ndarray`</span>
+<span class="sd">        Scores of edges.</span>
+<span class="sd">    trafic: :class:`~numpy.ndarray`</span>
+<span class="sd">        Monitor trafic on edges.</span>
+<span class="sd">    queue_log: :class:`~numpy.ndarray`</span>
+<span class="sd">        Monitor queue sizes.</span>
+<span class="sd">    steps_done: :class:`int`</span>
+<span class="sd">        Number of arrivals processed so far.</span>
+<span class="sd">    forbidden_edges: :class:`list`</span>
+<span class="sd">        Edges that are disabled.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`int`</span>
+<span class="sd">        Number of steps processed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Retrieve number of nodes and max_queue</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1"># Retrieve number of edges</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trafic</span><span class="p">)</span>
+
+    <span class="n">ready_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">vq</span> <span class="o">=</span> <span class="p">{(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)}</span>
+    <span class="n">tail</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">queue_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+
+    <span class="c1"># Initiate random generator if seed is given</span>
+    <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">forbid</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">forbidden_edges</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">forbid</span><span class="p">:</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Start main loop</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_events</span><span class="p">):</span>
+
+        <span class="c1"># Update queue logs</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Draw an arrival</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">prob</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+
+        <span class="c1"># Increment queue, deal with overflowing</span>
+        <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Browse adjacent edges</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">incid_ind</span><span class="p">[</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">node</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+            <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">forbid</span><span class="p">:</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increase score</span>
+
+                <span class="c1"># Checks if edge turns to feasible</span>
+                <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c1"># noinspection PyUnresolvedReferences</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">queue_size</span><span class="p">[</span><span class="n">coinc_ind</span><span class="p">[</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                        <span class="n">ready_edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Select best edge</span>
+        <span class="c1"># noinspection PyUnresolvedReferences</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+
+        <span class="c1"># If the best edge is worthy</span>
+        <span class="k">if</span> <span class="n">scores</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">vq</span><span class="p">[</span><span class="n">tail</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="c1"># add edge to queue</span>
+            <span class="n">vq</span><span class="p">[(</span><span class="n">age</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="c1"># Virtual pop of items:</span>
+            <span class="c1"># for each node of the edge, lower all adjacent edges by one</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coinc_ind</span><span class="p">[</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">incid_ind</span><span class="p">[</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+        <span class="n">stamp</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">vq</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">e</span> <span class="o">!=</span> <span class="n">m</span><span class="p">:</span>
+            <span class="c1"># Can a virtual edge be popped?</span>
+            <span class="k">if</span> <span class="n">ready_edges</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span>
+                <span class="n">vq</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">vq</span><span class="p">[(</span><span class="n">stamp</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="c1"># Pop from virtual queue</span>
+                <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Update trafic</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coinc_ind</span><span class="p">[</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span><span class="n">coinc_ptr</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+                    <span class="n">queue_size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># Update physical queue sizes</span>
+                    <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Check queue exhaustion</span>
+                        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">incid_ind</span><span class="p">[</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">incid_ptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]:</span>
+                            <span class="n">ready_edges</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">stamp</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">vq</span><span class="p">[(</span><span class="n">stamp</span><span class="p">(</span><span class="n">e</span><span class="p">))]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="n">m</span> <span class="c1"># break</span>
+    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Return the updated number of steps achieved.</span></div>
+
+
+
+<div class="viewcode-block" id="TrueVQSimulator">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.TrueVQSimulator">[docs]</a>
+<span class="k">class</span> <span class="nc">TrueVQSimulator</span><span class="p">(</span><span class="n">Simulator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.generic.Simulator`.</span>
+<span class="sd">    Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    weights: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">        Target rewards on edges.</span>
+<span class="sd">    beta: :class:`float`</span>
+<span class="sd">        Stabilization parameter. Close to 0, reward maximization is better but queues are more full.</span>
+<span class="sd">    forbidden_edges: :class:`list`, optional</span>
+<span class="sd">        Edges that are disabled.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Let start with a working triangle. One can notice the results are different from the ones common to all</span>
+<span class="sd">    greedy simulator.</span>
+
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; sim = TrueVQSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="sd">           [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    Unstable diamond (simulation ends before completion due to drift).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = TrueVQSimulator(sm.CycleChain(rates=&#39;uniform&#39;), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint64),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint64),</span>
+<span class="sd">    &#39;steps_done&#39;: 329}</span>
+
+<span class="sd">    Stable diamond without reward optimization:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = TrueVQSimulator(sm.CycleChain(rates=[1, 2, 2, 1]), number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([ 95,  84, 161,  84,  75], dtype=uint64),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[834, 123,  33,  10,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [642, 205,  77,  43,  24,   8,   1,   0,   0,   0],</span>
+<span class="sd">           [667, 224,  76,  25,   7,   1,   0,   0,   0,   0],</span>
+<span class="sd">           [814, 117,  36,  22,   5,   6,   0,   0,   0,   0]], dtype=uint64), &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    Let&#39;s optimize (kill traffic on first and last edges).</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = TrueVQSimulator(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0], number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([ 0, 29, 34, 28,  0], dtype=uint64),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[181,  16,   3,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [157,  14,   8,   6,   7,   4,   3,   1,   0,   0],</span>
+<span class="sd">           [ 75,  24,  16,  14,  18,  25,   9,   7,   7,   5],</span>
+<span class="sd">           [ 88,  27,  11,  11,  14,  16,  17,  10,   6,   0]], dtype=uint64), &#39;steps_done&#39;: 200}</span>
+
+<span class="sd">    OK, it&#39;s working but we reached the maximal queue size quite fast. Let&#39;s reduce the pressure.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = TrueVQSimulator(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0], beta=.8, number_events=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([ 32, 147, 160, 146,  13], dtype=uint64), &#39;queue_log&#39;: array([[741, 174,  61,  23,   1,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [514, 128, 119, 114,  56,  38,  21,   9,   1,   0],</span>
+<span class="sd">           [675, 160,  96,  39,  22,   5,   2,   1,   0,   0],</span>
+<span class="sd">           [716, 162,  75,  29,  12,   6,   0,   0,   0,   0]], dtype=uint64), &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    A stable candy. While candies are not good for greedy policies, the virtual queue is</span>
+<span class="sd">    designed to deal with it.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = TrueVQSimulator(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), number_events=1000, seed=42, max_queue=25)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint64),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,</span>
+<span class="sd">              3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [884,  79,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [113,  44,  82, 101,  96,  99,  67,  31,  29,  50,  14,  20,  32,</span>
+<span class="sd">             31,  44,  44,  34,  30,  26,  11,   2,   0,   0,   0,   0],</span>
+<span class="sd">           [239, 154, 138, 103,  75,  69,  58,  67,  52,  33,  12,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [755, 143,  72,  30,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="sd">          dtype=uint64),</span>
+<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    String that can be used to refer to that simulator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">.01</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_edges</span> <span class="o">=</span> <span class="n">forbidden_edges</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TrueVQSimulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TrueVQSimulator.set_inners">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_inners">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_inners</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines inner variables for the virtual queue core engine.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;incid_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;incid_ind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csr</span><span class="o">.</span><span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;coinc_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;coinc_ind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_csc</span><span class="o">.</span><span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inners</span><span class="p">[</span><span class="s1">&#39;forbidden_edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_edges</span></div>
+
+
+<div class="viewcode-block" id="TrueVQSimulator.set_core">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_core">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_core</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plug in the virtual queue core engine.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">true_vq_core</span></div>
 </div>
 
 </pre></div>

@@ -1654,6 +1654,134 @@ an arrival at node 2 activates (edge, node) (1, 0) and (4, 3).</p>
 <section id="module-stochastic_matching.simulator.virtual_queue">
 <span id="virtual-queue-policy"></span><h2>Virtual queue policy<a class="headerlink" href="#module-stochastic_matching.simulator.virtual_queue" title="Link to this heading">#</a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.TrueVQSimulator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.virtual_queue.</span></span><span class="sig-name descname"><span class="pre">TrueVQSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/virtual_queue.html#TrueVQSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator" title="Link to this definition">#</a></dt>
+<dd><p>Non-Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.generic.Simulator" title="stochastic_matching.simulator.generic.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>.
+Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
+<li><p><strong>weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Target rewards on edges.</p></li>
+<li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – Stabilization parameter. Close to 0, reward maximization is better but queues are more full.</p></li>
+<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, optional) – Edges that are disabled.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Let start with a working triangle. One can notice the results are different from the ones common to all
+greedy simulator.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">TrueVQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([125, 162, 213], dtype=uint64),</span>
+<span class="go">&#39;queue_log&#39;: array([[836, 106,  41,  13,   3,   1,   0,   0,   0,   0],</span>
+<span class="go">       [788, 128,  52,  22,   8,   2,   0,   0,   0,   0],</span>
+<span class="go">       [623, 186,  96,  54,  24,   9,   5,   3,   0,   0]], dtype=uint64),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>Unstable diamond (simulation ends before completion due to drift).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">TrueVQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([35, 43,  7, 39, 34], dtype=uint64),</span>
+<span class="go">&#39;queue_log&#39;: array([[156,  68,  56,  34,  14,   1,   0,   0,   0,   0],</span>
+<span class="go">       [306,  19,   3,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [306,  18,   4,   1,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [ 98,  67,  35,  25,  26,  30,  16,  11,  10,  11]], dtype=uint64),</span>
+<span class="go">&#39;steps_done&#39;: 329}</span>
+</pre></div>
+</div>
+<p>Stable diamond without reward optimization:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">TrueVQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([ 95,  84, 161,  84,  75], dtype=uint64),</span>
+<span class="go">&#39;queue_log&#39;: array([[834, 123,  33,  10,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [642, 205,  77,  43,  24,   8,   1,   0,   0,   0],</span>
+<span class="go">       [667, 224,  76,  25,   7,   1,   0,   0,   0,   0],</span>
+<span class="go">       [814, 117,  36,  22,   5,   6,   0,   0,   0,   0]], dtype=uint64), &#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>Let’s optimize (kill traffic on first and last edges).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">TrueVQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([ 0, 29, 34, 28,  0], dtype=uint64),</span>
+<span class="go">&#39;queue_log&#39;: array([[181,  16,   3,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [157,  14,   8,   6,   7,   4,   3,   1,   0,   0],</span>
+<span class="go">       [ 75,  24,  16,  14,  18,  25,   9,   7,   7,   5],</span>
+<span class="go">       [ 88,  27,  11,  11,  14,  16,  17,  10,   6,   0]], dtype=uint64), &#39;steps_done&#39;: 200}</span>
+</pre></div>
+</div>
+<p>OK, it’s working but we reached the maximal queue size quite fast. Let’s reduce the pressure.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">TrueVQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">beta</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([ 32, 147, 160, 146,  13], dtype=uint64), &#39;queue_log&#39;: array([[741, 174,  61,  23,   1,   0,   0,   0,   0,   0],</span>
+<span class="go">       [514, 128, 119, 114,  56,  38,  21,   9,   1,   0],</span>
+<span class="go">       [675, 160,  96,  39,  22,   5,   2,   1,   0,   0],</span>
+<span class="go">       [716, 162,  75,  29,  12,   6,   0,   0,   0,   0]], dtype=uint64), &#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<p>A stable candy. While candies are not good for greedy policies, the virtual queue is
+designed to deal with it.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">TrueVQSimulator</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
+<span class="go">{&#39;trafic&#39;: array([109,  29,  17,  59,  58,  62, 107], dtype=uint64),</span>
+<span class="go">&#39;queue_log&#39;: array([[302,  85,  97,  94,  65,  53,  60,  45,  36,  46,  59,  45,  10,</span>
+<span class="go">          3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [839, 102,  12,  29,  18,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [884,  79,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [113,  44,  82, 101,  96,  99,  67,  31,  29,  50,  14,  20,  32,</span>
+<span class="go">         31,  44,  44,  34,  30,  26,  11,   2,   0,   0,   0,   0],</span>
+<span class="go">       [239, 154, 138, 103,  75,  69,  58,  67,  52,  33,  12,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [755, 143,  72,  30,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [709, 229,  48,  13,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]],</span>
+<span class="go">      dtype=uint64),</span>
+<span class="go">&#39;steps_done&#39;: 1000}</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.TrueVQSimulator.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'virtual_queue'</span></em><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.name" title="Link to this definition">#</a></dt>
+<dd><p>String that can be used to refer to that simulator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_core">
+<span class="sig-name descname"><span class="pre">set_core</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/virtual_queue.html#TrueVQSimulator.set_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_core" title="Link to this definition">#</a></dt>
+<dd><p>Plug in the virtual queue core engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_inners">
+<span class="sig-name descname"><span class="pre">set_inners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/virtual_queue.html#TrueVQSimulator.set_inners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_inners" title="Link to this definition">#</a></dt>
+<dd><p>Defines inner variables for the virtual queue core engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.VQSimulator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.virtual_queue.</span></span><span class="sig-name descname"><span class="pre">VQSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/virtual_queue.html#VQSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.VQSimulator" title="Link to this definition">#</a></dt>
 <dd><p>Non-Greedy Matching simulator derived from <a class="reference internal" href="#stochastic_matching.simulator.generic.Simulator" title="stochastic_matching.simulator.generic.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>.
@@ -1779,6 +1907,37 @@ designed to deal with it.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.virtual_queue.true_vq_core">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.virtual_queue.</span></span><span class="sig-name descname"><span class="pre">true_vq_core</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incid_ptr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incid_ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coinc_ptr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coinc_ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trafic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps_done</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/virtual_queue.html#true_vq_core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.virtual_queue.true_vq_core" title="Link to this definition">#</a></dt>
+<dd><p>Core virtual queue simulator. Currently fully monobloc for performance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prob</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Probabilities to stay in the drawn bucket</p></li>
+<li><p><strong>alias</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Redirection array</p></li>
+<li><p><strong>number_events</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of arrivals to simulate.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Seed of the random generator</p></li>
+<li><p><strong>incid_ptr</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Pointers of the incidence matrix.</p></li>
+<li><p><strong>incid_ind</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the incidence matrix.</p></li>
+<li><p><strong>coinc_ptr</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Pointers of the co-incidence matrix.</p></li>
+<li><p><strong>coinc_ind</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the co-incidence matrix.</p></li>
+<li><p><strong>scores</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Scores of edges.</p></li>
+<li><p><strong>trafic</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Monitor trafic on edges.</p></li>
+<li><p><strong>queue_log</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Monitor queue sizes.</p></li>
+<li><p><strong>steps_done</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of arrivals processed so far.</p></li>
+<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Edges that are disabled.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of steps processed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -1949,12 +2108,19 @@ designed to deal with it.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.virtual_queue">Virtual queue policy</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator"><code class="docutils literal notranslate"><span class="pre">TrueVQSimulator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.name"><code class="docutils literal notranslate"><span class="pre">TrueVQSimulator.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_core"><code class="docutils literal notranslate"><span class="pre">TrueVQSimulator.set_core()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.TrueVQSimulator.set_inners"><code class="docutils literal notranslate"><span class="pre">TrueVQSimulator.set_inners()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.VQSimulator"><code class="docutils literal notranslate"><span class="pre">VQSimulator</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.VQSimulator.name"><code class="docutils literal notranslate"><span class="pre">VQSimulator.name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.VQSimulator.set_core"><code class="docutils literal notranslate"><span class="pre">VQSimulator.set_core()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.VQSimulator.set_inners"><code class="docutils literal notranslate"><span class="pre">VQSimulator.set_inners()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.true_vq_core"><code class="docutils literal notranslate"><span class="pre">true_vq_core()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.vq_core"><code class="docutils literal notranslate"><span class="pre">vq_core()</span></code></a></li>
 </ul>
 </li>
