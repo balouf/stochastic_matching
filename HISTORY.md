@@ -6,8 +6,8 @@
   * Easier package maintainance
   * Pydata documentation style
   * Supported Python version: >=3.10
-* TODO: Stolyar
-* TODO: epsilon
+* Stolyar (EGCD) updated: wrong implementation of inner FCFM fixed, beta-orientation added, forbidden edges added
+* Epsilon-filtering added
 
 ## 0.2.2 (2023-06-18): Improved CCDF
 
