@@ -560,6 +560,7 @@ document.write(`
         <span class="c1"># If one exists, starts working</span>
         <span class="k">if</span> <span class="n">earliest</span> <span class="o">&lt;</span> <span class="n">number_events</span><span class="p">:</span>
             <span class="n">vq</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">vq</span><span class="p">[</span><span class="n">earliest</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">vq</span><span class="p">[</span><span class="n">earliest</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">earliest</span> <span class="o">==</span> <span class="n">tails</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span>
                 <span class="n">tails</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">e</span>
             <span class="n">trafic</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Update trafic</span>
