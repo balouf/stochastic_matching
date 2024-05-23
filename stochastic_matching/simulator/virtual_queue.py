@@ -120,6 +120,7 @@ def vq_core(prob, alias, number_events, seed,
         # If one exists, starts working
         if earliest < number_events:
             vq[-1-e] = vq[earliest]
+            del vq[earliest]
             if earliest == tails[e]:
                 tails[e] = -1-e
             trafic[e] += 1  # Update trafic
