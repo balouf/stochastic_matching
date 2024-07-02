@@ -15,7 +15,7 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None, epsil
         Jitted function that extracts the edges that can be selected for a new arrival.
         Input signature is (neighbors list, arriving node, queue_size).
     selector: callable
-        Jitted function that extracts one choice amongst several..
+        Jitted function that extracts one choice amongst several.
         Input signature is (choices, queue_size)
     forbidden_edges: :class:`list`, optional
         Edges that are disabled.
