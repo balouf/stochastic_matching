@@ -26,7 +26,6 @@ class NewSimulator:
         self.set_logs()
 
         self.core = None
-        self.set_core()
 
     def set_state(self):
         """
@@ -52,9 +51,6 @@ class NewSimulator:
         self.logs = {'trafic': np.zeros(self.model.m, dtype=int),
                      'queue_log': np.zeros((self.model.n, self.max_queue), dtype=int),
                      'steps_done': 0}
-
-    def set_core(self, **kwargs):
-        raise NotImplementedError
 
     def reset(self):
         """

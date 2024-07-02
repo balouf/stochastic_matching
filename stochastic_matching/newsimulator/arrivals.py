@@ -1,9 +1,9 @@
 import numpy as np
-from numba import njit, int64, float64
+from numba import njit, typeof
 from numba.experimental import jitclass
 
 
-@njit
+@njit(cache=True)
 def create_prob_alias(mu):
     """
     Prepare vector to draw a distribution with the alias method.
@@ -21,11 +21,23 @@ def create_prob_alias(mu):
         Probabilities to stay in the drawn bucket
     alias: :class:`~numpy.ndarray`
         Redirection array
+
+    Examples
+    --------
+
+    >>> probas, aliases = create_prob_alias([2 ,2, 3, 1])
+    >>> probas
+    array([1. , 1. , 1. , 0.5])
+    >>> aliases
+    array([0, 0, 0, 2])
     """
-    cmu = np.array(mu) if isinstance(mu, list) else mu
+    if isinstance(mu, list):
+        cmu = np.array(mu)
+    else:
+        cmu = mu
     n = len(cmu)
-    alias = np.zeros(n, dtype=np.int64)
-    prob = np.zeros(n, dtype=np.float64)
+    alias = np.zeros(n, dtype=np.int32)
+    prob = np.zeros(n)
     # noinspection PyUnresolvedReferences
     normalized_intensities = cmu * n / np.sum(cmu)
     small = [i for i in range(n) if normalized_intensities[i] < 1]
@@ -43,14 +55,11 @@ def create_prob_alias(mu):
     return prob, alias
 
 
-spec = [
-    ('prob', float64[:]),  # a simple scalar field
-    ('alias', int64[:]),
-    ('n', int64)  # an array field
-]
+alias_type = typeof(np.zeros(1, dtype=int))
+prob_type = typeof(np.zeros(1))
 
 
-@jitclass(spec)
+@jitclass
 class Arrivals:
     """
     Parameters
@@ -73,6 +82,9 @@ class Arrivals:
     >>> Counter([arrivals.draw() for _ in range(800)])
     Counter({2: 291, 1: 210, 0: 208, 3: 91})
     """
+    prob: prob_type
+    alias: alias_type
+    n: int
 
     def __init__(self, mu, seed=None):
         self.prob, self.alias = create_prob_alias(mu)
@@ -89,3 +101,4 @@ class Arrivals:
         if np.random.rand() > self.prob[node]:
             node = self.alias[node]
         return node
+
