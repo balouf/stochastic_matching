@@ -6,7 +6,7 @@ from cached_property import cached_property
 
 from stochastic_matching.common import pseudo_inverse_scalar, clean_zeros, CharMaker, neighbors, class_converter
 from stochastic_matching.display import show
-from stochastic_matching.simulator.generic import Simulator
+from stochastic_matching.old_simulator.generic import Simulator
 
 status_names = {(False, False): "Nonjective",
                 (True, False): "Injective-only",
@@ -1575,9 +1575,9 @@ class Model:
         Parameters
         ----------
         simulator: :class:`str` or :class:`~stochastic_matching.simulator.generic.Simulator`
-            Type of simulator to instantiate.
+            Type of old_simulator to instantiate.
         **kwargs
-            Arguments to pass to the simulator.
+            Arguments to pass to the old_simulator.
 
         Returns
         -------
@@ -1587,7 +1587,7 @@ class Model:
         Examples
         --------
 
-        Let start with a working triangle and a greedy simulator.
+        Let start with a working triangle and a greedy old_simulator.
 
         >>> import stochastic_matching.graphs as sm
         >>> triangle = sm.Cycle(rates=[3, 4, 5])
@@ -1628,14 +1628,14 @@ class Model:
         array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,
            0.59202601, 0.2939478 ])
 
-        A greedy simulator performs poorly on the hyperedge.
+        A greedy old_simulator performs poorly on the hyperedge.
 
         >>> candy.run('virtual_queue', seed=42, number_events=20000)
         True
         >>> candy.simulation  # doctest: +NORMALIZE_WHITESPACE
         array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])
 
-        The virtual queue simulator manages to cope with the target flow on the hyperedge.
+        The virtual queue old_simulator manages to cope with the target flow on the hyperedge.
         """
         simulator = class_converter(simulator, Simulator)
         self.simulator = simulator(self, **kwargs)

@@ -7,7 +7,7 @@ from stochastic_matching.common import create_prob_alias, graph_neighbors_list
 
 class Simulator:
     """
-    Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.
+    Abstract class that describes the generic behavior of matching queues old_simulator. See sub-classes for examples.
 
     Parameters
     ----------
@@ -27,12 +27,12 @@ class Simulator:
     generator: :class:`dict`
         Generator parameters (prob and alias vector, seed, and number of events).
     inners: :class:`dict`
-        Inner variable (depends on the exact simulator engine used).
+        Inner variable (depends on the exact old_simulator engine used).
     logs: :class:`dict`
         Monitored variables (default to trafic on edges,
         queue size distribution, and number of steps achieved).
     core: callable
-        Core simulator, usually a numba function. Must return the total number of steps achieved.
+        Core old_simulator, usually a numba function. Must return the total number of steps achieved.
 
     Examples
     --------
@@ -42,7 +42,7 @@ class Simulator:
     >>> sim
     Simulator of type fcfm.
 
-    Use :meth:`~stochastic_matching.simulator.generic.Simulator.run` to make the simulation.
+    Use :meth:`~stochastic_matching.old_simulator.generic.Simulator.run` to make the simulation.
 
     >>> sim.run()
 
@@ -178,7 +178,7 @@ class Simulator:
 
     def run(self):
         """
-        Run simulation (results are stored in the attribute :attr:`~stochastic_matching.simulator.classes.Simulator.logs`).
+        Run simulation (results are stored in the attribute :attr:`~stochastic_matching.old_simulator.classes.Simulator.logs`).
 
         Returns
         -------

@@ -1,6 +1,6 @@
 from numba import njit
 import numpy as np
-from stochastic_matching.newsimulator.queue_size import QueueSize, make_qs_core
+from stochastic_matching.simulator.simulator import Simulator
 
 
 @njit
@@ -19,9 +19,9 @@ def random_edge_selector(graph, queue_size, node):
     return best_edge
 
 
-class RandomEdge(QueueSize):
+class RandomEdge(Simulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.queue_size.QueueSize`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.queue_size.QueueSize`.
     When multiple choices are possible, one edge is chosen uniformly at random.
 
     Parameters
@@ -100,7 +100,7 @@ class RandomEdge(QueueSize):
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),
     'steps_done': 401}
 
-    Note that you can reset the simulator before starting another run.
+    Note that you can reset the old_simulator before starting another run.
 
     >>> sim.reset()
     >>> sim.run()
@@ -129,6 +129,6 @@ class RandomEdge(QueueSize):
     """
     name = "random_edge"
 
-    def __init__(self, model, **kwargs):
-        super().__init__(model, **kwargs)
-        self.core = make_qs_core(random_edge_selector)
+    def set_internal(self):
+        super().set_internal()
+        self.internal['selector'] = random_edge_selector

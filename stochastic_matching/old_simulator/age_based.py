@@ -3,7 +3,7 @@ from abc import ABC
 import numpy as np
 from numba import njit
 
-from stochastic_matching.simulator.generic import Simulator
+from stochastic_matching.old_simulator.generic import Simulator
 from stochastic_matching.common import graph_neighbors_list
 
 
@@ -90,8 +90,8 @@ def qstate_core_maker(model, simple_selector, hyper_selector):
 
 class QueueStateSimulator(Simulator, ABC):
     """
-    Abstract class derived from :class:`~stochastic_matching.simulator.generic.Simulator`
-    for greedy simulator based on the states of queues (including age of items).
+    Abstract class derived from :class:`~stochastic_matching.old_simulator.generic.Simulator`
+    for greedy old_simulator based on the states of queues (including age of items).
     """
 
     def set_inners(self):
@@ -308,13 +308,13 @@ def fcfm_hyper_selector(choices, max_queue, queue_start, queue_end, items):
 
 class FCFM(QueueStateSimulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.age_based.QueueStateSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.age_based.QueueStateSimulator`.
     When multiple choices are possible, the oldest item is chosen.
 
     Examples
     --------
 
-    Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+    Let start with a working triangle. One can notice the results are the same for all greedy old_simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
     >>> import stochastic_matching as sm
@@ -366,7 +366,7 @@ class FCFM(QueueStateSimulator):
 
     name = 'fcfm'
     """
-    String that can be use to refer to that simulator.
+    String that can be use to refer to that old_simulator.
     """
 
     def set_core(self):

@@ -1,12 +1,36 @@
 import numpy as np
+from numba import njit
 from matplotlib import pyplot as plt
 
-from stochastic_matching.newsimulator.arrivals import Arrivals
-from stochastic_matching.newsimulator.graph import make_jit_graph
+from stochastic_matching.simulator.arrivals import Arrivals
+from stochastic_matching.simulator.graph import make_jit_graph
 from stochastic_matching.display import int_2_str
 
 
-class NewSimulator:
+@njit
+def core_simulator(arrivals, graph, n_steps, queue_size, selector,
+                   trafic, queue_log, steps_done):
+    n, max_queue = queue_log.shape
+
+    for age in range(n_steps):
+        for j in range(n):
+            queue_log[j, queue_size[j]] += 1
+
+        # Draw an arrival
+        node = arrivals.draw()
+        queue_size[node] += 1
+        if queue_size[node] == max_queue:
+            return steps_done + age + 1
+
+        best_edge = selector(graph=graph, queue_size=queue_size, node=node)
+
+        if best_edge > -1:
+            trafic[best_edge] += 1
+            queue_size[graph.nodes(best_edge)] -= 1
+    return steps_done + age + 1
+
+
+class Simulator:
     name = None
     """
     Name that can be used to list all non-abstract classes.
@@ -19,15 +43,13 @@ class NewSimulator:
         self.n_steps = n_steps
         self.seed = seed
 
-        self.state = None
-        self.set_state()
+        self.internal = None
+        self.set_internal()
 
         self.logs = None
         self.set_logs()
 
-        self.core = None
-
-    def set_state(self):
+    def set_internal(self):
         """
         Populate the internal state.
 
@@ -35,9 +57,10 @@ class NewSimulator:
         -------
         None
         """
-        self.state = {'arrivals': Arrivals(mu=self.model.rates, seed=self.seed),
+        self.internal = {'arrivals': Arrivals(mu=self.model.rates, seed=self.seed),
                       'graph': make_jit_graph(self.model),
-                      'n_steps': self.n_steps
+                      'n_steps': self.n_steps,
+                      'queue_size': np.zeros(self.model.n, dtype=int)
                       }
 
     def set_logs(self):
@@ -60,19 +83,19 @@ class NewSimulator:
         -------
         None
         """
-        self.set_state()
+        self.set_internal()
         self.set_logs()
 
     def run(self):
         """
         Run simulation.
-        Results are stored in the attribute :attr:`~stochastic_matching.simulator.simulator.Simulator.logs`.
+        Results are stored in the attribute :attr:`~stochastic_matching.old_simulator.old_simulator.Simulator.logs`.
 
         Returns
         -------
         None
         """
-        self.logs['steps_done'] = self.core(**self.state, **self.logs)
+        self.logs['steps_done'] = core_simulator(**self.internal, **self.logs)
 
     def compute_average_queues(self):
         """

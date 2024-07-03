@@ -147,11 +147,11 @@ def class_converter(subclass, motherclass):
     --------
 
     >>> import stochastic_matching as sm
-    >>> from stochastic_matching.simulator.generic import Simulator
+    >>> from stochastic_matching.old_simulator.generic import Simulator
     >>> class_converter('random_node', Simulator)
-    <class 'stochastic_matching.simulator.size_based.RandomNodeSimulator'>
+    <class 'stochastic_matching.old_simulator.size_based.RandomNodeSimulator'>
     >>> class_converter(sm.FCFM, Simulator)
-    <class 'stochastic_matching.simulator.age_based.FCFM'>
+    <class 'stochastic_matching.old_simulator.age_based.FCFM'>
     >>> class_converter('anything', Simulator)  # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
     ...

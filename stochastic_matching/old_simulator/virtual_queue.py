@@ -1,7 +1,7 @@
 import numpy as np
 from numba import njit
 
-from stochastic_matching.simulator.generic import Simulator
+from stochastic_matching.old_simulator.generic import Simulator
 
 
 @njit(cache=True)
@@ -9,7 +9,7 @@ def vq_core(prob, alias, number_events, seed,
             incid_ptr, incid_ind, coinc_ptr, coinc_ind,
             scores, trafic, queue_log, steps_done, forbidden_edges):
     """
-    Core virtual queue simulator. Currently fully monobloc for performance.
+    Core virtual queue old_simulator. Currently fully monobloc for performance.
 
     Parameters
     ----------
@@ -134,7 +134,7 @@ def vq_core(prob, alias, number_events, seed,
 
 class VQSimulator(Simulator):
     """
-    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.generic.Simulator`.
+    Non-Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.generic.Simulator`.
     Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).
 
     Parameters
@@ -155,7 +155,7 @@ class VQSimulator(Simulator):
     --------
 
     Let start with a working triangle. One can notice the results are different from the ones common to all
-    greedy simulator.
+    greedy old_simulator.
 
     >>> import stochastic_matching as sm
     >>> sim = VQSimulator(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
@@ -276,7 +276,7 @@ class VQSimulator(Simulator):
 
     name = 'virtual_queue'
     """
-    String that can be used to refer to that simulator.
+    String that can be used to refer to that old_simulator.
     """
 
     def __init__(self, model, weights=None, beta=.01, forbidden_edges=None, **kwargs):

@@ -3,7 +3,7 @@ from numba import njit, typeof
 from numba.experimental import jitclass
 
 
-@njit(cache=True)
+@njit
 def create_prob_alias(mu):
     """
     Prepare vector to draw a distribution with the alias method.
@@ -36,7 +36,7 @@ def create_prob_alias(mu):
     else:
         cmu = mu
     n = len(cmu)
-    alias = np.zeros(n, dtype=int)
+    alias = np.zeros(n, dtype=np.int_)
     prob = np.zeros(n)
     # noinspection PyUnresolvedReferences
     normalized_intensities = cmu * n / np.sum(cmu)

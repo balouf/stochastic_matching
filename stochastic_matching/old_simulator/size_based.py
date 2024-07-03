@@ -3,7 +3,7 @@ from abc import ABC
 import numpy as np
 from numba import njit
 
-from stochastic_matching.simulator.generic import Simulator
+from stochastic_matching.old_simulator.generic import Simulator
 from stochastic_matching.common import class_converter
 
 
@@ -107,8 +107,8 @@ def qs_core_maker(choicer, selector, forbidden_edges=None, threshold=None, epsil
 
 class QueueSizeSimulator(Simulator, ABC):
     """
-    Class derived from :class:`~stochastic_matching.simulator.generic.Simulator`
-    for greedy simulator based on queue sizes.
+    Class derived from :class:`~stochastic_matching.old_simulator.generic.Simulator`
+    for greedy old_simulator based on queue sizes.
     """
     name = 'generic_queue_size'
 
@@ -276,7 +276,7 @@ class RandomNodeSelector(Selector):
 
 class RandomNodeSimulator(QueueSizeSimulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.size_based.QueueSizeSimulator`.
     When multiple choices are possible, one is chosen uniformly at random.
 
     Parameters
@@ -291,7 +291,7 @@ class RandomNodeSimulator(QueueSizeSimulator):
     Examples
     --------
 
-    Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+    Let start with a working triangle. One can notice the results are the same for all greedy old_simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
     >>> import stochastic_matching as sm
@@ -355,7 +355,7 @@ class RandomNodeSimulator(QueueSizeSimulator):
           dtype=uint64),
     'steps_done': 314}
 
-    Note that you can reset the simulator before starting another run.
+    Note that you can reset the old_simulator before starting another run.
 
     >>> sim.reset()
     >>> sim.run()
@@ -427,7 +427,7 @@ class LongestSelector(Selector):
 
 class LongestSimulator(QueueSizeSimulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.size_based.QueueSizeSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.size_based.QueueSizeSimulator`.
     When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.
 
     Parameters
@@ -441,7 +441,7 @@ class LongestSimulator(QueueSizeSimulator):
     Examples
     --------
 
-    Let start with a working triangle. Not that the results are the same for all greedy simulator because
+    Let start with a working triangle. Not that the results are the same for all greedy old_simulator because
     there are no decision in a triangle (always at most one non-empty queue under a greedy policy).
 
     >>> import stochastic_matching as sm
@@ -525,7 +525,7 @@ class RandomItemSelector(Selector):
 
 class RandomItemSimulator(QueueSizeSimulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.classes.QueueSizeSimulator`.
     When multiple choices are possible, chooses proportionally to the sizes of the queues
     (or sum of queues for hyperedges).
 
@@ -540,7 +540,7 @@ class RandomItemSimulator(QueueSizeSimulator):
     Examples
     --------
 
-    Let start with a working triangle. One can notice the results are the same for all greedy simulator because
+    Let start with a working triangle. One can notice the results are the same for all greedy old_simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
     >>> import stochastic_matching as sm
@@ -596,7 +596,7 @@ class RandomItemSimulator(QueueSizeSimulator):
 
 class FilteringGreedy(QueueSizeSimulator):
     """
-    Longest queue simulator where some edges can be forbidden unless some threshold on queue size is reached.
+    Longest queue old_simulator where some edges can be forbidden unless some threshold on queue size is reached.
 
     Parameters
     ----------

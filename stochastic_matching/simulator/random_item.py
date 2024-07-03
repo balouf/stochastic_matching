@@ -1,6 +1,6 @@
 from numba import njit
 import numpy as np
-from stochastic_matching.newsimulator.queue_size import QueueSize, make_qs_core
+from stochastic_matching.simulator.simulator import Simulator
 
 
 @njit
@@ -22,9 +22,9 @@ def random_item_selector(graph, queue_size, node):
     return best_edge
 
 
-class RandomItem(QueueSize):
+class RandomItem(Simulator):
     """
-    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.classes.QueueSizeSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.classes.QueueSizeSimulator`.
     When multiple choices are possible, chooses proportionally to the sizes of the queues
     (or sum of queues for hyperedges).
 
@@ -87,6 +87,6 @@ class RandomItem(QueueSize):
     """
     name = "random_item"
 
-    def __init__(self, model, **kwargs):
-        super().__init__(model, **kwargs)
-        self.core = make_qs_core(random_item_selector)
+    def set_internal(self):
+        super().set_internal()
+        self.internal['selector'] = random_item_selector

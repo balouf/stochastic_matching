@@ -14,7 +14,7 @@ def make_jit_graph(model):
 
     Returns
     -------
-    :class:`~stochastic_matching.simulator.JitHyperGraph`
+    :class:`~stochastic_matching.old_simulator.JitHyperGraph`
         Jitted graph.
     """
     return JitHyperGraph(incid_ind=model.incidence_csr.indices, incid_ptr=model.incidence_csr.indptr,

@@ -1,7 +1,7 @@
 from numba import njit
 import numpy as np
 
-from stochastic_matching.newsimulator.simulator import NewSimulator
+from stochastic_matching.simulator.simulator import Simulator
 
 
 def make_qs_core(edge_selector):
@@ -29,7 +29,7 @@ def make_qs_core(edge_selector):
     return njit(core_simulator)  # (core_simulator)
 
 
-class QueueSize(NewSimulator):
+class QueueSize(Simulator):
 
     def set_state(self):
         super().set_state()
