@@ -444,7 +444,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">stochastic_matching.common</span> <span class="kn">import</span> <span class="n">pseudo_inverse_scalar</span><span class="p">,</span> <span class="n">clean_zeros</span><span class="p">,</span> <span class="n">CharMaker</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">class_converter</span>
 <span class="kn">from</span> <span class="nn">stochastic_matching.display</span> <span class="kn">import</span> <span class="n">show</span>
-<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.old_simulator.generic</span> <span class="kn">import</span> <span class="n">Simulator</span>
 
 <span class="n">status_names</span> <span class="o">=</span> <span class="p">{(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Nonjective&quot;</span><span class="p">,</span>
                 <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="s2">&quot;Injective-only&quot;</span><span class="p">,</span>
@@ -2068,9 +2068,9 @@ document.write(`
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        simulator: :class:`str` or :class:`~stochastic_matching.simulator.generic.Simulator`</span>
-<span class="sd">            Type of simulator to instantiate.</span>
+<span class="sd">            Type of old_simulator to instantiate.</span>
 <span class="sd">        **kwargs</span>
-<span class="sd">            Arguments to pass to the simulator.</span>
+<span class="sd">            Arguments to pass to the old_simulator.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -2080,7 +2080,7 @@ document.write(`
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 
-<span class="sd">        Let start with a working triangle and a greedy simulator.</span>
+<span class="sd">        Let start with a working triangle and a greedy old_simulator.</span>
 
 <span class="sd">        &gt;&gt;&gt; import stochastic_matching.graphs as sm</span>
 <span class="sd">        &gt;&gt;&gt; triangle = sm.Cycle(rates=[3, 4, 5])</span>
@@ -2121,14 +2121,14 @@ document.write(`
 <span class="sd">        array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,</span>
 <span class="sd">           0.59202601, 0.2939478 ])</span>
 
-<span class="sd">        A greedy simulator performs poorly on the hyperedge.</span>
+<span class="sd">        A greedy old_simulator performs poorly on the hyperedge.</span>
 
 <span class="sd">        &gt;&gt;&gt; candy.run(&#39;virtual_queue&#39;, seed=42, number_events=20000)</span>
 <span class="sd">        True</span>
 <span class="sd">        &gt;&gt;&gt; candy.simulation  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])</span>
 
-<span class="sd">        The virtual queue simulator manages to cope with the target flow on the hyperedge.</span>
+<span class="sd">        The virtual queue old_simulator manages to cope with the target flow on the hyperedge.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">simulator</span> <span class="o">=</span> <span class="n">class_converter</span><span class="p">(</span><span class="n">simulator</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

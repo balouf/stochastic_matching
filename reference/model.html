@@ -1209,8 +1209,8 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference internal" href="simulator.html#stochastic_matching.simulator.generic.Simulator" title="stochastic_matching.simulator.generic.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>) – Type of simulator to instantiate.</p></li>
-<li><p><strong>**kwargs</strong> – Arguments to pass to the simulator.</p></li>
+<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code>) – Type of old_simulator to instantiate.</p></li>
+<li><p><strong>**kwargs</strong> – Arguments to pass to the old_simulator.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1221,7 +1221,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Let start with a working triangle and a greedy simulator.</p>
+<p>Let start with a working triangle and a greedy old_simulator.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching.graphs</span> <span class="k">as</span> <span class="nn">sm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">base_flow</span>
@@ -1262,14 +1262,14 @@ designed to deal with it.</p>
 <span class="go">   0.59202601, 0.2939478 ])</span>
 </pre></div>
 </div>
-<p>A greedy simulator performs poorly on the hyperedge.</p>
+<p>A greedy old_simulator performs poorly on the hyperedge.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">simulation</span>  
 <span class="go">array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])</span>
 </pre></div>
 </div>
-<p>The virtual queue simulator manages to cope with the target flow on the hyperedge.</p>
+<p>The virtual queue old_simulator manages to cope with the target flow on the hyperedge.</p>
 </dd></dl>
 
 <dl class="py property">
