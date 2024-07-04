@@ -77,7 +77,6 @@ class Arrivals:
     array([1. , 1. , 1. , 0.5])
     >>> arrivals.alias.astype(int)
     array([0, 0, 0, 2])
-
     >>> from collections import Counter
     >>> Counter([arrivals.draw() for _ in range(800)])
     Counter({2: 291, 1: 210, 0: 208, 3: 91})

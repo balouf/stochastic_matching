@@ -17,7 +17,7 @@ def core_simulator(arrivals, graph, n_steps, queue_size, selector,
     ----------
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
-    graph: :class:`~stochastic_matching.simulator.graph.Graph`
+    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
         Model graph.
     n_steps: :class:`int`
         Number of arrivals to process.
@@ -202,7 +202,7 @@ class Simulator:
     def run(self):
         """
         Run simulation.
-        Results are stored in the attribute :attr:`~stochastic_matching.old_simulator.old_simulator.Simulator.logs`.
+        Results are stored in the attribute :attr:`~stochastic_matching.simulator.simulator.Simulator.logs`.
 
         Returns
         -------
@@ -282,7 +282,8 @@ class Simulator:
 
         Returns
         -------
-        None
+        :class:`~numpy.ndarray`
+            Flow on edges.
         """
         # noinspection PyUnresolvedReferences
         tot_mu = np.sum(self.model.rates)

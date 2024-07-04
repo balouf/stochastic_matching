@@ -15,7 +15,7 @@ def fcfm_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     ----------
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
-    graph: :class:`~stochastic_matching.simulator.graph.Graph`
+    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
         Model graph.
     n_steps: :class:`int`
         Number of arrivals to process.

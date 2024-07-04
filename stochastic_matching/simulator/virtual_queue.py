@@ -16,7 +16,7 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     ----------
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
-    graph: :class:`~stochastic_matching.simulator.graph.Graph`
+    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
         Model graph.
     n_steps: :class:`int`
         Number of arrivals to process.
@@ -51,8 +51,10 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     # Optimize forbidden edges and set greedy flag.
     if forbidden_edges is not None:
         forbid = {k: True for k in forbidden_edges}
+        has_forbidden = True
     else:
         forbid = {k: True for k in range(0)}
+        has_forbidden = False
 
     infinity = edge_queue.infinity
 
@@ -80,15 +82,15 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
                 else:
                     ready_edges[e] = True
 
-        if forbid is None:
-            restrain = False
-        else:
+        if has_forbidden:
             restrain = True
             if threshold is not None:
                 for v in range(n):
                     if queue_size[v] >= threshold:
                         restrain = False
                         break
+        else:
+            restrain = False
 
         # Select best edge
         best_edge = -1
@@ -199,7 +201,8 @@ class VirtualQueue(Simulator):
 
     Let's optimize (kill traffic on first and last edges).
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],
+    ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'traffic': array([ 0, 22, 24, 27,  0]),
@@ -211,7 +214,8 @@ class VirtualQueue(Simulator):
 
     OK, it's working but we reached the maximal queue size quite fast. Let's reduce the pressure.
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0], egpd_beta=.8, n_steps=1000, seed=42, max_queue=10)
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],
+    ...                    egpd_beta=.8, n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'traffic': array([ 32, 146, 161, 146,  13]),
@@ -219,6 +223,31 @@ class VirtualQueue(Simulator):
            [515, 153, 123, 109,  48,  32,  16,   4,   0,   0],
            [662, 136,  91,  62,  38,   4,   2,   2,   2,   1],
            [791, 128,  50,  18,   7,   6,   0,   0,   0,   0]]), 'steps_done': 1000}
+
+    Let's now use a k-filtering for this diamond:
+
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]),
+    ...                    weights=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
+    >>> sim.run()
+    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    {'traffic': array([ 0, 27, 29, 28,  0]),
+    'queue_log': array([[159,  16,   3,   3,   0,   0,   0,   0,   0,   0],
+           [137,  19,   8,   4,   5,   4,   3,   1,   0,   0],
+           [ 71,  25,  13,  14,  12,  15,  21,   8,   1,   1],
+           [ 97,  24,  13,  12,   9,  16,   8,   2,   0,   0]]), 'steps_done': 181}
+
+    Let us reduce the pressure.
+
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0],
+    ...                    n_steps=1000, seed=42, max_queue=10, threshold=6)
+    >>> sim.run()
+    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    {'traffic': array([ 31, 145, 161, 145,  14]),
+    'queue_log': array([[601, 171, 122,  80,  20,   6,   0,   0,   0,   0],
+           [445, 151, 137, 104,  81,  64,  14,   4,   0,   0],
+           [698,  83,  52,  59,  57,  38,   7,   3,   2,   1],
+           [730, 130,  64,  35,  26,   9,   2,   4,   0,   0]]), 'steps_done': 1000}
+
 
     A stable candy. While candies are not good for greedy policies, the virtual queue is
     designed to deal with it.

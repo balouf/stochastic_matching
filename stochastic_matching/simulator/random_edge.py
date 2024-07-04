@@ -24,7 +24,7 @@ def random_edge_selector(graph, queue_size, node):
 
 class RandomEdge(Simulator):
     """
-    Greedy Matching osimulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
+    Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
     When multiple choices are possible, one edge is chosen uniformly at random.
 
     Parameters

@@ -6,7 +6,7 @@ from stochastic_matching.simulator.simulator import Simulator
 
 def make_priority_selector(weights, threshold, counterweights):
     """
-    Make a jitted edge elector based on priorities.
+    Make a jitted edge selector based on priorities.
     """
     def priority_selector(graph, queue_size, node):
         best_edge = -1

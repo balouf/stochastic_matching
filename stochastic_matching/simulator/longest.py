@@ -15,7 +15,7 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     ----------
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
-    graph: :class:`~stochastic_matching.simulator.graph.Graph`
+    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
         Model graph.
     n_steps: :class:`int`
         Number of arrivals to process.
@@ -64,7 +64,7 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         # Test if an actionable edge may be present
         if not greedy or queue_size[node] == 1:
             # Should we activate edge restriction?
-            if forbid is None:
+            if greedy:
                 restrain = False
             else:
                 restrain = True
@@ -101,7 +101,7 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
 
 class Longest(Simulator):
     """
-    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.size_based.QueueSizeSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
     When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.
 
     Parameters
