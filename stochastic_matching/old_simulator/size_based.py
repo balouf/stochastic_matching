@@ -619,56 +619,52 @@ class FilteringGreedy(QueueSizeSimulator):
 
     >>> import stochastic_matching as sm
     >>> diamond = sm.CycleChain(rates=[1, 2, 2, 1])
-    >>> diamond.run('filtering', forbidden_edges=[0, 4], seed=42,
-    ...                            threshold=100, number_events=1000, max_queue=1000)
-    True
-    >>> diamond.simulation
+    >>> sim = FilteringGreedy(diamond, forbidden_edges=[0, 4], seed=42, threshold=100, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 
     Same result can be achieved by putting low weights on 0 and 4.
 
-    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            threshold=100, number_events=1000, max_queue=1000)
-    True
-    >>> diamond.simulation
+    >>> sim = FilteringGreedy(diamond, weights=[1, 2, 2, 2, 1], seed=42, threshold=100, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 
     Note that if the threshold is too low some exceptions are done to limit the queue sizes.
 
-    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            threshold=10, number_events=1000, max_queue=1000)
-    True
-    >>> diamond.simulation
+    >>> sim = FilteringGreedy(diamond, weights=[1, 2, 2, 2, 1], seed=42, threshold=10, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([0.102, 0.936, 0.966, 0.936, 0.018])
 
     Having no relaxation usually leads to large, possibly overflowing, queues.
     However, this doesn't show on small simulations.
 
-    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            number_events=1000, max_queue=100)
-    True
-    >>> diamond.simulator.compute_average_queues()
+    >>> sim = FilteringGreedy(diamond, weights=[1, 2, 2, 2, 1], seed=42, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_average_queues()
     array([7.495, 7.797, 1.067, 1.363])
-    >>> diamond.simulation
+    >>> sim.compute_flow()
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 
-    Using epsilon instead of threshold will apply epsilon-filtering.
+    Using epsilon instead of threshold will apply (deprecated) epsilon-filtering.
 
-    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
+    >>> sim = FilteringGreedy(diamond, weights=[1, 2, 2, 2, 1], seed=42,
     ...                            epsilon=.01, number_events=1000, max_queue=1000)
-    True
-    >>> diamond.simulation
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([0.   , 0.984, 0.996, 0.966, 0.   ])
 
-    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            epsilon=.1, number_events=1000, max_queue=100)
-    True
-    >>> diamond.simulation
+    >>> sim = FilteringGreedy(diamond, weights=[1, 2, 2, 2, 1], seed=42,
+    ...                            epsilon=.1, number_events=1000, max_queue=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([0.066, 0.912, 0.996, 0.894, 0.126])
 
     To compare with the priority-based pure greedy version:
 
-    >>> diamond.run('priority', weights=[1, 2, 2, 2, 1], number_events=1000, max_queue=1000, seed=42)
+    >>> diamond.run('priority', weights=[1, 2, 2, 2, 1], n_steps=1000, max_queue=1000, seed=42)
     True
     >>> diamond.simulation
     array([0.444, 0.63 , 0.966, 0.63 , 0.324])
@@ -679,27 +675,24 @@ class FilteringGreedy(QueueSizeSimulator):
 
     Optimize with the first and last edges that provide less reward.
 
-    >>> diamond.run('filtering', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            threshold=100, number_events=1000, max_queue=1000)
-    True
-    >>> diamond.simulation
+    >>> sim = FilteringGreedy(diamond, weights=[1, 2, 2, 2, 1], seed=42, threshold=100, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([3.264, 0.888, 0.948, 0.84 , 0.   ])
 
     Increase the reward on the first edge.
 
-    >>> diamond.run('filtering', weights=[4, 2, 2, 2, 1], seed=42,
-    ...                            threshold=100, number_events=1000, max_queue=1000)
-    True
-    >>> diamond.simulation
+    >>> sim = FilteringGreedy(diamond, weights=[4, 2, 2, 2, 1], seed=42, threshold=100, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([4.152, 0.   , 0.996, 0.   , 0.84 ])
 
     On bijective graphs, no edge is forbidden whatever the weights.
 
     >>> paw = sm.Tadpole()
-    >>> paw.run('filtering', weights=[6, 3, 1, 2], seed=42,
-    ...                            threshold=100, number_events=1000, max_queue=1000)
-    True
-    >>> paw.simulation
+    >>> sim = FilteringGreedy(paw, weights=[6, 3, 1, 2], seed=42, threshold=100, number_events=1000)
+    >>> sim.run()
+    >>> sim.compute_flow()
     array([1.048, 1.056, 1.016, 0.88 ])
     """
     name = 'filtering'
@@ -797,7 +790,7 @@ class PrioritySimulator(QueueSizeSimulator):
     >>> fish = sm.KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])
     >>> fish.run('priority', weights=[0, 2, 2, 0, 1, 1, 0],
     ...                          threshold=50, counterweights = [0, 0, 0, 1, 2, 2, 1],
-    ...                          number_events=10000, seed=42)
+    ...                          n_steps=10000, seed=42)
     True
 
     These priorities are efficient at stabilizing the policy while avoiding edge 3.
@@ -817,7 +810,7 @@ class PrioritySimulator(QueueSizeSimulator):
 
     >>> fish.run('priority', weights=[0, 2, 2, 0, 1, 1, 0],
     ...                          threshold=50,
-    ...                          number_events=10000, seed=42)
+    ...                          n_steps=10000, seed=42)
     True
     >>> fish.simulation
     array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])

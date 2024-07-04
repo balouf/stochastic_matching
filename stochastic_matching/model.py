@@ -6,7 +6,7 @@ from cached_property import cached_property
 
 from stochastic_matching.common import pseudo_inverse_scalar, clean_zeros, CharMaker, neighbors, class_converter
 from stochastic_matching.display import show
-from stochastic_matching.old_simulator.generic import Simulator
+from stochastic_matching.simulator.simulator import Simulator
 
 status_names = {(False, False): "Nonjective",
                 (True, False): "Injective-only",
@@ -1568,16 +1568,24 @@ class Model:
         default = {'flow': flow, 'disp_zero': False, 'check_flow': True}
         show(self, **{**default, **kwargs})
 
-    def run(self, simulator, **kwargs):
+    def run(self, simulator, n_steps=1000000, seed=None, max_queue=1000, **kwargs):
         """
         All-in-one instantiate and run simulation.
 
         Parameters
         ----------
-        simulator: :class:`str` or :class:`~stochastic_matching.simulator.generic.Simulator`
-            Type of old_simulator to instantiate.
+        simulator: :class:`str` or :class:`~stochastic_matching.simulator.simulator.Simulator`
+            Type of simulator to instantiate.
+        n_steps: :class:`int`, optional
+            Number of arrivals to simulate.
+        seed: :class:`int`, optional
+            Seed of the random generator
+        max_queue: :class:`int`
+            Max queue size. Necessary for speed and detection of unstability.
+            For stable systems very close to the unstability
+            border, the max_queue may be reached.
         **kwargs
-            Arguments to pass to the old_simulator.
+            Arguments to pass to the simulator.
 
         Returns
         -------
@@ -1587,16 +1595,16 @@ class Model:
         Examples
         --------
 
-        Let start with a working triangle and a greedy old_simulator.
+        Let start with a working triangle and a greedy simulator.
 
         >>> import stochastic_matching.graphs as sm
         >>> triangle = sm.Cycle(rates=[3, 4, 5])
         >>> triangle.base_flow
         array([1., 2., 3.])
-        >>> triangle.run('random_node', seed=42, number_events=20000)
+        >>> triangle.run('random_edge', seed=42, n_steps=20000)
         True
         >>> triangle.simulation
-        array([1.044 , 2.0352, 2.9202])
+        array([1.0716, 1.9524, 2.976 ])
 
         A ill diamond graph (simulation ends before completion due to drift).
 
@@ -1606,7 +1614,7 @@ class Model:
         >>> diamond.base_flow
         array([0.5, 0.5, 0. , 0.5, 0.5])
 
-        >>> diamond.run('longest_queue', seed=42, number_events=20000)
+        >>> diamond.run('longest', seed=42, n_steps=20000)
         True
         >>> diamond.simulation
         array([0.501 , 0.4914, 0.0018, 0.478 , 0.5014])
@@ -1620,7 +1628,7 @@ class Model:
 
         The above states that the target flow for the hyperedge of the candy (last entry) is 1.
 
-        >>> candy.run('longest_queue', seed=42, number_events=20000)
+        >>> candy.run('longest', seed=42, n_steps=20000)
         False
         >>> candy.simulator.logs['steps_done']
         10459
@@ -1628,18 +1636,18 @@ class Model:
         array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,
            0.59202601, 0.2939478 ])
 
-        A greedy old_simulator performs poorly on the hyperedge.
+        A greedy simulator performs poorly on the hyperedge.
 
-        >>> candy.run('virtual_queue', seed=42, number_events=20000)
+        >>> candy.run('virtual_queue', seed=42, n_steps=20000)
         True
         >>> candy.simulation  # doctest: +NORMALIZE_WHITESPACE
         array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])
 
-        The virtual queue old_simulator manages to cope with the target flow on the hyperedge.
+        The virtual queue simulator manages to cope with the target flow on the hyperedge.
         """
         simulator = class_converter(simulator, Simulator)
-        self.simulator = simulator(self, **kwargs)
+        self.simulator = simulator(self, n_steps=n_steps, seed=seed, max_queue=max_queue, **kwargs)
         self.simulator.run()
         self.simulation = self.simulator.compute_flow()
         self.base_flow = self.simulation
-        return self.simulator.generator['number_events'] == self.simulator.logs['steps_done']
+        return self.simulator.internal['n_steps'] == self.simulator.logs['steps_done']

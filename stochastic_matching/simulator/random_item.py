@@ -5,6 +5,9 @@ from stochastic_matching.simulator.simulator import Simulator
 
 @njit
 def random_item_selector(graph, queue_size, node):
+    """
+    Selects a feasible edge at random proportionally to the number of waiting items.
+    """
     best_edge = -1
     prev_weight = 0.0
 
@@ -24,7 +27,7 @@ def random_item_selector(graph, queue_size, node):
 
 class RandomItem(Simulator):
     """
-    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.classes.QueueSizeSimulator`.
+    Greedy Matching old_simulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
     When multiple choices are possible, chooses proportionally to the sizes of the queues
     (or sum of queues for hyperedges).
 
@@ -45,7 +48,7 @@ class RandomItem(Simulator):
     >>> sim = RandomItem(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([118, 158, 224]),
+    {'traffic': array([118, 158, 224]),
     'queue_log': array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],
            [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],
            [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),
@@ -56,7 +59,7 @@ class RandomItem(Simulator):
     >>> sim = RandomItem(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([10,  6,  2,  5,  5]),
+    {'traffic': array([10,  6,  2,  5,  5]),
      'queue_log': array([[10,  4,  7,  7,  5,  4,  9,  8, 11,  3],
            [68,  0,  0,  0,  0,  0,  0,  0,  0,  0],
            [61,  4,  3,  0,  0,  0,  0,  0,  0,  0],
@@ -68,7 +71,7 @@ class RandomItem(Simulator):
     >>> sim = RandomItem(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([66, 46, 39, 61, 64, 51, 81]),
+    {'traffic': array([66, 46, 39, 61, 64, 51, 81]),
     'queue_log': array([[684, 125,  63,  25,   8,  13,   2,   3,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [660, 130,  65,  34,  32,   2,   0,   0,   0,   0,   0,   0,   0,

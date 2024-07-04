@@ -9,7 +9,35 @@ from stochastic_matching.display import int_2_str
 
 @njit
 def core_simulator(arrivals, graph, n_steps, queue_size, selector,
-                   trafic, queue_log, steps_done):
+                   traffic, queue_log, steps_done):
+    """
+    Generic jitted function for queue-size based policies.
+
+    Parameters
+    ----------
+    arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
+        Item arrival process.
+    graph: :class:`~stochastic_matching.simulator.graph.Graph`
+        Model graph.
+    n_steps: :class:`int`
+        Number of arrivals to process.
+    queue_size: :class:`~numpy.ndarray`
+        Number of waiting items of each class.
+    selector: callable
+        Jitted function that selects edge (or not) based on graph, queue_size, and arriving node.
+    traffic: :class:`~numpy.ndarray`
+        Monitor traffic on edges.
+    queue_log: :class:`~numpy.ndarray`
+        Monitor queue sizes.
+    steps_done: :class:`int`
+        Number of arrivals processed so far.
+
+    Returns
+    -------
+    :class:`int`
+        Total number of steps performed, possibly including previous runs.
+    """
+
     n, max_queue = queue_log.shape
 
     for age in range(n_steps):
@@ -25,12 +53,97 @@ def core_simulator(arrivals, graph, n_steps, queue_size, selector,
         best_edge = selector(graph=graph, queue_size=queue_size, node=node)
 
         if best_edge > -1:
-            trafic[best_edge] += 1
+            traffic[best_edge] += 1
             queue_size[graph.nodes(best_edge)] -= 1
     return steps_done + age + 1
 
 
 class Simulator:
+    """
+    Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.
+
+    Parameters
+    ----------
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    n_steps: :class:`int`, optional
+        Number of arrivals to simulate.
+    seed: :class:`int`, optional
+        Seed of the random generator
+    max_queue: :class:`int`
+        Max queue size. Necessary for speed and detection of unstability.
+        For stable systems very close to the unstability
+        border, the max_queue may be reached.
+
+    Attributes
+    ----------
+    internal: :class:`dict`
+        Inner variables. Default to arrivals, graphs, queue_size, n_steps. Sub-classes can add other variables.
+    logs: :class:`dict`
+        Monitored variables (default to traffic on edges,
+        queue size distribution, and number of steps achieved).
+
+    Examples
+    --------
+
+    >>> import stochastic_matching as sm
+    >>> sim = sm.FCFM(sm.CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, n_steps=1000, max_queue=8)
+    >>> sim
+    Simulator of type fcfm.
+
+    Use :meth:`~stochastic_matching.simulator.simulator.Simulator.run` to make the simulation.
+
+    >>> sim.run()
+
+    Raw results are stored in `logs`.
+
+    >>> sim.logs #doctest: +NORMALIZE_WHITESPACE
+    {'traffic': array([43, 17, 14, 23, 12]),
+    'queue_log': array([[119,  47,  26,  15,  14,   7,   1,   1],
+       [189,  25,  13,   3,   0,   0,   0,   0],
+       [218,   8,   3,   1,   0,   0,   0,   0],
+       [126,  50,  31,  11,   9,   3,   0,   0]]), 'steps_done': 230}
+
+    Different methods are proposed to provide various indicators.
+
+    >>> sim.compute_average_queues()
+    array([1.07826087, 0.26086957, 0.07391304, 0.85217391])
+
+    >>> sim.total_waiting_time()
+    0.36535764375876584
+
+    >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
+    array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,
+        0.03913043, 0.00869565, 0.00434783, 0.        ],
+       [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,
+        0.        , 0.        , 0.        , 0.        ],
+       [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,
+        0.        , 0.        , 0.        , 0.        ],
+       [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,
+        0.01304348, 0.        , 0.        , 0.        ]])
+
+
+    >>> sim.compute_flow()
+    array([1.15913043, 0.45826087, 0.3773913 , 0.62      , 0.32347826])
+
+    You can also draw the average or CCDF of the queues.
+
+    >>> fig = sim.show_average_queues()
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+
+    >>> fig = sim.show_average_queues(indices=[0, 3, 2], sort=True, as_time=True)
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+
+    >>> fig = sim.show_ccdf()
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+
+    >>> fig = sim.show_ccdf(indices=[0, 3, 2], sort=True, strict=True)
+    >>> fig #doctest: +ELLIPSIS
+    <Figure size ...x... with 1 Axes>
+    """
     name = None
     """
     Name that can be used to list all non-abstract classes.
@@ -71,7 +184,7 @@ class Simulator:
         -------
         None
         """
-        self.logs = {'trafic': np.zeros(self.model.m, dtype=int),
+        self.logs = {'traffic': np.zeros(self.model.m, dtype=int),
                      'queue_log': np.zeros((self.model.n, self.max_queue), dtype=int),
                      'steps_done': 0}
 
@@ -174,7 +287,7 @@ class Simulator:
         # noinspection PyUnresolvedReferences
         tot_mu = np.sum(self.model.rates)
         steps = self.logs['steps_done']
-        return self.logs['trafic'] * tot_mu / steps
+        return self.logs['traffic'] * tot_mu / steps
 
     def show_ccdf(self, indices=None, sort=None, strict=False):
         """

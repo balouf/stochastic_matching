@@ -5,6 +5,9 @@ from stochastic_matching.simulator.simulator import Simulator
 
 @njit
 def random_edge_selector(graph, queue_size, node):
+    """
+    Selects a feasible edge at random.
+    """
     best_edge = -1
     best_score = -1.0
     for e in graph.edges(node):
@@ -21,7 +24,7 @@ def random_edge_selector(graph, queue_size, node):
 
 class RandomEdge(Simulator):
     """
-    Greedy Matching old_simulator derived from :class:`~stochastic_matching.old_simulator.queue_size.QueueSize`.
+    Greedy Matching osimulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
     When multiple choices are possible, one edge is chosen uniformly at random.
 
     Parameters
@@ -46,7 +49,7 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([118, 158, 224]),
+    {'traffic': array([118, 158, 224]),
     'queue_log': array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],
            [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],
            [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),
@@ -58,7 +61,7 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([118, 158, 224]),
+    {'traffic': array([118, 158, 224]),
     'queue_log': array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],
            [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],
            [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),
@@ -69,7 +72,7 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([10,  8,  2,  8,  6]),
+    {'traffic': array([10,  8,  2,  8,  6]),
     'queue_log': array([[10,  4,  7, 13,  5,  5, 10, 24,  5,  1],
            [84,  0,  0,  0,  0,  0,  0,  0,  0,  0],
            [77,  4,  3,  0,  0,  0,  0,  0,  0,  0],
@@ -83,7 +86,7 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([24, 22, 19, 28, 35, 19, 26]),
+    {'traffic': array([24, 22, 19, 28, 35, 19, 26]),
     'queue_log': array([[306,  77,  15,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [306,  53,  32,   9,   1,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -105,7 +108,7 @@ class RandomEdge(Simulator):
     >>> sim.reset()
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'trafic': array([24, 22, 19, 28, 35, 19, 26]),
+    {'traffic': array([24, 22, 19, 28, 35, 19, 26]),
     'queue_log': array([[306,  77,  15,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,
               0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
            [306,  53,  32,   9,   1,   0,   0,   0,   0,   0,   0,   0,   0,

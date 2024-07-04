@@ -318,7 +318,7 @@ class FCFM(QueueStateSimulator):
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
     >>> import stochastic_matching as sm
-    >>> sim = sm.FCFM(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
+    >>> sim = FCFM(sm.Cycle(rates=[3, 4, 5]), number_events=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     {'trafic': array([125, 162, 213], dtype=uint64),

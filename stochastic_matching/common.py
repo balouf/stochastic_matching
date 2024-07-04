@@ -147,16 +147,16 @@ def class_converter(subclass, motherclass):
     --------
 
     >>> import stochastic_matching as sm
-    >>> from stochastic_matching.old_simulator.generic import Simulator
-    >>> class_converter('random_node', Simulator)
-    <class 'stochastic_matching.old_simulator.size_based.RandomNodeSimulator'>
+    >>> from stochastic_matching.simulator.simulator import Simulator
+    >>> class_converter('random_edge', Simulator)
+    <class 'stochastic_matching.simulator.random_edge.RandomEdge'>
     >>> class_converter(sm.FCFM, Simulator)
-    <class 'stochastic_matching.old_simulator.age_based.FCFM'>
+    <class 'stochastic_matching.simulator.fcfm.FCFM'>
     >>> class_converter('anything', Simulator)  # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
     ...
     ValueError: anything is not a known name for a subclass of Simulator.
-    Known names: virtual_queue, generic_queue_size, fcfm, random_node, longest_queue, random_item, filtering, priority.
+    Known names: fcfm, longest, priority, random_edge, random_item, virtual_queue.
 
     >>> class_converter(2, Simulator)
     Traceback (most recent call last):

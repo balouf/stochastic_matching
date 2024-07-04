@@ -5,6 +5,9 @@ from stochastic_matching.simulator.simulator import Simulator
 
 
 def make_priority_selector(weights, threshold, counterweights):
+    """
+    Make a jitted edge elector based on priorities.
+    """
     def priority_selector(graph, queue_size, node):
         best_edge = -1
         best_weight = -1000
@@ -33,6 +36,58 @@ def make_priority_selector(weights, threshold, counterweights):
 
 
 class Priority(Simulator):
+    """
+    Greedy policy based on pre-determined preferences on edges.
+
+    A threshold can be specified to alter the weights if the queue sizes get too big.
+
+    Parameters
+    ----------
+    model: :class:`~stochastic_matching.model.Model`
+        Model to simulate.
+    weights: :class:`list` or :class:`~numpy.ndarray`
+        Priorities associated to the edges.
+    threshold: :class:`int`, optional
+        Limit on max queue size to apply the weight priority.
+    counterweights: :class:`list` or :class:`~numpy.ndarray`, optional
+        Priority to use above threshold (if not provided, reverse weights is used).
+    **kwargs
+        Keyword arguments.
+
+    Examples
+    --------
+
+    >>> import stochastic_matching as sm
+    >>> fish = sm.KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])
+    >>> fish.run('priority', weights=[0, 2, 2, 0, 1, 1, 0],
+    ...                          threshold=50, counterweights = [0, 0, 0, 1, 2, 2, 1],
+    ...                          n_steps=10000, seed=42)
+    True
+
+    These priorities are efficient at stabilizing the policy while avoiding edge 3.
+
+    >>> fish.simulation
+    array([2.925 , 1.0404, 0.9522, 0.    , 0.9504, 2.0808, 1.0044])
+
+    The last node is the pseudo-instable node.
+
+    >>> fish.simulator.compute_average_queues()[-1]
+    38.3411
+    >>> import numpy as np
+    >>> np.round(np.mean(fish.simulator.compute_average_queues()[:-1]), decimals=2)
+    0.75
+
+    Choosing proper counter-weights is important.
+
+    >>> fish.run('priority', weights=[0, 2, 2, 0, 1, 1, 0],
+    ...                          threshold=50,
+    ...                          n_steps=10000, seed=42)
+    True
+    >>> fish.simulation
+    array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])
+    >>> fish.simulator.compute_average_queues()[-1]
+    38.5966
+    """
     name = "priority"
 
     def __init__(self, model, weights, threshold=None, counterweights=None, **kwargs):
