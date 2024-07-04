@@ -456,7 +456,7 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`</span>
 <span class="sd">        Item arrival process.</span>
-<span class="sd">    graph: :class:`~stochastic_matching.simulator.graph.Graph`</span>
+<span class="sd">    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`</span>
 <span class="sd">        Model graph.</span>
 <span class="sd">    n_steps: :class:`int`</span>
 <span class="sd">        Number of arrivals to process.</span>
@@ -491,8 +491,10 @@ document.write(`
     <span class="c1"># Optimize forbidden edges and set greedy flag.</span>
     <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">forbid</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">forbidden_edges</span><span class="p">}</span>
+        <span class="n">has_forbidden</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">forbid</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">)}</span>
+        <span class="n">has_forbidden</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">infinity</span> <span class="o">=</span> <span class="n">edge_queue</span><span class="o">.</span><span class="n">infinity</span>
 
@@ -520,15 +522,15 @@ document.write(`
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">ready_edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="n">forbid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">restrain</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">has_forbidden</span><span class="p">:</span>
             <span class="n">restrain</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
                         <span class="n">restrain</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">restrain</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="c1"># Select best edge</span>
         <span class="n">best_edge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -642,7 +644,8 @@ document.write(`
 
 <span class="sd">    Let&#39;s optimize (kill traffic on first and last edges).</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],</span>
+<span class="sd">    ...                    n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;traffic&#39;: array([ 0, 22, 24, 27,  0]),</span>
@@ -654,7 +657,8 @@ document.write(`
 
 <span class="sd">    OK, it&#39;s working but we reached the maximal queue size quite fast. Let&#39;s reduce the pressure.</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0], egpd_beta=.8, n_steps=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],</span>
+<span class="sd">    ...                    egpd_beta=.8, n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;traffic&#39;: array([ 32, 146, 161, 146,  13]),</span>
@@ -662,6 +666,31 @@ document.write(`
 <span class="sd">           [515, 153, 123, 109,  48,  32,  16,   4,   0,   0],</span>
 <span class="sd">           [662, 136,  91,  62,  38,   4,   2,   2,   2,   1],</span>
 <span class="sd">           [791, 128,  50,  18,   7,   6,   0,   0,   0,   0]]), &#39;steps_done&#39;: 1000}</span>
+
+<span class="sd">    Let&#39;s now use a k-filtering for this diamond:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]),</span>
+<span class="sd">    ...                    weights=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;traffic&#39;: array([ 0, 27, 29, 28,  0]),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[159,  16,   3,   3,   0,   0,   0,   0,   0,   0],</span>
+<span class="sd">           [137,  19,   8,   4,   5,   4,   3,   1,   0,   0],</span>
+<span class="sd">           [ 71,  25,  13,  14,  12,  15,  21,   8,   1,   1],</span>
+<span class="sd">           [ 97,  24,  13,  12,   9,  16,   8,   2,   0,   0]]), &#39;steps_done&#39;: 181}</span>
+
+<span class="sd">    Let us reduce the pressure.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0],</span>
+<span class="sd">    ...                    n_steps=1000, seed=42, max_queue=10, threshold=6)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;traffic&#39;: array([ 31, 145, 161, 145,  14]),</span>
+<span class="sd">    &#39;queue_log&#39;: array([[601, 171, 122,  80,  20,   6,   0,   0,   0,   0],</span>
+<span class="sd">           [445, 151, 137, 104,  81,  64,  14,   4,   0,   0],</span>
+<span class="sd">           [698,  83,  52,  59,  57,  38,   7,   3,   2,   1],</span>
+<span class="sd">           [730, 130,  64,  35,  26,   9,   2,   4,   0,   0]]), &#39;steps_done&#39;: 1000}</span>
+
 
 <span class="sd">    A stable candy. While candies are not good for greedy policies, the virtual queue is</span>
 <span class="sd">    designed to deal with it.</span>
