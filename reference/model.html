@@ -1204,13 +1204,18 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 
 <dl class="py method">
 <dt class="sig sig-object py" id="stochastic_matching.model.Model.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.run" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/model.html#Model.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.model.Model.run" title="Link to this definition">#</a></dt>
 <dd><p>All-in-one instantiate and run simulation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code>) – Type of old_simulator to instantiate.</p></li>
-<li><p><strong>**kwargs</strong> – Arguments to pass to the old_simulator.</p></li>
+<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code>) – Type of simulator to instantiate.</p></li>
+<li><p><strong>n_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of arrivals to simulate.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Seed of the random generator</p></li>
+<li><p><strong>max_queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Max queue size. Necessary for speed and detection of unstability.
+For stable systems very close to the unstability
+border, the max_queue may be reached.</p></li>
+<li><p><strong>**kwargs</strong> – Arguments to pass to the simulator.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1221,15 +1226,15 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Let start with a working triangle and a greedy old_simulator.</p>
+<p>Let start with a working triangle and a greedy simulator.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching.graphs</span> <span class="k">as</span> <span class="nn">sm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">base_flow</span>
 <span class="go">array([1., 2., 3.])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_node&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_edge&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">simulation</span>
-<span class="go">array([1.044 , 2.0352, 2.9202])</span>
+<span class="go">array([1.0716, 1.9524, 2.976 ])</span>
 </pre></div>
 </div>
 <p>A ill diamond graph (simulation ends before completion due to drift).</p>
@@ -1239,7 +1244,7 @@ Default to <cite>proportional</cite>, which makes the problem stabilizable if th
 <span class="go">array([0.5, 0.5, 0. , 0.5, 0.5])</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
 <span class="go">array([0.501 , 0.4914, 0.0018, 0.478 , 0.5014])</span>
@@ -1253,7 +1258,7 @@ designed to deal with it.</p>
 </pre></div>
 </div>
 <p>The above states that the target flow for the hyperedge of the candy (last entry) is 1.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="go">False</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span>
 <span class="go">10459</span>
@@ -1262,14 +1267,14 @@ designed to deal with it.</p>
 <span class="go">   0.59202601, 0.2939478 ])</span>
 </pre></div>
 </div>
-<p>A greedy old_simulator performs poorly on the hyperedge.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<p>A greedy simulator performs poorly on the hyperedge.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">simulation</span>  
 <span class="go">array([0.96048, 0.04104, 0.04428, 0.06084, 0.06084, 0.94464, 0.9846 ])</span>
 </pre></div>
 </div>
-<p>The virtual queue old_simulator manages to cope with the target flow on the hyperedge.</p>
+<p>The virtual queue simulator manages to cope with the target flow on the hyperedge.</p>
 </dd></dl>
 
 <dl class="py property">

@@ -599,16 +599,16 @@ document.write(`
 <span class="sd">    --------</span>
 
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
-<span class="sd">    &gt;&gt;&gt; from stochastic_matching.old_simulator.generic import Simulator</span>
-<span class="sd">    &gt;&gt;&gt; class_converter(&#39;random_node&#39;, Simulator)</span>
-<span class="sd">    &lt;class &#39;stochastic_matching.old_simulator.size_based.RandomNodeSimulator&#39;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; from stochastic_matching.simulator.simulator import Simulator</span>
+<span class="sd">    &gt;&gt;&gt; class_converter(&#39;random_edge&#39;, Simulator)</span>
+<span class="sd">    &lt;class &#39;stochastic_matching.simulator.random_edge.RandomEdge&#39;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; class_converter(sm.FCFM, Simulator)</span>
-<span class="sd">    &lt;class &#39;stochastic_matching.old_simulator.age_based.FCFM&#39;&gt;</span>
+<span class="sd">    &lt;class &#39;stochastic_matching.simulator.fcfm.FCFM&#39;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; class_converter(&#39;anything&#39;, Simulator)  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traceback (most recent call last):</span>
 <span class="sd">    ...</span>
 <span class="sd">    ValueError: anything is not a known name for a subclass of Simulator.</span>
-<span class="sd">    Known names: virtual_queue, generic_queue_size, fcfm, random_node, longest_queue, random_item, filtering, priority.</span>
+<span class="sd">    Known names: fcfm, longest, priority, random_edge, random_item, virtual_queue.</span>
 
 <span class="sd">    &gt;&gt;&gt; class_converter(2, Simulator)</span>
 <span class="sd">    Traceback (most recent call last):</span>
