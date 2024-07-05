@@ -181,7 +181,7 @@ class EFiltering(Simulator):
                                                   epsilon=self.epsilon)
         expanded_simu = self.base_policy(model=expanded_model, n_steps=self.n_steps, max_queue=self.max_queue,
                                          seed=self.seed)
-        self.internal = {'simu': expanded_simu, 'edges': edges}
+        self.internal = {'simu': expanded_simu, 'edges': edges, 'n_steps': self.n_steps}
 
     def run(self):
         n = self.model.n
