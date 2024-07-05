@@ -42,6 +42,8 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
 
     n, max_queue = queue_log.shape
 
+    bad_score = np.min(scores) - 1
+
     # Optimize forbidden edges and set greedy flag.
     if forbidden_edges is not None:
         forbid = {k: True for k in forbidden_edges}
@@ -75,7 +77,7 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
                             break
 
             best_edge = -1
-            best_score = -1
+            best_score = bad_score
             # update scores
             for e in graph.edges(node):
                 if restrain and e in forbid:
