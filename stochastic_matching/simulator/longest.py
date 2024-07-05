@@ -109,12 +109,12 @@ class Longest(Simulator):
 
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
-    egpd_weights: :class:`~numpy.ndarray`, optional
+    egpd_weights: :class:`~numpy.ndarray` or :class:`list`, optional
         EGPD rewards for default edge score.
     egpd_beta: :class:`float`, default=.01
         EGPD factor (smaller means higher reward impact).
     forbidden_edges: :class:`list` or :class:`~numpy.ndarray`, optional
-        Egdes that should not be used.
+        Edges that should not be used.
     weights: :class:`~numpy.ndarray`, optional
         Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
         (overrides forbidden_edges argument).
@@ -133,45 +133,45 @@ class Longest(Simulator):
     >>> sim = Longest(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([125, 162, 213]),
-    'queue_log': array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],
-       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],
-       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]]),
-    'steps_done': 1000}
+    Traffic: [125 162 213]
+    Queues: [[838 104  41  13   3   1   0   0   0   0]
+     [796 119  53  22   8   2   0   0   0   0]
+     [640 176  92  51  24   9   5   3   0   0]]
+    Steps done: 1000
 
     A non stabilizable diamond (simulation ends before completion due to drift).
 
     >>> sim = Longest(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([38, 38,  7, 37, 40]),
-    'queue_log': array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],
-           [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],
-           [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],
-           [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]]),
-    'steps_done': 339}
+    Traffic: [38 38  7 37 40]
+    Queues: [[127  74  28  37  21  32  16   1   2   1]
+     [327   8   3   1   0   0   0   0   0   0]
+     [322  12   4   1   0   0   0   0   0   0]
+     [ 91  80  47  37  37  23  11   3   5   5]]
+    Steps done: 339
 
     A stabilizable candy (but candies are not good for greedy policies).
 
     >>> sim = Longest(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([24, 17,  2, 23, 33, 12, 13]),
-    'queue_log': array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,
-             10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],
-           [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),
-    'steps_done': 292}
+    Traffic: [24 17  2 23 33 12 13]
+    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16
+        3   3  21  27  22   1   7]
+     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]]
+    Steps done: 292
 
     Using Stolyar EGCD technique (longest version), one can try to reach some vertices.
 
@@ -304,4 +304,4 @@ class Longest(Simulator):
         self.internal['threshold'] = self.threshold
 
     def run(self):
-        self.logs['steps_done'] = longest_core(**self.internal, **self.logs)
+        self.logs.steps_done = longest_core(**self.internal, **self.logs.asdict())

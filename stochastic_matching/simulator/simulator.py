@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 
 from stochastic_matching.simulator.arrivals import Arrivals
 from stochastic_matching.simulator.graph import make_jit_graph
+from stochastic_matching.simulator.logs import Logs
 from stochastic_matching.display import int_2_str
 
 
@@ -79,9 +80,8 @@ class Simulator:
     ----------
     internal: :class:`dict`
         Inner variables. Default to arrivals, graphs, queue_size, n_steps. Sub-classes can add other variables.
-    logs: :class:`dict`
-        Monitored variables (default to traffic on edges,
-        queue size distribution, and number of steps achieved).
+    logs: :class:`~stochastic_matching.simulator.logs.Logs`
+        Monitored variables (traffic on edges, queue size distribution, number of steps achieved).
 
     Examples
     --------
@@ -98,11 +98,12 @@ class Simulator:
     Raw results are stored in `logs`.
 
     >>> sim.logs #doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([43, 17, 14, 23, 12]),
-    'queue_log': array([[119,  47,  26,  15,  14,   7,   1,   1],
-       [189,  25,  13,   3,   0,   0,   0,   0],
-       [218,   8,   3,   1,   0,   0,   0,   0],
-       [126,  50,  31,  11,   9,   3,   0,   0]]), 'steps_done': 230}
+    Traffic: [43 17 14 23 12]
+    Queues: [[119  47  26  15  14   7   1   1]
+     [189  25  13   3   0   0   0   0]
+     [218   8   3   1   0   0   0   0]
+     [126  50  31  11   9   3   0   0]]
+    Steps done: 230
 
     Different methods are proposed to provide various indicators.
 
@@ -159,8 +160,7 @@ class Simulator:
         self.internal = None
         self.set_internal()
 
-        self.logs = None
-        self.set_logs()
+        self.logs = Logs(self)
 
     def set_internal(self):
         """
@@ -171,22 +171,10 @@ class Simulator:
         None
         """
         self.internal = {'arrivals': Arrivals(mu=self.model.rates, seed=self.seed),
-                      'graph': make_jit_graph(self.model),
-                      'n_steps': self.n_steps,
-                      'queue_size': np.zeros(self.model.n, dtype=int)
-                      }
-
-    def set_logs(self):
-        """
-        Populate the monitored variables.
-
-        Returns
-        -------
-        None
-        """
-        self.logs = {'traffic': np.zeros(self.model.m, dtype=int),
-                     'queue_log': np.zeros((self.model.n, self.max_queue), dtype=int),
-                     'steps_done': 0}
+                         'graph': make_jit_graph(self.model),
+                         'n_steps': self.n_steps,
+                         'queue_size': np.zeros(self.model.n, dtype=int)
+                         }
 
     def reset(self):
         """
@@ -197,7 +185,7 @@ class Simulator:
         None
         """
         self.set_internal()
-        self.set_logs()
+        self.logs = Logs(self)
 
     def run(self):
         """
@@ -208,7 +196,7 @@ class Simulator:
         -------
         None
         """
-        self.logs['steps_done'] = core_simulator(**self.internal, **self.logs)
+        self.logs.steps_done = core_simulator(**self.internal, **self.logs.asdict())
 
     def compute_average_queues(self):
         """
@@ -217,7 +205,7 @@ class Simulator:
         :class:`~numpy.ndarray`
             Average queue sizes.
         """
-        return self.logs['queue_log'].dot(np.arange(self.max_queue)) / self.logs['steps_done']
+        return self.logs.queue_log.dot(np.arange(self.max_queue)) / self.logs.steps_done
 
     def total_waiting_time(self):
         """
@@ -271,10 +259,10 @@ class Simulator:
         :class:`~numpy.ndarray`
             CCDFs of the queues.
         """
-        events = self.logs['steps_done']
+        events = self.logs.steps_done
         n = self.model.n
         # noinspection PyUnresolvedReferences
-        return (events - np.cumsum(np.hstack([np.zeros((n, 1)), self.logs['queue_log']]), axis=1)) / events
+        return (events - np.cumsum(np.hstack([np.zeros((n, 1)), self.logs.queue_log]), axis=1)) / events
 
     def compute_flow(self):
         """
@@ -287,8 +275,8 @@ class Simulator:
         """
         # noinspection PyUnresolvedReferences
         tot_mu = np.sum(self.model.rates)
-        steps = self.logs['steps_done']
-        return self.logs['traffic'] * tot_mu / steps
+        steps = self.logs.steps_done
+        return self.logs.traffic * tot_mu / steps
 
     def show_ccdf(self, indices=None, sort=None, strict=False):
         """

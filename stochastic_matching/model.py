@@ -764,14 +764,14 @@ class Model:
 
     Parameters
     ----------
-    incidence: :class:`~numpy.ndarray`, optional
+    incidence: :class:`~numpy.ndarray` or :class:`list`, optional
         Incidence matrix. If used, the graph will be considered as a hypergraph.
-    adjacency: :class:`~numpy.ndarray`, optional
+    adjacency: :class:`~numpy.ndarray` or :class:`list`, optional
         Adjacency matrix. If used, the graph will be considered as a simple graph.
     rates: :class:`~numpy.ndarray` or :class:`list` or :class:`str`, optional
         Arrival rates. You can use a specific rate vector or list.
         You can use `uniform` or `proportional` for uniform or degree-proportional allocation.
-        Default to `proportional`, which makes the problem stabilizable if the graph is bijective.
+        Default to `proportional`, which makes the problem stabilizable if the graph is surjective.
     names: :class:`list` of :class:`str` or 'alpha', optional
         List of node names (e.g. for display)
     tol: :class:`float`, optional
@@ -1630,7 +1630,7 @@ class Model:
 
         >>> candy.run('longest', seed=42, n_steps=20000)
         False
-        >>> candy.simulator.logs['steps_done']
+        >>> candy.simulator.logs.steps_done
         10459
         >>> candy.simulation  # doctest: +NORMALIZE_WHITESPACE
         array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,
@@ -1650,4 +1650,4 @@ class Model:
         self.simulator.run()
         self.simulation = self.simulator.compute_flow()
         self.base_flow = self.simulation
-        return self.simulator.internal['n_steps'] == self.simulator.logs['steps_done']
+        return self.simulator.internal['n_steps'] == self.simulator.logs.steps_done

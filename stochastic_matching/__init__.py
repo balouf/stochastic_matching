@@ -14,6 +14,7 @@ from stochastic_matching.simulator.priority import Priority
 from stochastic_matching.simulator.random_edge import RandomEdge
 from stochastic_matching.simulator.random_item import RandomItem
 from stochastic_matching.simulator.virtual_queue import VirtualQueue
+from stochastic_matching.simulator.e_filtering import EFiltering
 
 
 # from stochastic_matching.old_simulator.age_based import FCFM

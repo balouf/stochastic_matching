@@ -29,7 +29,6 @@ class RandomEdge(Simulator):
 
     Parameters
     ----------
-
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
     **kwargs
@@ -49,11 +48,11 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([118, 158, 224]),
-    'queue_log': array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],
-           [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],
-           [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),
-    'steps_done': 1000}
+    Traffic: [118 158 224]
+    Queues: [[865  92  32  10   1   0   0   0   0   0   0]
+     [750 142  62  28  12   3   2   1   0   0   0]
+     [662 164  73  36  21   7  10  12   8   5   2]]
+    Steps done: 1000
 
      Sanity check: results are unchanged if the graph is treated as hypergraph.
 
@@ -61,23 +60,23 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([118, 158, 224]),
-    'queue_log': array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],
-           [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],
-           [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),
-    'steps_done': 1000}
+    Traffic: [118 158 224]
+    Queues: [[865  92  32  10   1   0   0   0   0   0   0]
+     [750 142  62  28  12   3   2   1   0   0   0]
+     [662 164  73  36  21   7  10  12   8   5   2]]
+    Steps done: 1000
 
     A ill diamond graph (simulation ends before completion due to drift).
 
     >>> sim = RandomEdge(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([10,  8,  2,  8,  6]),
-    'queue_log': array([[10,  4,  7, 13,  5,  5, 10, 24,  5,  1],
-           [84,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-           [77,  4,  3,  0,  0,  0,  0,  0,  0,  0],
-           [14,  8, 15, 19, 14,  8,  2,  1,  2,  1]]),
-    'steps_done': 84}
+    Traffic: [10  8  2  8  6]
+    Queues: [[10  4  7 13  5  5 10 24  5  1]
+     [84  0  0  0  0  0  0  0  0  0]
+     [77  4  3  0  0  0  0  0  0  0]
+     [14  8 15 19 14  8  2  1  2  1]]
+    Steps done: 84
     >>> sim.compute_flow()
     array([0.47619048, 0.38095238, 0.0952381 , 0.38095238, 0.28571429])
 
@@ -86,44 +85,44 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([24, 22, 19, 28, 35, 19, 26]),
-    'queue_log': array([[306,  77,  15,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [306,  53,  32,   9,   1,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [342,  36,  18,   5,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [  8,   6,   9,  13,   7,  34,  41,  47,  23,   9,   2,   3,   2,
-              7,   6,   2,  12,  46,  16,  14,  39,  43,   2,   5,   5],
-           [276,  51,  38,  30,   6,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [325,  50,  21,   4,   1,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [306,  47,  23,   9,   2,   3,   5,   5,   1,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),
-    'steps_done': 401}
+    Traffic: [24 22 19 28 35 19 26]
+    Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [306  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [342  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [  8   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46
+       16  14  39  43   2   5   5]
+     [276  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [325  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [306  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]]
+    Steps done: 401
 
-    Note that you can reset the old_simulator before starting another run.
+    Note that you can reset the simulator before starting another run.
 
     >>> sim.reset()
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([24, 22, 19, 28, 35, 19, 26]),
-    'queue_log': array([[306,  77,  15,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [306,  53,  32,   9,   1,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [342,  36,  18,   5,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [  8,   6,   9,  13,   7,  34,  41,  47,  23,   9,   2,   3,   2,
-              7,   6,   2,  12,  46,  16,  14,  39,  43,   2,   5,   5],
-           [276,  51,  38,  30,   6,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [325,  50,  21,   4,   1,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [306,  47,  23,   9,   2,   3,   5,   5,   1,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),
-    'steps_done': 401}
+    Traffic: [24 22 19 28 35 19 26]
+    Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [306  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [342  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [  8   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46
+       16  14  39  43   2   5   5]
+     [276  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [325  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [306  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]]
+    Steps done: 401
 
     You can display the distribution of queue sizes as a ccdf:
 

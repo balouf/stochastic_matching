@@ -91,23 +91,23 @@ class FCFM(Simulator):
     >>> sim = FCFM(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([125, 162, 213]),
-    'queue_log': array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],
-       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],
-       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]]),
-    'steps_done': 1000}
+    Traffic: [125 162 213]
+    Queues: [[838 104  41  13   3   1   0   0   0   0]
+     [796 119  53  22   8   2   0   0   0   0]
+     [640 176  92  51  24   9   5   3   0   0]]
+    Steps done: 1000
 
     Unstable diamond (simulation ends before completion due to drift).
 
     >>> sim = FCFM(sm.CycleChain(rates=[1, 1, 1, 1]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([34, 42,  7, 41, 36]),
-    'queue_log': array([[127,  70,  22,  26,  29,  12,  23,  15,  10,   5],
-           [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],
-           [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],
-           [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]]),
-    'steps_done': 339}
+    Traffic: [34 42  7 41 36]
+    Queues: [[127  70  22  26  29  12  23  15  10   5]
+     [327   8   3   1   0   0   0   0   0   0]
+     [322  12   4   1   0   0   0   0   0   0]
+     [106  80  65  28  31  15   4   2   6   2]]
+    Steps done: 339
 
     A stable candy (but candies are not good for greedy policies).
 
@@ -115,22 +115,22 @@ class FCFM(Simulator):
     ...            n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
-    {'traffic': array([24, 17,  2, 23, 33, 12, 13]),
-    'queue_log': array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,
-             10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],
-           [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-           [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,
-              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),
-    'steps_done': 292}
+    Traffic: [24 17  2 23 33 12 13]
+    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16
+        3   3  21  27  22   1   7]
+     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]
+     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0
+        0   0   0   0   0   0   0]]
+    Steps done: 292
     """
     name = 'fcfm'
 
@@ -139,4 +139,4 @@ class FCFM(Simulator):
         self.internal['queues'] = MultiQueue(self.model.n, max_queue=self.max_queue + 1)
 
     def run(self):
-        self.logs['steps_done'] = fcfm_core(**self.internal, **self.logs)
+        self.logs.steps_done = fcfm_core(**self.internal, **self.logs.asdict())
