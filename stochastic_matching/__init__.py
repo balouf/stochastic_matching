@@ -2,7 +2,7 @@
 
 __author__ = """Fabien Mathieu"""
 __email__ = 'fabien.mathieu@normalesup.org'
-__version__ = '0.2.2'
+__version__ = '0.3.0'
 
 from stochastic_matching.model import Model
 from stochastic_matching.graphs import Path, Star, Cycle, Codomino, CycleChain, Complete, Pyramid, HyperPaddle, \

@@ -1,13 +1,17 @@
 # History
 
-## 0.3.0 (2024-05-17): Let's boost things
+## 0.3.0 (2024-07-05): Let's boost things
 
+* Simulator re-written almost entirely
+  * Easier to read/maintain thanks to jit and data classes.
+  * Roughly 40% faster than previous version.
+  * Virtual queue updated with better edge-FCFM policy.
+  * EGPD ported to both virtual queue and longest policies.
+  * epsilon-filtering (a.k.a. epsilon-coloring) added.
 * Switch to Poetry
   * Easier package maintainance
   * Pydata documentation style
   * Supported Python version: >=3.10
-* Stolyar (EGCD) updated: wrong implementation of inner FCFM fixed, beta-orientation added, forbidden edges added
-* Epsilon-filtering added
 
 ## 0.2.2 (2023-06-18): Improved CCDF
 

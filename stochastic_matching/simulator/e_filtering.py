@@ -70,8 +70,8 @@ class EFiltering(Simulator):
     -----
 
     Due to technical constraints, the queue_log does not contain the actual queue_log of the true model but the
-    average of the queue_log of the "+" and "-" items.
-    For example, queue_log[0, 0] contains the average of the times where 0+ is null and 0- is null.
+    sum of the queue_log of the "+" and "-" items.
+    For example, queue_log[0, 0] contains the sum of the times where 0+ is null and when 0- is null.
     This does not impact the computation of flows and average queues but the CCDF is not accurate
     and should not be used.
 
@@ -89,11 +89,14 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.logs
     Traffic: [  1 158 189 147   1]
-    Queues: [[786.   22.   30.5 ...   0.    0.    0. ]
-     [780.5  18.5  26.  ...   0.    0.    0. ]
-     [764.5  33.   33.5 ...   0.    0.    0. ]
-     [768.5  31.   29.5 ...   0.    0.    0. ]]
+    Queues: [[1572   44   61 ...    0    0    0]
+     [1561   37   52 ...    0    0    0]
+     [1529   66   67 ...    0    0    0]
+     [1537   62   59 ...    0    0    0]]
     Steps done: 1000
+
+    Notice the big queue_log. Each row sums to 2000 instead of 1000 because of state aggregation. It does not
+    impact any computed metric apart from the CCDF, which is faulty.
 
     Switch to a FCFM policy:
 
@@ -101,10 +104,10 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.logs
     Traffic: [  1 158 189 147   1]
-    Queues: [[785.   49.5  59.  ...   0.    0.    0. ]
-     [785.   17.5  18.5 ...   0.    0.    0. ]
-     [764.   29.   28.5 ...   0.    0.    0. ]
-     [775.5  42.   49.  ...   0.    0.    0. ]]
+    Queues: [[1570   99  118 ...    0    0    0]
+     [1570   35   37 ...    0    0    0]
+     [1528   58   57 ...    0    0    0]
+     [1551   84   98 ...    0    0    0]]
     Steps done: 1000
 
     Switch to virtual queue:
@@ -113,10 +116,10 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.logs
     Traffic: [  0 157 186 144   1]
-    Queues: [[656.   46.5  55.  ...   0.    0.    0. ]
-     [554.5  60.   55.5 ...   0.    0.    0. ]
-     [534.   56.5  38.  ...   0.    0.    0. ]
-     [587.5  71.   68.5 ...   0.    0.    0. ]]
+    Queues: [[1312   93  110 ...    0    0    0]
+     [1109  120  111 ...    0    0    0]
+     [1068  113   76 ...    0    0    0]
+     [1175  142  137 ...    0    0    0]]
     Steps done: 1000
 
     Stolyar's example to see the behavior on hypergraph:
@@ -131,16 +134,15 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.logs
     Traffic: [  0   0 311  76 213   0  55]
-    Queues: [[515.5  57.   90.5 ...   0.    0.    0. ]
-     [511.5  32.   58.5 ...   0.    0.    0. ]
-     [512.5 295.  108.5 ...   0.    0.    0. ]
-     [997.5   2.5   0.  ...   0.    0.    0. ]]
+    Queues: [[1031  114  181 ...    0    0    0]
+     [1023   64  117 ...    0    0    0]
+     [1025  590  217 ...    0    0    0]
+     [1995    5    0 ...    0    0    0]]
     Steps done: 1000
     >>> sim.logs.traffic @ rewards
     1913
     >>> sim.compute_average_queues()
-    array([1.787 , 2.421 , 0.8225, 0.0025])
-
+    array([3.574, 4.842, 1.645, 0.005])
 
     To compare with, the original EGPD policy:
 
@@ -182,7 +184,6 @@ class EFiltering(Simulator):
         self.internal = {'simu': expanded_simu, 'edges': edges}
 
     def run(self):
-        self.logs.queue_log = self.logs.queue_log.astype(float)
         n = self.model.n
         simu = self.internal['simu']
         edges = self.internal['edges']
@@ -190,6 +191,6 @@ class EFiltering(Simulator):
         logs = self.logs
         simu.run()
         logs.steps_done = xlogs.steps_done
-        logs.queue_log += (xlogs.queue_log[:n, :] + xlogs.queue_log[n:, :])/2
+        logs.queue_log += (xlogs.queue_log[:n, :] + xlogs.queue_log[n:, :])
         for i, t in enumerate(xlogs.traffic):
             logs.traffic[edges[i]] += t
