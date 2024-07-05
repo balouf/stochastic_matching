@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>History &#8212; Stochastic Matching 0.2.2 documentation</title>
+    <title>History &#8212; Stochastic Matching 0.3.0 documentation</title>
   
   
   
@@ -35,7 +35,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="_static/documentation_options.js?v=000c92bf"></script>
+    <script src="_static/documentation_options.js?v=e259d695"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -120,8 +120,8 @@
       
     
     
-    <img src="_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.2.2 documentation - Home"/>
-    <script>document.write(`<img src="_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.2.2 documentation - Home"/>`);</script>
+    <img src="_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -448,8 +448,17 @@ document.write(`
   <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Link to this heading">#</a></h1>
 <section id="let-s-boost-things">
-<h2>0.3.0 (2024-05-17): Let’s boost things<a class="headerlink" href="#let-s-boost-things" title="Link to this heading">#</a></h2>
+<h2>0.3.0 (2024-07-05): Let’s boost things<a class="headerlink" href="#let-s-boost-things" title="Link to this heading">#</a></h2>
 <ul class="simple">
+<li><p>Simulator re-written almost entirely</p>
+<ul>
+<li><p>Easier to read/maintain thanks to jit and data classes.</p></li>
+<li><p>Roughly 40% faster than previous version.</p></li>
+<li><p>Virtual queue updated with better edge-FCFM policy.</p></li>
+<li><p>EGPD ported to both virtual queue and longest policies.</p></li>
+<li><p>epsilon-filtering (a.k.a. epsilon-coloring) added.</p></li>
+</ul>
+</li>
 <li><p>Switch to Poetry</p>
 <ul>
 <li><p>Easier package maintainance</p></li>
@@ -457,8 +466,6 @@ document.write(`
 <li><p>Supported Python version: &gt;=3.10</p></li>
 </ul>
 </li>
-<li><p>Stolyar (EGCD) updated: wrong implementation of inner FCFM fixed, beta-orientation added, forbidden edges added</p></li>
-<li><p>Epsilon-filtering added</p></li>
 </ul>
 </section>
 <section id="improved-ccdf">
@@ -650,7 +657,7 @@ null edges are orange (can be disabled).</p></li>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-boost-things">0.3.0 (2024-05-17): Let’s boost things</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-boost-things">0.3.0 (2024-07-05): Let’s boost things</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-ccdf">0.2.2 (2023-06-18): Improved CCDF</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#big-little-update">0.2.1 (2022-02-03): Big little update</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brand-new-api">0.2.0 (2022-01-24): Brand new API</a></li>

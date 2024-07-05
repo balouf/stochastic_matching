@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>stochastic_matching.simulator.e_filtering &#8212; Stochastic Matching 0.2.2 documentation</title>
+    <title>stochastic_matching.simulator.e_filtering &#8212; Stochastic Matching 0.3.0 documentation</title>
   
   
   
@@ -34,7 +34,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=000c92bf"></script>
+    <script src="../../../_static/documentation_options.js?v=e259d695"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.2.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.2.2 documentation - Home"/>`);</script>
+    <img src="../../../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -513,8 +513,8 @@ document.write(`
 <span class="sd">    -----</span>
 
 <span class="sd">    Due to technical constraints, the queue_log does not contain the actual queue_log of the true model but the</span>
-<span class="sd">    average of the queue_log of the &quot;+&quot; and &quot;-&quot; items.</span>
-<span class="sd">    For example, queue_log[0, 0] contains the average of the times where 0+ is null and 0- is null.</span>
+<span class="sd">    sum of the queue_log of the &quot;+&quot; and &quot;-&quot; items.</span>
+<span class="sd">    For example, queue_log[0, 0] contains the sum of the times where 0+ is null and when 0- is null.</span>
 <span class="sd">    This does not impact the computation of flows and average queues but the CCDF is not accurate</span>
 <span class="sd">    and should not be used.</span>
 
@@ -532,11 +532,14 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs</span>
 <span class="sd">    Traffic: [  1 158 189 147   1]</span>
-<span class="sd">    Queues: [[786.   22.   30.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [780.5  18.5  26.  ...   0.    0.    0. ]</span>
-<span class="sd">     [764.5  33.   33.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [768.5  31.   29.5 ...   0.    0.    0. ]]</span>
+<span class="sd">    Queues: [[1572   44   61 ...    0    0    0]</span>
+<span class="sd">     [1561   37   52 ...    0    0    0]</span>
+<span class="sd">     [1529   66   67 ...    0    0    0]</span>
+<span class="sd">     [1537   62   59 ...    0    0    0]]</span>
 <span class="sd">    Steps done: 1000</span>
+
+<span class="sd">    Notice the big queue_log. Each row sums to 2000 instead of 1000 because of state aggregation. It does not</span>
+<span class="sd">    impact any computed metric apart from the CCDF, which is faulty.</span>
 
 <span class="sd">    Switch to a FCFM policy:</span>
 
@@ -544,10 +547,10 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs</span>
 <span class="sd">    Traffic: [  1 158 189 147   1]</span>
-<span class="sd">    Queues: [[785.   49.5  59.  ...   0.    0.    0. ]</span>
-<span class="sd">     [785.   17.5  18.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [764.   29.   28.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [775.5  42.   49.  ...   0.    0.    0. ]]</span>
+<span class="sd">    Queues: [[1570   99  118 ...    0    0    0]</span>
+<span class="sd">     [1570   35   37 ...    0    0    0]</span>
+<span class="sd">     [1528   58   57 ...    0    0    0]</span>
+<span class="sd">     [1551   84   98 ...    0    0    0]]</span>
 <span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    Switch to virtual queue:</span>
@@ -556,10 +559,10 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs</span>
 <span class="sd">    Traffic: [  0 157 186 144   1]</span>
-<span class="sd">    Queues: [[656.   46.5  55.  ...   0.    0.    0. ]</span>
-<span class="sd">     [554.5  60.   55.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [534.   56.5  38.  ...   0.    0.    0. ]</span>
-<span class="sd">     [587.5  71.   68.5 ...   0.    0.    0. ]]</span>
+<span class="sd">    Queues: [[1312   93  110 ...    0    0    0]</span>
+<span class="sd">     [1109  120  111 ...    0    0    0]</span>
+<span class="sd">     [1068  113   76 ...    0    0    0]</span>
+<span class="sd">     [1175  142  137 ...    0    0    0]]</span>
 <span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    Stolyar&#39;s example to see the behavior on hypergraph:</span>
@@ -574,16 +577,15 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs</span>
 <span class="sd">    Traffic: [  0   0 311  76 213   0  55]</span>
-<span class="sd">    Queues: [[515.5  57.   90.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [511.5  32.   58.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [512.5 295.  108.5 ...   0.    0.    0. ]</span>
-<span class="sd">     [997.5   2.5   0.  ...   0.    0.    0. ]]</span>
+<span class="sd">    Queues: [[1031  114  181 ...    0    0    0]</span>
+<span class="sd">     [1023   64  117 ...    0    0    0]</span>
+<span class="sd">     [1025  590  217 ...    0    0    0]</span>
+<span class="sd">     [1995    5    0 ...    0    0    0]]</span>
 <span class="sd">    Steps done: 1000</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs.traffic @ rewards</span>
 <span class="sd">    1913</span>
 <span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
-<span class="sd">    array([1.787 , 2.421 , 0.8225, 0.0025])</span>
-
+<span class="sd">    array([3.574, 4.842, 1.645, 0.005])</span>
 
 <span class="sd">    To compare with, the original EGPD policy:</span>
 
@@ -630,7 +632,6 @@ document.write(`
 <div class="viewcode-block" id="EFiltering.run">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.run">[docs]</a>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span>
         <span class="n">simu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s1">&#39;simu&#39;</span><span class="p">]</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">]</span>
@@ -638,7 +639,7 @@ document.write(`
         <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span>
         <span class="n">simu</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
         <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">=</span> <span class="n">xlogs</span><span class="o">.</span><span class="n">steps_done</span>
-        <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span> <span class="o">+=</span> <span class="p">(</span><span class="n">xlogs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">xlogs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">n</span><span class="p">:,</span> <span class="p">:])</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span> <span class="o">+=</span> <span class="p">(</span><span class="n">xlogs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">xlogs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">n</span><span class="p">:,</span> <span class="p">:])</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xlogs</span><span class="o">.</span><span class="n">traffic</span><span class="p">):</span>
             <span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="p">[</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">t</span></div>
 </div>
