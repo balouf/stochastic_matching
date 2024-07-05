@@ -491,11 +491,10 @@ border, the max_queue may be reached.</p></li>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.simulator.Simulator.logs">
 <span class="sig-name descname"><span class="pre">logs</span></span><a class="headerlink" href="#stochastic_matching.simulator.simulator.Simulator.logs" title="Link to this definition">#</a></dt>
-<dd><p>Monitored variables (default to traffic on edges,
-queue size distribution, and number of steps achieved).</p>
+<dd><p>Monitored variables (traffic on edges, queue size distribution, number of steps achieved).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#stochastic_matching.simulator.logs.Logs" title="stochastic_matching.simulator.logs.Logs"><code class="xref py py-class docutils literal notranslate"><span class="pre">Logs</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -513,11 +512,12 @@ queue size distribution, and number of steps achieved).</p>
 </div>
 <p>Raw results are stored in <cite>logs</cite>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([43, 17, 14, 23, 12]),</span>
-<span class="go">&#39;queue_log&#39;: array([[119,  47,  26,  15,  14,   7,   1,   1],</span>
-<span class="go">   [189,  25,  13,   3,   0,   0,   0,   0],</span>
-<span class="go">   [218,   8,   3,   1,   0,   0,   0,   0],</span>
-<span class="go">   [126,  50,  31,  11,   9,   3,   0,   0]]), &#39;steps_done&#39;: 230}</span>
+<span class="go">Traffic: [43 17 14 23 12]</span>
+<span class="go">Queues: [[119  47  26  15  14   7   1   1]</span>
+<span class="go"> [189  25  13   3   0   0   0   0]</span>
+<span class="go"> [218   8   3   1   0   0   0   0]</span>
+<span class="go"> [126  50  31  11   9   3   0   0]]</span>
+<span class="go">Steps done: 230</span>
 </pre></div>
 </div>
 <p>Different methods are proposed to provide various indicators.</p>
@@ -646,17 +646,6 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="stochastic_matching.simulator.simulator.Simulator.set_logs">
-<span class="sig-name descname"><span class="pre">set_logs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/simulator.html#Simulator.set_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.simulator.Simulator.set_logs" title="Link to this definition">#</a></dt>
-<dd><p>Populate the monitored variables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.simulator.Simulator.show_average_queues">
 <span class="sig-name descname"><span class="pre">show_average_queues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/simulator.html#Simulator.show_average_queues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.simulator.Simulator.show_average_queues" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -671,7 +660,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <dd class="field-even"><p>A figure of the CCDFs of the queues.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.9.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -691,7 +680,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <dd class="field-even"><p>A figure of the CCDFs of the queues.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.9.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -749,9 +738,9 @@ When multiple choices are possible, the longest queue (or sum of queues for hype
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
-<li><p><strong>egpd_weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – EGPD rewards for default edge score.</p></li>
+<li><p><strong>egpd_weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, optional) – EGPD rewards for default edge score.</p></li>
 <li><p><strong>egpd_beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default=.01) – EGPD factor (smaller means higher reward impact).</p></li>
-<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Egdes that should not be used.</p></li>
+<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Edges that should not be used.</p></li>
 <li><p><strong>weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
 (overrides forbidden_edges argument).</p></li>
 <li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).</p></li>
@@ -766,45 +755,45 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">Longest</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([125, 162, 213]),</span>
-<span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
-<span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [125 162 213]</span>
+<span class="go">Queues: [[838 104  41  13   3   1   0   0   0   0]</span>
+<span class="go"> [796 119  53  22   8   2   0   0   0   0]</span>
+<span class="go"> [640 176  92  51  24   9   5   3   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>A non stabilizable diamond (simulation ends before completion due to drift).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">Longest</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([38, 38,  7, 37, 40]),</span>
-<span class="go">&#39;queue_log&#39;: array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],</span>
-<span class="go">       [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]]),</span>
-<span class="go">&#39;steps_done&#39;: 339}</span>
+<span class="go">Traffic: [38 38  7 37 40]</span>
+<span class="go">Queues: [[127  74  28  37  21  32  16   1   2   1]</span>
+<span class="go"> [327   8   3   1   0   0   0   0   0   0]</span>
+<span class="go"> [322  12   4   1   0   0   0   0   0   0]</span>
+<span class="go"> [ 91  80  47  37  37  23  11   3   5   5]]</span>
+<span class="go">Steps done: 339</span>
 </pre></div>
 </div>
 <p>A stabilizable candy (but candies are not good for greedy policies).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">Longest</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([24, 17,  2, 23, 33, 12, 13]),</span>
-<span class="go">&#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
-<span class="go">         10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
-<span class="go">       [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 292}</span>
+<span class="go">Traffic: [24 17  2 23 33 12 13]</span>
+<span class="go">Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="go">    3   3  21  27  22   1   7]</span>
+<span class="go"> [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]]</span>
+<span class="go">Steps done: 292</span>
 </pre></div>
 </div>
 <p>Using Stolyar EGCD technique (longest version), one can try to reach some vertices.</p>
@@ -985,23 +974,23 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([125, 162, 213]),</span>
-<span class="go">&#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
-<span class="go">   [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">   [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [125 162 213]</span>
+<span class="go">Queues: [[838 104  41  13   3   1   0   0   0   0]</span>
+<span class="go"> [796 119  53  22   8   2   0   0   0   0]</span>
+<span class="go"> [640 176  92  51  24   9   5   3   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>Unstable diamond (simulation ends before completion due to drift).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">FCFM</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([34, 42,  7, 41, 36]),</span>
-<span class="go">&#39;queue_log&#39;: array([[127,  70,  22,  26,  29,  12,  23,  15,  10,   5],</span>
-<span class="go">       [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [106,  80,  65,  28,  31,  15,   4,   2,   6,   2]]),</span>
-<span class="go">&#39;steps_done&#39;: 339}</span>
+<span class="go">Traffic: [34 42  7 41 36]</span>
+<span class="go">Queues: [[127  70  22  26  29  12  23  15  10   5]</span>
+<span class="go"> [327   8   3   1   0   0   0   0   0   0]</span>
+<span class="go"> [322  12   4   1   0   0   0   0   0   0]</span>
+<span class="go"> [106  80  65  28  31  15   4   2   6   2]]</span>
+<span class="go">Steps done: 339</span>
 </pre></div>
 </div>
 <p>A stable candy (but candies are not good for greedy policies).</p>
@@ -1009,22 +998,22 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">... </span>           <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([24, 17,  2, 23, 33, 12, 13]),</span>
-<span class="go">&#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
-<span class="go">         10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
-<span class="go">       [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 292}</span>
+<span class="go">Traffic: [24 17  2 23 33 12 13]</span>
+<span class="go">Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="go">    3   3  21  27  22   1   7]</span>
+<span class="go"> [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]]</span>
+<span class="go">Steps done: 292</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1109,41 +1098,40 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Let start with a working triangle. One can notice the results are different from the ones common to all
-greedy simulator.</p>
+<p>Let start with a working triangle.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([125, 162, 213]),</span>
-<span class="go">&#39;queue_log&#39;: array([[837, 105,  41,  13,   3,   1,   0,   0,   0,   0],</span>
-<span class="go">       [784, 131,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="go">       [629, 187,  92,  51,  24,   9,   5,   3,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [125 162 213]</span>
+<span class="go">Queues: [[837 105  41  13   3   1   0   0   0   0]</span>
+<span class="go"> [784 131  53  22   8   2   0   0   0   0]</span>
+<span class="go"> [629 187  92  51  24   9   5   3   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>Unstable diamond (simulation ends before completion due to drift).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([34, 42,  7, 41, 36]),</span>
-<span class="go">&#39;queue_log&#39;: array([[142,  55,  34,  25,  23,  16,  24,  12,   7,   1],</span>
-<span class="go">       [319,  16,   3,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [317,  17,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [107,  67,  64,  37,  22,  24,   7,   3,   6,   2]]),</span>
-<span class="go">&#39;steps_done&#39;: 339}</span>
+<span class="go">Traffic: [34 42  7 41 36]</span>
+<span class="go">Queues: [[142  55  34  25  23  16  24  12   7   1]</span>
+<span class="go"> [319  16   3   1   0   0   0   0   0   0]</span>
+<span class="go"> [317  17   4   1   0   0   0   0   0   0]</span>
+<span class="go"> [107  67  64  37  22  24   7   3   6   2]]</span>
+<span class="go">Steps done: 339</span>
 </pre></div>
 </div>
 <p>Stable diamond without reward optimization:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([ 95,  84, 161,  84,  75]),</span>
-<span class="go">&#39;queue_log&#39;: array([[823, 120,  38,  19,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [626, 215,  75,  46,  28,   9,   1,   0,   0,   0],</span>
-<span class="go">       [686, 212,  70,  24,   7,   1,   0,   0,   0,   0],</span>
-<span class="go">       [823, 118,  39,  12,   4,   4,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [ 95  84 161  84  75]</span>
+<span class="go">Queues: [[823 120  38  19   0   0   0   0   0   0]</span>
+<span class="go"> [626 215  75  46  28   9   1   0   0   0]</span>
+<span class="go"> [686 212  70  24   7   1   0   0   0   0]</span>
+<span class="go"> [823 118  39  12   4   4   0   0   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>Let’s optimize (kill traffic on first and last edges).</p>
@@ -1151,24 +1139,25 @@ greedy simulator.</p>
 <span class="gp">... </span>                   <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([ 0, 22, 24, 27,  0]),</span>
-<span class="go">&#39;queue_log&#39;: array([[137,  16,   3,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [113,  14,   8,   6,   7,   4,   3,   1,   0,   0],</span>
-<span class="go">       [ 74,  21,  13,   7,   9,   8,   4,   5,  12,   3],</span>
-<span class="go">       [106,  31,  11,   5,   2,   1,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 156}</span>
+<span class="go">Traffic: [ 0 22 24 27  0]</span>
+<span class="go">Queues: [[137  16   3   0   0   0   0   0   0   0]</span>
+<span class="go"> [113  14   8   6   7   4   3   1   0   0]</span>
+<span class="go"> [ 74  21  13   7   9   8   4   5  12   3]</span>
+<span class="go"> [106  31  11   5   2   1   0   0   0   0]]</span>
+<span class="go">Steps done: 156</span>
 </pre></div>
 </div>
-<p>OK, it’s working but we reached the maximal queue size quite fast. Let’s reduce the pressure.</p>
+<p>OK, it’s working, but we reached the maximal queue size quite fast. Let’s reduce the pressure.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">egpd_weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
 <span class="gp">... </span>                   <span class="n">egpd_beta</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([ 32, 146, 161, 146,  13]),</span>
-<span class="go">&#39;queue_log&#39;: array([[692, 221,  68,  18,   1,   0,   0,   0,   0,   0],</span>
-<span class="go">       [515, 153, 123, 109,  48,  32,  16,   4,   0,   0],</span>
-<span class="go">       [662, 136,  91,  62,  38,   4,   2,   2,   2,   1],</span>
-<span class="go">       [791, 128,  50,  18,   7,   6,   0,   0,   0,   0]]), &#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [ 32 146 161 146  13]</span>
+<span class="go">Queues: [[692 221  68  18   1   0   0   0   0   0]</span>
+<span class="go"> [515 153 123 109  48  32  16   4   0   0]</span>
+<span class="go"> [662 136  91  62  38   4   2   2   2   1]</span>
+<span class="go"> [791 128  50  18   7   6   0   0   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>Let’s now use a k-filtering for this diamond:</p>
@@ -1176,11 +1165,12 @@ greedy simulator.</p>
 <span class="gp">... </span>                   <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([ 0, 27, 29, 28,  0]),</span>
-<span class="go">&#39;queue_log&#39;: array([[159,  16,   3,   3,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [137,  19,   8,   4,   5,   4,   3,   1,   0,   0],</span>
-<span class="go">       [ 71,  25,  13,  14,  12,  15,  21,   8,   1,   1],</span>
-<span class="go">       [ 97,  24,  13,  12,   9,  16,   8,   2,   0,   0]]), &#39;steps_done&#39;: 181}</span>
+<span class="go">Traffic: [ 0 27 29 28  0]</span>
+<span class="go">Queues: [[159  16   3   3   0   0   0   0   0   0]</span>
+<span class="go"> [137  19   8   4   5   4   3   1   0   0]</span>
+<span class="go"> [ 71  25  13  14  12  15  21   8   1   1]</span>
+<span class="go"> [ 97  24  13  12   9  16   8   2   0   0]]</span>
+<span class="go">Steps done: 181</span>
 </pre></div>
 </div>
 <p>Let us reduce the pressure.</p>
@@ -1188,11 +1178,12 @@ greedy simulator.</p>
 <span class="gp">... </span>                   <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([ 31, 145, 161, 145,  14]),</span>
-<span class="go">&#39;queue_log&#39;: array([[601, 171, 122,  80,  20,   6,   0,   0,   0,   0],</span>
-<span class="go">       [445, 151, 137, 104,  81,  64,  14,   4,   0,   0],</span>
-<span class="go">       [698,  83,  52,  59,  57,  38,   7,   3,   2,   1],</span>
-<span class="go">       [730, 130,  64,  35,  26,   9,   2,   4,   0,   0]]), &#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [ 31 145 161 145  14]</span>
+<span class="go">Queues: [[601 171 122  80  20   6   0   0   0   0]</span>
+<span class="go"> [445 151 137 104  81  64  14   4   0   0]</span>
+<span class="go"> [698  83  52  59  57  38   7   3   2   1]</span>
+<span class="go"> [730 130  64  35  26   9   2   4   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>A stable candy. While candies are not good for greedy policies, the virtual queue is
@@ -1200,22 +1191,22 @@ designed to deal with it.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([109,  29,  17,  59,  58,  62, 107]),</span>
-<span class="go">&#39;queue_log&#39;: array([[302,  83,  93,  83,  54,  60,  43,  48,  41,  32,  49,  60,  31,</span>
-<span class="go">          3,   8,   7,   3,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [825, 101,  27,  14,  26,   7,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [900,  63,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [111,  49,  93, 108, 120, 101,  48,  28,  53,  32,   7,  30,  16,</span>
-<span class="go">         42,  28,  34,  31,  30,  26,  11,   2,   0,   0,   0,   0],</span>
-<span class="go">       [276, 185, 151,  95,  60,  40,  49,  52,  47,  33,  12,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [755, 142,  67,  36,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [710, 228,  47,  12,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [109  29  17  59  58  62 107]</span>
+<span class="go">Queues: [[302  83  93  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [825 101  27  14  26   7   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [900  63  20   8   9   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [111  49  93 108 120 101  48  28  53  32   7  30  16  42  28  34  31  30</span>
+<span class="go">   26  11   2   0   0   0   0]</span>
+<span class="go"> [276 185 151  95  60  40  49  52  47  33  12   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [755 142  67  36   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [710 228  47  12   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>Last but not least: Stolyar’s example from <a class="reference external" href="https://arxiv.org/abs/1608.01646">https://arxiv.org/abs/1608.01646</a></p>
@@ -1228,7 +1219,7 @@ designed to deal with it.</p>
 <p>Without optimization, all we do is self-matches (no queue at all):</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">stol</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;traffic&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">array([236, 279, 342, 143,   0,   0,   0])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
 <span class="go">array([0., 0., 0., 0.])</span>
@@ -1240,7 +1231,7 @@ designed to deal with it.</p>
 <p>With optimization, we get the desired results at the price of a huge queue:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">stol</span><span class="p">,</span> <span class="n">egpd_weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;traffic&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">array([  0,   0, 761, 242, 591,   0, 205])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
 <span class="go">array([86.13933333,  0.53233333, 92.99666667,  0.33533333])</span>
@@ -1249,7 +1240,7 @@ designed to deal with it.</p>
 <p>Same traffic could be achieved with much lower queues by enforcing forbidden edges:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">VirtualQueue</span><span class="p">(</span><span class="n">stol</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;traffic&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">array([  0,   0, 961, 342, 691,   0, 105])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
 <span class="go">array([2.731     , 0.69633333, 0.22266667, 0.052     ])</span>
@@ -1312,6 +1303,167 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stochastic_matching.simulator.e_filtering">
+<span id="epsilon-filtering-policy"></span><h2>Epsilon-Filtering policy<a class="headerlink" href="#module-stochastic_matching.simulator.e_filtering" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.e_filtering.EFiltering">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.e_filtering.</span></span><span class="sig-name descname"><span class="pre">EFiltering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'longest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/e_filtering.html#EFiltering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.e_filtering.EFiltering" title="Link to this definition">#</a></dt>
+<dd><p>Epsilon-filtering policy where incoming items are tagged with a spin.
+A match on a forbidden edge requires at least one “+” item.
+In practice, the simulator works on an expanded graph with twice the initial nodes to represent “+” and “-“.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
+<li><p><strong>base_policy</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference internal" href="#stochastic_matching.simulator.simulator.Simulator" title="stochastic_matching.simulator.simulator.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>) – Type of simulator to instantiate. Cannot have mandatory extra-parameters (e.g. NOT ‘priority’).</p></li>
+<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Edges that should not be used.</p></li>
+<li><p><strong>weights</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
+(overrides forbidden_edges argument).</p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default=.01) – Proportion of “+” arrivals (lower means less odds to select a forbidden edge).</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Due to technical constraints, the queue_log does not contain the actual queue_log of the true model but the
+average of the queue_log of the “+” and “-” items.
+For example, queue_log[0, 0] contains the average of the times where 0+ is null and 0- is null.
+This does not impact the computation of flows and average queues but the CCDF is not accurate
+and should not be used.</p>
+<p class="rubric">Examples</p>
+<p>Consider the following diamond graph with injective vertex [1, 2, 3]:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Let us use epsilon-filtering.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">EFiltering</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span>
+<span class="go">Traffic: [  1 158 189 147   1]</span>
+<span class="go">Queues: [[786.   22.   30.5 ...   0.    0.    0. ]</span>
+<span class="go"> [780.5  18.5  26.  ...   0.    0.    0. ]</span>
+<span class="go"> [764.5  33.   33.5 ...   0.    0.    0. ]</span>
+<span class="go"> [768.5  31.   29.5 ...   0.    0.    0. ]]</span>
+<span class="go">Steps done: 1000</span>
+</pre></div>
+</div>
+<p>Switch to a FCFM policy:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">EFiltering</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span>
+<span class="go">Traffic: [  1 158 189 147   1]</span>
+<span class="go">Queues: [[785.   49.5  59.  ...   0.    0.    0. ]</span>
+<span class="go"> [785.   17.5  18.5 ...   0.    0.    0. ]</span>
+<span class="go"> [764.   29.   28.5 ...   0.    0.    0. ]</span>
+<span class="go"> [775.5  42.   49.  ...   0.    0.    0. ]]</span>
+<span class="go">Steps done: 1000</span>
+</pre></div>
+</div>
+<p>Switch to virtual queue:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">EFiltering</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span>
+<span class="go">Traffic: [  0 157 186 144   1]</span>
+<span class="go">Queues: [[656.   46.5  55.  ...   0.    0.    0. ]</span>
+<span class="go"> [554.5  60.   55.5 ...   0.    0.    0. ]</span>
+<span class="go"> [534.   56.5  38.  ...   0.    0.    0. ]</span>
+<span class="go"> [587.5  71.   68.5 ...   0.    0.    0. ]]</span>
+<span class="go">Steps done: 1000</span>
+</pre></div>
+</div>
+<p>Stolyar’s example to see the behavior on hypergraph:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stol</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">.8</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">EFiltering</span><span class="p">(</span><span class="n">stol</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">.0001</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span>
+<span class="go">Traffic: [  0   0 311  76 213   0  55]</span>
+<span class="go">Queues: [[515.5  57.   90.5 ...   0.    0.    0. ]</span>
+<span class="go"> [511.5  32.   58.5 ...   0.    0.    0. ]</span>
+<span class="go"> [512.5 295.  108.5 ...   0.    0.    0. ]</span>
+<span class="go"> [997.5   2.5   0.  ...   0.    0.    0. ]]</span>
+<span class="go">Steps done: 1000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span> <span class="o">@</span> <span class="n">rewards</span>
+<span class="go">1913</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
+<span class="go">array([1.787 , 2.421 , 0.8225, 0.0025])</span>
+</pre></div>
+</div>
+<p>To compare with, the original EGPD policy:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">VirtualQueue</span><span class="p">(</span><span class="n">stol</span><span class="p">,</span> <span class="n">egpd_weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span>
+<span class="go">Traffic: [  0   0 100   3 139   0 140]</span>
+<span class="go">Queues: [[  3   3   5 ...   0   0   0]</span>
+<span class="go"> [844   8   6 ...   0   0   0]</span>
+<span class="go"> [  1   1   3 ...   0   0   0]</span>
+<span class="go"> [597 230  96 ...   0   0   0]]</span>
+<span class="go">Steps done: 1000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span> <span class="o">@</span> <span class="n">rewards</span>
+<span class="go">1781</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
+<span class="go">array([54.342,  1.597, 78.408,  0.691])</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.e_filtering.EFiltering.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'e_filtering'</span></em><a class="headerlink" href="#stochastic_matching.simulator.e_filtering.EFiltering.name" title="Link to this definition">#</a></dt>
+<dd><p>Name that can be used to list all non-abstract classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.e_filtering.EFiltering.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/e_filtering.html#EFiltering.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.e_filtering.EFiltering.run" title="Link to this definition">#</a></dt>
+<dd><p>Run simulation.
+Results are stored in the attribute <a class="reference internal" href="#stochastic_matching.simulator.simulator.Simulator.logs" title="stochastic_matching.simulator.simulator.Simulator.logs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">logs</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.e_filtering.EFiltering.set_internal">
+<span class="sig-name descname"><span class="pre">set_internal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/e_filtering.html#EFiltering.set_internal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.e_filtering.EFiltering.set_internal" title="Link to this definition">#</a></dt>
+<dd><p>Populate the internal state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.e_filtering.expand_model">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.e_filtering.</span></span><span class="sig-name descname"><span class="pre">expand_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/e_filtering.html#expand_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.e_filtering.expand_model" title="Link to this definition">#</a></dt>
+<dd><p>Prepares a model for epsilon-filtering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Initial model.</p></li>
+<li><p><strong>forbidden_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – “-/-” edges to remove in the expanded graph.</p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – Probability to draw a “+” item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>model</strong> – Expanded model with 2n nodes that emulates epsilon-coloring.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1416,11 +1568,11 @@ The root cause is that the arrival process shares the same random generator than
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomEdge</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([118, 158, 224]),</span>
-<span class="go">&#39;queue_log&#39;: array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],</span>
-<span class="go">       [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [118 158 224]</span>
+<span class="go">Queues: [[865  92  32  10   1   0   0   0   0   0   0]</span>
+<span class="go"> [750 142  62  28  12   3   2   1   0   0   0]</span>
+<span class="go"> [662 164  73  36  21   7  10  12   8   5   2]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <blockquote>
@@ -1430,23 +1582,23 @@ The root cause is that the arrival process shares the same random generator than
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomEdge</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([118, 158, 224]),</span>
-<span class="go">&#39;queue_log&#39;: array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],</span>
-<span class="go">       [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [118 158 224]</span>
+<span class="go">Queues: [[865  92  32  10   1   0   0   0   0   0   0]</span>
+<span class="go"> [750 142  62  28  12   3   2   1   0   0   0]</span>
+<span class="go"> [662 164  73  36  21   7  10  12   8   5   2]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>A ill diamond graph (simulation ends before completion due to drift).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomEdge</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([10,  8,  2,  8,  6]),</span>
-<span class="go">&#39;queue_log&#39;: array([[10,  4,  7, 13,  5,  5, 10, 24,  5,  1],</span>
-<span class="go">       [84,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
-<span class="go">       [77,  4,  3,  0,  0,  0,  0,  0,  0,  0],</span>
-<span class="go">       [14,  8, 15, 19, 14,  8,  2,  1,  2,  1]]),</span>
-<span class="go">&#39;steps_done&#39;: 84}</span>
+<span class="go">Traffic: [10  8  2  8  6]</span>
+<span class="go">Queues: [[10  4  7 13  5  5 10 24  5  1]</span>
+<span class="go"> [84  0  0  0  0  0  0  0  0  0]</span>
+<span class="go"> [77  4  3  0  0  0  0  0  0  0]</span>
+<span class="go"> [14  8 15 19 14  8  2  1  2  1]]</span>
+<span class="go">Steps done: 84</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
 <span class="go">array([0.47619048, 0.38095238, 0.0952381 , 0.38095238, 0.28571429])</span>
 </pre></div>
@@ -1455,44 +1607,44 @@ The root cause is that the arrival process shares the same random generator than
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomEdge</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([24, 22, 19, 28, 35, 19, 26]),</span>
-<span class="go">&#39;queue_log&#39;: array([[306,  77,  15,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [306,  53,  32,   9,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [342,  36,  18,   5,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [  8,   6,   9,  13,   7,  34,  41,  47,  23,   9,   2,   3,   2,</span>
-<span class="go">          7,   6,   2,  12,  46,  16,  14,  39,  43,   2,   5,   5],</span>
-<span class="go">       [276,  51,  38,  30,   6,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [325,  50,  21,   4,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [306,  47,  23,   9,   2,   3,   5,   5,   1,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 401}</span>
+<span class="go">Traffic: [24 22 19 28 35 19 26]</span>
+<span class="go">Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [306  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [342  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [  8   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46</span>
+<span class="go">   16  14  39  43   2   5   5]</span>
+<span class="go"> [276  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [325  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [306  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]]</span>
+<span class="go">Steps done: 401</span>
 </pre></div>
 </div>
-<p>Note that you can reset the old_simulator before starting another run.</p>
+<p>Note that you can reset the simulator before starting another run.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([24, 22, 19, 28, 35, 19, 26]),</span>
-<span class="go">&#39;queue_log&#39;: array([[306,  77,  15,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [306,  53,  32,   9,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [342,  36,  18,   5,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [  8,   6,   9,  13,   7,  34,  41,  47,  23,   9,   2,   3,   2,</span>
-<span class="go">          7,   6,   2,  12,  46,  16,  14,  39,  43,   2,   5,   5],</span>
-<span class="go">       [276,  51,  38,  30,   6,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [325,  50,  21,   4,   1,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [306,  47,  23,   9,   2,   3,   5,   5,   1,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 401}</span>
+<span class="go">Traffic: [24 22 19 28 35 19 26]</span>
+<span class="go">Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [306  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [342  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [  8   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46</span>
+<span class="go">   16  14  39  43   2   5   5]</span>
+<span class="go"> [276  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [325  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [306  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]]</span>
+<span class="go">Steps done: 401</span>
 </pre></div>
 </div>
 <p>You can display the distribution of queue sizes as a ccdf:</p>
@@ -1545,45 +1697,45 @@ When multiple choices are possible, chooses proportionally to the sizes of the q
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItem</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([118, 158, 224]),</span>
-<span class="go">&#39;queue_log&#39;: array([[865,  92,  32,  10,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [750, 142,  62,  28,  12,   3,   2,   1,   0,   0,   0],</span>
-<span class="go">       [662, 164,  73,  36,  21,   7,  10,  12,   8,   5,   2]]),</span>
-<span class="go">&#39;steps_done&#39;: 1000}</span>
+<span class="go">Traffic: [118 158 224]</span>
+<span class="go">Queues: [[865  92  32  10   1   0   0   0   0   0   0]</span>
+<span class="go"> [750 142  62  28  12   3   2   1   0   0   0]</span>
+<span class="go"> [662 164  73  36  21   7  10  12   8   5   2]]</span>
+<span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
 <p>A ill braess graph (simulation ends before completion due to drift).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItem</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([10,  6,  2,  5,  5]),</span>
-<span class="go"> &#39;queue_log&#39;: array([[10,  4,  7,  7,  5,  4,  9,  8, 11,  3],</span>
-<span class="go">       [68,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
-<span class="go">       [61,  4,  3,  0,  0,  0,  0,  0,  0,  0],</span>
-<span class="go">       [16, 18, 16,  9,  4,  5,  0,  0,  0,  0]]),</span>
-<span class="go"> &#39;steps_done&#39;: 68}</span>
+<span class="go">Traffic: [10  6  2  5  5]</span>
+<span class="go">Queues: [[10  4  7  7  5  4  9  8 11  3]</span>
+<span class="go"> [68  0  0  0  0  0  0  0  0  0]</span>
+<span class="go"> [61  4  3  0  0  0  0  0  0  0]</span>
+<span class="go"> [16 18 16  9  4  5  0  0  0  0]]</span>
+<span class="go">Steps done: 68</span>
 </pre></div>
 </div>
 <p>A working candy (but candies are not good for greedy policies).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RandomItem</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span> 
-<span class="go">{&#39;traffic&#39;: array([66, 46, 39, 61, 64, 51, 81]),</span>
-<span class="go">&#39;queue_log&#39;: array([[684, 125,  63,  25,   8,  13,   2,   3,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [660, 130,  65,  34,  32,   2,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [758,  89,  36,  19,  12,   9,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [ 24,  10,  23,  30,  28,  56,  56, 109,  81,  85, 114,  55,  22,</span>
-<span class="go">         38,  17,  36,  32,  30,   7,   4,   3,   5,  13,  20,  25],</span>
-<span class="go">       [674, 123,  73,  28,  19,   6,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [770, 112,  33,   4,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="go">       [709, 122,  55,  17,   4,   5,   5,   5,   1,   0,   0,   0,   0,</span>
-<span class="go">          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="go">&#39;steps_done&#39;: 923}</span>
+<span class="go">Traffic: [66 46 39 61 64 51 81]</span>
+<span class="go">Queues: [[684 125  63  25   8  13   2   3   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [660 130  65  34  32   2   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [758  89  36  19  12   9   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [ 24  10  23  30  28  56  56 109  81  85 114  55  22  38  17  36  32  30</span>
+<span class="go">    7   4   3   5  13  20  25]</span>
+<span class="go"> [674 123  73  28  19   6   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [770 112  33   4   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]</span>
+<span class="go"> [709 122  55  17   4   5   5   5   1   0   0   0   0   0   0   0   0   0</span>
+<span class="go">    0   0   0   0   0   0   0]]</span>
+<span class="go">Steps done: 923</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1813,6 +1965,17 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 </div>
 </dd></dl>
 
+<dl class="py class" id="module-stochastic_matching.simulator.logs">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.logs.Logs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.logs.</span></span><span class="sig-name descname"><span class="pre">Logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simu</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/logs.html#Logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.logs.Logs" title="Link to this definition">#</a></dt>
+<dd><p>A dataclass that facilitates the display of logs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>simu</strong> (<a class="reference internal" href="#stochastic_matching.simulator.simulator.Simulator" title="stochastic_matching.simulator.simulator.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>) – Simulation for which logs are needed.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -1873,7 +2036,6 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.reset"><code class="docutils literal notranslate"><span class="pre">Simulator.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.run"><code class="docutils literal notranslate"><span class="pre">Simulator.run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.set_internal"><code class="docutils literal notranslate"><span class="pre">Simulator.set_internal()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.set_logs"><code class="docutils literal notranslate"><span class="pre">Simulator.set_logs()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.show_average_queues"><code class="docutils literal notranslate"><span class="pre">Simulator.show_average_queues()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.show_ccdf"><code class="docutils literal notranslate"><span class="pre">Simulator.show_ccdf()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.simulator.Simulator.total_waiting_time"><code class="docutils literal notranslate"><span class="pre">Simulator.total_waiting_time()</span></code></a></li>
@@ -1912,6 +2074,16 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.virtual_queue.vq_core"><code class="docutils literal notranslate"><span class="pre">vq_core()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.e_filtering">Epsilon-Filtering policy</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.EFiltering"><code class="docutils literal notranslate"><span class="pre">EFiltering</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.EFiltering.name"><code class="docutils literal notranslate"><span class="pre">EFiltering.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.EFiltering.run"><code class="docutils literal notranslate"><span class="pre">EFiltering.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.EFiltering.set_internal"><code class="docutils literal notranslate"><span class="pre">EFiltering.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.expand_model"><code class="docutils literal notranslate"><span class="pre">expand_model()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.priority">Other policies</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.priority.Priority"><code class="docutils literal notranslate"><span class="pre">Priority</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.priority.Priority.name"><code class="docutils literal notranslate"><span class="pre">Priority.name</span></code></a></li>
@@ -1940,6 +2112,7 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.graph.make_jit_graph"><code class="docutils literal notranslate"><span class="pre">make_jit_graph()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.multiqueue.FullMultiQueue"><code class="docutils literal notranslate"><span class="pre">FullMultiQueue</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.multiqueue.MultiQueue"><code class="docutils literal notranslate"><span class="pre">MultiQueue</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.logs.Logs"><code class="docutils literal notranslate"><span class="pre">Logs</span></code></a></li>
 </ul>
 </li>
 </ul>

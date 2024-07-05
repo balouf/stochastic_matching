@@ -464,28 +464,27 @@ document.write(`
 <p>The simulator allows to observe the behavior of the system under a given policy.</p>
 <p>The following policies are provided:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
-<span class="n">sm</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">get_classes</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">Simulator</span><span class="p">)</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">get_classes</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Simulator</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;virtual_queue&#39;: stochastic_matching.simulator.virtual_queue.VQSimulator,
- &#39;generic_queue_size&#39;: stochastic_matching.simulator.size_based.QueueSizeSimulator,
- &#39;fcfm&#39;: stochastic_matching.simulator.age_based.FCFM,
- &#39;random_node&#39;: stochastic_matching.simulator.size_based.RandomNodeSimulator,
- &#39;longest_queue&#39;: stochastic_matching.simulator.size_based.LongestSimulator,
- &#39;random_item&#39;: stochastic_matching.simulator.size_based.RandomItemSimulator,
- &#39;filtering&#39;: stochastic_matching.simulator.size_based.FilteringGreedy,
- &#39;priority&#39;: stochastic_matching.simulator.size_based.PrioritySimulator}
+{&#39;fcfm&#39;: stochastic_matching.simulator.fcfm.FCFM,
+ &#39;longest&#39;: stochastic_matching.simulator.longest.Longest,
+ &#39;priority&#39;: stochastic_matching.simulator.priority.Priority,
+ &#39;random_edge&#39;: stochastic_matching.simulator.random_edge.RandomEdge,
+ &#39;random_item&#39;: stochastic_matching.simulator.random_item.RandomItem,
+ &#39;virtual_queue&#39;: stochastic_matching.simulator.virtual_queue.VirtualQueue,
+ &#39;e_filtering&#39;: stochastic_matching.simulator.e_filtering.EFiltering}
 </pre></div></div>
 </div>
 <p>NB: only simple graphs are considered in the present notebook.</p>
@@ -495,7 +494,7 @@ document.write(`
 <h3>Bijective<a class="headerlink" href="#Bijective" title="Link to this heading">#</a></h3>
 <p>Consider the following tadpole:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">stochastic_matching.display</span> <span class="kn">import</span> <span class="n">VIS_OPTIONS</span>
@@ -509,7 +508,7 @@ document.write(`
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="98414f92-7606-4731-b7f1-1e919a784d14"></div>
+<div id="5c968214-f99e-4b1a-9b90-8d4484869ea8"></div>
 <script>
 require.config({
     paths: {
@@ -524,7 +523,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('98414f92-7606-4731-b7f1-1e919a784d14');
+var container = document.getElementById('5c968214-f99e-4b1a-9b90-8d4484869ea8');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -533,7 +532,7 @@ network.fit({
 </div>
 <p>This tadpole is not stabilizable: it is bijective and its unique solution has null edges.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -544,7 +543,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="dae74025-11d9-43b9-9220-4a71daf80f6b"></div>
+<div id="37c2af5d-099f-4d7e-989d-4ce1d471f169"></div>
 <script>
 require.config({
     paths: {
@@ -559,7 +558,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('dae74025-11d9-43b9-9220-4a71daf80f6b');
+var container = document.getElementById('37c2af5d-099f-4d7e-989d-4ce1d471f169');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -568,15 +567,15 @@ network.fit({
 </div>
 <p>As a consequence, the system is unstable.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -586,24 +585,24 @@ False
 </div>
 <p>The simulator finished before the end (due to queue overflow).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1111956
+2084224
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -614,7 +613,7 @@ False
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="6f6d159b-2921-4073-8264-16fdefa66b0c"></div>
+<div id="6d635764-05c2-4ce0-bb70-ecc8ec5d2c28"></div>
 <script>
 require.config({
     paths: {
@@ -623,13 +622,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4"}, {"id": 5, "label": "1", "title": "5"}, {"id": 6, "label": "1", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.992", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.00587", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.00851", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.992", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.00513", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "0.991", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.00399", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "0.994", "color": "blue", "from": 6, "to": 7}];
+var edges = [{"title": "0: (0, 1)", "label": "0.997", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.000196", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.00497", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.994", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.00372", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "0.996", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.00533", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "0.996", "color": "blue", "from": 6, "to": 7}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('6f6d159b-2921-4073-8264-16fdefa66b0c');
+var container = document.getElementById('6d635764-05c2-4ce0-bb70-ecc8ec5d2c28');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -638,7 +637,7 @@ network.fit({
 </div>
 <p>We can look the CCDFs of the run to see what went wrong:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -655,7 +654,7 @@ network.fit({
 <p>Node 7 overflowed, while node 5 was not in a good shape either.</p>
 <p>This can also be showed with average queue sizes:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -671,7 +670,7 @@ network.fit({
 </div>
 <p>Let’s change the arrival rates to have something nicer.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -680,15 +679,15 @@ network.fit({
 </div>
 <p>We can see that it works!</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -697,7 +696,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -708,7 +707,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="42075241-f1fc-4347-aa31-c93b1a1d56e3"></div>
+<div id="58aa7059-fdba-49ea-aea1-b1b1ea00cb49"></div>
 <script>
 require.config({
     paths: {
@@ -717,13 +716,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "2", "title": "4"}, {"id": 5, "label": "2", "title": "5"}, {"id": 6, "label": "2", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.5", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.499", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.5", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.501", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.499", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.997", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "1", "color": "blue", "from": 6, "to": 7}];
+var edges = [{"title": "0: (0, 1)", "label": "0.501", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.498", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.498", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.501", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.501", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "1", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "1", "color": "blue", "from": 6, "to": 7}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('42075241-f1fc-4347-aa31-c93b1a1d56e3');
+var container = document.getElementById('58aa7059-fdba-49ea-aea1-b1b1ea00cb49');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -732,7 +731,7 @@ network.fit({
 </div>
 <p>We can see that the queues are much more tight!</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -748,7 +747,7 @@ network.fit({
 </div>
 <p>Note that the average queue can be converted in an average waiting time.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -767,7 +766,7 @@ network.fit({
 <h3>Nonjective<a class="headerlink" href="#Nonjective" title="Link to this heading">#</a></h3>
 <p>Consider the following tadpole:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -777,15 +776,15 @@ network.fit({
 <p>It is bipartite and does not verify the stability condition NCond (even bipartite NCond), so all solution break the conservation law.</p>
 <p>Simulation fails:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -794,7 +793,7 @@ False
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -805,7 +804,7 @@ False
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="afbf603d-6e34-40f2-be93-5fd6c13d2401"></div>
+<div id="ca08744d-cdea-4bb9-833b-4e91afc2acc7"></div>
 <script>
 require.config({
     paths: {
@@ -814,13 +813,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0", "color": "red"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2", "color": "red"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4", "color": "red"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.499", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.168", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.499", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.167", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.664", "color": "blue", "from": 3, "to": 4}];
+var edges = [{"title": "0: (0, 1)", "label": "0.501", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.166", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.501", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.167", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.669", "color": "blue", "from": 3, "to": 4}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('afbf603d-6e34-40f2-be93-5fd6c13d2401');
+var container = document.getElementById('ca08744d-cdea-4bb9-833b-4e91afc2acc7');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -829,7 +828,7 @@ network.fit({
 </div>
 <p>Nodes 0, 2, and 4 are in limbo.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
@@ -845,7 +844,7 @@ network.fit({
 </div>
 <p>Let’s change the arrival rates to have bipartite NCond (which is not non-bipartite NCond).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -853,15 +852,15 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -871,7 +870,7 @@ True
 </div>
 <p>We can see that it works! FCFM seems to stabilizes even if NCond is not met.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -882,7 +881,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="15d19ddb-4e52-4a9a-b871-54abd5ee5d90"></div>
+<div id="aa03755e-9e8d-416b-889c-7791c559b11b"></div>
 <script>
 require.config({
     paths: {
@@ -891,13 +890,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "1", "title": "4"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.502", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.5", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.497", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.5", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "1", "color": "blue", "from": 3, "to": 4}];
+var edges = [{"title": "0: (0, 1)", "label": "0.498", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.499", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.5", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.502", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "1", "color": "blue", "from": 3, "to": 4}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('15d19ddb-4e52-4a9a-b871-54abd5ee5d90');
+var container = document.getElementById('aa03755e-9e8d-416b-889c-7791c559b11b');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -905,7 +904,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -921,15 +920,15 @@ network.fit({
 </div>
 <p>Hum, the queues are quite high. Maybe we didn’t wait long enough?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -938,7 +937,7 @@ False
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -959,10 +958,10 @@ False
 <h2>Diamond<a class="headerlink" href="#Diamond" title="Link to this heading">#</a></h2>
 <p>Consider the following:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
 <span class="n">ϵ</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="n">diamond</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">+</span><span class="n">ϵ</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">ϵ</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 </pre></div>
@@ -970,15 +969,15 @@ False
 </div>
 <p>Try fcfm</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -987,7 +986,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -998,7 +997,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="8db12216-dc21-40c9-a1ec-a07d8913cf5d"></div>
+<div id="5b7f46fc-dedb-4386-b360-35fc0d944a0e"></div>
 <script>
 require.config({
     paths: {
@@ -1007,13 +1006,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.668", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.665", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.334", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.668", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.666", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('8db12216-dc21-40c9-a1ec-a07d8913cf5d');
+var container = document.getElementById('5b7f46fc-dedb-4386-b360-35fc0d944a0e');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1022,7 +1021,7 @@ network.fit({
 </div>
 <p>Nodes 0 and 3 are non-empty most of the time.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1037,7 +1036,7 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1051,17 +1050,17 @@ network.fit({
 <img alt="../_images/tutorials_simulator_56_0.png" src="../_images/tutorials_simulator_56_0.png" />
 </div>
 </div>
-<p>Try random node (we use a seed to have a True result; in practice, random node is highly borderline in this example and overflows relatively often).</p>
+<p>Try random edge (we use a seed to have a True result; in practice, random node is highly borderline in this example and overflows relatively often).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_node&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_edge&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1070,7 +1069,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -1081,7 +1080,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="46961921-5df6-4cf0-b4de-d58c30c9c09a"></div>
+<div id="11683e72-b38c-4f13-8732-249fefee718c"></div>
 <script>
 require.config({
     paths: {
@@ -1090,13 +1089,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.666", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.202", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.666", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.667", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.667", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('46961921-5df6-4cf0-b4de-d58c30c9c09a');
+var container = document.getElementById('11683e72-b38c-4f13-8732-249fefee718c');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1104,7 +1103,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1119,7 +1118,7 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1135,15 +1134,15 @@ network.fit({
 </div>
 <p>Try random item.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_item&#39;</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;random_item&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1152,7 +1151,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -1163,7 +1162,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="a3665a8f-b967-4ff2-9f98-c61d93adef97"></div>
+<div id="6e1dc771-85de-4cef-8dac-b7b348c7b289"></div>
 <script>
 require.config({
     paths: {
@@ -1172,13 +1171,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.667", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.667", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.335", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.668", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.198", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.666", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('a3665a8f-b967-4ff2-9f98-c61d93adef97');
+var container = document.getElementById('6e1dc771-85de-4cef-8dac-b7b348c7b289');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1186,7 +1185,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1201,7 +1200,7 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1220,7 +1219,7 @@ network.fit({
 <p>Now we would like to have a greedy policy that tries to move on towards the extreme feasible solutions. Sadly, no such policy exists (cf <a class="reference external" href="https://hal.archives-ouvertes.fr/hal-03502084">https://hal.archives-ouvertes.fr/hal-03502084</a>).</p>
 <p>Yet, we can try to approach them with priority-based greedy selection. First, look at the extreme points (vertices).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
@@ -1232,7 +1231,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="5bc027c3-f0e5-43b8-98a6-58e03b07dd39"></div>
+<div id="4c242a43-23ed-432f-a251-6edc6f5c4fc6"></div>
 <script>
 require.config({
     paths: {
@@ -1241,13 +1240,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.997", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "1", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "1", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('5bc027c3-f0e5-43b8-98a6-58e03b07dd39');
+var container = document.getElementById('4c242a43-23ed-432f-a251-6edc6f5c4fc6');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1258,7 +1257,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="32b256c8-1285-4cfc-8c63-85375c9caf7a"></div>
+<div id="2f00c397-2643-4f25-9e9e-674e78d93831"></div>
 <script>
 require.config({
     paths: {
@@ -1273,7 +1272,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('32b256c8-1285-4cfc-8c63-85375c9caf7a');
+var container = document.getElementById('2f00c397-2643-4f25-9e9e-674e78d93831');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1282,10 +1281,10 @@ network.fit({
 </div>
 <p>We can see that the first vertex prioritizes edges 1 and 3, while the second one prioritizes edges 0 and 4. Let us see what happens if one uses these priorities in a greedy policy.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 <span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1294,7 +1293,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="10e45b4a-f3fb-4bf6-b97c-bf4d378002cb"></div>
+<div id="94d06ffc-db25-4855-9d80-b0b5d43df2d0"></div>
 <script>
 require.config({
     paths: {
@@ -1303,13 +1302,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "1.07", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.931", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.201", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.931", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.0696", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1.07", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.932", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.93", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.0697", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('10e45b4a-f3fb-4bf6-b97c-bf4d378002cb');
+var container = document.getElementById('94d06ffc-db25-4855-9d80-b0b5d43df2d0');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1317,10 +1316,10 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 <span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1329,7 +1328,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="0295678c-d71f-4cb7-915f-791bfac8a40f"></div>
+<div id="058a7153-dfc4-4b09-82ed-e64d204ce4ac"></div>
 <script>
 require.config({
     paths: {
@@ -1338,13 +1337,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "1.73", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.272", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.27", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.73", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1.73", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.272", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.201", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.272", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.729", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('0295678c-d71f-4cb7-915f-791bfac8a40f');
+var container = document.getElementById('058a7153-dfc4-4b09-82ed-e64d204ce4ac');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1356,7 +1355,7 @@ network.fit({
 <section id="Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy">
 <h3>Trying to reach an extreme feasible solution with a filtering policy<a class="headerlink" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span>
@@ -1364,32 +1363,32 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[{&#39;kernel_coordinates&#39;: array([-0.3347552]),
-  &#39;edge_coordinates&#39;: array([0.99740608, 1.00164032, 0.19934016, 1.0016128 , 0.        ]),
+[{&#39;kernel_coordinates&#39;: array([-0.33300096]),
+  &#39;edge_coordinates&#39;: array([1.0008064 , 1.00017984, 0.19859008, 1.00042304, 0.        ]),
   &#39;null_edges&#39;: [4],
   &#39;bijective&#39;: True},
- {&#39;kernel_coordinates&#39;: array([0.6668576]),
-  &#39;edge_coordinates&#39;: array([1.99901888, 0.        , 0.19934016, 0.        , 1.0016128 ]),
+ {&#39;kernel_coordinates&#39;: array([0.66717888]),
+  &#39;edge_coordinates&#39;: array([2.00098624, 0.        , 0.19859008, 0.        , 1.00017984]),
   &#39;null_edges&#39;: [1, 3],
   &#39;bijective&#39;: False}]
 </pre></div></div>
 </div>
 <p>The first kernel is bijective, we just need to forbid the null edge.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1398,7 +1397,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -1409,7 +1408,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="a817f641-a007-49f9-bf9f-90d10d06a325"></div>
+<div id="1bcd0200-8818-4dcf-bc1e-c3932e3d5d84"></div>
 <script>
 require.config({
     paths: {
@@ -1418,13 +1417,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "1", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.198", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.999", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('a817f641-a007-49f9-bf9f-90d10d06a325');
+var container = document.getElementById('1bcd0200-8818-4dcf-bc1e-c3932e3d5d84');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1433,7 +1432,7 @@ network.fit({
 </div>
 <p>We can check that the matching rate on edge 4 is 0.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
@@ -1441,17 +1440,17 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1.000128  , 1.000912  , 0.198784  , 1.00017152, 0.        ])
+array([0.99992064, 1.00223616, 0.19836224, 0.99947968, 0.        ])
 </pre></div></div>
 </div>
 <p>No noticeable impact on the performance.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1466,7 +1465,7 @@ array([1.000128  , 1.000912  , 0.198784  , 1.00017152, 0.        ])
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1482,15 +1481,15 @@ array([1.000128  , 1.000912  , 0.198784  , 1.00017152, 0.        ])
 </div>
 <p>Now we try on the second kernel.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1499,7 +1498,7 @@ False
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -1510,7 +1509,7 @@ False
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="9baafbe5-c10b-4700-937c-4e0764f32d96"></div>
+<div id="62ef8bc5-1bf3-411c-9956-4fe16b0efc8e"></div>
 <script>
 require.config({
     paths: {
@@ -1519,13 +1518,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.203", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.998", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.197", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "1", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('9baafbe5-c10b-4700-937c-4e0764f32d96');
+var container = document.getElementById('62ef8bc5-1bf3-411c-9956-4fe16b0efc8e');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1534,7 +1533,7 @@ network.fit({
 </div>
 <p>So this is unstable but the the matching rate on edges 1 and 3 is 0.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
@@ -1542,17 +1541,17 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1.99512693, 0.        , 0.20336808, 0.        , 0.99846916])
+array([1.99825614, 0.        , 0.1971433 , 0.        , 1.00227698])
 </pre></div></div>
 </div>
 <p>Performance is bad, as the vertex is bipartite.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1567,7 +1566,7 @@ array([1.99512693, 0.        , 0.20336808, 0.        , 0.99846916])
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1581,17 +1580,17 @@ array([1.99512693, 0.        , 0.20336808, 0.        , 0.99846916])
 <img alt="../_images/tutorials_simulator_92_0.png" src="../_images/tutorials_simulator_92_0.png" />
 </div>
 </div>
-<p>The solution in that case is to use a semi-filtering policy (i.e. with threshold).</p>
+<p>The solution in that case is to use a k-filtering policy (i.e. with threshold).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1600,7 +1599,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -1611,7 +1610,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="e252165b-86ba-48e8-9114-deb6bcdd354f"></div>
+<div id="13ae2679-b064-48b3-bb44-3f1adafd603a"></div>
 <script>
 require.config({
     paths: {
@@ -1620,13 +1619,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.0006", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.201", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.998", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.201", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.998", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('e252165b-86ba-48e8-9114-deb6bcdd354f');
+var container = document.getElementById('13ae2679-b064-48b3-bb44-3f1adafd603a');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1635,7 +1634,7 @@ network.fit({
 </div>
 <p>So this is stable with a limited matching rate on edges 1 and 3.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
@@ -1643,18 +1642,18 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1.99940288e+00, 6.00320000e-04, 2.01430400e-01, 0.00000000e+00,
-       9.98465280e-01])
+array([1.99955584e+00, 9.76000000e-04, 2.01006720e-01, 1.47840000e-04,
+       9.98177280e-01])
 </pre></div></div>
 </div>
 <p>Performance is controlled by the threshold.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1669,7 +1668,7 @@ array([1.99940288e+00, 6.00320000e-04, 2.01430400e-01, 0.00000000e+00,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1688,7 +1687,7 @@ array([1.99940288e+00, 6.00320000e-04, 2.01430400e-01, 0.00000000e+00,
 <h3>Reward maximization variant<a class="headerlink" href="#Reward-maximization-variant" title="Link to this heading">#</a></h3>
 <p>In many use cases, one may want to optimize the flow based on some reward associated to each edge. It turns out that this equivalent to finding a subset of edges to forbid such that the flow(s) on that subgraph will maximize the reward. <code class="docutils literal notranslate"><span class="pre">stochastic_matching</span></code> automatically implements this in two ways: - It gives an optimal flow associated to a vector of rewards; - the filtering policy can take a vector of rewards as arguments and automatically discard the null edges of one optimal solution.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
@@ -1697,7 +1696,7 @@ array([1.99940288e+00, 6.00320000e-04, 2.01430400e-01, 0.00000000e+00,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1706,15 +1705,15 @@ array([2. , 0. , 0.2, 0. , 1. ])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1723,7 +1722,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -1734,7 +1733,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="cf2d5117-9ef8-4deb-9ac7-18d8dcf0ca25"></div>
+<div id="4ba0c7b0-d17a-4551-8074-2a7c8d4c0196"></div>
 <script>
 require.config({
     paths: {
@@ -1743,13 +1742,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
-var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.000384", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.204", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.000794", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.997", "color": "blue", "from": 2, "to": 3}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.00293", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.197", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.999", "color": "blue", "from": 2, "to": 3}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('cf2d5117-9ef8-4deb-9ac7-18d8dcf0ca25');
+var container = document.getElementById('4ba0c7b0-d17a-4551-8074-2a7c8d4c0196');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1757,7 +1756,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -1772,7 +1771,7 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1792,7 +1791,7 @@ network.fit({
 <h2>Fish<a class="headerlink" href="#Fish" title="Link to this heading">#</a></h2>
 <p>The purpose of this example is to show a case where a family of greedy with priorities can asymptotically reach the vertices.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span> <span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
@@ -1804,7 +1803,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="5c38f68b-0ae8-4d7e-ae2e-0d0538a9e699"></div>
+<div id="e2cce4b4-4663-46fd-9307-11d6a77ee807"></div>
 <script>
 require.config({
     paths: {
@@ -1819,7 +1818,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('5c38f68b-0ae8-4d7e-ae2e-0d0538a9e699');
+var container = document.getElementById('e2cce4b4-4663-46fd-9307-11d6a77ee807');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1828,7 +1827,7 @@ network.fit({
 </div>
 <p>Look at the vertices:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fish</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
@@ -1840,7 +1839,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="00857f37-b824-4f99-9d0e-a48c09c8fce5"></div>
+<div id="d3ec9389-c2c2-47a8-a7cc-5a4643a10100"></div>
 <script>
 require.config({
     paths: {
@@ -1855,7 +1854,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('00857f37-b824-4f99-9d0e-a48c09c8fce5');
+var container = document.getElementById('d3ec9389-c2c2-47a8-a7cc-5a4643a10100');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1866,7 +1865,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="145e1d78-66f9-4ae2-b306-4b91a2c1a25c"></div>
+<div id="1cfbf7b6-1712-4441-a898-fe141c02bdba"></div>
 <script>
 require.config({
     paths: {
@@ -1881,7 +1880,7 @@ var data= {
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('145e1d78-66f9-4ae2-b306-4b91a2c1a25c');
+var container = document.getElementById('1cfbf7b6-1712-4441-a898-fe141c02bdba');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1890,16 +1889,16 @@ network.fit({
 </div>
 <p>Let us try to nullify the edge between 3 and 6 with adapted priorities. As this may be unstable, let us pick a large max queue.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1908,7 +1907,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1919,7 +1918,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="4b609049-d593-432d-88f0-40dfb5070eaa"></div>
+<div id="b60ccef0-91e0-4f98-b820-a9ec31030e43"></div>
 <script>
 require.config({
     paths: {
@@ -1928,13 +1927,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4", "color": "red"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
-var edges = [{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.816", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0", "color": "orange", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.817", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "1.8e-06", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('4b609049-d593-432d-88f0-40dfb5070eaa');
+var container = document.getElementById('b60ccef0-91e0-4f98-b820-a9ec31030e43');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -1943,7 +1942,7 @@ network.fit({
 </div>
 <p>So we managed to almost nullify the edge at the price of making node 4 unstable (it cannot check the conservation law). This can be addressed by using a threshold above which the policy is altered.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counterweights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
@@ -1951,15 +1950,15 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">counterweights</span><span class="o">=</span><span class="n">counterweights</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">counterweights</span><span class="o">=</span><span class="n">counterweights</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1968,7 +1967,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1979,7 +1978,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="0959665f-d2cb-4d72-bdad-94cb962903ba"></div>
+<div id="32d63aa5-a336-48b5-a5f1-4e22b93acc93"></div>
 <script>
 require.config({
     paths: {
@@ -1988,13 +1987,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
-var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "0.999", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "9e-06", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "0.995", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "1.8e-06", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "0.996", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('0959665f-d2cb-4d72-bdad-94cb962903ba');
+var container = document.getElementById('32d63aa5-a336-48b5-a5f1-4e22b93acc93');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2003,7 +2002,7 @@ network.fit({
 </div>
 <p>And that’s it! The threshold controls the trade-off between the size of queue 4 and the nullity of edge (3, 6).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -2018,7 +2017,7 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
@@ -2033,15 +2032,15 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">counterweights</span><span class="o">=</span><span class="n">counterweights</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">counterweights</span><span class="o">=</span><span class="n">counterweights</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2050,7 +2049,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -2061,7 +2060,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="0ffa0141-76a5-431b-bd60-60dc7ee64d31"></div>
+<div id="48ba6b67-439a-4e1c-afe2-6b301cd7eb9d"></div>
 <script>
 require.config({
     paths: {
@@ -2070,13 +2069,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
-var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.965", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.0344", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1.03", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1.97", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "0.998", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "0.999", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.968", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.0344", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1.03", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1.97", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('0ffa0141-76a5-431b-bd60-60dc7ee64d31');
+var container = document.getElementById('48ba6b67-439a-4e1c-afe2-6b301cd7eb9d');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2085,7 +2084,7 @@ network.fit({
 </div>
 <p>And that’s it! The threshold controls the trade-off between the size of queue 4 and the nullity of edge (3, 6).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -2100,7 +2099,7 @@ network.fit({
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
@@ -2119,7 +2118,7 @@ network.fit({
 <h2>Reaching a highly degenerated vertex<a class="headerlink" href="#Reaching-a-highly-degenerated-vertex" title="Link to this heading">#</a></h2>
 <p>The following model has <em>very injective</em> vertices.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2130,18 +2129,18 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
-  &#39;edge_coordinates&#39;: array([0., 2., 0., 4., 0., 0., 2., 0.]),
-  &#39;null_edges&#39;: [0, 2, 4, 5, 7],
-  &#39;bijective&#39;: False},
- {&#39;kernel_coordinates&#39;: array([-1.,  1.]),
+[{&#39;kernel_coordinates&#39;: array([-1.,  1.]),
   &#39;edge_coordinates&#39;: array([2., 0., 0., 2., 2., 0., 0., 2.]),
   &#39;null_edges&#39;: [1, 2, 5, 6],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 2., 0., 4., 0., 0., 2., 0.]),
+  &#39;null_edges&#39;: [0, 2, 4, 5, 7],
   &#39;bijective&#39;: False},
  {&#39;kernel_coordinates&#39;: array([1., 1.]),
   &#39;edge_coordinates&#39;: array([2., 0., 2., 0., 0., 2., 0., 2.]),
@@ -2151,7 +2150,7 @@ network.fit({
 </div>
 <p>In particular the first vertex is made of three unconnected pairs:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -2162,7 +2161,7 @@ network.fit({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="6f74b1ca-3ab2-485b-91b4-7743abc659cc"></div>
+<div id="be73d39e-b166-4d9e-8a00-de928584cb3e"></div>
 <script>
 require.config({
     paths: {
@@ -2171,13 +2170,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('6f74b1ca-3ab2-485b-91b4-7743abc659cc');
+var container = document.getElementById('be73d39e-b166-4d9e-8a00-de928584cb3e');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2186,15 +2185,15 @@ network.fit({
 </div>
 <p>Let try to reach it with a filtering policy without threshold.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2203,7 +2202,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -2214,7 +2213,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="537c310e-7d8d-4f38-a1d5-6bd4f52416a4"></div>
+<div id="4483ba80-d41d-4426-b229-fc26114f08b5"></div>
 <script>
 require.config({
     paths: {
@@ -2223,13 +2222,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "0", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0", "color": "orange", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('537c310e-7d8d-4f38-a1d5-6bd4f52416a4');
+var container = document.getElementById('4483ba80-d41d-4426-b229-fc26114f08b5');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2238,7 +2237,7 @@ network.fit({
 </div>
 <p>As this is pure filtering, the desired edges are indeed null.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
@@ -2246,18 +2245,18 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([0.       , 1.9985296, 0.       , 3.997256 , 0.       , 0.       ,
-       1.9985872, 0.       ])
+array([1.998408 , 0.       , 0.       , 2.002928 , 1.9989856, 0.       ,
+       0.       , 1.9978208])
 </pre></div></div>
 </div>
 <p>But performance is awful!</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -2272,7 +2271,7 @@ array([0.       , 1.9985296, 0.       , 3.997256 , 0.       , 0.       ,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2286,17 +2285,17 @@ array([0.       , 1.9985296, 0.       , 3.997256 , 0.       , 0.       ,
 <img alt="../_images/tutorials_simulator_140_0.png" src="../_images/tutorials_simulator_140_0.png" />
 </div>
 </div>
-<p>The solution in that case is to use a semi-filtering policy (i.e. with threshold).</p>
+<p>The solution in that case is to use a <span class="math notranslate nohighlight">\(k\)</span>-filtering policy (i.e. with threshold).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2305,7 +2304,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[109]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -2316,7 +2315,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="9f32f0df-b82d-40df-803c-27a198a35ed4"></div>
+<div id="4181806b-06d8-4c16-a2cc-c1456c7f8b5e"></div>
 <script>
 require.config({
     paths: {
@@ -2325,13 +2324,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.00217", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0013", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.99", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.000114", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.00195", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.99", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.00631", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.00116", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.00177", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('9f32f0df-b82d-40df-803c-27a198a35ed4');
+var container = document.getElementById('4181806b-06d8-4c16-a2cc-c1456c7f8b5e');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2340,7 +2339,7 @@ network.fit({
 </div>
 <p>So this is stable with a limited matching rate on forbidden edges.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
@@ -2348,18 +2347,18 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([2.1712000e-03, 1.9980704e+00, 1.3040000e-03, 3.9941632e+00,
-       1.1360000e-04, 1.9520000e-03, 1.9947440e+00, 6.3104000e-03])
+array([1.9982928e+00, 1.1632000e-03, 1.7664000e-03, 2.0003072e+00,
+       1.9958320e+00, 0.0000000e+00, 0.0000000e+00, 2.0021216e+00])
 </pre></div></div>
 </div>
 <p>Performance is controlled by the threshold.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -2374,7 +2373,7 @@ array([2.1712000e-03, 1.9980704e+00, 1.3040000e-03, 3.9941632e+00,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2389,15 +2388,15 @@ array([2.1712000e-03, 1.9980704e+00, 1.3040000e-03, 3.9941632e+00,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;filtering&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">number_events</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;null_edges&#39;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2406,7 +2405,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
@@ -2417,7 +2416,7 @@ True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="bde9c7f3-3970-4dea-99c6-7ddc49b30bce"></div>
+<div id="affa89bd-b5cc-4d5b-a761-21508c3adbe6"></div>
 <script>
 require.config({
     paths: {
@@ -2426,13 +2425,13 @@ require.config({
 });
 require(['vis'], function(vis){
 var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
-var edges = [{"title": "0: (0, 1)", "label": "0.0481", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1.95", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0343", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.92", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.0124", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.0337", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.95", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.0494", "color": "blue", "from": 4, "to": 5}];
+var edges = [{"title": "0: (0, 1)", "label": "1.98", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.0203", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0215", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "1.96", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.0212", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0.0217", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "1.98", "color": "blue", "from": 4, "to": 5}];
 var data= {
     nodes: nodes,
     edges: edges,
 };
 var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
-var container = document.getElementById('bde9c7f3-3970-4dea-99c6-7ddc49b30bce');
+var container = document.getElementById('affa89bd-b5cc-4d5b-a761-21508c3adbe6');
 var network = new vis.Network(container, data, options);
 network.fit({
   maxZoomLevel: 1000});
@@ -2440,7 +2439,7 @@ network.fit({
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
@@ -2448,17 +2447,17 @@ network.fit({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([0.0481312, 1.952512 , 0.0343424, 3.917024 , 0.0124016, 0.0336848,
-       1.9524992, 0.0493792])
+array([1.9802912, 0.0203072, 0.0214896, 1.9974272, 1.9578944, 0.0211792,
+       0.0216992, 1.9796896])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[116]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
@@ -2473,7 +2472,7 @@ array([0.0481312, 1.952512 , 0.0343424, 3.917024 , 0.0124016, 0.0336848,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

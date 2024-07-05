@@ -552,12 +552,12 @@ document.write(`
 
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
 <span class="sd">        Model to simulate.</span>
-<span class="sd">    egpd_weights: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">    egpd_weights: :class:`~numpy.ndarray` or :class:`list`, optional</span>
 <span class="sd">        EGPD rewards for default edge score.</span>
 <span class="sd">    egpd_beta: :class:`float`, default=.01</span>
 <span class="sd">        EGPD factor (smaller means higher reward impact).</span>
 <span class="sd">    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`, optional</span>
-<span class="sd">        Egdes that should not be used.</span>
+<span class="sd">        Edges that should not be used.</span>
 <span class="sd">    weights: :class:`~numpy.ndarray`, optional</span>
 <span class="sd">        Target rewards on edges. If weights are given, the forbidden edges are computed to match the target</span>
 <span class="sd">        (overrides forbidden_edges argument).</span>
@@ -576,45 +576,45 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([125, 162, 213]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[838, 104,  41,  13,   3,   1,   0,   0,   0,   0],</span>
-<span class="sd">       [796, 119,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="sd">       [640, 176,  92,  51,  24,   9,   5,   3,   0,   0]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    Traffic: [125 162 213]</span>
+<span class="sd">    Queues: [[838 104  41  13   3   1   0   0   0   0]</span>
+<span class="sd">     [796 119  53  22   8   2   0   0   0   0]</span>
+<span class="sd">     [640 176  92  51  24   9   5   3   0   0]]</span>
+<span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    A non stabilizable diamond (simulation ends before completion due to drift).</span>
 
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.CycleChain(rates=&#39;uniform&#39;), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([38, 38,  7, 37, 40]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[127,  74,  28,  37,  21,  32,  16,   1,   2,   1],</span>
-<span class="sd">           [327,   8,   3,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [322,  12,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [ 91,  80,  47,  37,  37,  23,  11,   3,   5,   5]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 339}</span>
+<span class="sd">    Traffic: [38 38  7 37 40]</span>
+<span class="sd">    Queues: [[127  74  28  37  21  32  16   1   2   1]</span>
+<span class="sd">     [327   8   3   1   0   0   0   0   0   0]</span>
+<span class="sd">     [322  12   4   1   0   0   0   0   0   0]</span>
+<span class="sd">     [ 91  80  47  37  37  23  11   3   5   5]]</span>
+<span class="sd">    Steps done: 339</span>
 
 <span class="sd">    A stabilizable candy (but candies are not good for greedy policies).</span>
 
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([24, 17,  2, 23, 33, 12, 13]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[ 24,  32,  45,  38,  22,  43,  31,  34,  20,   3,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [291,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [ 10,   1,   7,   9,   3,   3,  26,  37,   4,   8,  10,   9,   2,</span>
-<span class="sd">             10,  40,  11,   2,  16,   3,   3,  21,  27,  22,   1,   7],</span>
-<span class="sd">           [213,  49,  22,   5,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [234,  41,   6,   7,   4,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [232,  33,  16,   4,   6,   1,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 292}</span>
+<span class="sd">    Traffic: [24 17  2 23 33 12 13]</span>
+<span class="sd">    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="sd">        3   3  21  27  22   1   7]</span>
+<span class="sd">     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]]</span>
+<span class="sd">    Steps done: 292</span>
 
 <span class="sd">    Using Stolyar EGCD technique (longest version), one can try to reach some vertices.</span>
 
@@ -752,7 +752,7 @@ document.write(`
 <div class="viewcode-block" id="Longest.run">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.longest.Longest.run">[docs]</a>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">longest_core</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">=</span> <span class="n">longest_core</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">asdict</span><span class="p">())</span></div>
 </div>
 
 </pre></div>

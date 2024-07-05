@@ -28,6 +28,12 @@ Virtual queue policy
 .. automodule:: stochastic_matching.simulator.virtual_queue
     :members:
 
+Epsilon-Filtering policy
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: stochastic_matching.simulator.e_filtering
+    :members:
+
 Other policies
 ^^^^^^^^^^^^^^
 
@@ -52,3 +58,5 @@ Internal tools
 .. automodule:: stochastic_matching.simulator.multiqueue
     :members:
 
+.. automodule:: stochastic_matching.simulator.logs
+    :members:

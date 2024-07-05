@@ -605,42 +605,41 @@ document.write(`
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    Let start with a working triangle. One can notice the results are different from the ones common to all</span>
-<span class="sd">    greedy simulator.</span>
+<span class="sd">    Let start with a working triangle.</span>
 
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([125, 162, 213]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[837, 105,  41,  13,   3,   1,   0,   0,   0,   0],</span>
-<span class="sd">           [784, 131,  53,  22,   8,   2,   0,   0,   0,   0],</span>
-<span class="sd">           [629, 187,  92,  51,  24,   9,   5,   3,   0,   0]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    Traffic: [125 162 213]</span>
+<span class="sd">    Queues: [[837 105  41  13   3   1   0   0   0   0]</span>
+<span class="sd">     [784 131  53  22   8   2   0   0   0   0]</span>
+<span class="sd">     [629 187  92  51  24   9   5   3   0   0]]</span>
+<span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    Unstable diamond (simulation ends before completion due to drift).</span>
 
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=&#39;uniform&#39;), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([34, 42,  7, 41, 36]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[142,  55,  34,  25,  23,  16,  24,  12,   7,   1],</span>
-<span class="sd">           [319,  16,   3,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [317,  17,   4,   1,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [107,  67,  64,  37,  22,  24,   7,   3,   6,   2]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 339}</span>
+<span class="sd">    Traffic: [34 42  7 41 36]</span>
+<span class="sd">    Queues: [[142  55  34  25  23  16  24  12   7   1]</span>
+<span class="sd">     [319  16   3   1   0   0   0   0   0   0]</span>
+<span class="sd">     [317  17   4   1   0   0   0   0   0   0]</span>
+<span class="sd">     [107  67  64  37  22  24   7   3   6   2]]</span>
+<span class="sd">    Steps done: 339</span>
 
 <span class="sd">    Stable diamond without reward optimization:</span>
 
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([ 95,  84, 161,  84,  75]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[823, 120,  38,  19,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [626, 215,  75,  46,  28,   9,   1,   0,   0,   0],</span>
-<span class="sd">           [686, 212,  70,  24,   7,   1,   0,   0,   0,   0],</span>
-<span class="sd">           [823, 118,  39,  12,   4,   4,   0,   0,   0,   0]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    Traffic: [ 95  84 161  84  75]</span>
+<span class="sd">    Queues: [[823 120  38  19   0   0   0   0   0   0]</span>
+<span class="sd">     [626 215  75  46  28   9   1   0   0   0]</span>
+<span class="sd">     [686 212  70  24   7   1   0   0   0   0]</span>
+<span class="sd">     [823 118  39  12   4   4   0   0   0   0]]</span>
+<span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    Let&#39;s optimize (kill traffic on first and last edges).</span>
 
@@ -648,24 +647,25 @@ document.write(`
 <span class="sd">    ...                    n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([ 0, 22, 24, 27,  0]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[137,  16,   3,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [113,  14,   8,   6,   7,   4,   3,   1,   0,   0],</span>
-<span class="sd">           [ 74,  21,  13,   7,   9,   8,   4,   5,  12,   3],</span>
-<span class="sd">           [106,  31,  11,   5,   2,   1,   0,   0,   0,   0]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 156}</span>
+<span class="sd">    Traffic: [ 0 22 24 27  0]</span>
+<span class="sd">    Queues: [[137  16   3   0   0   0   0   0   0   0]</span>
+<span class="sd">     [113  14   8   6   7   4   3   1   0   0]</span>
+<span class="sd">     [ 74  21  13   7   9   8   4   5  12   3]</span>
+<span class="sd">     [106  31  11   5   2   1   0   0   0   0]]</span>
+<span class="sd">    Steps done: 156</span>
 
-<span class="sd">    OK, it&#39;s working but we reached the maximal queue size quite fast. Let&#39;s reduce the pressure.</span>
+<span class="sd">    OK, it&#39;s working, but we reached the maximal queue size quite fast. Let&#39;s reduce the pressure.</span>
 
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],</span>
 <span class="sd">    ...                    egpd_beta=.8, n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([ 32, 146, 161, 146,  13]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[692, 221,  68,  18,   1,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [515, 153, 123, 109,  48,  32,  16,   4,   0,   0],</span>
-<span class="sd">           [662, 136,  91,  62,  38,   4,   2,   2,   2,   1],</span>
-<span class="sd">           [791, 128,  50,  18,   7,   6,   0,   0,   0,   0]]), &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    Traffic: [ 32 146 161 146  13]</span>
+<span class="sd">    Queues: [[692 221  68  18   1   0   0   0   0   0]</span>
+<span class="sd">     [515 153 123 109  48  32  16   4   0   0]</span>
+<span class="sd">     [662 136  91  62  38   4   2   2   2   1]</span>
+<span class="sd">     [791 128  50  18   7   6   0   0   0   0]]</span>
+<span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    Let&#39;s now use a k-filtering for this diamond:</span>
 
@@ -673,11 +673,12 @@ document.write(`
 <span class="sd">    ...                    weights=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([ 0, 27, 29, 28,  0]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[159,  16,   3,   3,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [137,  19,   8,   4,   5,   4,   3,   1,   0,   0],</span>
-<span class="sd">           [ 71,  25,  13,  14,  12,  15,  21,   8,   1,   1],</span>
-<span class="sd">           [ 97,  24,  13,  12,   9,  16,   8,   2,   0,   0]]), &#39;steps_done&#39;: 181}</span>
+<span class="sd">    Traffic: [ 0 27 29 28  0]</span>
+<span class="sd">    Queues: [[159  16   3   3   0   0   0   0   0   0]</span>
+<span class="sd">     [137  19   8   4   5   4   3   1   0   0]</span>
+<span class="sd">     [ 71  25  13  14  12  15  21   8   1   1]</span>
+<span class="sd">     [ 97  24  13  12   9  16   8   2   0   0]]</span>
+<span class="sd">    Steps done: 181</span>
 
 <span class="sd">    Let us reduce the pressure.</span>
 
@@ -685,12 +686,12 @@ document.write(`
 <span class="sd">    ...                    n_steps=1000, seed=42, max_queue=10, threshold=6)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([ 31, 145, 161, 145,  14]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[601, 171, 122,  80,  20,   6,   0,   0,   0,   0],</span>
-<span class="sd">           [445, 151, 137, 104,  81,  64,  14,   4,   0,   0],</span>
-<span class="sd">           [698,  83,  52,  59,  57,  38,   7,   3,   2,   1],</span>
-<span class="sd">           [730, 130,  64,  35,  26,   9,   2,   4,   0,   0]]), &#39;steps_done&#39;: 1000}</span>
-
+<span class="sd">    Traffic: [ 31 145 161 145  14]</span>
+<span class="sd">    Queues: [[601 171 122  80  20   6   0   0   0   0]</span>
+<span class="sd">     [445 151 137 104  81  64  14   4   0   0]</span>
+<span class="sd">     [698  83  52  59  57  38   7   3   2   1]</span>
+<span class="sd">     [730 130  64  35  26   9   2   4   0   0]]</span>
+<span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    A stable candy. While candies are not good for greedy policies, the virtual queue is</span>
 <span class="sd">    designed to deal with it.</span>
@@ -698,22 +699,22 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;traffic&#39;: array([109,  29,  17,  59,  58,  62, 107]),</span>
-<span class="sd">    &#39;queue_log&#39;: array([[302,  83,  93,  83,  54,  60,  43,  48,  41,  32,  49,  60,  31,</span>
-<span class="sd">              3,   8,   7,   3,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [825, 101,  27,  14,  26,   7,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [900,  63,  20,   8,   9,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [111,  49,  93, 108, 120, 101,  48,  28,  53,  32,   7,  30,  16,</span>
-<span class="sd">             42,  28,  34,  31,  30,  26,  11,   2,   0,   0,   0,   0],</span>
-<span class="sd">           [276, 185, 151,  95,  60,  40,  49,  52,  47,  33,  12,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [755, 142,  67,  36,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
-<span class="sd">           [710, 228,  47,  12,   3,   0,   0,   0,   0,   0,   0,   0,   0,</span>
-<span class="sd">              0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]]),</span>
-<span class="sd">    &#39;steps_done&#39;: 1000}</span>
+<span class="sd">    Traffic: [109  29  17  59  58  62 107]</span>
+<span class="sd">    Queues: [[302  83  93  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [825 101  27  14  26   7   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [900  63  20   8   9   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [111  49  93 108 120 101  48  28  53  32   7  30  16  42  28  34  31  30</span>
+<span class="sd">       26  11   2   0   0   0   0]</span>
+<span class="sd">     [276 185 151  95  60  40  49  52  47  33  12   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [755 142  67  36   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]</span>
+<span class="sd">     [710 228  47  12   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">        0   0   0   0   0   0   0]]</span>
+<span class="sd">    Steps done: 1000</span>
 
 <span class="sd">    Last but not least: Stolyar&#39;s example from https://arxiv.org/abs/1608.01646</span>
 
@@ -726,7 +727,7 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(stol, n_steps=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.logs[&#39;traffic&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs.traffic.astype(int)</span>
 <span class="sd">    array([236, 279, 342, 143,   0,   0,   0])</span>
 <span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
 <span class="sd">    array([0., 0., 0., 0.])</span>
@@ -737,7 +738,7 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(stol, egpd_weights=rewards, n_steps=3000, seed=42, max_queue=300)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.logs[&#39;traffic&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs.traffic.astype(int)</span>
 <span class="sd">    array([  0,   0, 761, 242, 591,   0, 205])</span>
 <span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
 <span class="sd">    array([86.13933333,  0.53233333, 92.99666667,  0.33533333])</span>
@@ -746,7 +747,7 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim = VirtualQueue(stol, weights=rewards, n_steps=3000, seed=42, max_queue=300)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.logs[&#39;traffic&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs.traffic.astype(int)</span>
 <span class="sd">    array([  0,   0, 961, 342, 691,   0, 105])</span>
 <span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
 <span class="sd">    array([2.731     , 0.69633333, 0.22266667, 0.052     ])</span>
@@ -767,7 +768,9 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_edges</span> <span class="o">=</span> <span class="n">forbidden_edges</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_edge_queue</span> <span class="o">=</span> <span class="n">max_edge_queue</span> <span class="k">if</span> <span class="n">max_edge_queue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">10</span><span class="o">*</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;max_queue&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">max_edge_queue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">max_edge_queue</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_queue&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_edge_queue</span> <span class="o">=</span> <span class="n">max_edge_queue</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -788,7 +791,7 @@ document.write(`
 <div class="viewcode-block" id="VirtualQueue.run">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.run">[docs]</a>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vq_core</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">=</span> <span class="n">vq_core</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">asdict</span><span class="p">())</span></div>
 </div>
 
 </pre></div>

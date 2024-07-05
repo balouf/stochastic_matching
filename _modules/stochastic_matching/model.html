@@ -1225,14 +1225,14 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    incidence: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">    incidence: :class:`~numpy.ndarray` or :class:`list`, optional</span>
 <span class="sd">        Incidence matrix. If used, the graph will be considered as a hypergraph.</span>
-<span class="sd">    adjacency: :class:`~numpy.ndarray`, optional</span>
+<span class="sd">    adjacency: :class:`~numpy.ndarray` or :class:`list`, optional</span>
 <span class="sd">        Adjacency matrix. If used, the graph will be considered as a simple graph.</span>
 <span class="sd">    rates: :class:`~numpy.ndarray` or :class:`list` or :class:`str`, optional</span>
 <span class="sd">        Arrival rates. You can use a specific rate vector or list.</span>
 <span class="sd">        You can use `uniform` or `proportional` for uniform or degree-proportional allocation.</span>
-<span class="sd">        Default to `proportional`, which makes the problem stabilizable if the graph is bijective.</span>
+<span class="sd">        Default to `proportional`, which makes the problem stabilizable if the graph is surjective.</span>
 <span class="sd">    names: :class:`list` of :class:`str` or &#39;alpha&#39;, optional</span>
 <span class="sd">        List of node names (e.g. for display)</span>
 <span class="sd">    tol: :class:`float`, optional</span>
@@ -2123,7 +2123,7 @@ document.write(`
 
 <span class="sd">        &gt;&gt;&gt; candy.run(&#39;longest&#39;, seed=42, n_steps=20000)</span>
 <span class="sd">        False</span>
-<span class="sd">        &gt;&gt;&gt; candy.simulator.logs[&#39;steps_done&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; candy.simulator.logs.steps_done</span>
 <span class="sd">        10459</span>
 <span class="sd">        &gt;&gt;&gt; candy.simulation  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,</span>
@@ -2143,7 +2143,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s1">&#39;n_steps&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;steps_done&#39;</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s1">&#39;n_steps&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span></div>
 </div>
 
 </pre></div>
