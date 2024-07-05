@@ -543,33 +543,6 @@ document.write(`
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="stochastic_matching.common.create_prob_alias">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">create_prob_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#create_prob_alias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.create_prob_alias" title="Link to this definition">#</a></dt>
-<dd><p>Prepare vector to draw a distribution with the alias method.</p>
-<p>Based on <a class="reference external" href="https://www.keithschwarz.com/darts-dice-coins/">https://www.keithschwarz.com/darts-dice-coins/</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mu</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Arrival intensities.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>prob</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Probabilities to stay in the drawn bucket</p></li>
-<li><p><strong>alias</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Redirection array</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">probas</span><span class="p">,</span> <span class="n">aliases</span> <span class="o">=</span> <span class="n">create_prob_alias</span><span class="p">([</span><span class="mi">2</span> <span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">probas</span>
-<span class="go">array([1. , 1. , 1. , 0.5])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">aliases</span>
-<span class="go">array([0, 0, 0, 2])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.common.get_classes">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">get_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#get_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.get_classes" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -599,101 +572,6 @@ document.write(`
 <span class="go"> &#39;Cycle Chain&#39;: &lt;class &#39;stochastic_matching.graphs.CycleChain&#39;&gt;,</span>
 <span class="go"> &#39;Hyper Kayak Paddle&#39;: &lt;class &#39;stochastic_matching.graphs.HyperPaddle&#39;&gt;,</span>
 <span class="go"> &#39;Fan&#39;: &lt;class &#39;stochastic_matching.graphs.Fan&#39;&gt;}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="stochastic_matching.common.graph_neighbors_list">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.common.</span></span><span class="sig-name descname"><span class="pre">graph_neighbors_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forbidden_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/common.html#graph_neighbors_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.common.graph_neighbors_list" title="Link to this definition">#</a></dt>
-<dd><p>Extract Numba-compatible neighboring structures from a <a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model with the graph to transform.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of neighbors for each node. For one given node yields a list of tuples where the first element is the edge
-and the second element the neighbor (for <cite>SimpleGraph</cite>) / array of neighbors (for <cite>HyperGraph</cite>).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<p>Consider a diamond graph.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">incidence</span>
-<span class="go">array([[1, 1, 0, 0, 0],</span>
-<span class="go">       [1, 0, 1, 1, 0],</span>
-<span class="go">       [0, 1, 1, 0, 1],</span>
-<span class="go">       [0, 0, 0, 1, 1]])</span>
-</pre></div>
-</div>
-<p>Node 0 is connected with edge 0 to node 1 and with edge 1 to node 2.</p>
-<p>Node 1 is connected with edge 0 to node 0, with edge 2 to node 2, and with edge 3 to node 3.</p>
-<p>Node 2 is connected with edge 1 to node 0, with edge 2 to node 1, and with edge 4 to node 3.</p>
-<p>Node 3 is connected with edge 3 to node 1 and with edge 4 to node 2.</p>
-<p>This is exactly what <cite>graph_neighbors_list</cite> outputs, in a numba-compatible way.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span> 
-<span class="go">[[(0, 1), (1, 2)],</span>
-<span class="go">[(0, 0), (2, 2), (3, 3)],</span>
-<span class="go">[(1, 0), (2, 1), (4, 3)],</span>
-<span class="go">[(3, 1), (4, 2)]]</span>
-</pre></div>
-</div>
-<p>To remove some egdes, use the optional parameter forbidden_edges.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">})</span> 
-<span class="go">[[(1, 2)],</span>
-<span class="go"> [(2, 2), (3, 3)],</span>
-<span class="go"> [(1, 0), (2, 1)],</span>
-<span class="go"> [(3, 1)]]</span>
-</pre></div>
-</div>
-<p>With hypergraph notation, the second term of the tuples is an array instead of an integer.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">]</span> 
-<span class="go">[[(0, array([1])), (1, array([2]))],</span>
-<span class="go">[(0, array([0])), (2, array([2])), (3, array([3]))],</span>
-<span class="go">[(1, array([0])), (2, array([1])), (4, array([3]))],</span>
-<span class="go">[(3, array([1])), (4, array([2]))]]</span>
-</pre></div>
-</div>
-<p>Having arrays is only useful for true hypergraphs. For instance, in the candy hypergraph, edge 6 links
-nodes 2, 3, and 4 together.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span>
-<span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
-<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
-<span class="go">       [0, 1, 1, 0, 0, 0, 1],</span>
-<span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
-<span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
-<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
-<span class="go">       [0, 0, 0, 0, 1, 1, 0]])</span>
-</pre></div>
-</div>
-<p>This shows in the output of the function.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">candy</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">]</span> 
-<span class="go">[[(0, array([1])), (1, array([2]))],</span>
-<span class="go">[(0, array([0])), (2, array([2]))],</span>
-<span class="go">[(1, array([0])), (2, array([1])), (6, array([3, 4]))],</span>
-<span class="go">[(6, array([2, 4]))],</span>
-<span class="go">[(3, array([5])), (4, array([6])), (6, array([2, 3]))],</span>
-<span class="go">[(3, array([4])), (5, array([6]))],</span>
-<span class="go">[(4, array([4])), (5, array([5]))]]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graph_neighbors_list</span><span class="p">(</span><span class="n">candy</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">]</span> 
-<span class="go">[[(0, array([1]))],</span>
-<span class="go"> [(0, array([0])), (2, array([2]))],</span>
-<span class="go"> [(2, array([1])), (6, array([3, 4]))],</span>
-<span class="go"> [(6, array([2, 4]))],</span>
-<span class="go"> [(4, array([6])), (6, array([2, 3]))],</span>
-<span class="go"> [(5, array([6]))],</span>
-<span class="go"> [(4, array([4])), (5, array([5]))]]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -844,9 +722,7 @@ neighbors of a node are edges, neighbors of an edge are nodes.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.CharMaker"><code class="docutils literal notranslate"><span class="pre">CharMaker</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.class_converter"><code class="docutils literal notranslate"><span class="pre">class_converter()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.clean_zeros"><code class="docutils literal notranslate"><span class="pre">clean_zeros()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.create_prob_alias"><code class="docutils literal notranslate"><span class="pre">create_prob_alias()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.get_classes"><code class="docutils literal notranslate"><span class="pre">get_classes()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.graph_neighbors_list"><code class="docutils literal notranslate"><span class="pre">graph_neighbors_list()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.neighbors"><code class="docutils literal notranslate"><span class="pre">neighbors()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.pseudo_inverse_scalar"><code class="docutils literal notranslate"><span class="pre">pseudo_inverse_scalar()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.common.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
