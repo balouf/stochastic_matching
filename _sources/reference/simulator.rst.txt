@@ -2,24 +2,10 @@ Simulation
 ----------
 
 
-Generic Class
-^^^^^^^^^^^^^^
-
-The root abstract class for all simulator.
-
-.. automodule:: stochastic_matching.simulator.simulator
-    :members:
-
 Longest queue(s) first
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: stochastic_matching.simulator.longest
-    :members:
-
-First-Come First Served
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: stochastic_matching.simulator.fcfm
     :members:
 
 Virtual queue policy
@@ -34,6 +20,13 @@ Epsilon-Filtering policy
 .. automodule:: stochastic_matching.simulator.e_filtering
     :members:
 
+First-Come First Served
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: stochastic_matching.simulator.fcfm
+    :members:
+
+
 Other policies
 ^^^^^^^^^^^^^^
 
@@ -44,6 +37,22 @@ Other policies
     :members:
 
 .. automodule:: stochastic_matching.simulator.random_item
+    :members:
+
+Generic Class
+^^^^^^^^^^^^^^
+
+The root abstract class for all simulator.
+
+.. automodule:: stochastic_matching.simulator.simulator
+    :members:
+
+Extended Class
+^^^^^^^^^^^^^^^
+
+Abstract extension designed for reaching polytope vertices.
+
+.. automodule:: stochastic_matching.simulator.extended
     :members:
 
 Internal tools

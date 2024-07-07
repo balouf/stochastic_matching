@@ -526,7 +526,20 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain(rates=[1, 2, 2, 1])</span>
 
-<span class="sd">    Let us use epsilon-filtering.</span>
+
+<span class="sd">    Without any specific argument, epsilon-filtering acts as a regular longest policy:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = EFiltering(diamond, n_steps=1000, seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+<span class="sd">    &gt;&gt;&gt; sim.logs</span>
+<span class="sd">    Traffic: [ 76  86 190  76  72]</span>
+<span class="sd">    Queues: [[1882   91   23 ...    0    0    0]</span>
+<span class="sd">     [1647  128   72 ...    0    0    0]</span>
+<span class="sd">     [1737  111   63 ...    0    0    0]</span>
+<span class="sd">     [1870   96   27 ...    0    0    0]]</span>
+<span class="sd">    Steps done: 1000</span>
+
+<span class="sd">    Let us use epsilon-filtering by specifying forbidden_edges:</span>
 
 <span class="sd">    &gt;&gt;&gt; sim = EFiltering(diamond, forbidden_edges=[0, 4], n_steps=1000, seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
@@ -573,7 +586,7 @@ document.write(`
 <span class="sd">    ...                  [0, 0, 0, 1, 0, 0, 1]], rates=[1.2, 1.5, 2, .8])</span>
 <span class="sd">    &gt;&gt;&gt; rewards = [-1, -1, 1, 2, 5, 4, 7]</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = sm.EFiltering(stol, base_policy=&#39;virtual_queue&#39;, weights=rewards, n_steps=1000, epsilon=.0001, seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; sim = EFiltering(stol, base_policy=&#39;virtual_queue&#39;, rewards=rewards, n_steps=1000, epsilon=.0001, seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs</span>
 <span class="sd">    Traffic: [  0   0 311  76 213   0  55]</span>
@@ -589,7 +602,7 @@ document.write(`
 
 <span class="sd">    To compare with, the original EGPD policy:</span>
 
-<span class="sd">    &gt;&gt;&gt; sim = sm.VirtualQueue(stol, egpd_weights=rewards, n_steps=1000, seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; sim = sm.VirtualQueue(stol, rewards=rewards, n_steps=1000, seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs</span>
 <span class="sd">    Traffic: [  0   0 100   3 139   0 140]</span>
@@ -605,27 +618,27 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;e_filtering&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">.01</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
-            <span class="n">flow</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rewards</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">.01</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">base_policy_kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">rewards</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+            <span class="n">flow</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
             <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="k">if</span> <span class="n">flow</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">forbidden_edges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">forbidden_edges</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_policy</span> <span class="o">=</span> <span class="n">class_converter</span><span class="p">(</span><span class="n">base_policy</span><span class="p">,</span> <span class="n">Simulator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_policy_kwargs</span> <span class="o">=</span> <span class="n">base_policy_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_edges</span> <span class="o">=</span> <span class="n">forbidden_edges</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">base_policy_kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EFiltering.set_internal">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.set_internal">[docs]</a>
     <span class="k">def</span> <span class="nf">set_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">expanded_model</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">expand_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">forbidden_edges</span><span class="p">,</span>
                                                   <span class="n">epsilon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
-        <span class="n">expanded_simu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_policy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">expanded_model</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">,</span>
-                                         <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">expanded_simu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_policy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">expanded_model</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">base_policy_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">internal</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simu&#39;</span><span class="p">:</span> <span class="n">expanded_simu</span><span class="p">,</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="n">edges</span><span class="p">,</span> <span class="s1">&#39;n_steps&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_steps</span><span class="p">}</span></div>
 
 

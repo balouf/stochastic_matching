@@ -608,7 +608,7 @@ document.write(`
 <span class="sd">    Traceback (most recent call last):</span>
 <span class="sd">    ...</span>
 <span class="sd">    ValueError: anything is not a known name for a subclass of Simulator.</span>
-<span class="sd">    Known names: fcfm, longest, priority, random_edge, random_item, virtual_queue, e_filtering.</span>
+<span class="sd">    Known names: e_filtering, fcfm, longest, priority, random_edge, random_item, virtual_queue.</span>
 
 <span class="sd">    &gt;&gt;&gt; class_converter(2, Simulator)</span>
 <span class="sd">    Traceback (most recent call last):</span>
@@ -621,7 +621,7 @@ document.write(`
             <span class="k">return</span> <span class="n">class_dict</span><span class="p">[</span><span class="n">subclass</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subclass</span><span class="si">}</span><span class="s2"> is not a known name for a subclass of </span><span class="si">{</span><span class="n">motherclass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. &quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot;Known names: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">class_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                             <span class="sa">f</span><span class="s2">&quot;Known names: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">class_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">isclass</span><span class="p">(</span><span class="n">subclass</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="n">motherclass</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">subclass</span>
     <span class="k">else</span><span class="p">:</span>
