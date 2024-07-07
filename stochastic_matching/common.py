@@ -156,7 +156,7 @@ def class_converter(subclass, motherclass):
     Traceback (most recent call last):
     ...
     ValueError: anything is not a known name for a subclass of Simulator.
-    Known names: fcfm, longest, priority, random_edge, random_item, virtual_queue, e_filtering.
+    Known names: e_filtering, fcfm, longest, priority, random_edge, random_item, virtual_queue.
 
     >>> class_converter(2, Simulator)
     Traceback (most recent call last):
@@ -169,7 +169,7 @@ def class_converter(subclass, motherclass):
             return class_dict[subclass]
         else:
             raise ValueError(f"{subclass} is not a known name for a subclass of {motherclass.__name__}. "
-                             f"Known names: {', '.join(class_dict.keys())}.")
+                             f"Known names: {', '.join(sorted(class_dict.keys()))}.")
     elif isclass(subclass) and issubclass(subclass, motherclass):
         return subclass
     else:

@@ -83,7 +83,20 @@ class EFiltering(Simulator):
     >>> import stochastic_matching as sm
     >>> diamond = sm.CycleChain(rates=[1, 2, 2, 1])
 
-    Let us use epsilon-filtering.
+
+    Without any specific argument, epsilon-filtering acts as a regular longest policy:
+
+    >>> sim = EFiltering(diamond, n_steps=1000, seed=42)
+    >>> sim.run()
+    >>> sim.logs
+    Traffic: [ 76  86 190  76  72]
+    Queues: [[1882   91   23 ...    0    0    0]
+     [1647  128   72 ...    0    0    0]
+     [1737  111   63 ...    0    0    0]
+     [1870   96   27 ...    0    0    0]]
+    Steps done: 1000
+
+    Let us use epsilon-filtering by specifying forbidden_edges:
 
     >>> sim = EFiltering(diamond, forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
@@ -130,7 +143,7 @@ class EFiltering(Simulator):
     ...                  [0, 0, 0, 1, 0, 0, 1]], rates=[1.2, 1.5, 2, .8])
     >>> rewards = [-1, -1, 1, 2, 5, 4, 7]
 
-    >>> sim = sm.EFiltering(stol, base_policy='virtual_queue', weights=rewards, n_steps=1000, epsilon=.0001, seed=42)
+    >>> sim = EFiltering(stol, base_policy='virtual_queue', rewards=rewards, n_steps=1000, epsilon=.0001, seed=42)
     >>> sim.run()
     >>> sim.logs
     Traffic: [  0   0 311  76 213   0  55]
@@ -146,7 +159,7 @@ class EFiltering(Simulator):
 
     To compare with, the original EGPD policy:
 
-    >>> sim = sm.VirtualQueue(stol, egpd_weights=rewards, n_steps=1000, seed=42)
+    >>> sim = sm.VirtualQueue(stol, rewards=rewards, n_steps=1000, seed=42)
     >>> sim.run()
     >>> sim.logs
     Traffic: [  0   0 100   3 139   0 140]
@@ -162,25 +175,25 @@ class EFiltering(Simulator):
     """
     name = 'e_filtering'
 
-    def __init__(self, model, base_policy='longest', forbidden_edges=None, weights=None, epsilon=.01,
-                 **kwargs):
-        if weights is not None:
-            weights = np.array(weights)
-            flow = model.optimize_rates(weights)
+    def __init__(self, model, base_policy='longest', forbidden_edges=None, rewards=None, epsilon=.01,
+                 **base_policy_kwargs):
+        if rewards is not None:
+            rewards = np.array(rewards)
+            flow = model.optimize_rates(rewards)
             forbidden_edges = [i for i in range(model.m) if flow[i] == 0]
         else:
             if forbidden_edges is None:
                 forbidden_edges = []
         self.base_policy = class_converter(base_policy, Simulator)
+        self.base_policy_kwargs = base_policy_kwargs
         self.forbidden_edges = forbidden_edges
         self.epsilon = epsilon
-        super().__init__(model, **kwargs)
+        super().__init__(model, **base_policy_kwargs)
 
     def set_internal(self):
         expanded_model, edges = expand_model(model=self.model, forbidden_edges=self.forbidden_edges,
                                                   epsilon=self.epsilon)
-        expanded_simu = self.base_policy(model=expanded_model, n_steps=self.n_steps, max_queue=self.max_queue,
-                                         seed=self.seed)
+        expanded_simu = self.base_policy(model=expanded_model, **self.base_policy_kwargs)
         self.internal = {'simu': expanded_simu, 'edges': edges, 'n_steps': self.n_steps}
 
     def run(self):

@@ -1,12 +1,12 @@
 from numba import njit
 import numpy as np
 
-from stochastic_matching.simulator.simulator import Simulator
+from stochastic_matching.simulator.extended import ExtendedSimulator
 
 
 @njit
 def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
-                 scores, forbidden_edges, threshold,  # Longest specific arguments
+                 scores, forbidden_edges, k,  # Longest specific arguments
                  traffic, queue_log, steps_done):  # Monitored variables
     """
     Generic jitted function for queue-size based policies.
@@ -25,7 +25,7 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         Default value for edges. Enables EGPD-like selection mechanism.
     forbidden_edges: :class:`list`, optional
         Edges that are disabled.
-    threshold: :class:`int`, optional
+    k: :class:`int`, optional
         Queue size above which forbidden edges become available again.
     traffic: :class:`~numpy.ndarray`
         Monitor traffic on edges.
@@ -42,15 +42,14 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
 
     n, max_queue = queue_log.shape
 
-    bad_score = np.min(scores) - 1
-
     # Optimize forbidden edges and set greedy flag.
+    greedy = False
     if forbidden_edges is not None:
         forbid = {k: True for k in forbidden_edges}
-        greedy = False
     else:
         forbid = {k: True for k in range(0)}
-        greedy = True
+        if np.min(scores) > -1:
+            greedy = True
 
     for age in range(n_steps):
 
@@ -70,14 +69,14 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
                 restrain = False
             else:
                 restrain = True
-                if threshold is not None:
+                if k is not None:
                     for v in range(n):
-                        if queue_size[v] >= threshold:
+                        if queue_size[v] >= k:
                             restrain = False
                             break
 
             best_edge = -1
-            best_score = bad_score
+            best_score = 0
             # update scores
             for e in graph.edges(node):
                 if restrain and e in forbid:
@@ -101,29 +100,26 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     return steps_done + age + 1
 
 
-class Longest(Simulator):
+class Longest(ExtendedSimulator):
     """
-    Greedy Matching old_simulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
-    When multiple choices are possible, the longest queue (or sum of queues for hyperedges) is chosen.
+    Matching simulator derived from :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
+    By default, the policy is greedy and whenever multiple edges are actionable,
+    the longest queue (sum of queues of adjacent nodes) is chosen.
+
+    Multiple options are available to tweak this behavior.
 
     Parameters
     ----------
 
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
-    egpd_weights: :class:`~numpy.ndarray` or :class:`list`, optional
-        EGPD rewards for default edge score.
-    egpd_beta: :class:`float`, default=.01
-        EGPD factor (smaller means higher reward impact).
-    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`, optional
-        Edges that should not be used.
-    weights: :class:`~numpy.ndarray`, optional
-        Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
-        (overrides forbidden_edges argument).
-    threshold: :class:`int`, optional
-        Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).
+    shift_rewards: :class:`bool`, default=True
+        Longest only selects edges with a positive score. By default, all actionable edges have a positive score,
+        which makes the policy greedy. However, if negative rewards are added into the mix, this is not True anymore.
+        Setting shift_rewards to True ensures that default edge scores are non-negative so reward-based selection
+        is greedy. Setting it to False enables a non-greedy reward-based selection.
     **kwargs
-        Keyword arguments.
+        Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
 
     Examples
     --------
@@ -175,12 +171,12 @@ class Longest(Simulator):
         0   0   0   0   0   0   0]]
     Steps done: 292
 
-    Using Stolyar EGCD technique (longest version), one can try to reach some vertices.
+    Using greedy rewards-based longest (insprired by Stolyar EGCD technique), one can try to reach some vertices.
 
     That works for the Fish graph:
 
     >>> fish = sm.KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])
-    >>> sim = Longest(fish, egpd_weights=[0, 2, 2, 0, 1, 1, 0], n_steps=10000, seed=42)
+    >>> sim = Longest(fish, rewards=[0, 2, 2, 0, 1, 1, 0], n_steps=10000, seed=42)
     >>> sim.run()
 
     The flow avoids one edge:
@@ -201,7 +197,7 @@ class Longest(Simulator):
 
     Playing with the beta parameter allows to adjust the trade-off (smaller queue, leak on the forbidden edge):
 
-    >>> sim = Longest(fish, egpd_weights=[0, 2, 2, 0, 1, 1, 0], egpd_beta=.1, n_steps=10000, seed=42)
+    >>> sim = Longest(fish, rewards=[0, 2, 2, 0, 1, 1, 0], beta=.1, n_steps=10000, seed=42)
     >>> sim.run()
     >>> sim.compute_flow()
     array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])
@@ -212,23 +208,23 @@ class Longest(Simulator):
 
     >>> diamond = sm.CycleChain(rates=[1, 2, 2, 1])
     >>> diamond.run('longest', forbidden_edges=[0, 4], seed=42,
-    ...                            threshold=100, n_steps=1000, max_queue=1000)
+    ...                            k=100, n_steps=1000, max_queue=1000)
     True
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 
-    Same result can be achieved by putting low weights on 0 and 4.
+    Same result can be achieved by putting low rewards on 0 and 4 and settings forbidden_edges to True.
 
-    >>> diamond.run('longest', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            threshold=100, n_steps=1000, max_queue=1000)
+    >>> diamond.run('longest', rewards=[1, 2, 2, 2, 1], seed=42, forbidden_edges=True,
+    ...                            k=100, n_steps=1000, max_queue=1000)
     True
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 
     Note that if the threshold is too low some exceptions are done to limit the queue sizes.
 
-    >>> diamond.run('longest', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            threshold=10, n_steps=1000, max_queue=1000)
+    >>> diamond.run('longest', rewards=[1, 2, 2, 2, 1], seed=42, forbidden_edges=True,
+    ...                            k=10, n_steps=1000, max_queue=1000)
     True
     >>> diamond.simulation
     array([0.108, 0.93 , 0.966, 0.93 , 0.024])
@@ -236,14 +232,13 @@ class Longest(Simulator):
     Having no relaxation usually leads to large, possibly overflowing, queues.
     However, this doesn't show on small simulations.
 
-    >>> diamond.run('longest', weights=[1, 2, 2, 2, 1], seed=42,
+    >>> diamond.run('longest', rewards=[1, 2, 2, 2, 1], seed=42, forbidden_edges=True,
     ...                            n_steps=1000, max_queue=100)
     True
     >>> diamond.simulator.compute_average_queues()
     array([7.495, 7.797, 1.067, 1.363])
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
-
 
     To compare with the priority-based pure greedy version:
 
@@ -252,22 +247,36 @@ class Longest(Simulator):
     >>> diamond.simulation
     array([0.444, 0.63 , 0.966, 0.63 , 0.324])
 
+    We get similar results with Stolyar greedy longest:
+
+    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], n_steps=1000, max_queue=1000, seed=42)
+    True
+    >>> diamond.simulation
+    array([0.444, 0.63 , 0.966, 0.63 , 0.324])
+
+    However, if you remove the greedyness, you can converge to the vertex:
+
+    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)
+    True
+    >>> diamond.simulation
+    array([0.   , 0.954, 0.966, 0.954, 0.   ])
+
     Another example with other rates.
 
     >>> diamond.rates=[4, 5, 2, 1]
 
     Optimize with the first and last edges that provide less reward.
 
-    >>> diamond.run('longest', weights=[1, 2, 2, 2, 1], seed=42,
-    ...                            threshold=100, n_steps=1000, max_queue=1000)
+    >>> diamond.run('longest', rewards=[1, 2, 2, 2, 1], seed=42, forbidden_edges=True,
+    ...                            k=100, n_steps=1000, max_queue=1000)
     True
     >>> diamond.simulation
     array([3.264, 0.888, 0.948, 0.84 , 0.   ])
 
     Increase the reward on the first edge.
 
-    >>> diamond.run('longest', weights=[4, 2, 2, 2, 1], seed=42,
-    ...                            threshold=100, n_steps=1000, max_queue=1000)
+    >>> diamond.run('longest', rewards=[4, 2, 2, 2, 1], seed=42, forbidden_edges=True,
+    ...                            k=100, n_steps=1000, max_queue=1000)
     True
     >>> diamond.simulation
     array([4.152, 0.   , 0.996, 0.   , 0.84 ])
@@ -275,35 +284,22 @@ class Longest(Simulator):
     On bijective graphs, no edge is forbidden whatever the weights.
 
     >>> paw = sm.Tadpole()
-    >>> paw.run('longest', weights=[6, 3, 1, 2], seed=42,
-    ...                            threshold=100, n_steps=1000, max_queue=1000)
+    >>> paw.run('longest', rewards=[6, 3, 1, 2], seed=42, forbidden_edges=True,
+    ...                            k=100, n_steps=1000, max_queue=1000)
     True
     >>> paw.simulation
     array([1.048, 1.056, 1.016, 0.88 ])
     """
     name = 'longest'
 
-    def __init__(self, model, egpd_weights=None, egpd_beta=.01, forbidden_edges=None, weights=None, threshold=None,
-                 **kwargs):
-        self.egpd_weights = np.array(egpd_weights) if egpd_weights is not None else None
-        self.egpd_beta = egpd_beta
-        if weights is not None:
-            weights = np.array(weights)
-            flow = model.optimize_rates(weights)
-            forbidden_edges = [i for i in range(model.m) if flow[i] == 0]
-            if len(forbidden_edges) == 0:
-                forbidden_edges = None
-
-        self.forbidden_edges = forbidden_edges
-        self.threshold = threshold
+    def __init__(self, model, shift_rewards=True, **kwargs):
+        self.shift_rewards = shift_rewards
         super().__init__(model, **kwargs)
 
     def set_internal(self):
         super().set_internal()
-        self.internal['scores'] = np.zeros(self.model.m,
-                                           dtype=int) if self.egpd_weights is None else self.egpd_weights / self.egpd_beta
-        self.internal['forbidden_edges'] = self.forbidden_edges
-        self.internal['threshold'] = self.threshold
+        if self.shift_rewards:
+            self.internal['scores'] -= np.min(self.internal['scores'])
 
     def run(self):
         self.logs.steps_done = longest_core(**self.internal, **self.logs.asdict())

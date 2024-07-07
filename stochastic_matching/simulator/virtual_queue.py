@@ -1,13 +1,13 @@
 from numba import njit
 import numpy as np
 
-from stochastic_matching.simulator.simulator import Simulator
+from stochastic_matching.simulator.extended import ExtendedSimulator
 from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
 @njit
 def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
-            scores, ready_edges, edge_queue, forbidden_edges, threshold,  # Longest specific arguments
+            scores, ready_edges, edge_queue, forbidden_edges, k,  # Longest specific arguments
             traffic, queue_log, steps_done):  # Monitored variables
     """
     Jitted function for virtual-queue policy.
@@ -30,7 +30,7 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         Edges waiting to be matched.
     forbidden_edges: :class:`list`, optional
         Edges that are disabled.
-    threshold: :class:`int`, optional
+    k: :class:`int`, optional
         Queue size above which forbidden edges become available again.
     traffic: :class:`~numpy.ndarray`
         Monitor traffic on edges.
@@ -84,9 +84,9 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
 
         if has_forbidden:
             restrain = True
-            if threshold is not None:
+            if k is not None:
                 for v in range(n):
-                    if queue_size[v] >= threshold:
+                    if queue_size[v] >= k:
                         restrain = False
                         break
         else:
@@ -132,31 +132,20 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     return steps_done + age + 1  # Return the updated number of steps achieved.
 
 
-class VirtualQueue(Simulator):
+class VirtualQueue(ExtendedSimulator):
     """
-    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.simulator.Simulator`.
+    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
     Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).
 
     Parameters
     ----------
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
-    egpd_weights: :class:`list` or :class:`~numpy.ndarray`, optional
-        Target rewards on edges.
-    egpd_beta: :class:`float`
-        Stabilization parameter. Close to 0, reward maximization is better but queues are more full.
-    forbidden_edges: :class:`list` or :class:`~numpy.ndarray`, optional
-        Egdes that should not be used.
-    weights: :class:`list` or :class:`~numpy.ndarray`, optional
-        Target rewards on edges. If weights are given, the forbidden edges are computed to match the target
-        (overrides forbidden_edges argument).
-    threshold: :class:`int`, optional
-        Limit on queue size to apply edge interdiction (enforce stability on injective-only vertices).
     max_edge_queue: :class:`int`, optional
         In some extreme situation, the default allocated space for the edge virtual queue may be too small.
         If that happens someday, use this parameter to increase the VQ allocated memory.
     **kwargs
-        Keyword arguments.
+        Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
 
 
     Examples
@@ -200,7 +189,7 @@ class VirtualQueue(Simulator):
 
     Let's optimize (kill traffic on first and last edges).
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
     ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
@@ -213,8 +202,8 @@ class VirtualQueue(Simulator):
 
     OK, it's working, but we reached the maximal queue size quite fast. Let's reduce the pressure.
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), egpd_weights=[0, 1, 1, 1, 0],
-    ...                    egpd_beta=.8, n_steps=1000, seed=42, max_queue=10)
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
+    ...                    beta=.8, n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 32 146 161 146  13]
@@ -226,8 +215,8 @@ class VirtualQueue(Simulator):
 
     Let's now use a k-filtering for this diamond:
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]),
-    ...                    weights=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True,
+    ...                    rewards=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 0 27 29 28  0]
@@ -239,8 +228,8 @@ class VirtualQueue(Simulator):
 
     Let us reduce the pressure.
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), weights=[0, 1, 1, 1, 0],
-    ...                    n_steps=1000, seed=42, max_queue=10, threshold=6)
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True, rewards=[0, 1, 1, 1, 0],
+    ...                    n_steps=1000, seed=42, max_queue=10, k=6)
     >>> sim.run()
     >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 31 145 161 145  14]
@@ -293,7 +282,7 @@ class VirtualQueue(Simulator):
 
     With optimization, we get the desired results at the price of a huge queue:
 
-    >>> sim = VirtualQueue(stol, egpd_weights=rewards, n_steps=3000, seed=42, max_queue=300)
+    >>> sim = VirtualQueue(stol, rewards=rewards, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 761, 242, 591,   0, 205])
@@ -302,7 +291,7 @@ class VirtualQueue(Simulator):
 
     Same traffic could be achieved with much lower queues by enforcing forbidden edges:
 
-    >>> sim = VirtualQueue(stol, weights=rewards, n_steps=3000, seed=42, max_queue=300)
+    >>> sim = VirtualQueue(stol, rewards=rewards, forbidden_edges=True, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 961, 342, 691,   0, 105])
@@ -311,36 +300,17 @@ class VirtualQueue(Simulator):
     """
     name = 'virtual_queue'
 
-    def __init__(self, model, egpd_weights=None, egpd_beta=.01, forbidden_edges=None, weights=None, threshold=None,
-                 max_edge_queue = None,
-                 **kwargs):
-        self.egpd_weights = np.array(egpd_weights) if egpd_weights is not None else None
-        self.egpd_beta = egpd_beta
-        if weights is not None:
-            weights = np.array(weights)
-            flow = model.optimize_rates(weights)
-            forbidden_edges = [i for i in range(model.m) if flow[i] == 0]
-            if len(forbidden_edges) == 0:
-                forbidden_edges = None
-
-        self.forbidden_edges = forbidden_edges
-        self.threshold = threshold
-        if max_edge_queue is None:
-            max_edge_queue = 10 * kwargs.get('max_queue', 1000)
+    def __init__(self, model, max_edge_queue=None, **kwargs):
         self.max_edge_queue = max_edge_queue
-
         super().__init__(model, **kwargs)
 
     def set_internal(self):
         super().set_internal()
-        if self.egpd_weights is None:
-            self.internal['scores'] = np.zeros(self.model.m, dtype=int)
-        else:
-            self.internal['scores'] = self.egpd_weights / self.egpd_beta
-        self.internal['edge_queue'] = MultiQueue(self.model.m, max_queue=self.max_edge_queue)
         self.internal['ready_edges'] = np.zeros(self.model.m, dtype=np.bool_)
-        self.internal['forbidden_edges'] = self.forbidden_edges
-        self.internal['threshold'] = self.threshold
+        meq = self.max_edge_queue
+        if meq is None:
+            meq = 10 * self.max_queue
+        self.internal['edge_queue'] = MultiQueue(self.model.m, max_queue=meq)
 
     def run(self):
         self.logs.steps_done = vq_core(**self.internal, **self.logs.asdict())
