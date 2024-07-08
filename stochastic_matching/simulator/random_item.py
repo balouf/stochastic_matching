@@ -47,7 +47,7 @@ class RandomItem(Simulator):
     >>> import stochastic_matching as sm
     >>> sim = RandomItem(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [118 158 224]
     Queues: [[865  92  32  10   1   0   0   0   0   0   0]
      [750 142  62  28  12   3   2   1   0   0   0]
@@ -58,7 +58,7 @@ class RandomItem(Simulator):
 
     >>> sim = RandomItem(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [10  6  2  5  5]
     Queues: [[10  4  7  7  5  4  9  8 11  3]
      [68  0  0  0  0  0  0  0  0  0]
@@ -70,7 +70,7 @@ class RandomItem(Simulator):
 
     >>> sim = RandomItem(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [66 46 39 61 64 51 81]
     Queues: [[684 125  63  25   8  13   2   3   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]

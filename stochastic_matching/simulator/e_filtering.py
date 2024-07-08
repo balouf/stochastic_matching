@@ -88,7 +88,7 @@ class EFiltering(Simulator):
 
     >>> sim = EFiltering(diamond, n_steps=1000, seed=42)
     >>> sim.run()
-    >>> sim.logs
+    >>> sim.plogs
     Traffic: [ 76  86 190  76  72]
     Queues: [[1882   91   23 ...    0    0    0]
      [1647  128   72 ...    0    0    0]
@@ -100,7 +100,7 @@ class EFiltering(Simulator):
 
     >>> sim = EFiltering(diamond, forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
-    >>> sim.logs
+    >>> sim.plogs
     Traffic: [  1 158 189 147   1]
     Queues: [[1572   44   61 ...    0    0    0]
      [1561   37   52 ...    0    0    0]
@@ -115,7 +115,7 @@ class EFiltering(Simulator):
 
     >>> sim = EFiltering(diamond, base_policy='fcfm', forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
-    >>> sim.logs
+    >>> sim.plogs
     Traffic: [  1 158 189 147   1]
     Queues: [[1570   99  118 ...    0    0    0]
      [1570   35   37 ...    0    0    0]
@@ -127,7 +127,7 @@ class EFiltering(Simulator):
 
     >>> sim = EFiltering(diamond, base_policy='virtual_queue', forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
-    >>> sim.logs
+    >>> sim.plogs
     Traffic: [  0 157 186 144   1]
     Queues: [[1312   93  110 ...    0    0    0]
      [1109  120  111 ...    0    0    0]
@@ -145,7 +145,7 @@ class EFiltering(Simulator):
 
     >>> sim = EFiltering(stol, base_policy='virtual_queue', rewards=rewards, n_steps=1000, epsilon=.0001, seed=42)
     >>> sim.run()
-    >>> sim.logs
+    >>> sim.plogs
     Traffic: [  0   0 311  76 213   0  55]
     Queues: [[1031  114  181 ...    0    0    0]
      [1023   64  117 ...    0    0    0]
@@ -161,7 +161,7 @@ class EFiltering(Simulator):
 
     >>> sim = sm.VirtualQueue(stol, rewards=rewards, n_steps=1000, seed=42)
     >>> sim.run()
-    >>> sim.logs
+    >>> sim.plogs
     Traffic: [  0   0 100   3 139   0 140]
     Queues: [[  3   3   5 ...   0   0   0]
      [844   8   6 ...   0   0   0]
@@ -207,3 +207,14 @@ class EFiltering(Simulator):
         logs.queue_log += (xlogs.queue_log[:n, :] + xlogs.queue_log[n:, :])
         for i, t in enumerate(xlogs.traffic):
             logs.traffic[edges[i]] += t
+
+    def compute_actual_rates(self):
+        """
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            Arrival rates computed from actual draws.
+        """
+        n = self.model.n
+        mumu = self.internal['simu'].compute_actual_rates()
+        return mumu[:n] + mumu[n:]

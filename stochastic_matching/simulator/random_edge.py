@@ -47,7 +47,7 @@ class RandomEdge(Simulator):
     >>> triangle = sm.Cycle(rates=[3, 4, 5])
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [118 158 224]
     Queues: [[865  92  32  10   1   0   0   0   0   0   0]
      [750 142  62  28  12   3   2   1   0   0   0]
@@ -59,7 +59,7 @@ class RandomEdge(Simulator):
     >>> triangle.adjacency = None
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [118 158 224]
     Queues: [[865  92  32  10   1   0   0   0   0   0   0]
      [750 142  62  28  12   3   2   1   0   0   0]
@@ -70,7 +70,7 @@ class RandomEdge(Simulator):
 
     >>> sim = RandomEdge(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [10  8  2  8  6]
     Queues: [[10  4  7 13  5  5 10 24  5  1]
      [84  0  0  0  0  0  0  0  0  0]
@@ -84,7 +84,7 @@ class RandomEdge(Simulator):
 
     >>> sim = RandomEdge(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [24 22 19 28 35 19 26]
     Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
@@ -106,7 +106,7 @@ class RandomEdge(Simulator):
 
     >>> sim.reset()
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [24 22 19 28 35 19 26]
     Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]

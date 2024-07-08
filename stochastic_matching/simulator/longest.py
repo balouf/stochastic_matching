@@ -5,14 +5,15 @@ from stochastic_matching.simulator.extended import ExtendedSimulator
 
 
 @njit
-def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
-                 scores, forbidden_edges, k,  # Longest specific arguments
-                 traffic, queue_log, steps_done):  # Monitored variables
+def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
+                 scores, forbidden_edges, k):
     """
     Generic jitted function for queue-size based policies.
 
     Parameters
     ----------
+    logs: :class:`~stochastic_matching.simulator.logs.Logs`
+        Monitored variables.
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
     graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
@@ -27,20 +28,13 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         Edges that are disabled.
     k: :class:`int`, optional
         Queue size above which forbidden edges become available again.
-    traffic: :class:`~numpy.ndarray`
-        Monitor traffic on edges.
-    queue_log: :class:`~numpy.ndarray`
-        Monitor queue sizes.
-    steps_done: :class:`int`
-        Number of arrivals processed so far.
 
     Returns
     -------
-    :class:`int`
-        Total number of steps performed, possibly including previous runs.
+    None
     """
 
-    n, max_queue = queue_log.shape
+    n, max_queue = logs.queue_log.shape
 
     # Optimize forbidden edges and set greedy flag.
     greedy = False
@@ -54,13 +48,14 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     for age in range(n_steps):
 
         for j in range(n):
-            queue_log[j, queue_size[j]] += 1
+            logs.queue_log[j, queue_size[j]] += 1
 
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            return steps_done + age + 1
+            logs.steps_done += age + 1
+            return None
 
         # Test if an actionable edge may be present
         if not greedy or queue_size[node] == 1:
@@ -94,10 +89,9 @@ def longest_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
                         best_score = score
 
             if best_edge > -1:
-                traffic[best_edge] += 1
+                logs.traffic[best_edge] += 1
                 queue_size[graph.nodes(best_edge)] -= 1
-
-    return steps_done + age + 1
+    logs.steps_done += n_steps
 
 
 class Longest(ExtendedSimulator):
@@ -130,7 +124,7 @@ class Longest(ExtendedSimulator):
     >>> import stochastic_matching as sm
     >>> sim = Longest(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [125 162 213]
     Queues: [[838 104  41  13   3   1   0   0   0   0]
      [796 119  53  22   8   2   0   0   0   0]
@@ -141,7 +135,7 @@ class Longest(ExtendedSimulator):
 
     >>> sim = Longest(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [38 38  7 37 40]
     Queues: [[127  74  28  37  21  32  16   1   2   1]
      [327   8   3   1   0   0   0   0   0   0]
@@ -153,7 +147,7 @@ class Longest(ExtendedSimulator):
 
     >>> sim = Longest(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [24 17  2 23 33 12 13]
     Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
@@ -302,4 +296,4 @@ class Longest(ExtendedSimulator):
             self.internal['scores'] -= np.min(self.internal['scores'])
 
     def run(self):
-        self.logs.steps_done = longest_core(**self.internal, **self.logs.asdict())
+        longest_core(logs=self.logs, **self.internal)

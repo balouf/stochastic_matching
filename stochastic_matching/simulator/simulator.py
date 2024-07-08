@@ -6,16 +6,18 @@ from stochastic_matching.simulator.arrivals import Arrivals
 from stochastic_matching.simulator.graph import make_jit_graph
 from stochastic_matching.simulator.logs import Logs
 from stochastic_matching.display import int_2_str
+from stochastic_matching.simulator.logs import repr_logs
 
 
 @njit
-def core_simulator(arrivals, graph, n_steps, queue_size, selector,
-                   traffic, queue_log, steps_done):
+def core_simulator(logs, arrivals, graph, n_steps, queue_size, selector):
     """
     Generic jitted function for queue-size based policies.
 
     Parameters
     ----------
+    logs: :class:`~stochastic_matching.simulator.logs.Logs`
+        Monitored variables.
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
     graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
@@ -26,37 +28,31 @@ def core_simulator(arrivals, graph, n_steps, queue_size, selector,
         Number of waiting items of each class.
     selector: callable
         Jitted function that selects edge (or not) based on graph, queue_size, and arriving node.
-    traffic: :class:`~numpy.ndarray`
-        Monitor traffic on edges.
-    queue_log: :class:`~numpy.ndarray`
-        Monitor queue sizes.
-    steps_done: :class:`int`
-        Number of arrivals processed so far.
 
     Returns
     -------
-    :class:`int`
-        Total number of steps performed, possibly including previous runs.
+    None
     """
 
-    n, max_queue = queue_log.shape
+    n, max_queue = logs.queue_log.shape
 
     for age in range(n_steps):
         for j in range(n):
-            queue_log[j, queue_size[j]] += 1
+            logs.queue_log[j, queue_size[j]] += 1
 
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            return steps_done + age + 1
+            logs.steps_done += age +1
+            return None
 
         best_edge = selector(graph=graph, queue_size=queue_size, node=node)
 
         if best_edge > -1:
-            traffic[best_edge] += 1
+            logs.traffic[best_edge] += 1
             queue_size[graph.nodes(best_edge)] -= 1
-    return steps_done + age + 1
+    logs.steps_done += n_steps
 
 
 class Simulator:
@@ -97,7 +93,7 @@ class Simulator:
 
     Raw results are stored in `logs`.
 
-    >>> sim.logs #doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs #doctest: +NORMALIZE_WHITESPACE
     Traffic: [43 17 14 23 12]
     Queues: [[119  47  26  15  14   7   1   1]
      [189  25  13   3   0   0   0   0]
@@ -160,7 +156,18 @@ class Simulator:
         self.internal = None
         self.set_internal()
 
-        self.logs = Logs(self)
+        self.logs = Logs(n=self.model.n, m=self.model.m, max_queue=self.max_queue)
+
+    @property
+    def plogs(self):
+        """
+        Print logs.
+
+        Returns
+        -------
+        None
+        """
+        repr_logs(self.logs)
 
     def set_internal(self):
         """
@@ -185,7 +192,7 @@ class Simulator:
         None
         """
         self.set_internal()
-        self.logs = Logs(self)
+        self.logs = Logs(n=self.model.n, m=self.model.m, max_queue=self.max_queue)
 
     def run(self):
         """
@@ -196,7 +203,7 @@ class Simulator:
         -------
         None
         """
-        self.logs.steps_done = core_simulator(**self.internal, **self.logs.asdict())
+        core_simulator(logs=self.logs, **self.internal)
 
     def compute_average_queues(self):
         """
@@ -206,6 +213,15 @@ class Simulator:
             Average queue sizes.
         """
         return self.logs.queue_log.dot(np.arange(self.max_queue)) / self.logs.steps_done
+
+    def compute_actual_rates(self):
+        """
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            Arrival rates computed from actual draws.
+        """
+        return self.internal['arrivals'].actual_rates
 
     def total_waiting_time(self):
         """

@@ -2,9 +2,6 @@ from numba import int32
 from numba.experimental import jitclass
 
 
-specs = [('incid_ind', int32[:]), ('incid_ptr', int32[:]), ('coinc_ind', int32[:]), ('coinc_ptr', int32[:])]
-
-
 def make_jit_graph(model):
     """
     Parameters
@@ -18,10 +15,11 @@ def make_jit_graph(model):
         Jitted graph.
     """
     return JitHyperGraph(incid_ind=model.incidence_csr.indices, incid_ptr=model.incidence_csr.indptr,
-                         coinc_ind=model.incidence_csc.indices, coinc_ptr=model.incidence_csc.indptr)
+                         coinc_ind=model.incidence_csc.indices, coinc_ptr=model.incidence_csc.indptr,
+                         n=model.n, m=model.m)
 
 
-@jitclass(specs)
+@jitclass
 class JitHyperGraph:
     """
     Jit compatible view of a (hyper)graph.
@@ -36,12 +34,25 @@ class JitHyperGraph:
         Indices of the co-incidence matrix.
     coinc_ptr: :class:`~numpy.ndarray`
         Pointers of the co-incidence matrix.
+    n: :class:`int`
+        Number of nodes.
+    m: :class:`int`
+        Number of (hyper)edges.
     """
-    def __init__(self, incid_ind, incid_ptr, coinc_ind, coinc_ptr):
+    incid_ind: int32[:]
+    incid_ptr: int32[:]
+    coinc_ind: int32[:]
+    coinc_ptr: int32[:]
+    n: int
+    m: int
+
+    def __init__(self, incid_ind, incid_ptr, coinc_ind, coinc_ptr, n, m):
         self.incid_ind = incid_ind
         self.incid_ptr = incid_ptr
         self.coinc_ind = coinc_ind
         self.coinc_ptr = coinc_ptr
+        self.n = n
+        self.m = m
 
     def edges(self, node):
         """

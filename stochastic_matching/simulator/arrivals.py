@@ -57,6 +57,7 @@ def create_prob_alias(mu):
 
 alias_type = typeof(np.zeros(1, dtype=int))
 prob_type = typeof(np.zeros(1))
+counter_type = typeof(np.zeros(1, dtype=np.int64))
 
 
 @jitclass
@@ -80,14 +81,24 @@ class Arrivals:
     >>> from collections import Counter
     >>> Counter([arrivals.draw() for _ in range(800)])
     Counter({2: 291, 1: 210, 0: 208, 3: 91})
+    >>> arrivals.counter.astype(int)
+    array([208, 210, 291,  91])
+    >>> arrivals.steps_done
+    800
+    >>> arrivals.actual_rates
+    array([2.08, 2.1 , 2.91, 0.91])
     """
     prob: prob_type
     alias: alias_type
+    counter: counter_type
     n: int
+    intensity: float
 
     def __init__(self, mu, seed=None):
         self.prob, self.alias = create_prob_alias(mu)
         self.n = len(mu)
+        self.intensity = float(np.sum(mu))
+        self.counter = np.zeros(self.n, dtype=np.int64)
         if seed is not None:
             self.set_seed(seed)
 
@@ -95,9 +106,20 @@ class Arrivals:
     def set_seed(seed):
         np.random.seed(seed)
 
+    @property
+    def actual_rates(self):
+        return self.counter.astype(np.float64)*self.intensity/self.steps_done
+
+    @property
+    def steps_done(self):
+        return np.sum(self.counter)
+
+
+
     def draw(self):
         node = np.random.randint(self.n)
         if np.random.rand() > self.prob[node]:
             node = self.alias[node]
+        self.counter[node] += 1
         return node
 

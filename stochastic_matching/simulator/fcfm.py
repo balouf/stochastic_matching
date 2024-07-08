@@ -5,14 +5,14 @@ from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
 @njit
-def fcfm_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
-              queues,  # FCFM specific argument
-              traffic, queue_log, steps_done):  # Monitored variables
+def fcfm_core(logs, arrivals, graph, n_steps, queue_size, queues):
     """
     Jitted function for first-come, first-matched policy.
 
     Parameters
     ----------
+    logs: :class:`~stochastic_matching.simulator.logs.Logs`
+        Monitored variables.
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
     graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
@@ -23,31 +23,25 @@ def fcfm_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         Number of waiting items of each class.
     queues: :class:`~stochastic_matching.simulator.multiqueue.MultiQueue`
         Waiting items of each class.
-    traffic: :class:`~numpy.ndarray`
-        Monitor traffic on edges.
-    queue_log: :class:`~numpy.ndarray`
-        Monitor queue sizes.
-    steps_done: :class:`int`
-        Number of arrivals processed so far.
 
     Returns
     -------
-    :class:`int`
-        Total number of steps performed, possibly including previous runs.
+    None
     """
 
-    n, max_queue = queue_log.shape
+    n, max_queue = logs.queue_log.shape
     inf = queues.infinity
 
     for age in range(n_steps):
 
         for j in range(n):
-            queue_log[j, queue_size[j]] += 1
+            logs.queue_log[j, queue_size[j]] += 1
 
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            return steps_done + age + 1
+            logs.steps_done += age + 1
+            return None
         queues.add(node, age)
 
         # Test if an actionable edge may be present
@@ -68,12 +62,11 @@ def fcfm_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
                         best_age = edge_age
 
             if best_edge > -1:
-                traffic[best_edge] += 1
+                logs.traffic[best_edge] += 1
                 queue_size[graph.nodes(best_edge)] -= 1
                 for v in graph.nodes(best_edge):
                     queues.pop(v)
-
-    return steps_done + age + 1
+    logs.steps_done += n_steps
 
 
 class FCFM(Simulator):
@@ -90,7 +83,7 @@ class FCFM(Simulator):
     >>> import stochastic_matching as sm
     >>> sim = FCFM(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [125 162 213]
     Queues: [[838 104  41  13   3   1   0   0   0   0]
      [796 119  53  22   8   2   0   0   0   0]
@@ -101,7 +94,7 @@ class FCFM(Simulator):
 
     >>> sim = FCFM(sm.CycleChain(rates=[1, 1, 1, 1]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [34 42  7 41 36]
     Queues: [[127  70  22  26  29  12  23  15  10   5]
      [327   8   3   1   0   0   0   0   0   0]
@@ -114,7 +107,7 @@ class FCFM(Simulator):
     >>> sim = FCFM(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]),
     ...            n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [24 17  2 23 33 12 13]
     Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
@@ -139,4 +132,4 @@ class FCFM(Simulator):
         self.internal['queues'] = MultiQueue(self.model.n, max_queue=self.max_queue + 1)
 
     def run(self):
-        self.logs.steps_done = fcfm_core(**self.internal, **self.logs.asdict())
+        fcfm_core(logs=self.logs, **self.internal)

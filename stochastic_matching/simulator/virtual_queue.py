@@ -6,14 +6,15 @@ from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
 @njit
-def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
-            scores, ready_edges, edge_queue, forbidden_edges, k,  # Longest specific arguments
-            traffic, queue_log, steps_done):  # Monitored variables
+def vq_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
+            scores, ready_edges, edge_queue, forbidden_edges, k):  # Longest specific arguments
     """
     Jitted function for virtual-queue policy.
 
     Parameters
     ----------
+    logs: :class:`~stochastic_matching.simulator.logs.Logs`
+        Monitored variables.
     arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`
         Item arrival process.
     graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
@@ -32,12 +33,6 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         Edges that are disabled.
     k: :class:`int`, optional
         Queue size above which forbidden edges become available again.
-    traffic: :class:`~numpy.ndarray`
-        Monitor traffic on edges.
-    queue_log: :class:`~numpy.ndarray`
-        Monitor queue sizes.
-    steps_done: :class:`int`
-        Number of arrivals processed so far.
 
     Returns
     -------
@@ -45,7 +40,7 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
         Total number of steps performed, possibly including previous runs.
     """
 
-    n, max_queue = queue_log.shape
+    n, max_queue = logs.queue_log.shape
     m = len(scores)
 
     # Optimize forbidden edges and set greedy flag.
@@ -61,13 +56,14 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
     for age in range(n_steps):
 
         for j in range(n):
-            queue_log[j, queue_size[j]] += 1
+            logs.queue_log[j, queue_size[j]] += 1
 
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            return steps_done + age + 1
+            logs.steps_done += age + 1
+            return None
 
         # update scores
         scores[graph.edges(node)] += 1
@@ -123,13 +119,12 @@ def vq_core(arrivals, graph, n_steps, queue_size,  # Generic arguments
                     best_age = edge_age
         if best_edge > -1:
             edge_queue.pop(best_edge)
-            traffic[best_edge] += 1
+            logs.traffic[best_edge] += 1
             for v in graph.nodes(best_edge):
                 queue_size[v] -= 1
                 if queue_size[v] == 0:
                     ready_edges[graph.edges(v)] = False
-
-    return steps_done + age + 1  # Return the updated number of steps achieved.
+    logs.steps_done += n_steps
 
 
 class VirtualQueue(ExtendedSimulator):
@@ -156,7 +151,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> import stochastic_matching as sm
     >>> sim = VirtualQueue(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [125 162 213]
     Queues: [[837 105  41  13   3   1   0   0   0   0]
      [784 131  53  22   8   2   0   0   0   0]
@@ -167,7 +162,7 @@ class VirtualQueue(ExtendedSimulator):
 
     >>> sim = VirtualQueue(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [34 42  7 41 36]
     Queues: [[142  55  34  25  23  16  24  12   7   1]
      [319  16   3   1   0   0   0   0   0   0]
@@ -179,7 +174,7 @@ class VirtualQueue(ExtendedSimulator):
 
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 95  84 161  84  75]
     Queues: [[823 120  38  19   0   0   0   0   0   0]
      [626 215  75  46  28   9   1   0   0   0]
@@ -192,7 +187,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
     ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 0 22 24 27  0]
     Queues: [[137  16   3   0   0   0   0   0   0   0]
      [113  14   8   6   7   4   3   1   0   0]
@@ -205,7 +200,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
     ...                    beta=.8, n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 32 146 161 146  13]
     Queues: [[692 221  68  18   1   0   0   0   0   0]
      [515 153 123 109  48  32  16   4   0   0]
@@ -218,7 +213,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True,
     ...                    rewards=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 0 27 29 28  0]
     Queues: [[159  16   3   3   0   0   0   0   0   0]
      [137  19   8   4   5   4   3   1   0   0]
@@ -231,7 +226,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True, rewards=[0, 1, 1, 1, 0],
     ...                    n_steps=1000, seed=42, max_queue=10, k=6)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 31 145 161 145  14]
     Queues: [[601 171 122  80  20   6   0   0   0   0]
      [445 151 137 104  81  64  14   4   0   0]
@@ -244,7 +239,7 @@ class VirtualQueue(ExtendedSimulator):
 
     >>> sim = VirtualQueue(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
-    >>> sim.logs # doctest: +NORMALIZE_WHITESPACE
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [109  29  17  59  58  62 107]
     Queues: [[302  83  93  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0
         0   0   0   0   0   0   0]
@@ -313,4 +308,4 @@ class VirtualQueue(ExtendedSimulator):
         self.internal['edge_queue'] = MultiQueue(self.model.m, max_queue=meq)
 
     def run(self):
-        self.logs.steps_done = vq_core(**self.internal, **self.logs.asdict())
+        vq_core(logs=self.logs, **self.internal)
