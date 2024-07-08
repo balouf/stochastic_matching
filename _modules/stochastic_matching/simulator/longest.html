@@ -445,14 +445,15 @@ document.write(`
 <div class="viewcode-block" id="longest_core">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.longest.longest_core">[docs]</a>
 <span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">longest_core</span><span class="p">(</span><span class="n">arrivals</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>  <span class="c1"># Generic arguments</span>
-                 <span class="n">scores</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span>  <span class="c1"># Longest specific arguments</span>
-                 <span class="n">traffic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">):</span>  <span class="c1"># Monitored variables</span>
+<span class="k">def</span> <span class="nf">longest_core</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="n">arrivals</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>  <span class="c1"># Generic arguments</span>
+                 <span class="n">scores</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic jitted function for queue-size based policies.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    logs: :class:`~stochastic_matching.simulator.logs.Logs`</span>
+<span class="sd">        Monitored variables.</span>
 <span class="sd">    arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`</span>
 <span class="sd">        Item arrival process.</span>
 <span class="sd">    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`</span>
@@ -467,20 +468,13 @@ document.write(`
 <span class="sd">        Edges that are disabled.</span>
 <span class="sd">    k: :class:`int`, optional</span>
 <span class="sd">        Queue size above which forbidden edges become available again.</span>
-<span class="sd">    traffic: :class:`~numpy.ndarray`</span>
-<span class="sd">        Monitor traffic on edges.</span>
-<span class="sd">    queue_log: :class:`~numpy.ndarray`</span>
-<span class="sd">        Monitor queue sizes.</span>
-<span class="sd">    steps_done: :class:`int`</span>
-<span class="sd">        Number of arrivals processed so far.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`int`</span>
-<span class="sd">        Total number of steps performed, possibly including previous runs.</span>
+<span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="c1"># Optimize forbidden edges and set greedy flag.</span>
     <span class="n">greedy</span> <span class="o">=</span> <span class="kc">False</span>
@@ -494,13 +488,14 @@ document.write(`
     <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
 
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="c1"># Draw an arrival</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">arrivals</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Test if an actionable edge may be present</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">greedy</span> <span class="ow">or</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -534,10 +529,9 @@ document.write(`
                         <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
 
             <span class="k">if</span> <span class="n">best_edge</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">queue_size</span><span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
-
-    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span></div>
+    <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">n_steps</span></div>
 
 
 
@@ -573,7 +567,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [125 162 213]</span>
 <span class="sd">    Queues: [[838 104  41  13   3   1   0   0   0   0]</span>
 <span class="sd">     [796 119  53  22   8   2   0   0   0   0]</span>
@@ -584,7 +578,7 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.CycleChain(rates=&#39;uniform&#39;), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [38 38  7 37 40]</span>
 <span class="sd">    Queues: [[127  74  28  37  21  32  16   1   2   1]</span>
 <span class="sd">     [327   8   3   1   0   0   0   0   0   0]</span>
@@ -596,7 +590,7 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.logs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [24 17  2 23 33 12 13]</span>
 <span class="sd">    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
@@ -750,7 +744,7 @@ document.write(`
 <div class="viewcode-block" id="Longest.run">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.longest.Longest.run">[docs]</a>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">=</span> <span class="n">longest_core</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">asdict</span><span class="p">())</span></div>
+        <span class="n">longest_core</span><span class="p">(</span><span class="n">logs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

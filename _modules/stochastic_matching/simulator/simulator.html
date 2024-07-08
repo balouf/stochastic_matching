@@ -444,18 +444,20 @@ document.write(`
 <span class="kn">from</span> <span class="nn">stochastic_matching.simulator.graph</span> <span class="kn">import</span> <span class="n">make_jit_graph</span>
 <span class="kn">from</span> <span class="nn">stochastic_matching.simulator.logs</span> <span class="kn">import</span> <span class="n">Logs</span>
 <span class="kn">from</span> <span class="nn">stochastic_matching.display</span> <span class="kn">import</span> <span class="n">int_2_str</span>
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.logs</span> <span class="kn">import</span> <span class="n">repr_logs</span>
 
 
 <div class="viewcode-block" id="core_simulator">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.core_simulator">[docs]</a>
 <span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">core_simulator</span><span class="p">(</span><span class="n">arrivals</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span>
-                   <span class="n">traffic</span><span class="p">,</span> <span class="n">queue_log</span><span class="p">,</span> <span class="n">steps_done</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">core_simulator</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="n">arrivals</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">selector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic jitted function for queue-size based policies.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    logs: :class:`~stochastic_matching.simulator.logs.Logs`</span>
+<span class="sd">        Monitored variables.</span>
 <span class="sd">    arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`</span>
 <span class="sd">        Item arrival process.</span>
 <span class="sd">    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`</span>
@@ -466,37 +468,31 @@ document.write(`
 <span class="sd">        Number of waiting items of each class.</span>
 <span class="sd">    selector: callable</span>
 <span class="sd">        Jitted function that selects edge (or not) based on graph, queue_size, and arriving node.</span>
-<span class="sd">    traffic: :class:`~numpy.ndarray`</span>
-<span class="sd">        Monitor traffic on edges.</span>
-<span class="sd">    queue_log: :class:`~numpy.ndarray`</span>
-<span class="sd">        Monitor queue sizes.</span>
-<span class="sd">    steps_done: :class:`int`</span>
-<span class="sd">        Number of arrivals processed so far.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`int`</span>
-<span class="sd">        Total number of steps performed, possibly including previous runs.</span>
+<span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="c1"># Draw an arrival</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">arrivals</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">age</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">best_edge</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">best_edge</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">queue_size</span><span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">steps_done</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span></div>
+    <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">n_steps</span></div>
 
 
 
@@ -540,7 +536,7 @@ document.write(`
 
 <span class="sd">    Raw results are stored in `logs`.</span>
 
-<span class="sd">    &gt;&gt;&gt; sim.logs #doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &gt;&gt;&gt; sim.plogs #doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [43 17 14 23 12]</span>
 <span class="sd">    Queues: [[119  47  26  15  14   7   1   1]</span>
 <span class="sd">     [189  25  13   3   0   0   0   0]</span>
@@ -603,7 +599,18 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">internal</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_internal</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">Logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">Logs</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">plogs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print logs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">repr_logs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Simulator.set_internal">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.set_internal">[docs]</a>
@@ -633,7 +640,7 @@ document.write(`
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_internal</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">Logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">Logs</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Simulator.run">
@@ -647,7 +654,7 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">=</span> <span class="n">core_simulator</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">asdict</span><span class="p">())</span></div>
+        <span class="n">core_simulator</span><span class="p">(</span><span class="n">logs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Simulator.compute_average_queues">
@@ -660,6 +667,18 @@ document.write(`
 <span class="sd">            Average queue sizes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span></div>
+
+
+<div class="viewcode-block" id="Simulator.compute_actual_rates">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.compute_actual_rates">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_actual_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`numpy.ndarray`</span>
+<span class="sd">            Arrival rates computed from actual draws.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s1">&#39;arrivals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">actual_rates</span></div>
 
 
 <div class="viewcode-block" id="Simulator.total_waiting_time">
