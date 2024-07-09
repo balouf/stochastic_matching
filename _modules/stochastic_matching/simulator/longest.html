@@ -448,7 +448,7 @@ document.write(`
 <span class="k">def</span> <span class="nf">longest_core</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="n">arrivals</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span>  <span class="c1"># Generic arguments</span>
                  <span class="n">scores</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generic jitted function for queue-size based policies.</span>
+<span class="sd">    Jitted function for policies based on longest-queue first.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -557,13 +557,14 @@ document.write(`
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    Let&#39;s start with a working triangle. Not that the results are the same for all greedy old_simulator because</span>
+<span class="sd">    Let&#39;s start with a working triangle. Not that the results are the same for all greedy simulator because</span>
 <span class="sd">    there are no decision in a triangle (always at most one non-empty queue under a greedy policy).</span>
 
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [287 338 375]</span>
 <span class="sd">    Traffic: [125 162 213]</span>
 <span class="sd">    Queues: [[838 104  41  13   3   1   0   0   0   0]</span>
 <span class="sd">     [796 119  53  22   8   2   0   0   0   0]</span>
@@ -575,6 +576,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.CycleChain(rates=&#39;uniform&#39;), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [85 82 85 86]</span>
 <span class="sd">    Traffic: [38 38  7 37 40]</span>
 <span class="sd">    Queues: [[126  74  28  37  21  32  16   1   2   1]</span>
 <span class="sd">     [326   8   3   1   0   0   0   0   0   0]</span>
@@ -587,6 +589,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim = Longest(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [46 26 32 37 70 35 45]</span>
 <span class="sd">    Traffic: [24 17  2 23 33 12 13]</span>
 <span class="sd">    Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
@@ -689,7 +692,8 @@ document.write(`
 
 <span class="sd">    However, if you remove the greedyness, you can converge to the vertex:</span>
 
-<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;longest&#39;, rewards=[-1, 1, 1, 1, -1], beta=.01, n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)</span>
+<span class="sd">    &gt;&gt;&gt; diamond.run(&#39;longest&#39;, rewards=[-1, 1, 1, 1, -1], beta=.01,</span>
+<span class="sd">    ...             n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)</span>
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
 <span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>

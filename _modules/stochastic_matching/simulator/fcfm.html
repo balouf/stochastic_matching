@@ -517,13 +517,14 @@ document.write(`
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy old_simulator because</span>
+<span class="sd">    Let start with a working triangle. One can notice the results are the same for all greedy simulator because</span>
 <span class="sd">    there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).</span>
 
 <span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
 <span class="sd">    &gt;&gt;&gt; sim = FCFM(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [287 338 375]</span>
 <span class="sd">    Traffic: [125 162 213]</span>
 <span class="sd">    Queues: [[838 104  41  13   3   1   0   0   0   0]</span>
 <span class="sd">     [796 119  53  22   8   2   0   0   0   0]</span>
@@ -535,6 +536,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim = FCFM(sm.CycleChain(rates=[1, 1, 1, 1]), n_steps=1000, seed=42, max_queue=10)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [85 82 85 86]</span>
 <span class="sd">    Traffic: [34 42  7 41 36]</span>
 <span class="sd">    Queues: [[126  70  22  26  29  12  23  15  10   5]</span>
 <span class="sd">     [326   8   3   1   0   0   0   0   0   0]</span>
@@ -548,6 +550,7 @@ document.write(`
 <span class="sd">    ...            n_steps=1000, seed=42, max_queue=25)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [46 26 32 37 70 35 45]</span>
 <span class="sd">    Traffic: [24 17  2 23 33 12 13]</span>
 <span class="sd">    Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>

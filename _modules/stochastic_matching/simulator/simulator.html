@@ -496,7 +496,8 @@ document.write(`
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator">[docs]</a>
 <span class="k">class</span> <span class="nc">Simulator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.</span>
+<span class="sd">    Abstract class that describes the generic behavior of matching simulators.</span>
+<span class="sd">    See subclasses for detailed examples.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -514,7 +515,7 @@ document.write(`
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    internal: :class:`dict`</span>
-<span class="sd">        Inner variables. Default to arrivals, graphs, queue_size, n_steps. Sub-classes can add other variables.</span>
+<span class="sd">        Inner variables. Default to arrivals, graphs, queue_size, n_steps. Subclasses can add other variables.</span>
 <span class="sd">    logs: :class:`~stochastic_matching.simulator.logs.Logs`</span>
 <span class="sd">        Monitored variables (traffic on edges, queue size distribution, number of steps achieved).</span>
 
@@ -530,9 +531,10 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 
-<span class="sd">    Raw results are stored in `logs`.</span>
+<span class="sd">    Raw results are stored in `logs`. A `plog` property gives a pretty print of the logs.</span>
 
 <span class="sd">    &gt;&gt;&gt; sim.plogs #doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [67 80 43 39]</span>
 <span class="sd">    Traffic: [43 17 14 23 12]</span>
 <span class="sd">    Queues: [[118  47  26  15  14   7   1   1]</span>
 <span class="sd">     [188  25  13   3   0   0   0   0]</span>

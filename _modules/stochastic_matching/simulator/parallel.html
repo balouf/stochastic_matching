@@ -451,11 +451,11 @@ document.write(`
 <span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
 <span class="sd">        Model to simulate.</span>
 <span class="sd">    name: :class:`str`</span>
-<span class="sd">        Name of the experiments.</span>
+<span class="sd">        Name of the experiment.</span>
 <span class="sd">    key: :class:`str`</span>
 <span class="sd">        Variable parameter.</span>
 <span class="sd">    values: iterable</span>
-<span class="sd">        Values of the parameter</span>
+<span class="sd">        Values of the parameter.</span>
 <span class="sd">    kwargs: :class:`dict`</span>
 <span class="sd">        All other keyword parameters will be passed to simulation (including the choice of `simulator`).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -513,7 +513,7 @@ document.write(`
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`dict`</span>
-<span class="sd">        Regret.</span>
+<span class="sd">        Regret and delay.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">simu</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">simulator</span>
     <span class="n">regret</span> <span class="o">=</span> <span class="n">simu</span><span class="o">.</span><span class="n">compute_regret</span><span class="p">()</span>
@@ -529,7 +529,7 @@ document.write(`
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    results: :class:`list`</span>
-<span class="sd">        Computed results. Each entry is a dictionary associated to a given experiments.</span>
+<span class="sd">        Computed results. Each entry is a dictionary associated to a given run.</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`dict`</span>
@@ -556,6 +556,7 @@ document.write(`
 <span class="sd">        Experiment(s) to run.</span>
 <span class="sd">    metric_extractor: callable, optional.</span>
 <span class="sd">        The metric extractor must have a (params, model) signature and return a dictionary of metrics.</span>
+<span class="sd">        Default to computing regret and delay.</span>
 <span class="sd">    pool: :class:`~multiprocess.pool.Pool`, optional.</span>
 <span class="sd">        Existing pool of workers.</span>
 
