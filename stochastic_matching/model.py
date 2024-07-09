@@ -1631,10 +1631,10 @@ class Model:
         >>> candy.run('longest', seed=42, n_steps=20000)
         False
         >>> candy.simulator.logs.steps_done
-        10459
+        10458
         >>> candy.simulation  # doctest: +NORMALIZE_WHITESPACE
-        array([0.64227938, 0.37586767, 0.38757051, 0.40753418, 0.40891099,
-           0.59202601, 0.2939478 ])
+        array([0.64234079, 0.37590361, 0.38760757, 0.40757315, 0.40895009,
+           0.59208262, 0.2939759 ])
 
         A greedy simulator performs poorly on the hyperedge.
 

@@ -14,7 +14,7 @@ cached-property = "^1.5.2"
 ipython = "^8.24.0"
 matplotlib = "^3.9.0"
 tqdm = "^4.66.4"
-joblib = "^1.4.2"
+multiprocess = "^0.70.16"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^5.0.0"

@@ -47,17 +47,14 @@ def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic argument
 
     for age in range(n_steps):
 
-        for j in range(n):
-            logs.queue_log[j, queue_size[j]] += 1
-
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            logs.steps_done += age + 1
             return None
 
         # Test if an actionable edge may be present
+        best_edge = -1
         if not greedy or queue_size[node] == 1:
             # Should we activate edge restriction?
             if greedy:
@@ -70,7 +67,6 @@ def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic argument
                             restrain = False
                             break
 
-            best_edge = -1
             best_score = 0
             # update scores
             for e in graph.edges(node):
@@ -89,9 +85,9 @@ def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic argument
                         best_score = score
 
             if best_edge > -1:
-                logs.traffic[best_edge] += 1
                 queue_size[graph.nodes(best_edge)] -= 1
-    logs.steps_done += n_steps
+
+        logs.update(queue_size=queue_size, node=node, edge=best_edge)
 
 
 class Longest(ExtendedSimulator):
@@ -137,11 +133,11 @@ class Longest(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [38 38  7 37 40]
-    Queues: [[127  74  28  37  21  32  16   1   2   1]
-     [327   8   3   1   0   0   0   0   0   0]
-     [322  12   4   1   0   0   0   0   0   0]
-     [ 91  80  47  37  37  23  11   3   5   5]]
-    Steps done: 339
+    Queues: [[126  74  28  37  21  32  16   1   2   1]
+     [326   8   3   1   0   0   0   0   0   0]
+     [321  12   4   1   0   0   0   0   0   0]
+     [ 90  80  47  37  37  23  11   3   5   5]]
+    Steps done: 338
 
     A stabilizable candy (but candies are not good for greedy policies).
 
@@ -149,21 +145,21 @@ class Longest(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [24 17  2 23 33 12 13]
-    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
+    Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16
+     [ 9   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16
         3   3  21  27  22   1   7]
-     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [212  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [233  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0
+     [231  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]]
-    Steps done: 292
+    Steps done: 291
 
     Using greedy rewards-based longest (insprired by Stolyar EGCD technique), one can try to reach some vertices.
 
@@ -182,12 +178,12 @@ class Longest(ExtendedSimulator):
 
     >>> avg_queues = sim.compute_average_queues()
     >>> avg_queues[-1]
-    61.1665
+    61.1767
 
     Other nodes are not affected:
 
     >>> np.round(np.mean(avg_queues[:-1]), decimals=4)
-    0.7361
+    0.7362
 
     Playing with the beta parameter allows to adjust the trade-off (smaller queue, leak on the forbidden edge):
 
@@ -196,7 +192,7 @@ class Longest(ExtendedSimulator):
     >>> sim.compute_flow()
     array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])
     >>> sim.compute_average_queues()[-1]
-    8.4616
+    8.4628
 
     Alternatively, one can use the k-filtering techniques:
 
@@ -230,7 +226,7 @@ class Longest(ExtendedSimulator):
     ...                            n_steps=1000, max_queue=100)
     True
     >>> diamond.simulator.compute_average_queues()
-    array([7.495, 7.797, 1.067, 1.363])
+    array([7.515, 7.819, 1.067, 1.363])
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
 

@@ -55,14 +55,10 @@ def vq_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
 
     for age in range(n_steps):
 
-        for j in range(n):
-            logs.queue_log[j, queue_size[j]] += 1
-
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            logs.steps_done += age + 1
             return None
 
         # update scores
@@ -119,12 +115,12 @@ def vq_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
                     best_age = edge_age
         if best_edge > -1:
             edge_queue.pop(best_edge)
-            logs.traffic[best_edge] += 1
             for v in graph.nodes(best_edge):
                 queue_size[v] -= 1
                 if queue_size[v] == 0:
                     ready_edges[graph.edges(v)] = False
-    logs.steps_done += n_steps
+
+        logs.update(queue_size=queue_size, node=node, edge=best_edge)
 
 
 class VirtualQueue(ExtendedSimulator):
@@ -164,11 +160,11 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [34 42  7 41 36]
-    Queues: [[142  55  34  25  23  16  24  12   7   1]
-     [319  16   3   1   0   0   0   0   0   0]
-     [317  17   4   1   0   0   0   0   0   0]
-     [107  67  64  37  22  24   7   3   6   2]]
-    Steps done: 339
+    Queues: [[141  55  34  25  23  16  24  12   7   1]
+     [318  16   3   1   0   0   0   0   0   0]
+     [316  17   4   1   0   0   0   0   0   0]
+     [106  67  64  37  22  24   7   3   6   2]]
+    Steps done: 338
 
     Stable diamond without reward optimization:
 
@@ -177,7 +173,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 95  84 161  84  75]
     Queues: [[823 120  38  19   0   0   0   0   0   0]
-     [626 215  75  46  28   9   1   0   0   0]
+     [625 215  76  46  28   9   1   0   0   0]
      [686 212  70  24   7   1   0   0   0   0]
      [823 118  39  12   4   4   0   0   0   0]]
     Steps done: 1000
@@ -189,11 +185,11 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 0 22 24 27  0]
-    Queues: [[137  16   3   0   0   0   0   0   0   0]
-     [113  14   8   6   7   4   3   1   0   0]
-     [ 74  21  13   7   9   8   4   5  12   3]
-     [106  31  11   5   2   1   0   0   0   0]]
-    Steps done: 156
+    Queues: [[136  16   3   0   0   0   0   0   0   0]
+     [112  14   8   6   7   4   3   1   0   0]
+     [ 73  21  13   7   9   8   4   5  12   3]
+     [105  31  11   5   2   1   0   0   0   0]]
+    Steps done: 155
 
     OK, it's working, but we reached the maximal queue size quite fast. Let's reduce the pressure.
 
@@ -202,8 +198,8 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 32 146 161 146  13]
-    Queues: [[692 221  68  18   1   0   0   0   0   0]
-     [515 153 123 109  48  32  16   4   0   0]
+    Queues: [[691 222  68  18   1   0   0   0   0   0]
+     [514 153 123 110  48  32  16   4   0   0]
      [662 136  91  62  38   4   2   2   2   1]
      [791 128  50  18   7   6   0   0   0   0]]
     Steps done: 1000
@@ -215,11 +211,11 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 0 27 29 28  0]
-    Queues: [[159  16   3   3   0   0   0   0   0   0]
-     [137  19   8   4   5   4   3   1   0   0]
-     [ 71  25  13  14  12  15  21   8   1   1]
-     [ 97  24  13  12   9  16   8   2   0   0]]
-    Steps done: 181
+    Queues: [[158  16   3   3   0   0   0   0   0   0]
+     [136  19   8   4   5   4   3   1   0   0]
+     [ 70  25  13  14  12  15  21   8   1   1]
+     [ 96  24  13  12   9  16   8   2   0   0]]
+    Steps done: 180
 
     Let us reduce the pressure.
 
@@ -228,8 +224,8 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [ 31 145 161 145  14]
-    Queues: [[601 171 122  80  20   6   0   0   0   0]
-     [445 151 137 104  81  64  14   4   0   0]
+    Queues: [[600 171 122  81  20   6   0   0   0   0]
+     [444 151 137 104  81  65  14   4   0   0]
      [698  83  52  59  57  38   7   3   2   1]
      [730 130  64  35  26   9   2   4   0   0]]
     Steps done: 1000
@@ -241,19 +237,19 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [109  29  17  59  58  62 107]
-    Queues: [[302  83  93  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0
+    Queues: [[301  83  94  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0
         0   0   0   0   0   0   0]
      [825 101  27  14  26   7   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [900  63  20   8   9   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [899  64  20   8   9   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [111  49  93 108 120 101  48  28  53  32   7  30  16  42  28  34  31  30
+     [110  49  93 108 120 102  48  28  53  32   7  30  16  42  28  34  31  30
        26  11   2   0   0   0   0]
      [276 185 151  95  60  40  49  52  47  33  12   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
      [755 142  67  36   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [710 228  47  12   3   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [709 228  47  13   3   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]]
     Steps done: 1000
 
@@ -282,7 +278,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 761, 242, 591,   0, 205])
     >>> sim.compute_average_queues()
-    array([86.13933333,  0.53233333, 92.99666667,  0.33533333])
+    array([86.17266667,  0.53233333, 93.03      ,  0.33533333])
 
     Same traffic could be achieved with much lower queues by enforcing forbidden edges:
 

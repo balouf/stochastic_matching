@@ -37,22 +37,18 @@ def core_simulator(logs, arrivals, graph, n_steps, queue_size, selector):
     n, max_queue = logs.queue_log.shape
 
     for age in range(n_steps):
-        for j in range(n):
-            logs.queue_log[j, queue_size[j]] += 1
 
-        # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            logs.steps_done += age +1
             return None
 
         best_edge = selector(graph=graph, queue_size=queue_size, node=node)
 
         if best_edge > -1:
-            logs.traffic[best_edge] += 1
             queue_size[graph.nodes(best_edge)] -= 1
-    logs.steps_done += n_steps
+
+        logs.update(queue_size=queue_size, node=node, edge=best_edge)
 
 
 class Simulator:
@@ -95,33 +91,31 @@ class Simulator:
 
     >>> sim.plogs #doctest: +NORMALIZE_WHITESPACE
     Traffic: [43 17 14 23 12]
-    Queues: [[119  47  26  15  14   7   1   1]
-     [189  25  13   3   0   0   0   0]
-     [218   8   3   1   0   0   0   0]
-     [126  50  31  11   9   3   0   0]]
-    Steps done: 230
+    Queues: [[118  47  26  15  14   7   1   1]
+     [188  25  13   3   0   0   0   0]
+     [217   8   3   1   0   0   0   0]
+     [125  50  31  11   9   3   0   0]]
+    Steps done: 229
 
     Different methods are proposed to provide various indicators.
 
     >>> sim.compute_average_queues()
-    array([1.07826087, 0.26086957, 0.07391304, 0.85217391])
+    array([1.08296943, 0.26200873, 0.07423581, 0.8558952 ])
 
     >>> sim.total_waiting_time()
-    0.36535764375876584
+    0.3669530919847866
 
     >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
-    array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,
-        0.03913043, 0.00869565, 0.00434783, 0.        ],
-       [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,
-        0.        , 0.        , 0.        , 0.        ],
-       [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,
-        0.        , 0.        , 0.        , 0.        ],
-       [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,
-        0.01304348, 0.        , 0.        , 0.        ]])
-
-
+    array([[1.        , 0.48471616, 0.27947598, 0.16593886, 0.10043668,
+            0.03930131, 0.00873362, 0.00436681, 0.        ],
+           [1.        , 0.1790393 , 0.069869  , 0.01310044, 0.        ,
+            0.        , 0.        , 0.        , 0.        ],
+           [1.        , 0.05240175, 0.01746725, 0.00436681, 0.        ,
+            0.        , 0.        , 0.        , 0.        ],
+           [1.        , 0.45414847, 0.23580786, 0.10043668, 0.05240175,
+            0.01310044, 0.        , 0.        , 0.        ]])
     >>> sim.compute_flow()
-    array([1.15913043, 0.45826087, 0.3773913 , 0.62      , 0.32347826])
+    array([1.16419214, 0.46026201, 0.3790393 , 0.62270742, 0.32489083])
 
     You can also draw the average or CCDF of the queues.
 

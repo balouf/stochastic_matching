@@ -1,6 +1,6 @@
-from joblib import Parallel, delayed
 from tqdm import tqdm
 from copy import deepcopy
+import multiprocess as mp
 
 
 class VariableParameter:
@@ -103,16 +103,16 @@ def aggregate(results):
     return res
 
 
-def evaluate(xps, n_jobs=-1, metric_extractor=None):
+def evaluate(xps, metric_extractor=None, pool=None):
     """
     Parameters
     ----------
     xps: :class:`~stochastic_matching.simulator.parallel.VariableParameter` or :class:`list`
-        Experiment(s)
-    n_jobs: :class:`int`, default=-1
-        Number of workers, joblib-style (cf https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html).
-    metric_extractor: callable, optional
+        Experiment(s) to run.
+    metric_extractor: callable, optional.
         The metric extractor must have a (params, model) signature and return a dictionary of metrics.
+    pool: :class:`~multiprocess.pool.Pool`, optional.
+        Existing pool of workers.
 
     Returns
     -------
@@ -133,13 +133,14 @@ def evaluate(xps, n_jobs=-1, metric_extractor=None):
     >>> xp3 = VariableParameter(name='egpd', simulator='virtual_queue',
     ...                         key='beta', values=[.01, .1, 1], **base)
     >>> res = evaluate(xp1)
-    >>>
     >>> for k, v in res['e-filtering'].items():
     ...     print(f"{k}: {np.array(v)}")
     epsilon: [0.01 0.1  1.  ]
     regret: [0.002 0.017 0.103]
-    delay: [10.534  6.948  1.948]
-    >>> res = evaluate([xp2, xp3], n_jobs=2)
+    delay: [10.538  6.95   1.952]
+    >>> import multiprocess as mp
+    >>> with mp.Pool(processes=2) as p:
+    ...     res = evaluate([xp2, xp3], pool=p)
     >>> for name, r in res.items():
     ...     print(name)
     ...     for k, v in r.items():
@@ -147,16 +148,19 @@ def evaluate(xps, n_jobs=-1, metric_extractor=None):
     k-filtering
     k: [  0  10 100]
     regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]
-    delay: [ 1.634  7.342 13.524]
+    delay: [ 1.634  7.342 13.542]
     egpd
     beta: [0.01 0.1  1.  ]
     regret: [0.003 0.043 0.076]
-    delay: [91.922 10.118  1.886]
+    delay: [92.024 10.13   1.888]
     """
     if isinstance(xps, list):
         jobs = [x for xp in xps for x in xp]
     else:
         jobs = [x for x in xps]
     compute = build_metric_computer(metric_extractor)
-    res = Parallel(n_jobs=n_jobs)(delayed(compute)(*args) for args in tqdm(jobs))
+    if pool is None:
+        res = [compute(*args) for args in tqdm(jobs)]
+    else:
+        res = tqdm(pool.imap(lambda args: compute(*args), jobs), total=len(jobs))
     return aggregate(res)

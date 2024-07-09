@@ -72,7 +72,7 @@ class Priority(Simulator):
     The last node is the pseudo-instable node.
 
     >>> fish.simulator.compute_average_queues()[-1]
-    38.3411
+    38.346
     >>> import numpy as np
     >>> np.round(np.mean(fish.simulator.compute_average_queues()[:-1]), decimals=2)
     0.75
@@ -86,7 +86,7 @@ class Priority(Simulator):
     >>> fish.simulation
     array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])
     >>> fish.simulator.compute_average_queues()[-1]
-    38.5966
+    38.6016
     """
     name = "priority"
 

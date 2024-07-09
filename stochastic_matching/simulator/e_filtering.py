@@ -5,6 +5,7 @@ from stochastic_matching.simulator.graph import make_jit_graph
 from stochastic_matching.simulator.simulator import Simulator
 from stochastic_matching.model import Model
 from stochastic_matching.common import class_converter
+from stochastic_matching.simulator.logs import PhantomLogs
 
 
 def expand_model(model, forbidden_edges, epsilon):
@@ -41,7 +42,7 @@ def expand_model(model, forbidden_edges, epsilon):
         for node in nodes[1]:
             new_inc[node, i] = 1
 
-    return Model(incidence=new_inc, rates=new_rates), [e[0] for e in edge_codex]
+    return Model(incidence=new_inc, rates=new_rates), np.array([e[0] for e in edge_codex]).astype(np.int64)
 
 
 class EFiltering(Simulator):
@@ -90,10 +91,10 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.plogs
     Traffic: [ 76  86 190  76  72]
-    Queues: [[1882   91   23 ...    0    0    0]
-     [1647  128   72 ...    0    0    0]
-     [1737  111   63 ...    0    0    0]
-     [1870   96   27 ...    0    0    0]]
+    Queues: [[882  91  23 ...   0   0   0]
+     [661 109  72 ...   0   0   0]
+     [737 111  63 ...   0   0   0]
+     [870  96  27 ...   0   0   0]]
     Steps done: 1000
 
     Let us use epsilon-filtering by specifying forbidden_edges:
@@ -102,14 +103,11 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.plogs
     Traffic: [  1 158 189 147   1]
-    Queues: [[1572   44   61 ...    0    0    0]
-     [1561   37   52 ...    0    0    0]
-     [1529   66   67 ...    0    0    0]
-     [1537   62   59 ...    0    0    0]]
+    Queues: [[571  44  61 ...   0   0   0]
+     [560  37  52 ...   0   0   0]
+     [529  66  67 ...   0   0   0]
+     [537  62  59 ...   0   0   0]]
     Steps done: 1000
-
-    Notice the big queue_log. Each row sums to 2000 instead of 1000 because of state aggregation. It does not
-    impact any computed metric apart from the CCDF, which is faulty.
 
     Switch to a FCFM policy:
 
@@ -117,10 +115,10 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.plogs
     Traffic: [  1 158 189 147   1]
-    Queues: [[1570   99  118 ...    0    0    0]
-     [1570   35   37 ...    0    0    0]
-     [1528   58   57 ...    0    0    0]
-     [1551   84   98 ...    0    0    0]]
+    Queues: [[569  99 118 ...   0   0   0]
+     [569  35  37 ...   0   0   0]
+     [528  58  57 ...   0   0   0]
+     [551  84  98 ...   0   0   0]]
     Steps done: 1000
 
     Switch to virtual queue:
@@ -129,10 +127,10 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.plogs
     Traffic: [  0 157 186 144   1]
-    Queues: [[1312   93  110 ...    0    0    0]
-     [1109  120  111 ...    0    0    0]
-     [1068  113   76 ...    0    0    0]
-     [1175  142  137 ...    0    0    0]]
+    Queues: [[311  93 110 ...   0   0   0]
+     [108 120 111 ...   0   0   0]
+     [ 67 113  76 ...   0   0   0]
+     [174 142 137 ...   0   0   0]]
     Steps done: 1000
 
     Stolyar's example to see the behavior on hypergraph:
@@ -147,15 +145,15 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.plogs
     Traffic: [  0   0 311  76 213   0  55]
-    Queues: [[1031  114  181 ...    0    0    0]
-     [1023   64  117 ...    0    0    0]
-     [1025  590  217 ...    0    0    0]
-     [1995    5    0 ...    0    0    0]]
+    Queues: [[ 30 114 181 ...   0   0   0]
+     [ 22  64 117 ...   0   0   0]
+     [ 24 590 217 ...   0   0   0]
+     [995   5   0 ...   0   0   0]]
     Steps done: 1000
     >>> sim.logs.traffic @ rewards
     1913
     >>> sim.compute_average_queues()
-    array([3.574, 4.842, 1.645, 0.005])
+    array([3.577, 4.856, 1.65 , 0.005])
 
     To compare with, the original EGPD policy:
 
@@ -163,15 +161,15 @@ class EFiltering(Simulator):
     >>> sim.run()
     >>> sim.plogs
     Traffic: [  0   0 100   3 139   0 140]
-    Queues: [[  3   3   5 ...   0   0   0]
+    Queues: [[  2   3   5 ...   0   0   0]
      [844   8   6 ...   0   0   0]
-     [  1   1   3 ...   0   0   0]
+     [  0   1   3 ...   0   0   0]
      [597 230  96 ...   0   0   0]]
     Steps done: 1000
     >>> sim.logs.traffic @ rewards
     1781
     >>> sim.compute_average_queues()
-    array([54.342,  1.597, 78.408,  0.691])
+    array([54.439,  1.597, 78.51 ,  0.691])
     """
     name = 'e_filtering'
 
@@ -194,19 +192,12 @@ class EFiltering(Simulator):
         expanded_model, edges = expand_model(model=self.model, forbidden_edges=self.forbidden_edges,
                                                   epsilon=self.epsilon)
         expanded_simu = self.base_policy(model=expanded_model, **self.base_policy_kwargs)
-        self.internal = {'simu': expanded_simu, 'edges': edges, 'n_steps': self.n_steps}
+        expanded_simu.logs = PhantomLogs(n=self.model.n, m=self.model.m, max_queue=self.max_queue, edges=edges)
+        self.internal = {'simu': expanded_simu, 'n_steps': self.n_steps}
 
     def run(self):
-        n = self.model.n
-        simu = self.internal['simu']
-        edges = self.internal['edges']
-        xlogs = simu.logs
-        logs = self.logs
-        simu.run()
-        logs.steps_done = xlogs.steps_done
-        logs.queue_log += (xlogs.queue_log[:n, :] + xlogs.queue_log[n:, :])
-        for i, t in enumerate(xlogs.traffic):
-            logs.traffic[edges[i]] += t
+        self.internal['simu'].run()
+        self.logs = self.internal['simu'].logs
 
     def compute_actual_rates(self):
         """

@@ -34,19 +34,15 @@ def fcfm_core(logs, arrivals, graph, n_steps, queue_size, queues):
 
     for age in range(n_steps):
 
-        for j in range(n):
-            logs.queue_log[j, queue_size[j]] += 1
-
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
-            logs.steps_done += age + 1
             return None
         queues.add(node, age)
 
         # Test if an actionable edge may be present
+        best_edge = -1
         if queue_size[node] == 1:
-            best_edge = -1
             best_age = inf
             # check oldest edge node
             for e in graph.edges(node):
@@ -62,11 +58,12 @@ def fcfm_core(logs, arrivals, graph, n_steps, queue_size, queues):
                         best_age = edge_age
 
             if best_edge > -1:
-                logs.traffic[best_edge] += 1
+                # logs.traffic[best_edge] += 1
                 queue_size[graph.nodes(best_edge)] -= 1
                 for v in graph.nodes(best_edge):
                     queues.pop(v)
-    logs.steps_done += n_steps
+
+        logs.update(queue_size=queue_size, node=node, edge=best_edge)
 
 
 class FCFM(Simulator):
@@ -96,11 +93,11 @@ class FCFM(Simulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [34 42  7 41 36]
-    Queues: [[127  70  22  26  29  12  23  15  10   5]
-     [327   8   3   1   0   0   0   0   0   0]
-     [322  12   4   1   0   0   0   0   0   0]
-     [106  80  65  28  31  15   4   2   6   2]]
-    Steps done: 339
+    Queues: [[126  70  22  26  29  12  23  15  10   5]
+     [326   8   3   1   0   0   0   0   0   0]
+     [321  12   4   1   0   0   0   0   0   0]
+     [105  80  65  28  31  15   4   2   6   2]]
+    Steps done: 338
 
     A stable candy (but candies are not good for greedy policies).
 
@@ -109,21 +106,21 @@ class FCFM(Simulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Traffic: [24 17  2 23 33 12 13]
-    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
+    Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16
+     [ 9   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16
         3   3  21  27  22   1   7]
-     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [212  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0
+     [233  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
-     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0
+     [231  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]]
-    Steps done: 292
+    Steps done: 291
     """
     name = 'fcfm'
 

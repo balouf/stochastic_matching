@@ -114,8 +114,6 @@ class Arrivals:
     def steps_done(self):
         return np.sum(self.counter)
 
-
-
     def draw(self):
         node = np.random.randint(self.n)
         if np.random.rand() > self.prob[node]:
