@@ -487,17 +487,14 @@ document.write(`
 
     <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
 
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
-
         <span class="c1"># Draw an arrival</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">arrivals</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Test if an actionable edge may be present</span>
+        <span class="n">best_edge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">greedy</span> <span class="ow">or</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Should we activate edge restriction?</span>
             <span class="k">if</span> <span class="n">greedy</span><span class="p">:</span>
@@ -510,7 +507,6 @@ document.write(`
                             <span class="n">restrain</span> <span class="o">=</span> <span class="kc">False</span>
                             <span class="k">break</span>
 
-            <span class="n">best_edge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="c1"># update scores</span>
             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
@@ -529,9 +525,9 @@ document.write(`
                         <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
 
             <span class="k">if</span> <span class="n">best_edge</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">queue_size</span><span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
-    <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">n_steps</span></div>
+
+        <span class="n">logs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">best_edge</span><span class="p">)</span></div>
 
 
 
@@ -580,11 +576,11 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [38 38  7 37 40]</span>
-<span class="sd">    Queues: [[127  74  28  37  21  32  16   1   2   1]</span>
-<span class="sd">     [327   8   3   1   0   0   0   0   0   0]</span>
-<span class="sd">     [322  12   4   1   0   0   0   0   0   0]</span>
-<span class="sd">     [ 91  80  47  37  37  23  11   3   5   5]]</span>
-<span class="sd">    Steps done: 339</span>
+<span class="sd">    Queues: [[126  74  28  37  21  32  16   1   2   1]</span>
+<span class="sd">     [326   8   3   1   0   0   0   0   0   0]</span>
+<span class="sd">     [321  12   4   1   0   0   0   0   0   0]</span>
+<span class="sd">     [ 90  80  47  37  37  23  11   3   5   5]]</span>
+<span class="sd">    Steps done: 338</span>
 
 <span class="sd">    A stabilizable candy (but candies are not good for greedy policies).</span>
 
@@ -592,21 +588,21 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [24 17  2 23 33 12 13]</span>
-<span class="sd">    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="sd">    Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="sd">     [ 9   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
 <span class="sd">        3   3  21  27  22   1   7]</span>
-<span class="sd">     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [212  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [233  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [231  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]]</span>
-<span class="sd">    Steps done: 292</span>
+<span class="sd">    Steps done: 291</span>
 
 <span class="sd">    Using greedy rewards-based longest (insprired by Stolyar EGCD technique), one can try to reach some vertices.</span>
 
@@ -625,12 +621,12 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; avg_queues = sim.compute_average_queues()</span>
 <span class="sd">    &gt;&gt;&gt; avg_queues[-1]</span>
-<span class="sd">    61.1665</span>
+<span class="sd">    61.1767</span>
 
 <span class="sd">    Other nodes are not affected:</span>
 
 <span class="sd">    &gt;&gt;&gt; np.round(np.mean(avg_queues[:-1]), decimals=4)</span>
-<span class="sd">    0.7361</span>
+<span class="sd">    0.7362</span>
 
 <span class="sd">    Playing with the beta parameter allows to adjust the trade-off (smaller queue, leak on the forbidden edge):</span>
 
@@ -639,7 +635,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.compute_flow()</span>
 <span class="sd">    array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])</span>
 <span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()[-1]</span>
-<span class="sd">    8.4616</span>
+<span class="sd">    8.4628</span>
 
 <span class="sd">    Alternatively, one can use the k-filtering techniques:</span>
 
@@ -673,7 +669,7 @@ document.write(`
 <span class="sd">    ...                            n_steps=1000, max_queue=100)</span>
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; diamond.simulator.compute_average_queues()</span>
-<span class="sd">    array([7.495, 7.797, 1.067, 1.363])</span>
+<span class="sd">    array([7.515, 7.819, 1.067, 1.363])</span>
 <span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
 <span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
 

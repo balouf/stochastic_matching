@@ -20,6 +20,13 @@ Epsilon-Filtering policy
 .. automodule:: stochastic_matching.simulator.e_filtering
     :members:
 
+Running_experiments
+^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: stochastic_matching.simulator.parallel
+    :members:
+
+
 First-Come First Served
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -474,19 +474,15 @@ document.write(`
 
     <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
 
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
-
         <span class="n">node</span> <span class="o">=</span> <span class="n">arrivals</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">age</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">queues</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
 
         <span class="c1"># Test if an actionable edge may be present</span>
+        <span class="n">best_edge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">best_edge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="n">best_age</span> <span class="o">=</span> <span class="n">inf</span>
             <span class="c1"># check oldest edge node</span>
             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
@@ -502,11 +498,12 @@ document.write(`
                         <span class="n">best_age</span> <span class="o">=</span> <span class="n">edge_age</span>
 
             <span class="k">if</span> <span class="n">best_edge</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="c1"># logs.traffic[best_edge] += 1</span>
                 <span class="n">queue_size</span><span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
                 <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">):</span>
                     <span class="n">queues</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">n_steps</span></div>
+
+        <span class="n">logs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">best_edge</span><span class="p">)</span></div>
 
 
 
@@ -539,11 +536,11 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [34 42  7 41 36]</span>
-<span class="sd">    Queues: [[127  70  22  26  29  12  23  15  10   5]</span>
-<span class="sd">     [327   8   3   1   0   0   0   0   0   0]</span>
-<span class="sd">     [322  12   4   1   0   0   0   0   0   0]</span>
-<span class="sd">     [106  80  65  28  31  15   4   2   6   2]]</span>
-<span class="sd">    Steps done: 339</span>
+<span class="sd">    Queues: [[126  70  22  26  29  12  23  15  10   5]</span>
+<span class="sd">     [326   8   3   1   0   0   0   0   0   0]</span>
+<span class="sd">     [321  12   4   1   0   0   0   0   0   0]</span>
+<span class="sd">     [105  80  65  28  31  15   4   2   6   2]]</span>
+<span class="sd">    Steps done: 338</span>
 
 <span class="sd">    A stable candy (but candies are not good for greedy policies).</span>
 
@@ -552,21 +549,21 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.plogs # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [24 17  2 23 33 12 13]</span>
-<span class="sd">    Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="sd">    Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="sd">     [ 9   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
 <span class="sd">        3   3  21  27  22   1   7]</span>
-<span class="sd">     [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [212  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [233  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]</span>
-<span class="sd">     [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="sd">     [231  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="sd">        0   0   0   0   0   0   0]]</span>
-<span class="sd">    Steps done: 292</span>
+<span class="sd">    Steps done: 291</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fcfm&#39;</span>
 

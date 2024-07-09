@@ -498,11 +498,11 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [38 38  7 37 40]</span>
-<span class="go">Queues: [[127  74  28  37  21  32  16   1   2   1]</span>
-<span class="go"> [327   8   3   1   0   0   0   0   0   0]</span>
-<span class="go"> [322  12   4   1   0   0   0   0   0   0]</span>
-<span class="go"> [ 91  80  47  37  37  23  11   3   5   5]]</span>
-<span class="go">Steps done: 339</span>
+<span class="go">Queues: [[126  74  28  37  21  32  16   1   2   1]</span>
+<span class="go"> [326   8   3   1   0   0   0   0   0   0]</span>
+<span class="go"> [321  12   4   1   0   0   0   0   0   0]</span>
+<span class="go"> [ 90  80  47  37  37  23  11   3   5   5]]</span>
+<span class="go">Steps done: 338</span>
 </pre></div>
 </div>
 <p>A stabilizable candy (but candies are not good for greedy policies).</p>
@@ -510,21 +510,21 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [24 17  2 23 33 12 13]</span>
-<span class="go">Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="go">Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="go"> [ 9   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
 <span class="go">    3   3  21  27  22   1   7]</span>
-<span class="go"> [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [212  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [233  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [231  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]]</span>
-<span class="go">Steps done: 292</span>
+<span class="go">Steps done: 291</span>
 </pre></div>
 </div>
 <p>Using greedy rewards-based longest (insprired by Stolyar EGCD technique), one can try to reach some vertices.</p>
@@ -542,12 +542,12 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <p>The price is one node having a big queue:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">avg_queues</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">avg_queues</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">61.1665</span>
+<span class="go">61.1767</span>
 </pre></div>
 </div>
 <p>Other nodes are not affected:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">avg_queues</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="go">0.7361</span>
+<span class="go">0.7362</span>
 </pre></div>
 </div>
 <p>Playing with the beta parameter allows to adjust the trade-off (smaller queue, leak on the forbidden edge):</p>
@@ -556,7 +556,7 @@ there are no decision in a triangle (always at most one non-empty queue under a 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
 <span class="go">array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">8.4616</span>
+<span class="go">8.4628</span>
 </pre></div>
 </div>
 <p>Alternatively, one can use the k-filtering techniques:</p>
@@ -590,7 +590,7 @@ However, this doesn’t show on small simulations.</p>
 <span class="gp">... </span>                           <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
-<span class="go">array([7.495, 7.797, 1.067, 1.363])</span>
+<span class="go">array([7.515, 7.819, 1.067, 1.363])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
 <span class="go">array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>
 </pre></div>
@@ -735,11 +735,11 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [34 42  7 41 36]</span>
-<span class="go">Queues: [[142  55  34  25  23  16  24  12   7   1]</span>
-<span class="go"> [319  16   3   1   0   0   0   0   0   0]</span>
-<span class="go"> [317  17   4   1   0   0   0   0   0   0]</span>
-<span class="go"> [107  67  64  37  22  24   7   3   6   2]]</span>
-<span class="go">Steps done: 339</span>
+<span class="go">Queues: [[141  55  34  25  23  16  24  12   7   1]</span>
+<span class="go"> [318  16   3   1   0   0   0   0   0   0]</span>
+<span class="go"> [316  17   4   1   0   0   0   0   0   0]</span>
+<span class="go"> [106  67  64  37  22  24   7   3   6   2]]</span>
+<span class="go">Steps done: 338</span>
 </pre></div>
 </div>
 <p>Stable diamond without reward optimization:</p>
@@ -748,7 +748,7 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [ 95  84 161  84  75]</span>
 <span class="go">Queues: [[823 120  38  19   0   0   0   0   0   0]</span>
-<span class="go"> [626 215  75  46  28   9   1   0   0   0]</span>
+<span class="go"> [625 215  76  46  28   9   1   0   0   0]</span>
 <span class="go"> [686 212  70  24   7   1   0   0   0   0]</span>
 <span class="go"> [823 118  39  12   4   4   0   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
@@ -760,11 +760,11 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [ 0 22 24 27  0]</span>
-<span class="go">Queues: [[137  16   3   0   0   0   0   0   0   0]</span>
-<span class="go"> [113  14   8   6   7   4   3   1   0   0]</span>
-<span class="go"> [ 74  21  13   7   9   8   4   5  12   3]</span>
-<span class="go"> [106  31  11   5   2   1   0   0   0   0]]</span>
-<span class="go">Steps done: 156</span>
+<span class="go">Queues: [[136  16   3   0   0   0   0   0   0   0]</span>
+<span class="go"> [112  14   8   6   7   4   3   1   0   0]</span>
+<span class="go"> [ 73  21  13   7   9   8   4   5  12   3]</span>
+<span class="go"> [105  31  11   5   2   1   0   0   0   0]]</span>
+<span class="go">Steps done: 155</span>
 </pre></div>
 </div>
 <p>OK, it’s working, but we reached the maximal queue size quite fast. Let’s reduce the pressure.</p>
@@ -773,8 +773,8 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [ 32 146 161 146  13]</span>
-<span class="go">Queues: [[692 221  68  18   1   0   0   0   0   0]</span>
-<span class="go"> [515 153 123 109  48  32  16   4   0   0]</span>
+<span class="go">Queues: [[691 222  68  18   1   0   0   0   0   0]</span>
+<span class="go"> [514 153 123 110  48  32  16   4   0   0]</span>
 <span class="go"> [662 136  91  62  38   4   2   2   2   1]</span>
 <span class="go"> [791 128  50  18   7   6   0   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
@@ -786,11 +786,11 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [ 0 27 29 28  0]</span>
-<span class="go">Queues: [[159  16   3   3   0   0   0   0   0   0]</span>
-<span class="go"> [137  19   8   4   5   4   3   1   0   0]</span>
-<span class="go"> [ 71  25  13  14  12  15  21   8   1   1]</span>
-<span class="go"> [ 97  24  13  12   9  16   8   2   0   0]]</span>
-<span class="go">Steps done: 181</span>
+<span class="go">Queues: [[158  16   3   3   0   0   0   0   0   0]</span>
+<span class="go"> [136  19   8   4   5   4   3   1   0   0]</span>
+<span class="go"> [ 70  25  13  14  12  15  21   8   1   1]</span>
+<span class="go"> [ 96  24  13  12   9  16   8   2   0   0]]</span>
+<span class="go">Steps done: 180</span>
 </pre></div>
 </div>
 <p>Let us reduce the pressure.</p>
@@ -799,8 +799,8 @@ If that happens someday, use this parameter to increase the VQ allocated memory.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [ 31 145 161 145  14]</span>
-<span class="go">Queues: [[601 171 122  80  20   6   0   0   0   0]</span>
-<span class="go"> [445 151 137 104  81  64  14   4   0   0]</span>
+<span class="go">Queues: [[600 171 122  81  20   6   0   0   0   0]</span>
+<span class="go"> [444 151 137 104  81  65  14   4   0   0]</span>
 <span class="go"> [698  83  52  59  57  38   7   3   2   1]</span>
 <span class="go"> [730 130  64  35  26   9   2   4   0   0]]</span>
 <span class="go">Steps done: 1000</span>
@@ -812,19 +812,19 @@ designed to deal with it.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [109  29  17  59  58  62 107]</span>
-<span class="go">Queues: [[302  83  93  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0</span>
+<span class="go">Queues: [[301  83  94  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
 <span class="go"> [825 101  27  14  26   7   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [900  63  20   8   9   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [899  64  20   8   9   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [111  49  93 108 120 101  48  28  53  32   7  30  16  42  28  34  31  30</span>
+<span class="go"> [110  49  93 108 120 102  48  28  53  32   7  30  16  42  28  34  31  30</span>
 <span class="go">   26  11   2   0   0   0   0]</span>
 <span class="go"> [276 185 151  95  60  40  49  52  47  33  12   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
 <span class="go"> [755 142  67  36   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [710 228  47  12   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [709 228  47  13   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 </pre></div>
@@ -854,7 +854,7 @@ designed to deal with it.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">array([  0,   0, 761, 242, 591,   0, 205])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
-<span class="go">array([86.13933333,  0.53233333, 92.99666667,  0.33533333])</span>
+<span class="go">array([86.17266667,  0.53233333, 93.03      ,  0.33533333])</span>
 </pre></div>
 </div>
 <p>Same traffic could be achieved with much lower queues by enforcing forbidden edges:</p>
@@ -964,10 +964,10 @@ and should not be used.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span>
 <span class="go">Traffic: [ 76  86 190  76  72]</span>
-<span class="go">Queues: [[1882   91   23 ...    0    0    0]</span>
-<span class="go"> [1647  128   72 ...    0    0    0]</span>
-<span class="go"> [1737  111   63 ...    0    0    0]</span>
-<span class="go"> [1870   96   27 ...    0    0    0]]</span>
+<span class="go">Queues: [[882  91  23 ...   0   0   0]</span>
+<span class="go"> [661 109  72 ...   0   0   0]</span>
+<span class="go"> [737 111  63 ...   0   0   0]</span>
+<span class="go"> [870  96  27 ...   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
@@ -976,24 +976,22 @@ and should not be used.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span>
 <span class="go">Traffic: [  1 158 189 147   1]</span>
-<span class="go">Queues: [[1572   44   61 ...    0    0    0]</span>
-<span class="go"> [1561   37   52 ...    0    0    0]</span>
-<span class="go"> [1529   66   67 ...    0    0    0]</span>
-<span class="go"> [1537   62   59 ...    0    0    0]]</span>
+<span class="go">Queues: [[571  44  61 ...   0   0   0]</span>
+<span class="go"> [560  37  52 ...   0   0   0]</span>
+<span class="go"> [529  66  67 ...   0   0   0]</span>
+<span class="go"> [537  62  59 ...   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
-<p>Notice the big queue_log. Each row sums to 2000 instead of 1000 because of state aggregation. It does not
-impact any computed metric apart from the CCDF, which is faulty.</p>
 <p>Switch to a FCFM policy:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">EFiltering</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="s1">&#39;fcfm&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span>
 <span class="go">Traffic: [  1 158 189 147   1]</span>
-<span class="go">Queues: [[1570   99  118 ...    0    0    0]</span>
-<span class="go"> [1570   35   37 ...    0    0    0]</span>
-<span class="go"> [1528   58   57 ...    0    0    0]</span>
-<span class="go"> [1551   84   98 ...    0    0    0]]</span>
+<span class="go">Queues: [[569  99 118 ...   0   0   0]</span>
+<span class="go"> [569  35  37 ...   0   0   0]</span>
+<span class="go"> [528  58  57 ...   0   0   0]</span>
+<span class="go"> [551  84  98 ...   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
@@ -1002,10 +1000,10 @@ impact any computed metric apart from the CCDF, which is faulty.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span>
 <span class="go">Traffic: [  0 157 186 144   1]</span>
-<span class="go">Queues: [[1312   93  110 ...    0    0    0]</span>
-<span class="go"> [1109  120  111 ...    0    0    0]</span>
-<span class="go"> [1068  113   76 ...    0    0    0]</span>
-<span class="go"> [1175  142  137 ...    0    0    0]]</span>
+<span class="go">Queues: [[311  93 110 ...   0   0   0]</span>
+<span class="go"> [108 120 111 ...   0   0   0]</span>
+<span class="go"> [ 67 113  76 ...   0   0   0]</span>
+<span class="go"> [174 142 137 ...   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 </pre></div>
 </div>
@@ -1021,15 +1019,15 @@ impact any computed metric apart from the CCDF, which is faulty.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span>
 <span class="go">Traffic: [  0   0 311  76 213   0  55]</span>
-<span class="go">Queues: [[1031  114  181 ...    0    0    0]</span>
-<span class="go"> [1023   64  117 ...    0    0    0]</span>
-<span class="go"> [1025  590  217 ...    0    0    0]</span>
-<span class="go"> [1995    5    0 ...    0    0    0]]</span>
+<span class="go">Queues: [[ 30 114 181 ...   0   0   0]</span>
+<span class="go"> [ 22  64 117 ...   0   0   0]</span>
+<span class="go"> [ 24 590 217 ...   0   0   0]</span>
+<span class="go"> [995   5   0 ...   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span> <span class="o">@</span> <span class="n">rewards</span>
 <span class="go">1913</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
-<span class="go">array([3.574, 4.842, 1.645, 0.005])</span>
+<span class="go">array([3.577, 4.856, 1.65 , 0.005])</span>
 </pre></div>
 </div>
 <p>To compare with, the original EGPD policy:</p>
@@ -1037,15 +1035,15 @@ impact any computed metric apart from the CCDF, which is faulty.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span>
 <span class="go">Traffic: [  0   0 100   3 139   0 140]</span>
-<span class="go">Queues: [[  3   3   5 ...   0   0   0]</span>
+<span class="go">Queues: [[  2   3   5 ...   0   0   0]</span>
 <span class="go"> [844   8   6 ...   0   0   0]</span>
-<span class="go"> [  1   1   3 ...   0   0   0]</span>
+<span class="go"> [  0   1   3 ...   0   0   0]</span>
 <span class="go"> [597 230  96 ...   0   0   0]]</span>
 <span class="go">Steps done: 1000</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span> <span class="o">@</span> <span class="n">rewards</span>
 <span class="go">1781</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
-<span class="go">array([54.342,  1.597, 78.408,  0.691])</span>
+<span class="go">array([54.439,  1.597, 78.51 ,  0.691])</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -1114,6 +1112,131 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 </dd></dl>
 
 </section>
+<section id="module-stochastic_matching.simulator.parallel">
+<span id="running-experiments"></span><h2>Running_experiments<a class="headerlink" href="#module-stochastic_matching.simulator.parallel" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.VariableParameter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">VariableParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#VariableParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.VariableParameter" title="Link to this definition">#</a></dt>
+<dd><p>Allows to vary one single parameter of simulation for experiments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the experiments.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Variable parameter.</p></li>
+<li><p><strong>values</strong> (<em>iterable</em>) – Values of the parameter</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – All other keyword parameters will be passed to simulation (including the choice of <cite>simulator</cite>).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.aggregate">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.aggregate" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>results</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Computed results. Each entry is a dictionary associated to a given experiments.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All results are gathered by experiment name, then by varying input / metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.build_metric_computer">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">build_metric_computer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_extractor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#build_metric_computer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.build_metric_computer" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_extractor</strong> (<em>callable</em><em>, </em><em>optional</em>) – The metric extractor must have a (params, model) signature and return a dictionary of metrics.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A function with signature (name, key, params, model).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.evaluate">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_extractor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.evaluate" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xps</strong> (<a class="reference internal" href="#stochastic_matching.simulator.parallel.VariableParameter" title="stochastic_matching.simulator.parallel.VariableParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableParameter</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Experiment(s) to run.</p></li>
+<li><p><strong>metric_extractor</strong> (<em>callable</em><em>, </em><em>optional.</em>) – The metric extractor must have a (params, model) signature and return a dictionary of metrics.</p></li>
+<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/stable/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Existing pool of workers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Result of the experiment(s).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">diamond</span><span class="p">,</span> <span class="s1">&#39;n_steps&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp1</span> <span class="o">=</span> <span class="n">VariableParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;e-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;e_filtering&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp2</span> <span class="o">=</span> <span class="n">VariableParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;k-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp3</span> <span class="o">=</span> <span class="n">VariableParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;egpd&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xp1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;e-filtering&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">epsilon: [0.01 0.1  1.  ]</span>
+<span class="go">regret: [0.002 0.017 0.103]</span>
+<span class="go">delay: [10.538  6.95   1.952]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multiprocess</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">([</span><span class="n">xp2</span><span class="p">,</span> <span class="n">xp3</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">k-filtering</span>
+<span class="go">k: [  0  10 100]</span>
+<span class="go">regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]</span>
+<span class="go">delay: [ 1.634  7.342 13.542]</span>
+<span class="go">egpd</span>
+<span class="go">beta: [0.01 0.1  1.  ]</span>
+<span class="go">regret: [0.003 0.043 0.076]</span>
+<span class="go">delay: [92.024 10.13   1.888]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.regret_delay">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">regret_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#regret_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.regret_delay" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Parameters of the simulation</p></li>
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model simulated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Regret (implies that params has a <cite>rewards</cite> key) and delay.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-stochastic_matching.simulator.fcfm">
 <span id="first-come-first-served"></span><h2>First-Come First Served<a class="headerlink" href="#module-stochastic_matching.simulator.fcfm" title="Link to this heading">#</a></h2>
 <dl class="py class">
@@ -1140,11 +1263,11 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [34 42  7 41 36]</span>
-<span class="go">Queues: [[127  70  22  26  29  12  23  15  10   5]</span>
-<span class="go"> [327   8   3   1   0   0   0   0   0   0]</span>
-<span class="go"> [322  12   4   1   0   0   0   0   0   0]</span>
-<span class="go"> [106  80  65  28  31  15   4   2   6   2]]</span>
-<span class="go">Steps done: 339</span>
+<span class="go">Queues: [[126  70  22  26  29  12  23  15  10   5]</span>
+<span class="go"> [326   8   3   1   0   0   0   0   0   0]</span>
+<span class="go"> [321  12   4   1   0   0   0   0   0   0]</span>
+<span class="go"> [105  80  65  28  31  15   4   2   6   2]]</span>
+<span class="go">Steps done: 338</span>
 </pre></div>
 </div>
 <p>A stable candy (but candies are not good for greedy policies).</p>
@@ -1153,21 +1276,21 @@ there are no multiple choices in a triangle (always one non-empty queue at most 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [24 17  2 23 33 12 13]</span>
-<span class="go">Queues: [[ 24  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
+<span class="go">Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [291   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [290   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [ 10   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
+<span class="go"> [ 9   1   7   9   3   3  26  37   4   8  10   9   2  10  40  11   2  16</span>
 <span class="go">    3   3  21  27  22   1   7]</span>
-<span class="go"> [213  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [212  49  22   5   3   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [234  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [233  41   6   7   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [232  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [231  33  16   4   6   1   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]]</span>
-<span class="go">Steps done: 292</span>
+<span class="go">Steps done: 291</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1257,7 +1380,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 </div>
 <p>The last node is the pseudo-instable node.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">38.3411</span>
+<span class="go">38.346</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">0.75</span>
@@ -1271,7 +1394,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fish</span><span class="o">.</span><span class="n">simulation</span>
 <span class="go">array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">38.5966</span>
+<span class="go">38.6016</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1348,13 +1471,13 @@ The root cause is that the arrival process shares the same random generator than
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [10  8  2  8  6]</span>
-<span class="go">Queues: [[10  4  7 13  5  5 10 24  5  1]</span>
-<span class="go"> [84  0  0  0  0  0  0  0  0  0]</span>
-<span class="go"> [77  4  3  0  0  0  0  0  0  0]</span>
-<span class="go"> [14  8 15 19 14  8  2  1  2  1]]</span>
-<span class="go">Steps done: 84</span>
+<span class="go">Queues: [[ 9  4  7 13  5  5 10 24  5  1]</span>
+<span class="go"> [83  0  0  0  0  0  0  0  0  0]</span>
+<span class="go"> [76  4  3  0  0  0  0  0  0  0]</span>
+<span class="go"> [13  8 15 19 14  8  2  1  2  1]]</span>
+<span class="go">Steps done: 83</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
-<span class="go">array([0.47619048, 0.38095238, 0.0952381 , 0.38095238, 0.28571429])</span>
+<span class="go">array([0.48192771, 0.38554217, 0.09638554, 0.38554217, 0.28915663])</span>
 </pre></div>
 </div>
 <p>A working candy (but candies are not good for greedy policies).</p>
@@ -1362,21 +1485,21 @@ The root cause is that the arrival process shares the same random generator than
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [24 22 19 28 35 19 26]</span>
-<span class="go">Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">Queues: [[305  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [306  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [305  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [342  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [341  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [  8   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46</span>
+<span class="go"> [  7   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46</span>
 <span class="go">   16  14  39  43   2   5   5]</span>
-<span class="go"> [276  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [275  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [325  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [324  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [306  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [305  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]]</span>
-<span class="go">Steps done: 401</span>
+<span class="go">Steps done: 400</span>
 </pre></div>
 </div>
 <p>Note that you can reset the simulator before starting another run.</p>
@@ -1384,21 +1507,21 @@ The root cause is that the arrival process shares the same random generator than
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [24 22 19 28 35 19 26]</span>
-<span class="go">Queues: [[306  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">Queues: [[305  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [306  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [305  53  32   9   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [342  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [341  36  18   5   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [  8   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46</span>
+<span class="go"> [  7   6   9  13   7  34  41  47  23   9   2   3   2   7   6   2  12  46</span>
 <span class="go">   16  14  39  43   2   5   5]</span>
-<span class="go"> [276  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [275  51  38  30   6   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [325  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [324  50  21   4   1   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [306  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [305  47  23   9   2   3   5   5   1   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]]</span>
-<span class="go">Steps done: 401</span>
+<span class="go">Steps done: 400</span>
 </pre></div>
 </div>
 <p>You can display the distribution of queue sizes as a ccdf:</p>
@@ -1463,11 +1586,11 @@ When multiple choices are possible, chooses proportionally to the sizes of the q
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [10  6  2  5  5]</span>
-<span class="go">Queues: [[10  4  7  7  5  4  9  8 11  3]</span>
-<span class="go"> [68  0  0  0  0  0  0  0  0  0]</span>
-<span class="go"> [61  4  3  0  0  0  0  0  0  0]</span>
-<span class="go"> [16 18 16  9  4  5  0  0  0  0]]</span>
-<span class="go">Steps done: 68</span>
+<span class="go">Queues: [[ 9  4  7  7  5  4  9  8 11  3]</span>
+<span class="go"> [67  0  0  0  0  0  0  0  0  0]</span>
+<span class="go"> [60  4  3  0  0  0  0  0  0  0]</span>
+<span class="go"> [15 18 16  9  4  5  0  0  0  0]]</span>
+<span class="go">Steps done: 67</span>
 </pre></div>
 </div>
 <p>A working candy (but candies are not good for greedy policies).</p>
@@ -1475,21 +1598,21 @@ When multiple choices are possible, chooses proportionally to the sizes of the q
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [66 46 39 61 64 51 81]</span>
-<span class="go">Queues: [[684 125  63  25   8  13   2   3   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go">Queues: [[683 125  63  25   8  13   2   3   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [660 130  65  34  32   2   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [659 130  65  34  32   2   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [758  89  36  19  12   9   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [757  89  36  19  12   9   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [ 24  10  23  30  28  56  56 109  81  85 114  55  22  38  17  36  32  30</span>
+<span class="go"> [ 23  10  23  30  28  56  56 109  81  85 114  55  22  38  17  36  32  30</span>
 <span class="go">    7   4   3   5  13  20  25]</span>
-<span class="go"> [674 123  73  28  19   6   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [673 123  73  28  19   6   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [770 112  33   4   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [769 112  33   4   4   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]</span>
-<span class="go"> [709 122  55  17   4   5   5   5   1   0   0   0   0   0   0   0   0   0</span>
+<span class="go"> [708 122  55  17   4   5   5   5   1   0   0   0   0   0   0   0   0   0</span>
 <span class="go">    0   0   0   0   0   0   0]]</span>
-<span class="go">Steps done: 923</span>
+<span class="go">Steps done: 922</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1573,35 +1696,33 @@ border, the max_queue may be reached.</p></li>
 <p>Raw results are stored in <cite>logs</cite>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">plogs</span> 
 <span class="go">Traffic: [43 17 14 23 12]</span>
-<span class="go">Queues: [[119  47  26  15  14   7   1   1]</span>
-<span class="go"> [189  25  13   3   0   0   0   0]</span>
-<span class="go"> [218   8   3   1   0   0   0   0]</span>
-<span class="go"> [126  50  31  11   9   3   0   0]]</span>
-<span class="go">Steps done: 230</span>
+<span class="go">Queues: [[118  47  26  15  14   7   1   1]</span>
+<span class="go"> [188  25  13   3   0   0   0   0]</span>
+<span class="go"> [217   8   3   1   0   0   0   0]</span>
+<span class="go"> [125  50  31  11   9   3   0   0]]</span>
+<span class="go">Steps done: 229</span>
 </pre></div>
 </div>
 <p>Different methods are proposed to provide various indicators.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()</span>
-<span class="go">array([1.07826087, 0.26086957, 0.07391304, 0.85217391])</span>
+<span class="go">array([1.08296943, 0.26200873, 0.07423581, 0.8558952 ])</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">total_waiting_time</span><span class="p">()</span>
-<span class="go">0.36535764375876584</span>
+<span class="go">0.3669530919847866</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_ccdf</span><span class="p">()</span> 
-<span class="go">array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,</span>
-<span class="go">    0.03913043, 0.00869565, 0.00434783, 0.        ],</span>
-<span class="go">   [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,</span>
-<span class="go">    0.        , 0.        , 0.        , 0.        ],</span>
-<span class="go">   [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,</span>
-<span class="go">    0.        , 0.        , 0.        , 0.        ],</span>
-<span class="go">   [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,</span>
-<span class="go">    0.01304348, 0.        , 0.        , 0.        ]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
-<span class="go">array([1.15913043, 0.45826087, 0.3773913 , 0.62      , 0.32347826])</span>
+<span class="go">array([[1.        , 0.48471616, 0.27947598, 0.16593886, 0.10043668,</span>
+<span class="go">        0.03930131, 0.00873362, 0.00436681, 0.        ],</span>
+<span class="go">       [1.        , 0.1790393 , 0.069869  , 0.01310044, 0.        ,</span>
+<span class="go">        0.        , 0.        , 0.        , 0.        ],</span>
+<span class="go">       [1.        , 0.05240175, 0.01746725, 0.00436681, 0.        ,</span>
+<span class="go">        0.        , 0.        , 0.        , 0.        ],</span>
+<span class="go">       [1.        , 0.45414847, 0.23580786, 0.10043668, 0.05240175,</span>
+<span class="go">        0.01310044, 0.        , 0.        , 0.        ]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
+<span class="go">array([1.16419214, 0.46026201, 0.3790393 , 0.62270742, 0.32489083])</span>
 </pre></div>
 </div>
 <p>You can also draw the average or CCDF of the queues.</p>
@@ -2065,6 +2186,22 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 </dl>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.logs.PhantomLogs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.logs.</span></span><span class="sig-name descname"><span class="pre">PhantomLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/logs.html#PhantomLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.logs.PhantomLogs" title="Link to this definition">#</a></dt>
+<dd><p>Jitclass for logs of e-filtering policies. automatically concatenates the results in the original format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes of the original graph.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of edges of the original graph.</p></li>
+<li><p><strong>max_queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Maximum number of items per class.</p></li>
+<li><p><strong>edges</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Edge index.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.logs.repr_logs">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.logs.</span></span><span class="sig-name descname"><span class="pre">repr_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/logs.html#repr_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.logs.repr_logs" title="Link to this definition">#</a></dt>
@@ -2158,6 +2295,14 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.expand_model"><code class="docutils literal notranslate"><span class="pre">expand_model()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.parallel">Running_experiments</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.VariableParameter"><code class="docutils literal notranslate"><span class="pre">VariableParameter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.aggregate"><code class="docutils literal notranslate"><span class="pre">aggregate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.build_metric_computer"><code class="docutils literal notranslate"><span class="pre">build_metric_computer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.regret_delay"><code class="docutils literal notranslate"><span class="pre">regret_delay()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.fcfm">First-Come First Served</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.fcfm.FCFM"><code class="docutils literal notranslate"><span class="pre">FCFM</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.fcfm.FCFM.name"><code class="docutils literal notranslate"><span class="pre">FCFM.name</span></code></a></li>
@@ -2225,6 +2370,7 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.multiqueue.FullMultiQueue"><code class="docutils literal notranslate"><span class="pre">FullMultiQueue</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.multiqueue.MultiQueue"><code class="docutils literal notranslate"><span class="pre">MultiQueue</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.logs.Logs"><code class="docutils literal notranslate"><span class="pre">Logs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.logs.PhantomLogs"><code class="docutils literal notranslate"><span class="pre">PhantomLogs</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.logs.repr_logs"><code class="docutils literal notranslate"><span class="pre">repr_logs()</span></code></a></li>
 </ul>
 </li>

@@ -477,22 +477,18 @@ document.write(`
     <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="c1"># Draw an arrival</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">arrivals</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">age</span> <span class="o">+</span><span class="mi">1</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">best_edge</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">best_edge</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">logs</span><span class="o">.</span><span class="n">traffic</span><span class="p">[</span><span class="n">best_edge</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">queue_size</span><span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
-    <span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span> <span class="o">+=</span> <span class="n">n_steps</span></div>
+
+        <span class="n">logs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">best_edge</span><span class="p">)</span></div>
 
 
 
@@ -538,33 +534,31 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim.plogs #doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    Traffic: [43 17 14 23 12]</span>
-<span class="sd">    Queues: [[119  47  26  15  14   7   1   1]</span>
-<span class="sd">     [189  25  13   3   0   0   0   0]</span>
-<span class="sd">     [218   8   3   1   0   0   0   0]</span>
-<span class="sd">     [126  50  31  11   9   3   0   0]]</span>
-<span class="sd">    Steps done: 230</span>
+<span class="sd">    Queues: [[118  47  26  15  14   7   1   1]</span>
+<span class="sd">     [188  25  13   3   0   0   0   0]</span>
+<span class="sd">     [217   8   3   1   0   0   0   0]</span>
+<span class="sd">     [125  50  31  11   9   3   0   0]]</span>
+<span class="sd">    Steps done: 229</span>
 
 <span class="sd">    Different methods are proposed to provide various indicators.</span>
 
 <span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
-<span class="sd">    array([1.07826087, 0.26086957, 0.07391304, 0.85217391])</span>
+<span class="sd">    array([1.08296943, 0.26200873, 0.07423581, 0.8558952 ])</span>
 
 <span class="sd">    &gt;&gt;&gt; sim.total_waiting_time()</span>
-<span class="sd">    0.36535764375876584</span>
+<span class="sd">    0.3669530919847866</span>
 
 <span class="sd">    &gt;&gt;&gt; sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    array([[1.        , 0.4826087 , 0.27826087, 0.16521739, 0.1       ,</span>
-<span class="sd">        0.03913043, 0.00869565, 0.00434783, 0.        ],</span>
-<span class="sd">       [1.        , 0.17826087, 0.06956522, 0.01304348, 0.        ,</span>
-<span class="sd">        0.        , 0.        , 0.        , 0.        ],</span>
-<span class="sd">       [1.        , 0.05217391, 0.0173913 , 0.00434783, 0.        ,</span>
-<span class="sd">        0.        , 0.        , 0.        , 0.        ],</span>
-<span class="sd">       [1.        , 0.45217391, 0.23478261, 0.1       , 0.05217391,</span>
-<span class="sd">        0.01304348, 0.        , 0.        , 0.        ]])</span>
-
-
+<span class="sd">    array([[1.        , 0.48471616, 0.27947598, 0.16593886, 0.10043668,</span>
+<span class="sd">            0.03930131, 0.00873362, 0.00436681, 0.        ],</span>
+<span class="sd">           [1.        , 0.1790393 , 0.069869  , 0.01310044, 0.        ,</span>
+<span class="sd">            0.        , 0.        , 0.        , 0.        ],</span>
+<span class="sd">           [1.        , 0.05240175, 0.01746725, 0.00436681, 0.        ,</span>
+<span class="sd">            0.        , 0.        , 0.        , 0.        ],</span>
+<span class="sd">           [1.        , 0.45414847, 0.23580786, 0.10043668, 0.05240175,</span>
+<span class="sd">            0.01310044, 0.        , 0.        , 0.        ]])</span>
 <span class="sd">    &gt;&gt;&gt; sim.compute_flow()</span>
-<span class="sd">    array([1.15913043, 0.45826087, 0.3773913 , 0.62      , 0.32347826])</span>
+<span class="sd">    array([1.16419214, 0.46026201, 0.3790393 , 0.62270742, 0.32489083])</span>
 
 <span class="sd">    You can also draw the average or CCDF of the queues.</span>
 
