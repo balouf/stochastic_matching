@@ -524,12 +524,6 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; from collections import Counter</span>
 <span class="sd">    &gt;&gt;&gt; Counter([arrivals.draw() for _ in range(800)])</span>
 <span class="sd">    Counter({2: 291, 1: 210, 0: 208, 3: 91})</span>
-<span class="sd">    &gt;&gt;&gt; arrivals.counter.astype(int)</span>
-<span class="sd">    array([208, 210, 291,  91])</span>
-<span class="sd">    &gt;&gt;&gt; arrivals.steps_done</span>
-<span class="sd">    800</span>
-<span class="sd">    &gt;&gt;&gt; arrivals.actual_rates</span>
-<span class="sd">    array([2.08, 2.1 , 2.91, 0.91])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prob</span><span class="p">:</span> <span class="n">prob_type</span>
     <span class="n">alias</span><span class="p">:</span> <span class="n">alias_type</span>
@@ -540,8 +534,6 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prob</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span> <span class="o">=</span> <span class="n">create_prob_alias</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intensity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mu</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
@@ -549,19 +541,10 @@ document.write(`
     <span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">actual_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">intensity</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">steps_done</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">steps_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">prob</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">node</span></div>
 
 

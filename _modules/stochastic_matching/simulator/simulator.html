@@ -663,18 +663,6 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span></div>
 
 
-<div class="viewcode-block" id="Simulator.compute_actual_rates">
-<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.compute_actual_rates">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_actual_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        :class:`numpy.ndarray`</span>
-<span class="sd">            Arrival rates computed from actual draws.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s1">&#39;arrivals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">actual_rates</span></div>
-
-
 <div class="viewcode-block" id="Simulator.total_waiting_time">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.total_waiting_time">[docs]</a>
     <span class="k">def</span> <span class="nf">total_waiting_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -757,6 +745,15 @@ document.write(`
         <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">traffic</span> <span class="o">*</span> <span class="n">tot_mu</span> <span class="o">/</span> <span class="n">steps</span></div>
 
+
+    <span class="k">def</span> <span class="nf">compute_regret</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+        <span class="n">original_rates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span>
+        <span class="n">flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_flow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence</span> <span class="o">@</span> <span class="n">flow</span>
+        <span class="n">best_flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">original_rates</span>
+        <span class="k">return</span> <span class="n">rewards</span> <span class="o">@</span> <span class="p">(</span><span class="n">best_flow</span> <span class="o">-</span> <span class="n">flow</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Simulator.show_ccdf">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.show_ccdf">[docs]</a>
