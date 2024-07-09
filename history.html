@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>History &#8212; Stochastic Matching 0.3.0 documentation</title>
+    <title>History &#8212; Stochastic Matching 0.3.1 documentation</title>
   
   
   
@@ -35,7 +35,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="_static/documentation_options.js?v=e259d695"></script>
+    <script src="_static/documentation_options.js?v=4621528c"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -120,8 +120,8 @@
       
     
     
-    <img src="_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.0 documentation - Home"/>
-    <script>document.write(`<img src="_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.0 documentation - Home"/>`);</script>
+    <img src="_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -447,6 +447,23 @@ document.write(`
                   
   <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Link to this heading">#</a></h1>
+<section id="improving-the-simulator">
+<h2>0.3.1 (2024-07-09): Improving the simulator<a class="headerlink" href="#improving-the-simulator" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Changes in the simulator API:</p>
+<ul>
+<li><p>For k-filtering, the threshold parameter is now k</p></li>
+<li><p>weights are now called rewards everywhere but for priority (to keep the weight/counterweight story)</p></li>
+<li><p>Interleaving of rewards and forbidden edges has been improved (each can define the other if necessary)</p></li>
+<li><p>reward-based policies are triggered by setting a beta parameter</p></li>
+</ul>
+</li>
+<li><p>Introduction of in-package parallelization tools</p></li>
+<li><p>New notebook tutorial added</p></li>
+<li><p>Bugfix: E-Filtering now has working CCDF</p></li>
+<li><p>Chores</p></li>
+</ul>
+</section>
 <section id="let-s-boost-things">
 <h2>0.3.0 (2024-07-05): Let’s boost things<a class="headerlink" href="#let-s-boost-things" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -657,6 +674,7 @@ null edges are orange (can be disabled).</p></li>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-the-simulator">0.3.1 (2024-07-09): Improving the simulator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-boost-things">0.3.0 (2024-07-05): Let’s boost things</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-ccdf">0.2.2 (2023-06-18): Improved CCDF</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#big-little-update">0.2.1 (2022-02-03): Big little update</a></li>

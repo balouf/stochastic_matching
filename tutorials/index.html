@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tutorials &#8212; Stochastic Matching 0.3.0 documentation</title>
+    <title>Tutorials &#8212; Stochastic Matching 0.3.1 documentation</title>
   
   
   
@@ -35,7 +35,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=e259d695"></script>
+    <script src="../_static/documentation_options.js?v=4621528c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -123,8 +123,8 @@
       
     
     
-    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.0 documentation - Home"/>`);</script>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -400,6 +400,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="graphs.html">Simple and Hyper Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis of rates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vertex_simulation.html">Comparing different vertex-approaching policies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reproducibility.html">Stochastic matching on simple graphs</a></li>
 </ul>
 </div>
@@ -518,6 +519,31 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="simulator.html#Fish">Fish</a></li>
 <li class="toctree-l2"><a class="reference internal" href="simulator.html#Reaching-a-highly-degenerated-vertex">Reaching a highly degenerated vertex</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vertex_simulation.html">Comparing different vertex-approaching policies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vertex_simulation.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vertex_simulation.html#Diamond-graph">Diamond graph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#Gentle-rewards">Gentle rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#Adversarial-rewards">Adversarial rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#Edge-case">Edge case</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vertex_simulation.html#Co-domino,-bijective-vertex">Co-domino, bijective vertex</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#id1">Gentle rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#id2">Adversarial rewards</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vertex_simulation.html#Co-domino,-injective-vertex">Co-domino, injective vertex</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#id3">Gentle rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#id4">Adversarial rewards</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vertex_simulation.html#Hypergraph">Hypergraph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#id5">Gentle rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_simulation.html#Original-rewards">Original rewards</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reproducibility.html">Stochastic matching on simple graphs</a><ul>
