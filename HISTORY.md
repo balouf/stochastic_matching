@@ -1,5 +1,17 @@
 # History
 
+## 0.3.1 (2024-07-09): Improving the simulator
+
+* Changes in the simulator API:
+  * For k-filtering, the threshold parameter is now k
+  * weights are now called rewards everywhere but for priority (to keep the weight/counterweight story)
+  * Interleaving of rewards and forbidden edges has been improved (each can define the other if necessary)
+  * reward-based policies are triggered by setting a beta parameter
+* Introduction of in-package parallelization tools
+* New notebook tutorial added
+* Bugfix: E-Filtering now has working CCDF
+* Chores
+
 ## 0.3.0 (2024-07-05): Let's boost things
 
 * Simulator re-written almost entirely
