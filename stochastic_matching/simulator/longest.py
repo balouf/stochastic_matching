@@ -166,7 +166,7 @@ class Longest(ExtendedSimulator):
     That works for the Fish graph:
 
     >>> fish = sm.KayakPaddle(m=4, l=0, rates=[4, 4, 3, 2, 3, 2])
-    >>> sim = Longest(fish, rewards=[0, 2, 2, 0, 1, 1, 0], n_steps=10000, seed=42)
+    >>> sim = Longest(fish, rewards=[0, 2, 2, 0, 1, 1, 0], beta=.01, n_steps=10000, seed=42)
     >>> sim.run()
 
     The flow avoids one edge:
@@ -239,14 +239,14 @@ class Longest(ExtendedSimulator):
 
     We get similar results with Stolyar greedy longest:
 
-    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], n_steps=1000, max_queue=1000, seed=42)
+    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], beta=.01, n_steps=1000, max_queue=1000, seed=42)
     True
     >>> diamond.simulation
     array([0.444, 0.63 , 0.966, 0.63 , 0.324])
 
     However, if you remove the greedyness, you can converge to the vertex:
 
-    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)
+    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], beta=.01, n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)
     True
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])

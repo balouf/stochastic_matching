@@ -180,7 +180,7 @@ class VirtualQueue(ExtendedSimulator):
 
     Let's optimize (kill traffic on first and last edges).
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0], beta=.01,
     ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
@@ -273,7 +273,7 @@ class VirtualQueue(ExtendedSimulator):
 
     With optimization, we get the desired results at the price of a huge queue:
 
-    >>> sim = VirtualQueue(stol, rewards=rewards, n_steps=3000, seed=42, max_queue=300)
+    >>> sim = VirtualQueue(stol, rewards=rewards, beta=.01, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 761, 242, 591,   0, 205])

@@ -1,6 +1,5 @@
 from tqdm import tqdm
 from copy import deepcopy
-import multiprocess as mp
 
 
 class VariableParameter:
@@ -51,34 +50,28 @@ def build_metric_computer(metric_extractor=None):
 
     def compute(name, key, params, model):
         model.run(**params)
-        return {'name': name, key: params[key], **metric_extractor(params, model)}
+        return {'name': name, key: params[key], **metric_extractor(model=model, params=params)}
 
     return compute
 
 
-def regret_delay(params, model):
+def regret_delay(model, params):
     """
     Parameters
     ----------
-    params: :class:`dict`
-        Parameters of the simulation
     model: :class:`~stochastic_matching.model.Model`
         Model simulated.
+    params: :class:`dict`
+        Parameters of the simulation
 
     Returns
     -------
     :class:`dict`
-        Regret (implies that params has a `rewards` key) and delay.
+        Regret.
     """
     simu = model.simulator
-    original_rates = model.rates
-    model.rates = model.incidence @ simu.compute_flow()
-    rewards = params['rewards']
-    best_flow = model.optimize_rates(rewards)
-    model.rates = original_rates
-    flow = model.simulator.compute_flow()
-    regret = rewards @ (best_flow - flow)
-    delay = sum(model.simulator.compute_average_queues())
+    regret = simu.compute_regret()
+    delay = sum(simu.compute_average_queues())
     return {'regret': regret, 'delay': delay}
 
 

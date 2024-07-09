@@ -157,7 +157,7 @@ class EFiltering(Simulator):
 
     To compare with, the original EGPD policy:
 
-    >>> sim = sm.VirtualQueue(stol, rewards=rewards, n_steps=1000, seed=42)
+    >>> sim = sm.VirtualQueue(stol, rewards=rewards, n_steps=1000, seed=42, beta=.01)
     >>> sim.run()
     >>> sim.plogs
     Traffic: [  0   0 100   3 139   0 140]
@@ -179,9 +179,13 @@ class EFiltering(Simulator):
             rewards = np.array(rewards)
             flow = model.optimize_rates(rewards)
             forbidden_edges = [i for i in range(model.m) if flow[i] == 0]
+            self.rewards = rewards
         else:
+            self.rewards = np.ones(model.m, dtype=int)
             if forbidden_edges is None:
                 forbidden_edges = []
+            else:
+                self.rewards[forbidden_edges] = -1
         self.base_policy = class_converter(base_policy, Simulator)
         self.base_policy_kwargs = base_policy_kwargs
         self.forbidden_edges = forbidden_edges
@@ -198,14 +202,3 @@ class EFiltering(Simulator):
     def run(self):
         self.internal['simu'].run()
         self.logs = self.internal['simu'].logs
-
-    def compute_actual_rates(self):
-        """
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            Arrival rates computed from actual draws.
-        """
-        n = self.model.n
-        mumu = self.internal['simu'].compute_actual_rates()
-        return mumu[:n] + mumu[n:]

@@ -208,15 +208,6 @@ class Simulator:
         """
         return self.logs.queue_log.dot(np.arange(self.max_queue)) / self.logs.steps_done
 
-    def compute_actual_rates(self):
-        """
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            Arrival rates computed from actual draws.
-        """
-        return self.internal['arrivals'].actual_rates
-
     def total_waiting_time(self):
         """
         Returns
@@ -287,6 +278,15 @@ class Simulator:
         tot_mu = np.sum(self.model.rates)
         steps = self.logs.steps_done
         return self.logs.traffic * tot_mu / steps
+
+    def compute_regret(self):
+        rewards = getattr(self, 'rewards', np.ones(self.model.m, dtype=int))
+        original_rates = self.model.rates
+        flow = self.compute_flow()
+        self.model.rates = self.model.incidence @ flow
+        best_flow = self.model.optimize_rates(rewards)
+        self.model.rates = original_rates
+        return rewards @ (best_flow - flow)
 
     def show_ccdf(self, indices=None, sort=None, strict=False):
         """
