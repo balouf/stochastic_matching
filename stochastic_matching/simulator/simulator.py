@@ -53,7 +53,8 @@ def core_simulator(logs, arrivals, graph, n_steps, queue_size, selector):
 
 class Simulator:
     """
-    Abstract class that describes the generic behavior of matching queues simulator. See sub-classes for examples.
+    Abstract class that describes the generic behavior of matching simulators.
+    See subclasses for detailed examples.
 
     Parameters
     ----------
@@ -71,7 +72,7 @@ class Simulator:
     Attributes
     ----------
     internal: :class:`dict`
-        Inner variables. Default to arrivals, graphs, queue_size, n_steps. Sub-classes can add other variables.
+        Inner variables. Default to arrivals, graphs, queue_size, n_steps. Subclasses can add other variables.
     logs: :class:`~stochastic_matching.simulator.logs.Logs`
         Monitored variables (traffic on edges, queue size distribution, number of steps achieved).
 
@@ -87,9 +88,10 @@ class Simulator:
 
     >>> sim.run()
 
-    Raw results are stored in `logs`.
+    Raw results are stored in `logs`. A `plog` property gives a pretty print of the logs.
 
     >>> sim.plogs #doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [67 80 43 39]
     Traffic: [43 17 14 23 12]
     Queues: [[118  47  26  15  14   7   1   1]
      [188  25  13   3   0   0   0   0]

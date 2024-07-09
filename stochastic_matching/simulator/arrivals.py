@@ -103,4 +103,3 @@ class Arrivals:
         if np.random.rand() > self.prob[node]:
             node = self.alias[node]
         return node
-

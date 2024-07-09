@@ -73,7 +73,6 @@ class Priority(Simulator):
 
     >>> fish.simulator.compute_average_queues()[-1]
     38.346
-    >>> import numpy as np
     >>> np.round(np.mean(fish.simulator.compute_average_queues()[:-1]), decimals=2)
     0.75
 

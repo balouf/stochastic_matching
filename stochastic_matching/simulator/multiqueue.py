@@ -1,5 +1,5 @@
 from numba.experimental import jitclass
-from numba import typeof, njit, int64
+from numba import typeof, int64
 from numba.typed import Dict
 import numpy as np
 import os

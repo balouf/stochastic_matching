@@ -20,13 +20,15 @@ class Logs:
     income: int64[:]
     traffic: int64[:]
     queue_log: int64[:, :]
-    steps_done: int
 
     def __init__(self, n, m, max_queue):
         self.income = np.zeros(n, dtype=np.int64)
         self.traffic = np.zeros(m, dtype=np.int64)
         self.queue_log = np.zeros((n, max_queue), dtype=np.int64)
-        self.steps_done = 0
+
+    @property
+    def steps_done(self):
+        return np.sum(self.income)
 
     def update(self, queue_size, node, edge):
         self.income[node] += 1
@@ -34,8 +36,6 @@ class Logs:
             self.traffic[edge] += 1
         for i, q in enumerate(queue_size):
             self.queue_log[i, q] += 1
-        self.steps_done += 1
-
 
 
 @jitclass
@@ -84,10 +84,13 @@ def repr_logs(logs):
     Parameters
     ----------
     logs: :class:`~stochastic_matching.simulator.logs.Logs`
-        Logs to display.
+        Logs to display. Relies on `print`.
 
     Returns
     -------
-    :class:`str`
+    None
     """
-    print(f"Traffic: {logs.traffic.astype(int)}\nQueues: {logs.queue_log.astype(int)}\nSteps done: {logs.steps_done}")
+    print(f"Arrivals: {logs.income.astype(int)}\n"
+          f"Traffic: {logs.traffic.astype(int)}\n"
+          f"Queues: {logs.queue_log.astype(int)}\n"
+          f"Steps done: {logs.steps_done}")

@@ -148,6 +148,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [287 338 375]
     Traffic: [125 162 213]
     Queues: [[837 105  41  13   3   1   0   0   0   0]
      [784 131  53  22   8   2   0   0   0   0]
@@ -159,6 +160,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [85 82 85 86]
     Traffic: [34 42  7 41 36]
     Queues: [[141  55  34  25  23  16  24  12   7   1]
      [318  16   3   1   0   0   0   0   0   0]
@@ -171,6 +173,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [179 342 320 159]
     Traffic: [ 95  84 161  84  75]
     Queues: [[823 120  38  19   0   0   0   0   0   0]
      [625 215  76  46  28   9   1   0   0   0]
@@ -184,6 +187,7 @@ class VirtualQueue(ExtendedSimulator):
     ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [22 51 55 27]
     Traffic: [ 0 22 24 27  0]
     Queues: [[136  16   3   0   0   0   0   0   0   0]
      [112  14   8   6   7   4   3   1   0   0]
@@ -197,6 +201,7 @@ class VirtualQueue(ExtendedSimulator):
     ...                    beta=.8, n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [179 342 320 159]
     Traffic: [ 32 146 161 146  13]
     Queues: [[691 222  68  18   1   0   0   0   0   0]
      [514 153 123 110  48  32  16   4   0   0]
@@ -210,6 +215,7 @@ class VirtualQueue(ExtendedSimulator):
     ...                    rewards=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [27 57 65 31]
     Traffic: [ 0 27 29 28  0]
     Queues: [[158  16   3   3   0   0   0   0   0   0]
      [136  19   8   4   5   4   3   1   0   0]
@@ -223,6 +229,7 @@ class VirtualQueue(ExtendedSimulator):
     ...                    n_steps=1000, seed=42, max_queue=10, k=6)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [179 342 320 159]
     Traffic: [ 31 145 161 145  14]
     Queues: [[600 171 122  81  20   6   0   0   0   0]
      [444 151 137 104  81  65  14   4   0   0]
@@ -236,6 +243,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim = VirtualQueue(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [140 126 154 112 224 121 123]
     Traffic: [109  29  17  59  58  62 107]
     Queues: [[301  83  94  83  54  60  43  48  41  32  49  60  31   3   8   7   3   0
         0   0   0   0   0   0   0]

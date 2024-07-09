@@ -48,6 +48,7 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [276 342 382]
     Traffic: [118 158 224]
     Queues: [[865  92  32  10   1   0   0   0   0   0   0]
      [750 142  62  28  12   3   2   1   0   0   0]
@@ -60,17 +61,19 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(triangle, n_steps=1000, seed=42, max_queue=11)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [276 342 382]
     Traffic: [118 158 224]
     Queues: [[865  92  32  10   1   0   0   0   0   0   0]
      [750 142  62  28  12   3   2   1   0   0   0]
      [662 164  73  36  21   7  10  12   8   5   2]]
     Steps done: 1000
 
-    A ill diamond graph (simulation ends before completion due to drift).
+    An ill diamond graph (simulation ends before completion due to drift).
 
     >>> sim = RandomEdge(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [24 20 16 23]
     Traffic: [10  8  2  8  6]
     Queues: [[ 9  4  7 13  5  5 10 24  5  1]
      [83  0  0  0  0  0  0  0  0  0]
@@ -85,6 +88,7 @@ class RandomEdge(Simulator):
     >>> sim = RandomEdge(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [47 43 67 50 92 47 54]
     Traffic: [24 22 19 28 35 19 26]
     Queues: [[305  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
@@ -107,6 +111,7 @@ class RandomEdge(Simulator):
     >>> sim.reset()
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [47 43 67 50 92 47 54]
     Traffic: [24 22 19 28 35 19 26]
     Queues: [[305  77  15   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]

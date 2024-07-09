@@ -11,11 +11,11 @@ class VariableParameter:
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
     name: :class:`str`
-        Name of the experiments.
+        Name of the experiment.
     key: :class:`str`
         Variable parameter.
     values: iterable
-        Values of the parameter
+        Values of the parameter.
     kwargs: :class:`dict`
         All other keyword parameters will be passed to simulation (including the choice of `simulator`).
     """
@@ -67,7 +67,7 @@ def regret_delay(model, params):
     Returns
     -------
     :class:`dict`
-        Regret.
+        Regret and delay.
     """
     simu = model.simulator
     regret = simu.compute_regret()
@@ -80,7 +80,7 @@ def aggregate(results):
     Parameters
     ----------
     results: :class:`list`
-        Computed results. Each entry is a dictionary associated to a given experiments.
+        Computed results. Each entry is a dictionary associated to a given run.
     Returns
     -------
     :class:`dict`
@@ -104,6 +104,7 @@ def evaluate(xps, metric_extractor=None, pool=None):
         Experiment(s) to run.
     metric_extractor: callable, optional.
         The metric extractor must have a (params, model) signature and return a dictionary of metrics.
+        Default to computing regret and delay.
     pool: :class:`~multiprocess.pool.Pool`, optional.
         Existing pool of workers.
 

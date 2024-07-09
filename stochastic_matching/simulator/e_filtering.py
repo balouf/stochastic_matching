@@ -64,17 +64,8 @@ class EFiltering(Simulator):
         (overrides forbidden_edges argument).
     epsilon: :class:`float`, default=.01
         Proportion of "+" arrivals (lower means less odds to select a forbidden edge).
-    **kwargs
-        Keyword arguments.
-
-    Notes
-    -----
-
-    Due to technical constraints, the queue_log does not contain the actual queue_log of the true model but the
-    sum of the queue_log of the "+" and "-" items.
-    For example, queue_log[0, 0] contains the sum of the times where 0+ is null and when 0- is null.
-    This does not impact the computation of flows and average queues but the CCDF is not accurate
-    and should not be used.
+    **base_policy_kwargs:
+        Keyword arguments. Only universal parameters should be used (seed, max_queue, n_steps).
 
     Examples
     --------
@@ -90,6 +81,7 @@ class EFiltering(Simulator):
     >>> sim = EFiltering(diamond, n_steps=1000, seed=42)
     >>> sim.run()
     >>> sim.plogs
+    Arrivals: [162 342 348 148]
     Traffic: [ 76  86 190  76  72]
     Queues: [[882  91  23 ...   0   0   0]
      [661 109  72 ...   0   0   0]
@@ -102,6 +94,7 @@ class EFiltering(Simulator):
     >>> sim = EFiltering(diamond, forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
     >>> sim.plogs
+    Arrivals: [162 342 348 148]
     Traffic: [  1 158 189 147   1]
     Queues: [[571  44  61 ...   0   0   0]
      [560  37  52 ...   0   0   0]
@@ -114,6 +107,7 @@ class EFiltering(Simulator):
     >>> sim = EFiltering(diamond, base_policy='fcfm', forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
     >>> sim.plogs
+    Arrivals: [162 342 348 148]
     Traffic: [  1 158 189 147   1]
     Queues: [[569  99 118 ...   0   0   0]
      [569  35  37 ...   0   0   0]
@@ -126,6 +120,7 @@ class EFiltering(Simulator):
     >>> sim = EFiltering(diamond, base_policy='virtual_queue', forbidden_edges=[0, 4], n_steps=1000, seed=42)
     >>> sim.run()
     >>> sim.plogs
+    Arrivals: [162 342 348 148]
     Traffic: [  0 157 186 144   1]
     Queues: [[311  93 110 ...   0   0   0]
      [108 120 111 ...   0   0   0]
@@ -144,6 +139,7 @@ class EFiltering(Simulator):
     >>> sim = EFiltering(stol, base_policy='virtual_queue', rewards=rewards, n_steps=1000, epsilon=.0001, seed=42)
     >>> sim.run()
     >>> sim.plogs
+    Arrivals: [216 282 371 131]
     Traffic: [  0   0 311  76 213   0  55]
     Queues: [[ 30 114 181 ...   0   0   0]
      [ 22  64 117 ...   0   0   0]
@@ -160,6 +156,7 @@ class EFiltering(Simulator):
     >>> sim = sm.VirtualQueue(stol, rewards=rewards, n_steps=1000, seed=42, beta=.01)
     >>> sim.run()
     >>> sim.plogs
+    Arrivals: [236 279 342 143]
     Traffic: [  0   0 100   3 139   0 140]
     Queues: [[  2   3   5 ...   0   0   0]
      [844   8   6 ...   0   0   0]
@@ -194,7 +191,7 @@ class EFiltering(Simulator):
 
     def set_internal(self):
         expanded_model, edges = expand_model(model=self.model, forbidden_edges=self.forbidden_edges,
-                                                  epsilon=self.epsilon)
+                                             epsilon=self.epsilon)
         expanded_simu = self.base_policy(model=expanded_model, **self.base_policy_kwargs)
         expanded_simu.logs = PhantomLogs(n=self.model.n, m=self.model.m, max_queue=self.max_queue, edges=edges)
         self.internal = {'simu': expanded_simu, 'n_steps': self.n_steps}

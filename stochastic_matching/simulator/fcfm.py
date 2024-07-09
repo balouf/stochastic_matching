@@ -74,13 +74,14 @@ class FCFM(Simulator):
     Examples
     --------
 
-    Let start with a working triangle. One can notice the results are the same for all greedy old_simulator because
+    Let start with a working triangle. One can notice the results are the same for all greedy simulator because
     there are no multiple choices in a triangle (always one non-empty queue at most under a greedy policy).
 
     >>> import stochastic_matching as sm
     >>> sim = FCFM(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [287 338 375]
     Traffic: [125 162 213]
     Queues: [[838 104  41  13   3   1   0   0   0   0]
      [796 119  53  22   8   2   0   0   0   0]
@@ -92,6 +93,7 @@ class FCFM(Simulator):
     >>> sim = FCFM(sm.CycleChain(rates=[1, 1, 1, 1]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [85 82 85 86]
     Traffic: [34 42  7 41 36]
     Queues: [[126  70  22  26  29  12  23  15  10   5]
      [326   8   3   1   0   0   0   0   0   0]
@@ -105,6 +107,7 @@ class FCFM(Simulator):
     ...            n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [46 26 32 37 70 35 45]
     Traffic: [24 17  2 23 33 12 13]
     Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]

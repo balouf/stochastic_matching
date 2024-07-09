@@ -8,7 +8,7 @@ from stochastic_matching.simulator.extended import ExtendedSimulator
 def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
                  scores, forbidden_edges, k):
     """
-    Generic jitted function for queue-size based policies.
+    Jitted function for policies based on longest-queue first.
 
     Parameters
     ----------
@@ -114,13 +114,14 @@ class Longest(ExtendedSimulator):
     Examples
     --------
 
-    Let's start with a working triangle. Not that the results are the same for all greedy old_simulator because
+    Let's start with a working triangle. Not that the results are the same for all greedy simulator because
     there are no decision in a triangle (always at most one non-empty queue under a greedy policy).
 
     >>> import stochastic_matching as sm
     >>> sim = Longest(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [287 338 375]
     Traffic: [125 162 213]
     Queues: [[838 104  41  13   3   1   0   0   0   0]
      [796 119  53  22   8   2   0   0   0   0]
@@ -132,6 +133,7 @@ class Longest(ExtendedSimulator):
     >>> sim = Longest(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [85 82 85 86]
     Traffic: [38 38  7 37 40]
     Queues: [[126  74  28  37  21  32  16   1   2   1]
      [326   8   3   1   0   0   0   0   0   0]
@@ -144,6 +146,7 @@ class Longest(ExtendedSimulator):
     >>> sim = Longest(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [46 26 32 37 70 35 45]
     Traffic: [24 17  2 23 33 12 13]
     Queues: [[ 23  32  45  38  22  43  31  34  20   3   0   0   0   0   0   0   0   0
         0   0   0   0   0   0   0]
@@ -246,7 +249,8 @@ class Longest(ExtendedSimulator):
 
     However, if you remove the greedyness, you can converge to the vertex:
 
-    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], beta=.01, n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)
+    >>> diamond.run('longest', rewards=[-1, 1, 1, 1, -1], beta=.01,
+    ...             n_steps=1000, max_queue=1000, seed=42, shift_rewards=False)
     True
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])
