@@ -15,4 +15,4 @@ from stochastic_matching.simulator.random_edge import RandomEdge
 from stochastic_matching.simulator.random_item import RandomItem
 from stochastic_matching.simulator.virtual_queue import VirtualQueue
 from stochastic_matching.simulator.e_filtering import EFiltering
-from stochastic_matching.simulator.parallel import VariableParameter, evaluate
+from stochastic_matching.simulator.parallel import XP, Runner, Iterator, evaluate

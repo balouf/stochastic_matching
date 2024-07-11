@@ -57,7 +57,6 @@ def create_prob_alias(mu):
 
 alias_type = typeof(np.zeros(1, dtype=int))
 prob_type = typeof(np.zeros(1))
-counter_type = typeof(np.zeros(1, dtype=np.int64))
 
 
 @jitclass
@@ -84,7 +83,6 @@ class Arrivals:
     """
     prob: prob_type
     alias: alias_type
-    counter: counter_type
     n: int
     intensity: float
 

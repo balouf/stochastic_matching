@@ -6,14 +6,8 @@ import os
 
 
 if os.environ.get("NUMBA_DISABLE_JIT") == "1":
-    tails_type = np.ndarray
-    heads_type = np.ndarray
-    queues_type = np.ndarray
     vq_type = dict
 else:
-    tails_type = typeof(np.array([-1 - e for e in range(10)], dtype=np.int64))
-    heads_type = tails_type
-    queues_type = typeof(np.ones((3, 3), dtype=np.int64))
     vq_type = typeof(Dict.empty(key_type=int64, value_type=int64))
 
 infinity = 2 ** 63 - 1
@@ -95,9 +89,9 @@ class MultiQueue:
     >>> [queues.oldest(i) for i in range(4)]
     [5, 9223372036854775807, 9223372036854775807, 28]
     """
-    queues: queues_type
-    heads: heads_type
-    tails: tails_type
+    queues: int64[:, :]
+    heads: int64[:]
+    tails: int64[:]
     infinity: infinity_type
     max_queue: infinity_type
 
@@ -210,7 +204,7 @@ class FullMultiQueue:
     ...
     KeyError: 9223372036854775807
     """
-    tails: tails_type
+    tails: int64[:]
     vq: vq_type
     infinity: infinity_type
 

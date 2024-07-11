@@ -4,7 +4,7 @@ from stochastic_matching.simulator.simulator import Simulator
 from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
-@njit
+@njit(cache=True)
 def fcfm_core(logs, arrivals, graph, n_steps, queue_size, queues):
     """
     Jitted function for first-come, first-matched policy.

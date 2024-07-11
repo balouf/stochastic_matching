@@ -4,7 +4,7 @@ import numpy as np
 from stochastic_matching.simulator.extended import ExtendedSimulator
 
 
-@njit
+@njit(cache=True)
 def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
                  scores, forbidden_edges, k):
     """
