@@ -437,89 +437,162 @@ document.write(`
                   
   <h1>Source code for stochastic_matching.simulator.parallel</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">functools</span>
 
 
-<div class="viewcode-block" id="VariableParameter">
-<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.VariableParameter">[docs]</a>
-<span class="k">class</span> <span class="nc">VariableParameter</span><span class="p">:</span>
+<div class="viewcode-block" id="do_nothing">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.do_nothing">[docs]</a>
+<span class="k">def</span> <span class="nf">do_nothing</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Allows to vary one single parameter of simulation for experiments.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        Model to simulate.</span>
-<span class="sd">    name: :class:`str`</span>
-<span class="sd">        Name of the experiment.</span>
-<span class="sd">    key: :class:`str`</span>
-<span class="sd">        Variable parameter.</span>
-<span class="sd">    values: iterable</span>
-<span class="sd">        Values of the parameter.</span>
-<span class="sd">    kwargs: :class:`dict`</span>
-<span class="sd">        All other keyword parameters will be passed to simulation (including the choice of `simulator`).</span>
+<span class="sd">    x: object</span>
+<span class="sd">        Something</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    object</span>
+<span class="sd">        Same object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+
+<div class="viewcode-block" id="Iterator">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.Iterator">[docs]</a>
+<span class="k">class</span> <span class="nc">Iterator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides an easy way to make a parameter vary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: :class:`str`</span>
+<span class="sd">        Name of the argument to vary.</span>
+<span class="sd">    values: iterable</span>
+<span class="sd">        Values that the argument can take.</span>
+<span class="sd">    name: :class:`str`, optional</span>
+<span class="sd">        *Display* name of the parameter</span>
+<span class="sd">    process: callable, optional</span>
+<span class="sd">        If you want to transform the value used, use this.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kwarg: :class:`dict`</span>
+<span class="sd">        Keyword argument to use.</span>
+<span class="sd">    log: :class:</span>
+<span class="sd">        What you want to remind. By default, identical to kwarg.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Imagine one wants a parameter x2 to vary amongst squares of integers.</span>
+
+<span class="sd">    &gt;&gt;&gt; iterator = Iterator(&#39;x2&#39;, [i**2 for i in range(4)])</span>
+<span class="sd">    &gt;&gt;&gt; for kwarg, log in iterator:</span>
+<span class="sd">    ...     print(kwarg, log)</span>
+<span class="sd">    {&#39;x2&#39;: 0} {&#39;x2&#39;: 0}</span>
+<span class="sd">    {&#39;x2&#39;: 1} {&#39;x2&#39;: 1}</span>
+<span class="sd">    {&#39;x2&#39;: 4} {&#39;x2&#39;: 4}</span>
+<span class="sd">    {&#39;x2&#39;: 9} {&#39;x2&#39;: 9}</span>
+
+<span class="sd">    You can do the same thing by iterating over integers and apply a square method.</span>
+
+<span class="sd">    &gt;&gt;&gt; iterator = Iterator(&#39;x2&#39;, range(4), &#39;x&#39;, lambda x: x**2)</span>
+<span class="sd">    &gt;&gt;&gt; for kwarg, log in iterator:</span>
+<span class="sd">    ...     print(kwarg, log)</span>
+<span class="sd">    {&#39;x2&#39;: 0} {&#39;x&#39;: 0}</span>
+<span class="sd">    {&#39;x2&#39;: 1} {&#39;x&#39;: 1}</span>
+<span class="sd">    {&#39;x2&#39;: 4} {&#39;x&#39;: 2}</span>
+<span class="sd">    {&#39;x2&#39;: 9} {&#39;x&#39;: 3}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">parameter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">simulator</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">parameter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">process</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">process</span> <span class="o">=</span> <span class="n">do_nothing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span> <span class="o">=</span> <span class="n">process</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
-            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+            <span class="k">yield</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">v</span><span class="p">)},</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="build_metric_computer">
-<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.build_metric_computer">[docs]</a>
-<span class="k">def</span> <span class="nf">build_metric_computer</span><span class="p">(</span><span class="n">metric_extractor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    metric_extractor: callable, optional</span>
-<span class="sd">        The metric extractor must have a (params, model) signature and return a dictionary of metrics.</span>
+<span class="k">class</span> <span class="nc">SingleXP</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iterator</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;iterator&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    callable</span>
-<span class="sd">        A function with signature (name, key, params, model).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">metric_extractor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">metric_extractor</span> <span class="o">=</span> <span class="n">regret_delay</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterator</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="o">**</span><span class="n">metric_extractor</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)}</span>
-
-    <span class="k">return</span> <span class="n">compute</span></div>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">kwarg</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterator</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">}</span>
 
 
+<span class="k">class</span> <span class="nc">XP</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xp_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SingleXP</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)]</span>
 
-<div class="viewcode-block" id="regret_delay">
-<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.regret_delay">[docs]</a>
-<span class="k">def</span> <span class="nf">regret_delay</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
-<span class="sd">        Model simulated.</span>
-<span class="sd">    params: :class:`dict`</span>
-<span class="sd">        Parameters of the simulation</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">xp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xp_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xp</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">x</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    :class:`dict`</span>
-<span class="sd">        Regret and delay.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">xp_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xp_list</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">xp_list</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">+</span><span class="n">other</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span> <span class="k">for</span> <span class="n">xp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xp_list</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">regret_delay</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="n">simu</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">simulator</span>
     <span class="n">regret</span> <span class="o">=</span> <span class="n">simu</span><span class="o">.</span><span class="n">compute_regret</span><span class="p">()</span>
     <span class="n">delay</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">simu</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">())</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;regret&#39;</span><span class="p">:</span> <span class="n">regret</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span> <span class="n">delay</span><span class="p">}</span></div>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;regret&#39;</span><span class="p">:</span> <span class="n">regret</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span> <span class="n">delay</span><span class="p">}</span>
 
+
+<span class="k">class</span> <span class="nc">Runner</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">extractor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extractor</span> <span class="o">=</span> <span class="n">regret_delay</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extractor</span> <span class="o">=</span> <span class="n">extractor</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tup</span><span class="p">):</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">tup</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">params</span><span class="p">}</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extractor</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="aggregate">
@@ -533,38 +606,45 @@ document.write(`
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`dict`</span>
-<span class="sd">        All results are gathered by experiment name, then by varying input / metric.</span>
+<span class="sd">        All results are gathered by experiment name, then by varying input / metric if applicable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">continue</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kv</span><span class="p">,</span> <span class="o">**</span><span class="n">r</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
-            <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">r</span><span class="p">}</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">rr</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rr</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
 
+<span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">cache_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cache_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cache</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cache_path</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cache_name</span><span class="si">}</span><span class="s2">.pkl.gz&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cache</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">cache_overwrite</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+    <span class="k">return</span> <span class="n">wrapper_decorator</span>
+
+
 <div class="viewcode-block" id="evaluate">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.evaluate">[docs]</a>
-<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">metric_extractor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="nd">@cached</span>
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    xps: :class:`~stochastic_matching.simulator.parallel.VariableParameter` or :class:`list`</span>
-<span class="sd">        Experiment(s) to run.</span>
-<span class="sd">    metric_extractor: callable, optional.</span>
-<span class="sd">        The metric extractor must have a (params, model) signature and return a dictionary of metrics.</span>
-<span class="sd">        Default to computing regret and delay.</span>
-<span class="sd">    pool: :class:`~multiprocess.pool.Pool`, optional.</span>
-<span class="sd">        Existing pool of workers.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    :class:`dict`</span>
-<span class="sd">        Result of the experiment(s).</span>
-
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
@@ -572,25 +652,29 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain()</span>
 <span class="sd">    &gt;&gt;&gt; base = {&#39;model&#39;: diamond, &#39;n_steps&#39;: 1000, &#39;seed&#39;: 42, &#39;rewards&#39;: [1, 2.9, 1, -1, 1]}</span>
-<span class="sd">    &gt;&gt;&gt; xp1 = VariableParameter(name=&#39;e-filtering&#39;, simulator=&#39;e_filtering&#39;,</span>
-<span class="sd">    ...                         key=&#39;epsilon&#39;, values=[.01, .1, 1], **base)</span>
-<span class="sd">    &gt;&gt;&gt; xp2 = VariableParameter(name=&#39;k-filtering&#39;, simulator=&#39;longest&#39;, forbidden_edges=True,</span>
-<span class="sd">    ...                         key=&#39;k&#39;, values=[0, 10, 100], **base)</span>
-<span class="sd">    &gt;&gt;&gt; xp3 = VariableParameter(name=&#39;egpd&#39;, simulator=&#39;virtual_queue&#39;,</span>
-<span class="sd">    ...                         key=&#39;beta&#39;, values=[.01, .1, 1], **base)</span>
-<span class="sd">    &gt;&gt;&gt; res = evaluate(xp1)</span>
-<span class="sd">    &gt;&gt;&gt; for k, v in res[&#39;e-filtering&#39;].items():</span>
-<span class="sd">    ...     print(f&quot;{k}: {np.array(v)}&quot;)</span>
-<span class="sd">    epsilon: [0.01 0.1  1.  ]</span>
-<span class="sd">    regret: [0.002 0.017 0.103]</span>
-<span class="sd">    delay: [10.538  6.95   1.952]</span>
+<span class="sd">    &gt;&gt;&gt; xp = XP(&#39;Diamond&#39;, simulator=&#39;longest&#39;, **base)</span>
+<span class="sd">    &gt;&gt;&gt; evaluate(xp)</span>
+<span class="sd">    {&#39;Diamond&#39;: {&#39;regret&#39;: 0.08799999999999886, &#39;delay&#39;: 1.634}}</span>
+<span class="sd">    &gt;&gt;&gt; xp1 = XP(&#39;e-filtering&#39;, simulator=&#39;e_filtering&#39;, **base,</span>
+<span class="sd">    ...          iterator=Iterator(&#39;epsilon&#39;, [.01, .1, 1], name=&#39;e&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; xp2 = XP(name=&#39;k-filtering&#39;, simulator=&#39;longest&#39;, forbidden_edges=True,</span>
+<span class="sd">    ...          iterator=Iterator(&#39;k&#39;, [0, 10, 100]), **base)</span>
+<span class="sd">    &gt;&gt;&gt; xp3 = XP(name=&#39;egpd&#39;, simulator=&#39;virtual_queue&#39;,</span>
+<span class="sd">    ...          iterator=Iterator(&#39;beta&#39;, [.01, .1, 1]), **base)</span>
+<span class="sd">    &gt;&gt;&gt; xp = sum([xp1, xp2, xp3])</span>
+<span class="sd">    &gt;&gt;&gt; len(xp)</span>
+<span class="sd">    9</span>
 <span class="sd">    &gt;&gt;&gt; import multiprocess as mp</span>
 <span class="sd">    &gt;&gt;&gt; with mp.Pool(processes=2) as p:</span>
-<span class="sd">    ...     res = evaluate([xp2, xp3], pool=p)</span>
+<span class="sd">    ...     res = evaluate(xp, pool=p)</span>
 <span class="sd">    &gt;&gt;&gt; for name, r in res.items():</span>
 <span class="sd">    ...     print(name)</span>
 <span class="sd">    ...     for k, v in r.items():</span>
 <span class="sd">    ...         print(f&quot;{k}: {np.array(v)}&quot;)</span>
+<span class="sd">    e-filtering</span>
+<span class="sd">    e: [0.01 0.1  1.  ]</span>
+<span class="sd">    regret: [0.002 0.017 0.103]</span>
+<span class="sd">    delay: [10.538  6.95   1.952]</span>
 <span class="sd">    k-filtering</span>
 <span class="sd">    k: [  0  10 100]</span>
 <span class="sd">    regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]</span>
@@ -600,17 +684,177 @@ document.write(`
 <span class="sd">    regret: [0.003 0.043 0.076]</span>
 <span class="sd">    delay: [92.024 10.13   1.888]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="n">jobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">xp</span> <span class="ow">in</span> <span class="n">xps</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xp</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">jobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xps</span><span class="p">]</span>
-    <span class="n">compute</span> <span class="o">=</span> <span class="n">build_metric_computer</span><span class="p">(</span><span class="n">metric_extractor</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">extractor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">extractor</span> <span class="o">=</span> <span class="n">regret_delay</span>
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">extractor</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pool</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">jobs</span><span class="p">)]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">runner</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">xps</span><span class="p">)]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">compute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">jobs</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">jobs</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">runner</span><span class="p">,</span> <span class="n">xps</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">xps</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">aggregate</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
+
+
+<span class="c1"># from tqdm import tqdm</span>
+<span class="c1"># from copy import deepcopy</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># class VariableParameter:</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Allows to vary one single parameter of simulation for experiments.</span>
+<span class="c1">#</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     model: :class:`~stochastic_matching.model.Model`</span>
+<span class="c1">#         Model to simulate.</span>
+<span class="c1">#     name: :class:`str`</span>
+<span class="c1">#         Name of the experiment.</span>
+<span class="c1">#     key: :class:`str`</span>
+<span class="c1">#         Variable parameter.</span>
+<span class="c1">#     values: iterable</span>
+<span class="c1">#         Values of the parameter.</span>
+<span class="c1">#     kwargs: :class:`dict`</span>
+<span class="c1">#         All other keyword parameters will be passed to simulation (including the choice of `simulator`).</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     def __init__(self, model, name, key, values, **kwargs):</span>
+<span class="c1">#         self.name = name</span>
+<span class="c1">#         self.key = key</span>
+<span class="c1">#         self.values = values</span>
+<span class="c1">#         self.model = deepcopy(model)</span>
+<span class="c1">#         self.model.simulator = None</span>
+<span class="c1">#         self.kwargs = kwargs</span>
+<span class="c1">#</span>
+<span class="c1">#     def __iter__(self):</span>
+<span class="c1">#         for v in self.values:</span>
+<span class="c1">#             params = {**self.kwargs, self.key: v}</span>
+<span class="c1">#             yield self.name, self.key, params, self.model</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># def build_metric_computer(metric_extractor=None):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     metric_extractor: callable, optional</span>
+<span class="c1">#         The metric extractor must have a (params, model) signature and return a dictionary of metrics.</span>
+<span class="c1">#</span>
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     callable</span>
+<span class="c1">#         A function with signature (name, key, params, model).</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     if metric_extractor is None:</span>
+<span class="c1">#         metric_extractor = regret_delay</span>
+<span class="c1">#</span>
+<span class="c1">#     def compute(name, key, params, model):</span>
+<span class="c1">#         model.run(**params)</span>
+<span class="c1">#         return {&#39;name&#39;: name, key: params[key], **metric_extractor(model=model, params=params)}</span>
+<span class="c1">#</span>
+<span class="c1">#     return compute</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># def regret_delay(model, params):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     model: :class:`~stochastic_matching.model.Model`</span>
+<span class="c1">#         Model simulated.</span>
+<span class="c1">#     params: :class:`dict`</span>
+<span class="c1">#         Parameters of the simulation</span>
+<span class="c1">#</span>
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     :class:`dict`</span>
+<span class="c1">#         Regret and delay.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     simu = model.simulator</span>
+<span class="c1">#     regret = simu.compute_regret()</span>
+<span class="c1">#     delay = sum(simu.compute_average_queues())</span>
+<span class="c1">#     return {&#39;regret&#39;: regret, &#39;delay&#39;: delay}</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># def aggregate(results):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     results: :class:`list`</span>
+<span class="c1">#         Computed results. Each entry is a dictionary associated to a given run.</span>
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     :class:`dict`</span>
+<span class="c1">#         All results are gathered by experiment name, then by varying input / metric.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     res = dict()</span>
+<span class="c1">#     for r in results:</span>
+<span class="c1">#         name = r.pop(&#39;name&#39;)</span>
+<span class="c1">#         if name not in res:</span>
+<span class="c1">#             res[name] = {k: [] for k in r}</span>
+<span class="c1">#         for k, v in r.items():</span>
+<span class="c1">#             res[name][k].append(v)</span>
+<span class="c1">#     return res</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># def evaluate(xps, metric_extractor=None, pool=None):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     xps: :class:`~stochastic_matching.simulator.parallel.VariableParameter` or :class:`list`</span>
+<span class="c1">#         Experiment(s) to run.</span>
+<span class="c1">#     metric_extractor: callable, optional.</span>
+<span class="c1">#         The metric extractor must have a (params, model) signature and return a dictionary of metrics.</span>
+<span class="c1">#         Default to computing regret and delay.</span>
+<span class="c1">#     pool: :class:`~multiprocess.pool.Pool`, optional.</span>
+<span class="c1">#         Existing pool of workers.</span>
+<span class="c1">#</span>
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     :class:`dict`</span>
+<span class="c1">#         Result of the experiment(s).</span>
+<span class="c1">#</span>
+<span class="c1">#     Examples</span>
+<span class="c1">#     --------</span>
+<span class="c1">#</span>
+<span class="c1">#     &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="c1">#     &gt;&gt;&gt; import numpy as np</span>
+<span class="c1">#     &gt;&gt;&gt; diamond = sm.CycleChain()</span>
+<span class="c1">#     &gt;&gt;&gt; base = {&#39;model&#39;: diamond, &#39;n_steps&#39;: 1000, &#39;seed&#39;: 42, &#39;rewards&#39;: [1, 2.9, 1, -1, 1]}</span>
+<span class="c1">#     &gt;&gt;&gt; xp1 = VariableParameter(name=&#39;e-filtering&#39;, simulator=&#39;e_filtering&#39;,</span>
+<span class="c1">#     ...                         key=&#39;epsilon&#39;, values=[.01, .1, 1], **base)</span>
+<span class="c1">#     &gt;&gt;&gt; xp2 = VariableParameter(name=&#39;k-filtering&#39;, simulator=&#39;longest&#39;, forbidden_edges=True,</span>
+<span class="c1">#     ...                         key=&#39;k&#39;, values=[0, 10, 100], **base)</span>
+<span class="c1">#     &gt;&gt;&gt; xp3 = VariableParameter(name=&#39;egpd&#39;, simulator=&#39;virtual_queue&#39;,</span>
+<span class="c1">#     ...                         key=&#39;beta&#39;, values=[.01, .1, 1], **base)</span>
+<span class="c1">#     &gt;&gt;&gt; res = evaluate(xp1)</span>
+<span class="c1">#     &gt;&gt;&gt; for k, v in res[&#39;e-filtering&#39;].items():</span>
+<span class="c1">#     ...     print(f&quot;{k}: {np.array(v)}&quot;)</span>
+<span class="c1">#     epsilon: [0.01 0.1  1.  ]</span>
+<span class="c1">#     regret: [0.002 0.017 0.103]</span>
+<span class="c1">#     delay: [10.538  6.95   1.952]</span>
+<span class="c1">#     &gt;&gt;&gt; import multiprocess as mp</span>
+<span class="c1">#     &gt;&gt;&gt; with mp.Pool(processes=2) as p:</span>
+<span class="c1">#     ...     res = evaluate([xp2, xp3], pool=p)</span>
+<span class="c1">#     &gt;&gt;&gt; for name, r in res.items():</span>
+<span class="c1">#     ...     print(name)</span>
+<span class="c1">#     ...     for k, v in r.items():</span>
+<span class="c1">#     ...         print(f&quot;{k}: {np.array(v)}&quot;)</span>
+<span class="c1">#     k-filtering</span>
+<span class="c1">#     k: [  0  10 100]</span>
+<span class="c1">#     regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]</span>
+<span class="c1">#     delay: [ 1.634  7.342 13.542]</span>
+<span class="c1">#     egpd</span>
+<span class="c1">#     beta: [0.01 0.1  1.  ]</span>
+<span class="c1">#     regret: [0.003 0.043 0.076]</span>
+<span class="c1">#     delay: [92.024 10.13   1.888]</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     if isinstance(xps, list):</span>
+<span class="c1">#         jobs = [x for xp in xps for x in xp]</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         jobs = [x for x in xps]</span>
+<span class="c1">#     compute = build_metric_computer(metric_extractor)</span>
+<span class="c1">#     if pool is None:</span>
+<span class="c1">#         res = [compute(*args) for args in tqdm(jobs)]</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         res = tqdm(pool.imap(lambda args: compute(*args), jobs), total=len(jobs))</span>
+<span class="c1">#     return aggregate(res)</span>
 </pre></div>
 
                 </article>

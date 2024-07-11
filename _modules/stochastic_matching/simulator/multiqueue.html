@@ -444,14 +444,8 @@ document.write(`
 
 
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NUMBA_DISABLE_JIT&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-    <span class="n">tails_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-    <span class="n">heads_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-    <span class="n">queues_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">vq_type</span> <span class="o">=</span> <span class="nb">dict</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">tails_type</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
-    <span class="n">heads_type</span> <span class="o">=</span> <span class="n">tails_type</span>
-    <span class="n">queues_type</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
     <span class="n">vq_type</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span><span class="n">Dict</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">key_type</span><span class="o">=</span><span class="n">int64</span><span class="p">,</span> <span class="n">value_type</span><span class="o">=</span><span class="n">int64</span><span class="p">))</span>
 
 <span class="n">infinity</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">63</span> <span class="o">-</span> <span class="mi">1</span>
@@ -535,9 +529,9 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; [queues.oldest(i) for i in range(4)]</span>
 <span class="sd">    [5, 9223372036854775807, 9223372036854775807, 28]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">queues</span><span class="p">:</span> <span class="n">queues_type</span>
-    <span class="n">heads</span><span class="p">:</span> <span class="n">heads_type</span>
-    <span class="n">tails</span><span class="p">:</span> <span class="n">tails_type</span>
+    <span class="n">queues</span><span class="p">:</span> <span class="n">int64</span><span class="p">[:,</span> <span class="p">:]</span>
+    <span class="n">heads</span><span class="p">:</span> <span class="n">int64</span><span class="p">[:]</span>
+    <span class="n">tails</span><span class="p">:</span> <span class="n">int64</span><span class="p">[:]</span>
     <span class="n">infinity</span><span class="p">:</span> <span class="n">infinity_type</span>
     <span class="n">max_queue</span><span class="p">:</span> <span class="n">infinity_type</span>
 
@@ -653,7 +647,7 @@ document.write(`
 <span class="sd">    ...</span>
 <span class="sd">    KeyError: 9223372036854775807</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tails</span><span class="p">:</span> <span class="n">tails_type</span>
+    <span class="n">tails</span><span class="p">:</span> <span class="n">int64</span><span class="p">[:]</span>
     <span class="n">vq</span><span class="p">:</span> <span class="n">vq_type</span>
     <span class="n">infinity</span><span class="p">:</span> <span class="n">infinity_type</span>
 

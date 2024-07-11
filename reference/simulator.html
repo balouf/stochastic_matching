@@ -1114,20 +1114,47 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <section id="module-stochastic_matching.simulator.parallel">
 <span id="running-experiments"></span><h2>Running_experiments<a class="headerlink" href="#module-stochastic_matching.simulator.parallel" title="Link to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.VariableParameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">VariableParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#VariableParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.VariableParameter" title="Link to this definition">#</a></dt>
-<dd><p>Allows to vary one single parameter of simulation for experiments.</p>
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.Iterator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">Iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#Iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.Iterator" title="Link to this definition">#</a></dt>
+<dd><p>Provides an easy way to make a parameter vary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to simulate.</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the experiment.</p></li>
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Variable parameter.</p></li>
-<li><p><strong>values</strong> (<em>iterable</em>) – Values of the parameter.</p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – All other keyword parameters will be passed to simulation (including the choice of <cite>simulator</cite>).</p></li>
+<li><p><strong>parameter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the argument to vary.</p></li>
+<li><p><strong>values</strong> (<em>iterable</em>) – Values that the argument can take.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – <em>Display</em> name of the parameter</p></li>
+<li><p><strong>process</strong> (<em>callable</em><em>, </em><em>optional</em>) – If you want to transform the value used, use this.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>kwarg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Keyword argument to use.</p></li>
+<li><p><strong>log</strong> (<em>:class:</em>) – What you want to remind. By default, identical to kwarg.</p></li>
+</ul>
+</p>
+</dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Imagine one wants a parameter x2 to vary amongst squares of integers.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">kwarg</span><span class="p">,</span> <span class="n">log</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">log</span><span class="p">)</span>
+<span class="go">{&#39;x2&#39;: 0} {&#39;x2&#39;: 0}</span>
+<span class="go">{&#39;x2&#39;: 1} {&#39;x2&#39;: 1}</span>
+<span class="go">{&#39;x2&#39;: 4} {&#39;x2&#39;: 4}</span>
+<span class="go">{&#39;x2&#39;: 9} {&#39;x2&#39;: 9}</span>
+</pre></div>
+</div>
+<p>You can do the same thing by iterating over integers and apply a square method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">kwarg</span><span class="p">,</span> <span class="n">log</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">log</span><span class="p">)</span>
+<span class="go">{&#39;x2&#39;: 0} {&#39;x&#39;: 0}</span>
+<span class="go">{&#39;x2&#39;: 1} {&#39;x&#39;: 1}</span>
+<span class="go">{&#39;x2&#39;: 4} {&#39;x&#39;: 2}</span>
+<span class="go">{&#39;x2&#39;: 9} {&#39;x&#39;: 3}</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -1138,7 +1165,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <dd class="field-odd"><p><strong>results</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Computed results. Each entry is a dictionary associated to a given run.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>All results are gathered by experiment name, then by varying input / metric.</p>
+<dd class="field-even"><p>All results are gathered by experiment name, then by varying input / metric if applicable.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
@@ -1147,64 +1174,52 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.build_metric_computer">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">build_metric_computer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_extractor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#build_metric_computer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.build_metric_computer" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.do_nothing">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">do_nothing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#do_nothing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.do_nothing" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>metric_extractor</strong> (<em>callable</em><em>, </em><em>optional</em>) – The metric extractor must have a (params, model) signature and return a dictionary of metrics.</p>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – Something</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A function with signature (name, key, params, model).</p>
+<dd class="field-even"><p>Same object</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>callable</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.evaluate">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_extractor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.evaluate" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>xps</strong> (<a class="reference internal" href="#stochastic_matching.simulator.parallel.VariableParameter" title="stochastic_matching.simulator.parallel.VariableParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableParameter</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – Experiment(s) to run.</p></li>
-<li><p><strong>metric_extractor</strong> (<em>callable</em><em>, </em><em>optional.</em>) – The metric extractor must have a (params, model) signature and return a dictionary of metrics.
-Default to computing regret and delay.</p></li>
-<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/stable/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Existing pool of workers.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Result of the experiment(s).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.evaluate" title="Link to this definition">#</a></dt>
+<dd><p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">diamond</span><span class="p">,</span> <span class="s1">&#39;n_steps&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xp1</span> <span class="o">=</span> <span class="n">VariableParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;e-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;e_filtering&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xp2</span> <span class="o">=</span> <span class="n">VariableParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;k-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span>                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xp3</span> <span class="o">=</span> <span class="n">VariableParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;egpd&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xp1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;e-filtering&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">epsilon: [0.01 0.1  1.  ]</span>
-<span class="go">regret: [0.002 0.017 0.103]</span>
-<span class="go">delay: [10.538  6.95   1.952]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="s1">&#39;Diamond&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span>
+<span class="go">{&#39;Diamond&#39;: {&#39;regret&#39;: 0.08799999999999886, &#39;delay&#39;: 1.634}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp1</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="s1">&#39;e-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;e_filtering&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">iterator</span><span class="o">=</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;e&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp2</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;k-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">iterator</span><span class="o">=</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]),</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp3</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;egpd&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;virtual_queue&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">iterator</span><span class="o">=</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xp</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">xp1</span><span class="p">,</span> <span class="n">xp2</span><span class="p">,</span> <span class="n">xp3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span>
+<span class="go">9</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multiprocess</span> <span class="k">as</span> <span class="nn">mp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">([</span><span class="n">xp2</span><span class="p">,</span> <span class="n">xp3</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">e-filtering</span>
+<span class="go">e: [0.01 0.1  1.  ]</span>
+<span class="go">regret: [0.002 0.017 0.103]</span>
+<span class="go">delay: [10.538  6.95   1.952]</span>
 <span class="go">k-filtering</span>
 <span class="go">k: [  0  10 100]</span>
 <span class="go">regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]</span>
@@ -1215,25 +1230,6 @@ Default to computing regret and delay.</p></li>
 <span class="go">delay: [92.024 10.13   1.888]</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.regret_delay">
-<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">regret_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#regret_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.regret_delay" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model simulated.</p></li>
-<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Parameters of the simulation</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Regret and delay.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 </section>
@@ -2009,7 +2005,7 @@ Setting beta triggers reward-based scoring.</p></li>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">probas</span><span class="p">,</span> <span class="n">aliases</span> <span class="o">=</span> <span class="n">create_prob_alias</span><span class="p">([</span><span class="mi">2</span> <span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">probas</span>
 <span class="go">array([1. , 1. , 1. , 0.5])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">aliases</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aliases</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">array([0, 0, 0, 2])</span>
 </pre></div>
 </div>
@@ -2289,11 +2285,10 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.parallel">Running_experiments</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.VariableParameter"><code class="docutils literal notranslate"><span class="pre">VariableParameter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.Iterator"><code class="docutils literal notranslate"><span class="pre">Iterator</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.aggregate"><code class="docutils literal notranslate"><span class="pre">aggregate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.build_metric_computer"><code class="docutils literal notranslate"><span class="pre">build_metric_computer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.do_nothing"><code class="docutils literal notranslate"><span class="pre">do_nothing()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.regret_delay"><code class="docutils literal notranslate"><span class="pre">regret_delay()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.fcfm">First-Come First Served</a><ul class="visible nav section-nav flex-column">
