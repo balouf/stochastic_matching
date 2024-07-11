@@ -772,8 +772,14 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain()</span>
 <span class="sd">    &gt;&gt;&gt; base = {&#39;model&#39;: diamond, &#39;n_steps&#39;: 1000, &#39;seed&#39;: 42, &#39;rewards&#39;: [1, 2.9, 1, -1, 1]}</span>
 <span class="sd">    &gt;&gt;&gt; xp = XP(&#39;Diamond&#39;, simulator=&#39;longest&#39;, **base)</span>
-<span class="sd">    &gt;&gt;&gt; evaluate(xp)</span>
-<span class="sd">    {&#39;Diamond&#39;: {&#39;regret&#39;: 0.08799999999999886, &#39;delay&#39;: 1.634}}</span>
+<span class="sd">    &gt;&gt;&gt; res = evaluate(xp)</span>
+<span class="sd">    &gt;&gt;&gt; for name, r in res.items():</span>
+<span class="sd">    ...     print(name)</span>
+<span class="sd">    ...     for k, v in r.items():</span>
+<span class="sd">    ...         print(f&quot;{k}: {np.round(v, 4)}&quot;)</span>
+<span class="sd">    Diamond</span>
+<span class="sd">    regret: 0.088</span>
+<span class="sd">    delay: 1.634</span>
 <span class="sd">    &gt;&gt;&gt; evaluate(xp, lambda m: {&#39;flow&#39;: m.simulation,</span>
 <span class="sd">    ...                         &#39;avg_queues&#39;: m.simulator.compute_average_queues()}) # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    {&#39;Diamond&#39;: {&#39;flow&#39;: array([1.19, 0.97, 0.97, 0.88, 0.99]),</span>
