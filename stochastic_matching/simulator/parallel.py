@@ -308,8 +308,14 @@ def evaluate(xps, extractor=None, pool=None):
     >>> diamond = sm.CycleChain()
     >>> base = {'model': diamond, 'n_steps': 1000, 'seed': 42, 'rewards': [1, 2.9, 1, -1, 1]}
     >>> xp = XP('Diamond', simulator='longest', **base)
-    >>> evaluate(xp)
-    {'Diamond': {'regret': 0.08799999999999886, 'delay': 1.634}}
+    >>> res = evaluate(xp)
+    >>> for name, r in res.items():
+    ...     print(name)
+    ...     for k, v in r.items():
+    ...         print(f"{k}: {np.round(v, 4)}")
+    Diamond
+    regret: 0.088
+    delay: 1.634
     >>> evaluate(xp, lambda m: {'flow': m.simulation,
     ...                         'avg_queues': m.simulator.compute_average_queues()}) # doctest: +NORMALIZE_WHITESPACE
     {'Diamond': {'flow': array([1.19, 0.97, 0.97, 0.88, 0.99]),
