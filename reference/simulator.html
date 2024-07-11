@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Simulation &#8212; Stochastic Matching 0.3.1 documentation</title>
+    <title>Simulation &#8212; Stochastic Matching 0.3.2 documentation</title>
   
   
   
@@ -35,7 +35,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../_static/documentation_options.js?v=71d9d8e6"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.1 documentation - Home"/>
-    <script>document.write(`<img src="../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.1 documentation - Home"/>`);</script>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.2 documentation - Home"/>
+    <script>document.write(`<img src="../_static/sm_logo_short.png" class="logo__image only-dark" alt="Stochastic Matching 0.3.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -1112,7 +1112,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 
 </section>
 <section id="module-stochastic_matching.simulator.parallel">
-<span id="running-experiments"></span><h2>Running_experiments<a class="headerlink" href="#module-stochastic_matching.simulator.parallel" title="Link to this heading">#</a></h2>
+<span id="tools-for-batch-evaluations"></span><h2>Tools for batch evaluations<a class="headerlink" href="#module-stochastic_matching.simulator.parallel" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.Iterator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">Iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#Iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.Iterator" title="Link to this definition">#</a></dt>
@@ -1129,7 +1129,7 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>kwarg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Keyword argument to use.</p></li>
-<li><p><strong>log</strong> (<em>:class:</em>) – What you want to remind. By default, identical to kwarg.</p></li>
+<li><p><strong>log</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – What you want to remind. By default, identical to kwarg.</p></li>
 </ul>
 </p>
 </dd>
@@ -1157,6 +1157,47 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 </div>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.Runner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">Runner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extractor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#Runner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.Runner" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extractor</strong> (<em>callable</em>) – Function that extracts metrics from a simulated model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.SingleXP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">SingleXP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#SingleXP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.SingleXP" title="Link to this definition">#</a></dt>
+<dd><p>Produce a single experiment, with possibly one variable parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the experiment.</p></li>
+<li><p><strong>iterator</strong> (<a class="reference internal" href="#stochastic_matching.simulator.parallel.Iterator" title="stochastic_matching.simulator.parallel.Iterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>, optional) – Argument that varies.</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Various (fixed) arguments.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.XP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">XP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#XP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.XP" title="Link to this definition">#</a></dt>
+<dd><p>Produce an experiment, with possibly one variable parameter.
+Addition can be used to concatenate experiments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the experiment.</p></li>
+<li><p><strong>iterator</strong> (<a class="reference internal" href="#stochastic_matching.simulator.parallel.Iterator" title="stochastic_matching.simulator.parallel.Iterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>, optional) – Argument that varies.</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Various (fixed) arguments.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.aggregate">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.aggregate" title="Link to this definition">#</a></dt>
@@ -1171,6 +1212,49 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.cached">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">cached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#cached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.cached" title="Link to this definition">#</a></dt>
+<dd><p>Enables functions that take a lot of time to compute to store their output on a file.</p>
+<p>If the original function is called with an additional parameter <cite>cache_name</cite>, it will look for a file named
+<cite>cache_name.pkl.gz</cite>. If it exists, it returns its content, otherwise it computes the results and
+stores it is returned.</p>
+<p>Additional parameter <cite>cache_path</cite> indicates where to look the file (default to current directory).</p>
+<p>Additional parameter <cite>cache_overwrite</cite> forces to always compute the function even if the file exists.
+Default to False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>callable</em>) – Function to make cachable.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The function with three additional arguments: <cite>cache_name</cite>, <cite>cache_path</cite>, <cite>cache_overwrite</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span> <span class="k">as</span> <span class="n">TmpDir</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@cached</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">TmpDir</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">content_before</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;cube&#39;</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">content_after</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>    <span class="n">res2</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;cube&#39;</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span> <span class="c1"># This does not run f!</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
+<span class="go">27</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span>
+<span class="go">27</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">content_before</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">content_after</span>
+<span class="go">[&#39;cube.pkl.gz&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -1192,7 +1276,24 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <dl class="py function">
 <dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.evaluate">
 <span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.evaluate" title="Link to this definition">#</a></dt>
-<dd><p class="rubric">Examples</p>
+<dd><p>Evaluate some experiments. Results can be cached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xps</strong> (<a class="reference internal" href="#stochastic_matching.simulator.parallel.XP" title="stochastic_matching.simulator.parallel.XP"><code class="xref py py-class docutils literal notranslate"><span class="pre">XP</span></code></a>) – Experiment(s) to run.</p></li>
+<li><p><strong>extractor</strong> (<em>callable</em><em>, </em><em>optional.</em>) – The metric extractor takes a simulated model and returns a dictionary of metrics.
+Default to <a class="reference internal" href="#stochastic_matching.simulator.parallel.regret_delay" title="stochastic_matching.simulator.parallel.regret_delay"><code class="xref py py-meth docutils literal notranslate"><span class="pre">regret_delay()</span></code></a>.</p></li>
+<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/stable/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Existing pool of workers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Result of the experiment(s).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic_matching</span> <span class="k">as</span> <span class="nn">sm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
@@ -1200,6 +1301,10 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xp</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="s1">&#39;Diamond&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span>
 <span class="go">{&#39;Diamond&#39;: {&#39;regret&#39;: 0.08799999999999886, &#39;delay&#39;: 1.634}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;flow&#39;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">simulation</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="s1">&#39;avg_queues&#39;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">compute_average_queues</span><span class="p">()})</span> 
+<span class="go">{&#39;Diamond&#39;: {&#39;flow&#39;: array([1.19, 0.97, 0.97, 0.88, 0.99]),</span>
+<span class="go">             &#39;avg_queues&#39;: array([0.531, 0.214, 0.273, 0.616])}}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xp1</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="s1">&#39;e-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;e_filtering&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">,</span>
 <span class="gp">... </span>         <span class="n">iterator</span><span class="o">=</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;e&#39;</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xp2</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;k-filtering&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1230,6 +1335,23 @@ Results are stored in the attribute <a class="reference internal" href="#stochas
 <span class="go">delay: [92.024 10.13   1.888]</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.simulator.parallel.regret_delay">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.simulator.parallel.</span></span><span class="sig-name descname"><span class="pre">regret_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/simulator/parallel.html#regret_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.simulator.parallel.regret_delay" title="Link to this definition">#</a></dt>
+<dd><p>Default metric extractor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Simulated model.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Regret and delay.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -2284,11 +2406,16 @@ Each item must be characterized by a UNIQUE non-negative int (typically a timest
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.e_filtering.expand_model"><code class="docutils literal notranslate"><span class="pre">expand_model()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.parallel">Running_experiments</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.parallel">Tools for batch evaluations</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.Iterator"><code class="docutils literal notranslate"><span class="pre">Iterator</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.Runner"><code class="docutils literal notranslate"><span class="pre">Runner</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.SingleXP"><code class="docutils literal notranslate"><span class="pre">SingleXP</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.XP"><code class="docutils literal notranslate"><span class="pre">XP</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.aggregate"><code class="docutils literal notranslate"><span class="pre">aggregate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.cached"><code class="docutils literal notranslate"><span class="pre">cached()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.do_nothing"><code class="docutils literal notranslate"><span class="pre">do_nothing()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.simulator.parallel.regret_delay"><code class="docutils literal notranslate"><span class="pre">regret_delay()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-stochastic_matching.simulator.fcfm">First-Come First Served</a><ul class="visible nav section-nav flex-column">

@@ -20,8 +20,8 @@ Epsilon-Filtering policy
 .. automodule:: stochastic_matching.simulator.e_filtering
     :members:
 
-Running_experiments
-^^^^^^^^^^^^^^^^^^^
+Tools for batch evaluations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: stochastic_matching.simulator.parallel
     :members:
