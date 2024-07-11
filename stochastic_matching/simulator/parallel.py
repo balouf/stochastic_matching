@@ -1,14 +1,73 @@
 from tqdm import tqdm
 from pathlib import Path
-import json
+import gzip
+import dill as pickle
 import functools
 
 
 def do_nothing(x):
+    """
+
+    Parameters
+    ----------
+    x: object
+        Something
+
+    Returns
+    -------
+    object
+        Same object
+    """
     return x
 
 
 class Iterator:
+    """
+    Provides an easy way to make a parameter vary.
+
+    Parameters
+    ----------
+    parameter: :class:`str`
+        Name of the argument to vary.
+    values: iterable
+        Values that the argument can take.
+    name: :class:`str`, optional
+        *Display* name of the parameter
+    process: callable, optional
+        If you want to transform the value used, use this.
+
+
+    Returns
+    -------
+    kwarg: :class:`dict`
+        Keyword argument to use.
+    log: :class:
+        What you want to remind. By default, identical to kwarg.
+
+
+    Examples
+    --------
+
+    Imagine one wants a parameter x2 to vary amongst squares of integers.
+
+    >>> iterator = Iterator('x2', [i**2 for i in range(4)])
+    >>> for kwarg, log in iterator:
+    ...     print(kwarg, log)
+    {'x2': 0} {'x2': 0}
+    {'x2': 1} {'x2': 1}
+    {'x2': 4} {'x2': 4}
+    {'x2': 9} {'x2': 9}
+
+    You can do the same thing by iterating over integers and apply a square method.
+
+    >>> iterator = Iterator('x2', range(4), 'x', lambda x: x**2)
+    >>> for kwarg, log in iterator:
+    ...     print(kwarg, log)
+    {'x2': 0} {'x': 0}
+    {'x2': 1} {'x': 1}
+    {'x2': 4} {'x': 2}
+    {'x2': 9} {'x': 3}
+    """
     def __init__(self, parameter, values, name=None, process=None):
         self.parameter = parameter
         self.values = values
@@ -43,8 +102,8 @@ class SingleXP:
         if self.iterator is None:
             yield self.name, None, self.params
         else:
-            for p, v, in self.iterator:
-                yield self.name, v, {**self.params, **p}
+            for kwarg, log, in self.iterator:
+                yield self.name, log, {**self.params, **kwarg}
 
 
 class XP:
@@ -81,6 +140,8 @@ class Runner:
     def __init__(self, extractor=None):
         if extractor is None:
             self.extractor = regret_delay
+        else:
+            self.extractor = extractor
 
     def __call__(self, tup):
         name, kv, params = tup
@@ -118,22 +179,22 @@ def cached(func):
     @functools.wraps(func)
     def wrapper_decorator(*args, cache_name=None, cache_path='.', cache_overwrite=False, **kwargs):
         if cache_name is not None:
-            cache = Path(cache_path) / Path(f"{cache_name}.json")
+            cache = Path(cache_path) / Path(f"{cache_name}.pkl.gz")
             if cache.exists() and not cache_overwrite:
-                with open(cache, encoding='utf-8') as f:
-                    return json.load(f)
+                with gzip.open(cache, 'rb') as f:
+                    return pickle.load(f)
         else:
             cache = None
         res = func(*args, **kwargs)
         if cache is not None:
-            with open(cache, 'wt', encoding='utf-8') as f:
-                json.dump(res, f, indent=2)
+            with gzip.open(cache, 'wb') as f:
+                pickle.dump(res, f)
         return res
     return wrapper_decorator
 
 
 @cached
-def evaluate(xps, runner=None, pool=None):
+def evaluate(xps, extractor=None, pool=None):
     """
     Examples
     --------
@@ -174,8 +235,9 @@ def evaluate(xps, runner=None, pool=None):
     regret: [0.003 0.043 0.076]
     delay: [92.024 10.13   1.888]
     """
-    if runner is None:
-        runner = Runner()
+    if extractor is None:
+        extractor = regret_delay
+    runner = Runner(extractor)
     if pool is None:
         res = [runner(p) for p in tqdm(xps)]
     else:

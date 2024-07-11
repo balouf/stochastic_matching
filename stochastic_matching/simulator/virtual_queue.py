@@ -5,7 +5,7 @@ from stochastic_matching.simulator.extended import ExtendedSimulator
 from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
-@njit(cache=True)
+@njit
 def vq_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
             scores, ready_edges, edge_queue, forbidden_edges, k):  # Longest specific arguments
     """

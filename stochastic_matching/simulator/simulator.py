@@ -9,7 +9,7 @@ from stochastic_matching.display import int_2_str
 from stochastic_matching.simulator.logs import repr_logs
 
 
-@njit(cache=True)
+@njit
 def core_simulator(logs, arrivals, graph, n_steps, queue_size, selector):
     """
     Generic jitted function for queue-size based policies.

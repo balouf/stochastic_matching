@@ -1,5 +1,5 @@
 import numpy as np
-from numba import njit, typeof
+from numba import njit, int64, float64
 from numba.experimental import jitclass
 
 
@@ -28,7 +28,7 @@ def create_prob_alias(mu):
     >>> probas, aliases = create_prob_alias([2 ,2, 3, 1])
     >>> probas
     array([1. , 1. , 1. , 0.5])
-    >>> aliases
+    >>> aliases.astype(int)
     array([0, 0, 0, 2])
     """
     if isinstance(mu, list):
@@ -36,7 +36,7 @@ def create_prob_alias(mu):
     else:
         cmu = mu
     n = len(cmu)
-    alias = np.zeros(n, dtype=np.int_)
+    alias = np.zeros(n, dtype=np.int64)
     prob = np.zeros(n)
     # noinspection PyUnresolvedReferences
     normalized_intensities = cmu * n / np.sum(cmu)
@@ -53,10 +53,6 @@ def create_prob_alias(mu):
     for i in large + small:
         prob[i] = 1
     return prob, alias
-
-
-alias_type = typeof(np.zeros(1, dtype=int))
-prob_type = typeof(np.zeros(1))
 
 
 @jitclass
@@ -81,10 +77,9 @@ class Arrivals:
     >>> Counter([arrivals.draw() for _ in range(800)])
     Counter({2: 291, 1: 210, 0: 208, 3: 91})
     """
-    prob: prob_type
-    alias: alias_type
+    prob: float64[:]
+    alias: int64[:]
     n: int
-    intensity: float
 
     def __init__(self, mu, seed=None):
         self.prob, self.alias = create_prob_alias(mu)
