@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stochastic-matching"
-version = "0.3.1"
+version = "0.3.2"
 description = "Stochastic Matching provides tools to analyze the behavior of stochastic matching problems."
 authors = ["Fabien Mathieu <fabien.mathieu@normalesup.org>"]
 license = "GPLv3"

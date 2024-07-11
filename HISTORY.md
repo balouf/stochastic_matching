@@ -1,5 +1,15 @@
 # History
 
+## 0.3.2 (2024-07-11): Improved tools for batched simulations
+
+* Unified way to run batched of experiments
+  * Construct experiments with static and variable parameters
+  * Define how to extract the metrics you want
+  * Start evaluation and see how it progresses with tqdm
+* mutiprocess.Pool can be optionally used to parallelize the results
+* Results can be optionally automatically cached
+* Cf notebooks or reference for details
+
 ## 0.3.1 (2024-07-09): Improving the simulator
 
 * Changes in the simulator API:
