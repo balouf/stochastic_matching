@@ -488,7 +488,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span>
 <span class="n">e_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ϵ&#39;</span><span class="p">)</span>
 <span class="n">k_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">)])</span>
 <span class="n">b_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;β&#39;</span><span class="p">)</span>
@@ -938,7 +938,7 @@ array([3., 1., 2., 0., 2., 1., 2., 0.])
   &#39;bijective&#39;: False}]
 </pre></div></div>
 </div>
-<p>We choose [0, 2, 4, 5, 6].</p>
+<p>We choose [0, 2, 4, 5, 6] (the most injective vertex).</p>
 <section id="id3">
 <h3>Gentle rewards<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
@@ -1110,14 +1110,15 @@ array([0., 2., 0., 4., 0., 0., 0., 2.])
   &#39;bijective&#39;: True}]
 </pre></div></div>
 </div>
-<p>Aim for [0, 1, 5], as in the original example. Note that the example is bijective, so little delay is expected.</p>
-<section id="id5">
-<h3>Gentle rewards<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>Aim for [0, 1, 5], as in the original example. Note that the example is bijective, so little delay is expected. In fact, all vertices are bijective.</p>
+<section id="Original-rewards">
+<h3>Original rewards<a class="headerlink" href="#Original-rewards" title="Link to this heading">#</a></h3>
+<p>To start with, consider the original rewards proposed in the article:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
 <span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1136,7 +1137,7 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;hyper_gentle&#39;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;hyper_original&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1144,8 +1145,12 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span><span class="n">yl</span><span class="p">,</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">.2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Regret&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -1157,17 +1162,18 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_vertex_simulation_62_0.png" src="../_images/tutorials_vertex_simulation_62_0.png" />
+<img alt="../_images/tutorials_vertex_simulation_63_0.png" src="../_images/tutorials_vertex_simulation_63_0.png" />
 </div>
 </div>
+<p>We see that the performance of EGPD is quite bad. The delay keeps increasing event after the optimal flow has been reached, while <span class="math notranslate nohighlight">\(k\)</span>-filtering converges to the stable edge-filtering solution.</p>
 </section>
-<section id="Original-rewards">
-<h3>Original rewards<a class="headerlink" href="#Original-rewards" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h3>Gentle rewards<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1186,7 +1192,7 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;hyper_original&#39;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;hyper_gentle&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1194,8 +1200,12 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span><span class="n">yl</span><span class="p">,</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Regret&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -1207,9 +1217,157 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_vertex_simulation_66_0.png" src="../_images/tutorials_vertex_simulation_66_0.png" />
+<img alt="../_images/tutorials_vertex_simulation_68_0.png" src="../_images/tutorials_vertex_simulation_68_0.png" />
 </div>
 </div>
+<p>In this example, gentle rewards do not help, EGPD still fails to leverage the fact that the vertex is bijective.</p>
+</section>
+<section id="Variant-(second-arrival-rates)">
+<h3>Variant (second arrival rates)<a class="headerlink" href="#Variant-(second-arrival-rates)" title="Link to this heading">#</a></h3>
+<p>In <a class="reference external" href="https://arxiv.org/pdf/1608.01646">https://arxiv.org/pdf/1608.01646</a>, the authors introduce a new arrival profile and observe how the system evolves. In particular, we observe on their Figure 6 that the delay (<span class="math notranslate nohighlight">\(\hat{Q}_0\)</span>) increases. Let us observe how things change under a polytope perspective.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hypergraph</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1.11577889, -0.7324815 , -1.41267519]),
+  &#39;edge_coordinates&#39;: array([1.8, 0.8, 1.4, 1. , 0. , 0. , 0. ]),
+  &#39;null_edges&#39;: [4, 5, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-1.04191996, -0.336331  ,  0.13574648]),
+  &#39;edge_coordinates&#39;: array([1.8, 0. , 0.6, 0.2, 0. , 0. , 0.8]),
+  &#39;null_edges&#39;: [1, 4, 5],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-1.00788713,  0.5586861 , -0.92150759]),
+  &#39;edge_coordinates&#39;: array([1.8, 0. , 0.6, 1. , 0. , 0.8, 0. ]),
+  &#39;null_edges&#39;: [1, 4, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 0.212638  , -0.45381632, -1.13401   ]),
+  &#39;edge_coordinates&#39;: array([1. , 0. , 1.4, 1. , 0.8, 0. , 0. ]),
+  &#39;null_edges&#39;: [1, 5, 6],
+  &#39;bijective&#39;: True}]
+</pre></div></div>
+</div>
+<p>We have much less vertices than with the previous rates (4 against 8). Yet, they are still all bijective. Remind that if you take a surjective stabilizable model <em>at random</em> (i.e. take a surjective graph and rates randomly drawn in the simplex, provided they stabilize the graph), all its vertices are bijective. You need symmetries and/or carefully chosen arrival to have stable model with injective vertices.</p>
+<p>Look at the new vertex:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1. , 0. , 1.4, 1. , 0.8, 0. , 0. ])
+</pre></div></div>
+</div>
+<p>OK, so the solution is to consume all possible matches between first and second node, and to self-consume everything else. Let use see how the different policies behave:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;hyper2_original&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span><span class="n">yl</span><span class="p">,</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">.06</span><span class="p">,</span> <span class="mf">3.</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Regret&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_77_0.png" src="../_images/tutorials_vertex_simulation_77_0.png" />
+</div>
+</div>
+<p>OK, so here, the delay for <span class="math notranslate nohighlight">\(k\)</span>-filtering in the no-regret zone is even lower than before (less than 1) and stable (no explosion when <span class="math notranslate nohighlight">\(k\rightarrow +\infty\)</span>), while EGPD has a big delay that goes to <span class="math notranslate nohighlight">\(\infty\)</span> when <span class="math notranslate nohighlight">\(\beta\rightarrow 0\)</span>.</p>
+</section>
+<section id="Variant-(gentle-rewards)">
+<h3>Variant (gentle rewards)<a class="headerlink" href="#Variant-(gentle-rewards)" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1. , 0. , 1.4, 1. , 0.8, 0. , 0. ])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s1">&#39;hyper2_gentle&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span><span class="n">yl</span><span class="p">,</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Regret&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_82_0.png" src="../_images/tutorials_vertex_simulation_82_0.png" />
+</div>
+</div>
+<p>In the no-regret zone, EGPD’s delay are slightly lower compared to using the original rewards, but there is still a delay explosion not experienced by <span class="math notranslate nohighlight">\(k\)</span>-filtering (nor <span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering).</p>
 </section>
 </section>
 </section>
@@ -1278,8 +1436,10 @@ array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Hypergraph">Hypergraph</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Gentle rewards</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Original-rewards">Original rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Gentle rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Variant-(second-arrival-rates)">Variant (second arrival rates)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Variant-(gentle-rewards)">Variant (gentle rewards)</a></li>
 </ul>
 </li>
 </ul>
