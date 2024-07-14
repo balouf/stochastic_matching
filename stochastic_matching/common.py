@@ -3,12 +3,6 @@ from inspect import isclass
 import numpy as np
 from numba import njit
 
-import os
-if os.environ.get("NUMBA_DISABLE_JIT") == "1":
-    List = lambda x: x
-else:
-    from numba.typed import List
-
 
 def pseudo_inverse_scalar(x):
     """
@@ -227,27 +221,3 @@ def neighbors(i, compressed_incidence):
     array([0, 1, 2, 3]...)
     """
     return compressed_incidence.indices[compressed_incidence.indptr[i]:compressed_incidence.indptr[i + 1]]
-
-
-@njit
-def set_seed(value):
-    """
-    Change the random generator seed inside numba jitted scope.
-
-    Parameters
-    ----------
-    value: :class:`int`
-        Seed.
-
-    Returns
-    -------
-    None
-
-    Examples
-    --------
-
-    >>> set_seed(42)
-    >>> np.random.rand()
-    0.3745401188473625
-    """
-    np.random.seed(value)

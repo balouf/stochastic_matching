@@ -148,7 +148,7 @@ class EFiltering(Simulator):
     Steps done: 1000
     >>> sim.logs.traffic @ rewards
     1913
-    >>> sim.compute_average_queues()
+    >>> sim.avg_queues
     array([3.577, 4.856, 1.65 , 0.005])
 
     To compare with, the original EGPD policy:
@@ -165,7 +165,7 @@ class EFiltering(Simulator):
     Steps done: 1000
     >>> sim.logs.traffic @ rewards
     1781
-    >>> sim.compute_average_queues()
+    >>> sim.avg_queues
     array([54.439,  1.597, 78.51 ,  0.691])
     """
     name = 'e_filtering'

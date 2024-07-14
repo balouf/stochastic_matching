@@ -1648,6 +1648,6 @@ class Model:
         simulator = class_converter(simulator, Simulator)
         self.simulator = simulator(self, n_steps=n_steps, seed=seed, max_queue=max_queue, **kwargs)
         self.simulator.run()
-        self.simulation = self.simulator.compute_flow()
+        self.simulation = self.simulator.flow
         self.base_flow = self.simulation
         return self.simulator.internal['n_steps'] == self.simulator.logs.steps_done

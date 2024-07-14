@@ -1,5 +1,12 @@
 # History
 
+## 0.3.3 (2024-07-15): Simplified and unified metric computation
+
+* Extraction of metrics from simulation gathered in a unique submodule
+* Most used metrics are now properties of the simulator object
+* Pre-defined metrics can be selected by name on batch simulation
+* Custom metrics can be used by passing their function
+
 ## 0.3.2 (2024-07-11): Improved tools for batched simulations
 
 * Unified way to run batched of experiments

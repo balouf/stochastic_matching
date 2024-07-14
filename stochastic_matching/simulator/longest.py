@@ -174,12 +174,12 @@ class Longest(ExtendedSimulator):
 
     The flow avoids one edge:
 
-    >>> sim.compute_flow()
+    >>> sim.flow
     array([2.8764, 1.089 , 1.0008, 0.    , 0.8532, 2.079 , 1.0062])
 
     The price is one node having a big queue:
 
-    >>> avg_queues = sim.compute_average_queues()
+    >>> avg_queues = sim.avg_queues
     >>> avg_queues[-1]
     61.1767
 
@@ -192,9 +192,9 @@ class Longest(ExtendedSimulator):
 
     >>> sim = Longest(fish, rewards=[0, 2, 2, 0, 1, 1, 0], beta=.1, n_steps=10000, seed=42)
     >>> sim.run()
-    >>> sim.compute_flow()
+    >>> sim.flow
     array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])
-    >>> sim.compute_average_queues()[-1]
+    >>> sim.avg_queues[-1]
     8.4628
 
     Alternatively, one can use the k-filtering techniques:
@@ -228,7 +228,7 @@ class Longest(ExtendedSimulator):
     >>> diamond.run('longest', rewards=[1, 2, 2, 2, 1], seed=42, forbidden_edges=True,
     ...                            n_steps=1000, max_queue=100)
     True
-    >>> diamond.simulator.compute_average_queues()
+    >>> diamond.simulator.avg_queues
     array([7.515, 7.819, 1.067, 1.363])
     >>> diamond.simulation
     array([0.   , 0.954, 0.966, 0.954, 0.   ])

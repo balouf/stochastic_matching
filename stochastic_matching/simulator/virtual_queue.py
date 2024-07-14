@@ -274,7 +274,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([236, 279, 342, 143,   0,   0,   0])
-    >>> sim.compute_average_queues()
+    >>> sim.avg_queues
     array([0., 0., 0., 0.])
 
     >>> rewards = [-1, -1, 1, 2, 5, 4, 7]
@@ -285,7 +285,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 761, 242, 591,   0, 205])
-    >>> sim.compute_average_queues()
+    >>> sim.avg_queues
     array([86.17266667,  0.53233333, 93.03      ,  0.33533333])
 
     Same traffic could be achieved with much lower queues by enforcing forbidden edges:
@@ -294,7 +294,7 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 961, 342, 691,   0, 105])
-    >>> sim.compute_average_queues()
+    >>> sim.avg_queues
     array([2.731     , 0.69633333, 0.22266667, 0.052     ])
     """
     name = 'virtual_queue'

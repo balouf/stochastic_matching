@@ -80,7 +80,7 @@ class RandomEdge(Simulator):
      [76  4  3  0  0  0  0  0  0  0]
      [13  8 15 19 14  8  2  1  2  1]]
     Steps done: 83
-    >>> sim.compute_flow()
+    >>> sim.flow
     array([0.48192771, 0.38554217, 0.09638554, 0.38554217, 0.28915663])
 
     A working candy (but candies are not good for greedy policies).

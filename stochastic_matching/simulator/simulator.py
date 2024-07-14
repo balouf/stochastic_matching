@@ -7,6 +7,7 @@ from stochastic_matching.simulator.graph import make_jit_graph
 from stochastic_matching.simulator.logs import Logs
 from stochastic_matching.display import int_2_str
 from stochastic_matching.simulator.logs import repr_logs
+from stochastic_matching.simulator.metrics import AvgQueues, Regret, Delay, CCDF, Flow
 
 
 @njit
@@ -101,13 +102,13 @@ class Simulator:
 
     Different methods are proposed to provide various indicators.
 
-    >>> sim.compute_average_queues()
+    >>> sim.avg_queues
     array([1.08296943, 0.26200873, 0.07423581, 0.8558952 ])
 
-    >>> sim.total_waiting_time()
+    >>> sim.delay
     0.3669530919847866
 
-    >>> sim.compute_ccdf() #doctest: +NORMALIZE_WHITESPACE
+    >>> sim.ccdf #doctest: +NORMALIZE_WHITESPACE
     array([[1.        , 0.48471616, 0.27947598, 0.16593886, 0.10043668,
             0.03930131, 0.00873362, 0.00436681, 0.        ],
            [1.        , 0.1790393 , 0.069869  , 0.01310044, 0.        ,
@@ -116,7 +117,7 @@ class Simulator:
             0.        , 0.        , 0.        , 0.        ],
            [1.        , 0.45414847, 0.23580786, 0.10043668, 0.05240175,
             0.01310044, 0.        , 0.        , 0.        ]])
-    >>> sim.compute_flow()
+    >>> sim.flow
     array([1.16419214, 0.46026201, 0.3790393 , 0.62270742, 0.32489083])
 
     You can also draw the average or CCDF of the queues.
@@ -201,23 +202,45 @@ class Simulator:
         """
         core_simulator(logs=self.logs, **self.internal)
 
-    def compute_average_queues(self):
+    @property
+    def avg_queues(self):
         """
-        Returns
-        -------
         :class:`~numpy.ndarray`
             Average queue sizes.
         """
-        return self.logs.queue_log.dot(np.arange(self.max_queue)) / self.logs.steps_done
+        return AvgQueues.get(self)
 
-    def total_waiting_time(self):
+    @property
+    def delay(self):
         """
-        Returns
-        -------
         :class:`float`
             Average waiting time
         """
-        return np.sum(self.compute_average_queues()) / np.sum(self.model.rates)
+        return Delay.get(self)
+
+    @property
+    def ccdf(self):
+        """
+        :class:`~numpy.ndarray`
+            CCDFs of the queues.
+        """
+        return CCDF.get(self)
+
+    @property
+    def flow(self):
+        """
+        Normalize the simulated flow.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Flow on edges.
+        """
+        return Flow.get(self)
+
+    @property
+    def regret(self):
+        return Regret.get(self)
 
     def show_average_queues(self, indices=None, sort=False, as_time=False):
         """
@@ -235,7 +258,7 @@ class Simulator:
         :class:`~matplotlib.figure.Figure`
             A figure of the CCDFs of the queues.
         """
-        averages = self.compute_average_queues()
+        averages = self.avg_queues
         if as_time:
             averages = averages / self.model.rates
         if indices is not None:
@@ -255,41 +278,6 @@ class Simulator:
         plt.xlabel("Node")
         return plt.gcf()
 
-    def compute_ccdf(self):
-        """
-        Returns
-        -------
-        :class:`~numpy.ndarray`
-            CCDFs of the queues.
-        """
-        events = self.logs.steps_done
-        n = self.model.n
-        # noinspection PyUnresolvedReferences
-        return (events - np.cumsum(np.hstack([np.zeros((n, 1)), self.logs.queue_log]), axis=1)) / events
-
-    def compute_flow(self):
-        """
-        Normalize the simulated flow.
-
-        Returns
-        -------
-        :class:`~numpy.ndarray`
-            Flow on edges.
-        """
-        # noinspection PyUnresolvedReferences
-        tot_mu = np.sum(self.model.rates)
-        steps = self.logs.steps_done
-        return self.logs.traffic * tot_mu / steps
-
-    def compute_regret(self):
-        rewards = getattr(self, 'rewards', np.ones(self.model.m, dtype=int))
-        original_rates = self.model.rates
-        flow = self.compute_flow()
-        self.model.rates = self.model.incidence @ flow
-        best_flow = self.model.optimize_rates(rewards)
-        self.model.rates = original_rates
-        return rewards @ (best_flow - flow)
-
     def show_ccdf(self, indices=None, sort=None, strict=False):
         """
         Parameters
@@ -306,7 +294,7 @@ class Simulator:
         :class:`~matplotlib.figure.Figure`
             A figure of the CCDFs of the queues.
         """
-        ccdf = self.compute_ccdf()
+        ccdf = self.ccdf
 
         if indices is not None:
             ccdf = ccdf[indices, :]
@@ -314,7 +302,7 @@ class Simulator:
         else:
             names = [int_2_str(self.model, i) for i in range(self.model.n)]
         if sort is True:
-            averages = self.compute_average_queues()
+            averages = self.avg_queues
             if indices is not None:
                 averages = averages[indices]
             ind = np.argsort(-averages)

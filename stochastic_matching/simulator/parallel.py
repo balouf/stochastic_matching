@@ -4,6 +4,8 @@ import gzip
 import dill as pickle
 import functools
 
+from stochastic_matching.simulator.metrics import get_metrics
+
 
 def do_nothing(x):
     """
@@ -180,19 +182,24 @@ class Runner:
     """
     Parameters
     ----------
-    extractor: callable
-        Function that extracts metrics from a simulated model.
+    metrics: :class:`list`
+        Metrics to extract.
     """
 
-    def __init__(self, extractor):
-        self.extractor = extractor
+    def __init__(self, metrics):
+        self.metrics = metrics
 
     def __call__(self, tup):
         name, kv, params = tup
         params = {**params}
         model = params.pop('model')
         model.run(**params)
-        return name, kv, self.extractor(model)
+        out = get_metrics(model.simulator, self.metrics)
+        # logs = model.simulator.logs
+        # out = {k: getattr(logs, k) for k in XP_LOGS}
+        # if self.callback:
+        #     out.update(self.callback(model))
+        return name, kv, out
 
 
 def aggregate(results):
@@ -281,7 +288,7 @@ def cached(func):
 
 
 @cached
-def evaluate(xps, extractor=None, pool=None):
+def evaluate(xps, metrics=None, pool=None):
     """
     Evaluate some experiments. Results can be cached.
 
@@ -289,9 +296,8 @@ def evaluate(xps, extractor=None, pool=None):
     ----------
     xps: :class:`~stochastic_matching.simulator.parallel.XP`
         Experiment(s) to run.
-    extractor: callable, optional.
-        The metric extractor takes a simulated model and returns a dictionary of metrics.
-        Default to :meth:`~stochastic_matching.simulator.parallel.regret_delay`.
+    metrics: :class:`list`, optional.
+        Metrics to get.
     pool: :class:`~multiprocess.pool.Pool`, optional.
         Existing pool of workers.
 
@@ -308,18 +314,25 @@ def evaluate(xps, extractor=None, pool=None):
     >>> diamond = sm.CycleChain()
     >>> base = {'model': diamond, 'n_steps': 1000, 'seed': 42, 'rewards': [1, 2.9, 1, -1, 1]}
     >>> xp = XP('Diamond', simulator='longest', **base)
-    >>> res = evaluate(xp)
+    >>> res = evaluate(xp, ['income', 'steps_done', 'regret', 'delay'])
     >>> for name, r in res.items():
     ...     print(name)
     ...     for k, v in r.items():
     ...         print(f"{k}: {np.round(v, 4)}")
     Diamond
+    income: [216 304 293 187]
+    steps_done: 1000
     regret: 0.088
-    delay: 1.634
-    >>> evaluate(xp, lambda m: {'flow': m.simulation,
-    ...                         'avg_queues': m.simulator.compute_average_queues()}) # doctest: +NORMALIZE_WHITESPACE
-    {'Diamond': {'flow': array([1.19, 0.97, 0.97, 0.88, 0.99]),
-                 'avg_queues': array([0.531, 0.214, 0.273, 0.616])}}
+    delay: 0.1634
+    >>> def q0(simu):
+    ...     return simu.avg_queues[0]
+    >>> res = evaluate(xp, ['flow', 'avg_queues', q0])
+    >>> res['Diamond']['flow']
+    array([1.19, 0.97, 0.97, 0.88, 0.99])
+    >>> res['Diamond']['avg_queues']
+    array([0.531, 0.214, 0.273, 0.616])
+    >>> res['Diamond']['q0']
+    0.531
     >>> xp1 = XP('e-filtering', simulator='e_filtering', **base,
     ...          iterator=Iterator('epsilon', [.01, .1, 1], name='e'))
     >>> xp2 = XP(name='k-filtering', simulator='longest', forbidden_edges=True,
@@ -331,7 +344,7 @@ def evaluate(xps, extractor=None, pool=None):
     9
     >>> import multiprocess as mp
     >>> with mp.Pool(processes=2) as p:
-    ...     res = evaluate(xp, pool=p)
+    ...     res = evaluate(xp, ['regret', 'delay'], pool=p)
     >>> for name, r in res.items():
     ...     print(name)
     ...     for k, v in r.items():
@@ -339,19 +352,19 @@ def evaluate(xps, extractor=None, pool=None):
     e-filtering
     e: [0.01 0.1  1.  ]
     regret: [0.002 0.017 0.103]
-    delay: [10.538  6.95   1.952]
+    delay: [1.0538 0.695  0.1952]
     k-filtering
     k: [  0  10 100]
     regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]
-    delay: [ 1.634  7.342 13.542]
+    delay: [0.1634 0.7342 1.3542]
     egpd
     beta: [0.01 0.1  1.  ]
     regret: [0.003 0.043 0.076]
-    delay: [92.024 10.13   1.888]
+    delay: [9.2024 1.013  0.1888]
     """
-    if extractor is None:
-        extractor = regret_delay
-    runner = Runner(extractor)
+    if metrics is None:
+        metrics = ['regret', 'delay']
+    runner = Runner(metrics=metrics)
     if pool is None:
         res = [runner(p) for p in tqdm(xps)]
     else:
