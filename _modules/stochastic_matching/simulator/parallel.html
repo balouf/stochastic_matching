@@ -442,6 +442,8 @@ document.write(`
 <span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 
+<span class="kn">from</span> <span class="nn">stochastic_matching.simulator.metrics</span> <span class="kn">import</span> <span class="n">get_metrics</span>
+
 
 <div class="viewcode-block" id="do_nothing">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.do_nothing">[docs]</a>
@@ -635,19 +637,24 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    extractor: callable</span>
-<span class="sd">        Function that extracts metrics from a simulated model.</span>
+<span class="sd">    metrics: :class:`list`</span>
+<span class="sd">        Metrics to extract.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extractor</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">extractor</span> <span class="o">=</span> <span class="n">extractor</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tup</span><span class="p">):</span>
         <span class="n">name</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">tup</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">params</span><span class="p">}</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
         <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extractor</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></div>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">get_metrics</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">simulator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">)</span>
+        <span class="c1"># logs = model.simulator.logs</span>
+        <span class="c1"># out = {k: getattr(logs, k) for k in XP_LOGS}</span>
+        <span class="c1"># if self.callback:</span>
+        <span class="c1">#     out.update(self.callback(model))</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="n">out</span></div>
 
 
 
@@ -745,7 +752,7 @@ document.write(`
 <div class="viewcode-block" id="evaluate">
 <a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.parallel.evaluate">[docs]</a>
 <span class="nd">@cached</span>
-<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluate some experiments. Results can be cached.</span>
 
@@ -753,9 +760,8 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    xps: :class:`~stochastic_matching.simulator.parallel.XP`</span>
 <span class="sd">        Experiment(s) to run.</span>
-<span class="sd">    extractor: callable, optional.</span>
-<span class="sd">        The metric extractor takes a simulated model and returns a dictionary of metrics.</span>
-<span class="sd">        Default to :meth:`~stochastic_matching.simulator.parallel.regret_delay`.</span>
+<span class="sd">    metrics: :class:`list`, optional.</span>
+<span class="sd">        Metrics to get.</span>
 <span class="sd">    pool: :class:`~multiprocess.pool.Pool`, optional.</span>
 <span class="sd">        Existing pool of workers.</span>
 
@@ -772,18 +778,25 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; diamond = sm.CycleChain()</span>
 <span class="sd">    &gt;&gt;&gt; base = {&#39;model&#39;: diamond, &#39;n_steps&#39;: 1000, &#39;seed&#39;: 42, &#39;rewards&#39;: [1, 2.9, 1, -1, 1]}</span>
 <span class="sd">    &gt;&gt;&gt; xp = XP(&#39;Diamond&#39;, simulator=&#39;longest&#39;, **base)</span>
-<span class="sd">    &gt;&gt;&gt; res = evaluate(xp)</span>
+<span class="sd">    &gt;&gt;&gt; res = evaluate(xp, [&#39;income&#39;, &#39;steps_done&#39;, &#39;regret&#39;, &#39;delay&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; for name, r in res.items():</span>
 <span class="sd">    ...     print(name)</span>
 <span class="sd">    ...     for k, v in r.items():</span>
 <span class="sd">    ...         print(f&quot;{k}: {np.round(v, 4)}&quot;)</span>
 <span class="sd">    Diamond</span>
+<span class="sd">    income: [216 304 293 187]</span>
+<span class="sd">    steps_done: 1000</span>
 <span class="sd">    regret: 0.088</span>
-<span class="sd">    delay: 1.634</span>
-<span class="sd">    &gt;&gt;&gt; evaluate(xp, lambda m: {&#39;flow&#39;: m.simulation,</span>
-<span class="sd">    ...                         &#39;avg_queues&#39;: m.simulator.compute_average_queues()}) # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    {&#39;Diamond&#39;: {&#39;flow&#39;: array([1.19, 0.97, 0.97, 0.88, 0.99]),</span>
-<span class="sd">                 &#39;avg_queues&#39;: array([0.531, 0.214, 0.273, 0.616])}}</span>
+<span class="sd">    delay: 0.1634</span>
+<span class="sd">    &gt;&gt;&gt; def q0(simu):</span>
+<span class="sd">    ...     return simu.avg_queues[0]</span>
+<span class="sd">    &gt;&gt;&gt; res = evaluate(xp, [&#39;flow&#39;, &#39;avg_queues&#39;, q0])</span>
+<span class="sd">    &gt;&gt;&gt; res[&#39;Diamond&#39;][&#39;flow&#39;]</span>
+<span class="sd">    array([1.19, 0.97, 0.97, 0.88, 0.99])</span>
+<span class="sd">    &gt;&gt;&gt; res[&#39;Diamond&#39;][&#39;avg_queues&#39;]</span>
+<span class="sd">    array([0.531, 0.214, 0.273, 0.616])</span>
+<span class="sd">    &gt;&gt;&gt; res[&#39;Diamond&#39;][&#39;q0&#39;]</span>
+<span class="sd">    0.531</span>
 <span class="sd">    &gt;&gt;&gt; xp1 = XP(&#39;e-filtering&#39;, simulator=&#39;e_filtering&#39;, **base,</span>
 <span class="sd">    ...          iterator=Iterator(&#39;epsilon&#39;, [.01, .1, 1], name=&#39;e&#39;))</span>
 <span class="sd">    &gt;&gt;&gt; xp2 = XP(name=&#39;k-filtering&#39;, simulator=&#39;longest&#39;, forbidden_edges=True,</span>
@@ -795,7 +808,7 @@ document.write(`
 <span class="sd">    9</span>
 <span class="sd">    &gt;&gt;&gt; import multiprocess as mp</span>
 <span class="sd">    &gt;&gt;&gt; with mp.Pool(processes=2) as p:</span>
-<span class="sd">    ...     res = evaluate(xp, pool=p)</span>
+<span class="sd">    ...     res = evaluate(xp, [&#39;regret&#39;, &#39;delay&#39;], pool=p)</span>
 <span class="sd">    &gt;&gt;&gt; for name, r in res.items():</span>
 <span class="sd">    ...     print(name)</span>
 <span class="sd">    ...     for k, v in r.items():</span>
@@ -803,19 +816,19 @@ document.write(`
 <span class="sd">    e-filtering</span>
 <span class="sd">    e: [0.01 0.1  1.  ]</span>
 <span class="sd">    regret: [0.002 0.017 0.103]</span>
-<span class="sd">    delay: [10.538  6.95   1.952]</span>
+<span class="sd">    delay: [1.0538 0.695  0.1952]</span>
 <span class="sd">    k-filtering</span>
 <span class="sd">    k: [  0  10 100]</span>
 <span class="sd">    regret: [ 8.8000000e-02  2.0000000e-03 -8.8817842e-16]</span>
-<span class="sd">    delay: [ 1.634  7.342 13.542]</span>
+<span class="sd">    delay: [0.1634 0.7342 1.3542]</span>
 <span class="sd">    egpd</span>
 <span class="sd">    beta: [0.01 0.1  1.  ]</span>
 <span class="sd">    regret: [0.003 0.043 0.076]</span>
-<span class="sd">    delay: [92.024 10.13   1.888]</span>
+<span class="sd">    delay: [9.2024 1.013  0.1888]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">extractor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">extractor</span> <span class="o">=</span> <span class="n">regret_delay</span>
-    <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">extractor</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">metrics</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">]</span>
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pool</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">runner</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">xps</span><span class="p">)]</span>
     <span class="k">else</span><span class="p">:</span>

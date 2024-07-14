@@ -717,7 +717,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs.traffic.astype(int)</span>
 <span class="sd">    array([236, 279, 342, 143,   0,   0,   0])</span>
-<span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
+<span class="sd">    &gt;&gt;&gt; sim.avg_queues</span>
 <span class="sd">    array([0., 0., 0., 0.])</span>
 
 <span class="sd">    &gt;&gt;&gt; rewards = [-1, -1, 1, 2, 5, 4, 7]</span>
@@ -728,7 +728,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs.traffic.astype(int)</span>
 <span class="sd">    array([  0,   0, 761, 242, 591,   0, 205])</span>
-<span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
+<span class="sd">    &gt;&gt;&gt; sim.avg_queues</span>
 <span class="sd">    array([86.17266667,  0.53233333, 93.03      ,  0.33533333])</span>
 
 <span class="sd">    Same traffic could be achieved with much lower queues by enforcing forbidden edges:</span>
@@ -737,7 +737,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
 <span class="sd">    &gt;&gt;&gt; sim.logs.traffic.astype(int)</span>
 <span class="sd">    array([  0,   0, 961, 342, 691,   0, 105])</span>
-<span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()</span>
+<span class="sd">    &gt;&gt;&gt; sim.avg_queues</span>
 <span class="sd">    array([2.731     , 0.69633333, 0.22266667, 0.052     ])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>

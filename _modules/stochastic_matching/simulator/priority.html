@@ -514,9 +514,9 @@ document.write(`
 
 <span class="sd">    The last node is the pseudo-instable node.</span>
 
-<span class="sd">    &gt;&gt;&gt; fish.simulator.compute_average_queues()[-1]</span>
+<span class="sd">    &gt;&gt;&gt; fish.simulator.avg_queues[-1]</span>
 <span class="sd">    38.346</span>
-<span class="sd">    &gt;&gt;&gt; np.round(np.mean(fish.simulator.compute_average_queues()[:-1]), decimals=2)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(np.mean(fish.simulator.avg_queues[:-1]), decimals=2)</span>
 <span class="sd">    0.75</span>
 
 <span class="sd">    Choosing proper counter-weights is important.</span>
@@ -527,7 +527,7 @@ document.write(`
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; fish.simulation</span>
 <span class="sd">    array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])</span>
-<span class="sd">    &gt;&gt;&gt; fish.simulator.compute_average_queues()[-1]</span>
+<span class="sd">    &gt;&gt;&gt; fish.simulator.avg_queues[-1]</span>
 <span class="sd">    38.6016</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;priority&quot;</span>

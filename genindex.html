@@ -440,11 +440,15 @@ document.write(`
 </li>
       <li><a href="reference/model.html#stochastic_matching.model.adjacency_to_incidence">adjacency_to_incidence() (in module stochastic_matching.model)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.aggregate">aggregate() (in module stochastic_matching.simulator.parallel)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.arrivals.Arrivals">Arrivals (class in stochastic_matching.simulator.arrivals)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.avg_queues">avg_queues (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.AvgQueues">AvgQueues (class in stochastic_matching.simulator.metrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -462,6 +466,10 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.cached">cached() (in module stochastic_matching.simulator.parallel)</a>
 </li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.CCDF">CCDF (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.ccdf">ccdf (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
       <li><a href="reference/common.html#stochastic_matching.common.CharMaker">CharMaker (class in stochastic_matching.common)</a>
 </li>
       <li><a href="reference/common.html#stochastic_matching.common.class_converter">class_converter() (in module stochastic_matching.common)</a>
@@ -472,15 +480,9 @@ document.write(`
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.Complete">Complete (class in stochastic_matching.graphs)</a>
 </li>
-      <li><a href="reference/graphs.html#stochastic_matching.graphs.complete_adjacency">complete_adjacency() (in module stochastic_matching.graphs)</a>
-</li>
-      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.compute_average_queues">compute_average_queues() (stochastic_matching.simulator.simulator.Simulator method)</a>
-</li>
-      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.compute_ccdf">compute_ccdf() (stochastic_matching.simulator.simulator.Simulator method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.compute_flow">compute_flow() (stochastic_matching.simulator.simulator.Simulator method)</a>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.complete_adjacency">complete_adjacency() (in module stochastic_matching.graphs)</a>
 </li>
       <li><a href="reference/graphs.html#stochastic_matching.graphs.concatenate">concatenate() (in module stochastic_matching.graphs)</a>
 </li>
@@ -506,9 +508,13 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/display.html#stochastic_matching.display.default_description">default_description() (in module stochastic_matching.display)</a>
 </li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.degree">degree (stochastic_matching.model.Model attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/model.html#stochastic_matching.model.Model.degree">degree (stochastic_matching.model.Model attribute)</a>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Delay">Delay (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.delay">delay (stochastic_matching.simulator.simulator.Simulator property)</a>
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.do_nothing">do_nothing() (in module stochastic_matching.simulator.parallel)</a>
 </li>
@@ -540,9 +546,13 @@ document.write(`
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.FCFM">FCFM (class in stochastic_matching.simulator.fcfm)</a>
 </li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.fcfm_core">fcfm_core() (in module stochastic_matching.simulator.fcfm)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.fcfm_core">fcfm_core() (in module stochastic_matching.simulator.fcfm)</a>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Flow">Flow (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.flow">flow (stochastic_matching.simulator.simulator.Simulator property)</a>
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.multiqueue.FullMultiQueue">FullMultiQueue (class in stochastic_matching.simulator.multiqueue)</a>
 </li>
@@ -552,7 +562,31 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.AvgQueues.get">get() (stochastic_matching.simulator.metrics.AvgQueues static method)</a>
+
+      <ul>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.CCDF.get">(stochastic_matching.simulator.metrics.CCDF static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Delay.get">(stochastic_matching.simulator.metrics.Delay static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Flow.get">(stochastic_matching.simulator.metrics.Flow static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Income.get">(stochastic_matching.simulator.metrics.Income static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Metric.get">(stochastic_matching.simulator.metrics.Metric static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Regret.get">(stochastic_matching.simulator.metrics.Regret static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.StepsDone.get">(stochastic_matching.simulator.metrics.StepsDone static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Traffic.get">(stochastic_matching.simulator.metrics.Traffic static method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/common.html#stochastic_matching.common.get_classes">get_classes() (in module stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.get_metrics">get_metrics() (in module stochastic_matching.simulator.metrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -581,6 +615,8 @@ document.write(`
       <li><a href="reference/model.html#stochastic_matching.model.Model.incidence_csr">incidence_csr (stochastic_matching.model.Model property)</a>
 </li>
       <li><a href="reference/model.html#stochastic_matching.model.incidence_to_adjacency">incidence_to_adjacency() (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Income">Income (class in stochastic_matching.simulator.metrics)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -652,6 +688,8 @@ document.write(`
 </li>
       <li><a href="reference/model.html#stochastic_matching.model.Model.maximin">maximin (stochastic_matching.model.Model property)</a>
 </li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Metric">Metric (class in stochastic_matching.simulator.metrics)</a>
+</li>
       <li><a href="reference/model.html#stochastic_matching.model.Model">Model (class in stochastic_matching.model)</a>
 </li>
       <li>
@@ -679,6 +717,8 @@ document.write(`
         <li><a href="reference/simulator.html#module-stochastic_matching.simulator.logs">stochastic_matching.simulator.logs</a>
 </li>
         <li><a href="reference/simulator.html#module-stochastic_matching.simulator.longest">stochastic_matching.simulator.longest</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.metrics">stochastic_matching.simulator.metrics</a>
 </li>
         <li><a href="reference/simulator.html#module-stochastic_matching.simulator.multiqueue">stochastic_matching.simulator.multiqueue</a>
 </li>
@@ -785,6 +825,8 @@ document.write(`
 </li>
       <li><a href="reference/model.html#stochastic_matching.model.Model.rates">rates (stochastic_matching.model.Model property)</a>
 </li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Regret">Regret (class in stochastic_matching.simulator.metrics)</a>
+</li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.regret_delay">regret_delay() (in module stochastic_matching.simulator.parallel)</a>
 </li>
       <li><a href="reference/simulator.html#stochastic_matching.simulator.logs.repr_logs">repr_logs() (in module stochastic_matching.simulator.logs)</a>
@@ -837,8 +879,6 @@ document.write(`
         <li><a href="reference/simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.set_internal">(stochastic_matching.simulator.virtual_queue.VirtualQueue method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/common.html#stochastic_matching.common.set_seed">set_seed() (in module stochastic_matching.common)</a>
-</li>
       <li><a href="reference/display.html#stochastic_matching.display.show">show() (in module stochastic_matching.display)</a>
 
       <ul>
@@ -875,6 +915,8 @@ document.write(`
 </li>
       <li><a href="reference/model.html#stochastic_matching.model.status_names_simple_connected">status_names_simple_connected (in module stochastic_matching.model)</a>
 </li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.StepsDone">StepsDone (class in stochastic_matching.simulator.metrics)</a>
+</li>
       <li>
     stochastic_matching.common
 
@@ -889,8 +931,6 @@ document.write(`
         <li><a href="reference/display.html#module-stochastic_matching.display">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     stochastic_matching.graphs
 
@@ -898,6 +938,8 @@ document.write(`
         <li><a href="reference/graphs.html#module-stochastic_matching.graphs">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     stochastic_matching.model
 
@@ -952,6 +994,13 @@ document.write(`
 
       <ul>
         <li><a href="reference/simulator.html#module-stochastic_matching.simulator.longest">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.metrics
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.metrics">module</a>
 </li>
       </ul></li>
       <li>
@@ -1013,7 +1062,7 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.total_waiting_time">total_waiting_time() (stochastic_matching.simulator.simulator.Simulator method)</a>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Traffic">Traffic (class in stochastic_matching.simulator.metrics)</a>
 </li>
       <li><a href="reference/model.html#stochastic_matching.model.traversal">traversal() (in module stochastic_matching.model)</a>
 </li>

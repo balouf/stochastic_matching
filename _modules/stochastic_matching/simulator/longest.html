@@ -617,12 +617,12 @@ document.write(`
 
 <span class="sd">    The flow avoids one edge:</span>
 
-<span class="sd">    &gt;&gt;&gt; sim.compute_flow()</span>
+<span class="sd">    &gt;&gt;&gt; sim.flow</span>
 <span class="sd">    array([2.8764, 1.089 , 1.0008, 0.    , 0.8532, 2.079 , 1.0062])</span>
 
 <span class="sd">    The price is one node having a big queue:</span>
 
-<span class="sd">    &gt;&gt;&gt; avg_queues = sim.compute_average_queues()</span>
+<span class="sd">    &gt;&gt;&gt; avg_queues = sim.avg_queues</span>
 <span class="sd">    &gt;&gt;&gt; avg_queues[-1]</span>
 <span class="sd">    61.1767</span>
 
@@ -635,9 +635,9 @@ document.write(`
 
 <span class="sd">    &gt;&gt;&gt; sim = Longest(fish, rewards=[0, 2, 2, 0, 1, 1, 0], beta=.1, n_steps=10000, seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; sim.run()</span>
-<span class="sd">    &gt;&gt;&gt; sim.compute_flow()</span>
+<span class="sd">    &gt;&gt;&gt; sim.flow</span>
 <span class="sd">    array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])</span>
-<span class="sd">    &gt;&gt;&gt; sim.compute_average_queues()[-1]</span>
+<span class="sd">    &gt;&gt;&gt; sim.avg_queues[-1]</span>
 <span class="sd">    8.4628</span>
 
 <span class="sd">    Alternatively, one can use the k-filtering techniques:</span>
@@ -671,7 +671,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; diamond.run(&#39;longest&#39;, rewards=[1, 2, 2, 2, 1], seed=42, forbidden_edges=True,</span>
 <span class="sd">    ...                            n_steps=1000, max_queue=100)</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; diamond.simulator.compute_average_queues()</span>
+<span class="sd">    &gt;&gt;&gt; diamond.simulator.avg_queues</span>
 <span class="sd">    array([7.515, 7.819, 1.067, 1.363])</span>
 <span class="sd">    &gt;&gt;&gt; diamond.simulation</span>
 <span class="sd">    array([0.   , 0.954, 0.966, 0.954, 0.   ])</span>

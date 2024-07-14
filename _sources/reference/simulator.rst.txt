@@ -26,6 +26,11 @@ Tools for batch evaluations
 .. automodule:: stochastic_matching.simulator.parallel
     :members:
 
+Metrics
+^^^^^^^
+
+.. automodule:: stochastic_matching.simulator.metrics
+    :members:
 
 First-Come First Served
 ^^^^^^^^^^^^^^^^^^^^^^^^
