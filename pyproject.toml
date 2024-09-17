@@ -9,16 +9,16 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = "^3.10"
 numba = "^0.59.1"
-scipy = "^1.13.0"
+scipy = "^1.14.1"
 cached-property = "^1.5.2"
-ipython = "^8.24.0"
-matplotlib = "^3.9.0"
-tqdm = "^4.66.4"
+ipython = "^8.27.0"
+matplotlib = "^3.9.2"
+tqdm = "^4.66.5"
 multiprocess = "^0.70.16"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^5.0.0"
-tox = "^4.15.0"
+tox = "^4.18.1"
 
 
 [tool.poetry.group.docs.dependencies]

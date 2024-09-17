@@ -61,7 +61,7 @@ HYPER_GRAPH_VIS_OPTIONS = {
 
 HTML_TEMPLATE = """
 <div id="%(name)s"></div>
-<script>
+<script type="module">
 require.config({
     paths: {
         vis: '%(vis)s'
@@ -87,7 +87,7 @@ network.fit({
 PNG_TEMPLATE = """
 <div id="%(name)s"></div>
 <img id="canvasImg" alt="Right click to save me!">
-<script>
+<script type="module">
 require.config({
     paths: {
         vis: '%(vis)s'
@@ -147,7 +147,7 @@ def vis_code(vis_nodes=None, vis_edges=None, vis_options=None, template=None,
     ...          {'from': 1, 'to': 3}, {'from': 2, 'to': 3}]
     >>> print(vis_code(vis_nodes=node_list, vis_edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <div id="..."></div>
-    <script>
+    <script type="module">
     require.config({
         paths: {
             vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
@@ -630,4 +630,3 @@ def show(model, bipartite=False, png=False, **kwargs):
     if png:
         vis_kwargs['template'] = PNG_TEMPLATE
     vis_show(vis_nodes, vis_edges, **vis_kwargs)
-
