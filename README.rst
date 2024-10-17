@@ -12,11 +12,11 @@ Stochastic Matching
         :target: https://pypi.python.org/pypi/stochastic_matching
         :alt: PyPI Status
 
-.. image:: https://github.com/balouf/stochastic_matching/workflows/build/badge.svg?branch=master
+.. image:: https://github.com/balouf/stochastic_matching/actions/workflows/build.yml/badge.svg?branch=master
         :target: https://github.com/balouf/stochastic_matching/actions?query=workflow%3Abuild
         :alt: Build Status
 
-.. image:: https://github.com/balouf/stochastic_matching/workflows/docs/badge.svg?branch=master
+.. image:: https://github.com/balouf/stochastic_matching/actions/workflows/docs.yml/badge.svg?branch=master
         :target: https://github.com/balouf/stochastic_matching/actions?query=workflow%3Adocs
         :alt: Documentation Status
 
