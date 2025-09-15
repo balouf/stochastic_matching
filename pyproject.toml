@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "stochastic-matching"
 version = "0.3.3"
 description = "Stochastic Matching provides tools to analyze the behavior of stochastic matching problems."
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.10"
 authors = [
     {name = "Fabien Mathieu", email = "fabien.mathieu@normalesup.org"}
