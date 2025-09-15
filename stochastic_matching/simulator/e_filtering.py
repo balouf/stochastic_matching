@@ -42,7 +42,9 @@ def expand_model(model, forbidden_edges, epsilon):
         for node in nodes[1]:
             new_inc[node, i] = 1
 
-    return Model(incidence=new_inc, rates=new_rates), np.array([e[0] for e in edge_codex]).astype(np.int64)
+    return Model(incidence=new_inc, rates=new_rates), np.array(
+        [e[0] for e in edge_codex]
+    ).astype(np.int64)
 
 
 class EFiltering(Simulator):
@@ -146,7 +148,7 @@ class EFiltering(Simulator):
      [ 24 590 217 ...   0   0   0]
      [995   5   0 ...   0   0   0]]
     Steps done: 1000
-    >>> sim.logs.traffic @ rewards
+    >>> int(sim.logs.traffic @ rewards)
     1913
     >>> sim.avg_queues
     array([3.577, 4.856, 1.65 , 0.005])
@@ -163,15 +165,23 @@ class EFiltering(Simulator):
      [  0   1   3 ...   0   0   0]
      [597 230  96 ...   0   0   0]]
     Steps done: 1000
-    >>> sim.logs.traffic @ rewards
+    >>> int(sim.logs.traffic @ rewards)
     1781
     >>> sim.avg_queues
     array([54.439,  1.597, 78.51 ,  0.691])
     """
-    name = 'e_filtering'
 
-    def __init__(self, model, base_policy='longest', forbidden_edges=None, rewards=None, epsilon=.01,
-                 **base_policy_kwargs):
+    name = "e_filtering"
+
+    def __init__(
+        self,
+        model,
+        base_policy="longest",
+        forbidden_edges=None,
+        rewards=None,
+        epsilon=0.01,
+        **base_policy_kwargs,
+    ):
         if rewards is not None:
             rewards = np.array(rewards)
             flow = model.optimize_rates(rewards)
@@ -190,12 +200,17 @@ class EFiltering(Simulator):
         super().__init__(model, **base_policy_kwargs)
 
     def set_internal(self):
-        expanded_model, edges = expand_model(model=self.model, forbidden_edges=self.forbidden_edges,
-                                             epsilon=self.epsilon)
-        expanded_simu = self.base_policy(model=expanded_model, **self.base_policy_kwargs)
-        expanded_simu.logs = PhantomLogs(n=self.model.n, m=self.model.m, max_queue=self.max_queue, edges=edges)
-        self.internal = {'simu': expanded_simu, 'n_steps': self.n_steps}
+        expanded_model, edges = expand_model(
+            model=self.model, forbidden_edges=self.forbidden_edges, epsilon=self.epsilon
+        )
+        expanded_simu = self.base_policy(
+            model=expanded_model, **self.base_policy_kwargs
+        )
+        expanded_simu.logs = PhantomLogs(
+            n=self.model.n, m=self.model.m, max_queue=self.max_queue, edges=edges
+        )
+        self.internal = {"simu": expanded_simu, "n_steps": self.n_steps}
 
     def run(self):
-        self.internal['simu'].run()
-        self.logs = self.internal['simu'].logs
+        self.internal["simu"].run()
+        self.logs = self.internal["simu"].logs

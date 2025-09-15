@@ -10,7 +10,7 @@ if os.environ.get("NUMBA_DISABLE_JIT") == "1":
 else:
     vq_type = typeof(Dict.empty(key_type=int64, value_type=int64))
 
-infinity = 2 ** 63 - 1
+infinity = 2**63 - 1
 infinity_type = typeof(infinity)
 
 
@@ -31,15 +31,15 @@ class MultiQueue:
 
     >>> queues = MultiQueue(4, max_queue=4)
     >>> _ = [queues.add(i, s) for i, s in [(0, 2), (0, 5), (1, 4), (3, 0), (3, 1), (3, 6)]]
-    >>> [queues.size(i) for i in range(4)]
+    >>> [int(queues.size(i)) for i in range(4)]
     [2, 1, 0, 3]
 
     The age of the oldest element of an empty queue is infinity.
 
-    >>> [queues.oldest(i) for i in range(4)]
+    >>> [int(queues.oldest(i)) for i in range(4)]
     [2, 4, 9223372036854775807, 0]
     >>> queues.add(3, 10)
-    >>> [queues.size(i) for i in range(4)]
+    >>> [int(queues.size(i)) for i in range(4)]
     [2, 1, 0, 4]
 
     Trying to go above the max queue raises an error (item is not added, queue stays viable):
@@ -59,9 +59,9 @@ class MultiQueue:
     Let's play a bit more.
 
     >>> _ = [queues.pop(i) for i in [0, 1, 3, 3]]
-    >>> [queues.size(i) for i in range(4)]
+    >>> [int(queues.size(i)) for i in range(4)]
     [1, 0, 0, 2]
-    >>> [queues.oldest(i) for i in range(4)]
+    >>> [int(queues.oldest(i)) for i in range(4)]
     [5, 9223372036854775807, 9223372036854775807, 6]
     >>> for a in range(22, 30):
     ...     print(f"Add {a} to class 3.")
@@ -84,11 +84,12 @@ class MultiQueue:
     Oldest of class 3 is 26, we pop it.
     Add 29 to class 3.
     Oldest of class 3 is 27, we pop it.
-    >>> [queues.size(i) for i in range(4)]
+    >>> [int(queues.size(i)) for i in range(4)]
     [1, 0, 0, 2]
-    >>> [queues.oldest(i) for i in range(4)]
+    >>> [int(queues.oldest(i)) for i in range(4)]
     [5, 9223372036854775807, 9223372036854775807, 28]
     """
+
     queues: int64[:, :]
     heads: int64[:]
     tails: int64[:]
@@ -96,7 +97,7 @@ class MultiQueue:
     max_queue: infinity_type
 
     def __init__(self, n, max_queue=10000):
-        self.infinity = 2 ** 63 - 1
+        self.infinity = 2**63 - 1
         self.queues = np.ones((n, max_queue), dtype=np.int64)
         self.queues[:] = self.infinity
         self.heads = np.zeros(n, dtype=np.int64)
@@ -204,12 +205,13 @@ class FullMultiQueue:
     ...
     KeyError: 9223372036854775807
     """
+
     tails: int64[:]
     vq: vq_type
     infinity: infinity_type
 
     def __init__(self, n):
-        self.infinity = 2 ** 63 - 1
+        self.infinity = 2**63 - 1
         self.tails = np.array([-1 - e for e in range(n)], dtype=np.int64)
         self.vq = {t: self.infinity for t in self.tails}
 

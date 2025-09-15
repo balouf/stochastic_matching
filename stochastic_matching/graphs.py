@@ -61,6 +61,7 @@ class Path(Model):
     >>> [p5.names[i] for i in range(p5.n)]
     ['A', 'B', 'C', 'D', 'E']
     """
+
     name = "Path"
 
     def __init__(self, n=2, *args, **kwargs):
@@ -121,6 +122,7 @@ class Star(Model):
            [1, 0, 0, 0, 0],
            [1, 0, 0, 0, 0]])
     """
+
     name = "Star"
 
     def __init__(self, n=4, *args, **kwargs):
@@ -187,6 +189,7 @@ class Cycle(Model):
            [0, 1, 0, 1],
            [1, 0, 1, 0]])
     """
+
     name = "Cycle"
 
     def __init__(self, n=3, *args, **kwargs):
@@ -250,6 +253,7 @@ class Complete(Model):
            [1, 1, 0, 1],
            [1, 1, 1, 0]])
     """
+
     name = "Complete"
 
     def __init__(self, n=3, *args, **kwargs):
@@ -300,7 +304,7 @@ def concatenate_adjacency(adja_list, overlap=None):
         pointer -= o
         c_a = adja_list[i + 1]
         c_n = c_a.shape[0]
-        adja[pointer:pointer + c_n, pointer:pointer + c_n] = c_a
+        adja[pointer : pointer + c_n, pointer : pointer + c_n] = c_a
         pointer += c_n
     return adja
 
@@ -362,10 +366,13 @@ class Codomino(Model):
            [0, 1, 0, 1, 0, 1],
            [0, 0, 0, 1, 1, 0]])
     """
+
     name = "Codomino"
 
     def __init__(self, *args, **kwargs):
-        adja = concatenate_adjacency([cycle_adjacency(), cycle_adjacency(4), cycle_adjacency()], 2)
+        adja = concatenate_adjacency(
+            [cycle_adjacency(), cycle_adjacency(4), cycle_adjacency()], 2
+        )
         super(Codomino, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -393,11 +400,19 @@ class Pyramid(Model):
            [0, 0, 0, 0, 1, 0, 0, 1, 0, 1],
            [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])
     """
+
     name = "Pyramid"
 
     def __init__(self, *args, **kwargs):
-        adja = concatenate_adjacency([cycle_adjacency(), cycle_adjacency(5),
-                                      cycle_adjacency(5), cycle_adjacency()], 2)
+        adja = concatenate_adjacency(
+            [
+                cycle_adjacency(),
+                cycle_adjacency(5),
+                cycle_adjacency(5),
+                cycle_adjacency(),
+            ],
+            2,
+        )
         super(Pyramid, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -449,10 +464,13 @@ class Tadpole(Model):
            [0, 0, 0, 0, 1, 0, 1],
            [0, 0, 0, 0, 0, 1, 0]])
     """
+
     name = "Tadpole"
 
     def __init__(self, m=3, n=1, *args, **kwargs):
-        adja = concatenate_adjacency(adja_list=[cycle_adjacency(m), path_adjacency(n + 1)], overlap=1)
+        adja = concatenate_adjacency(
+            adja_list=[cycle_adjacency(m), path_adjacency(n + 1)], overlap=1
+        )
         super(Tadpole, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -495,10 +513,13 @@ class Lollipop(Model):
            [0, 0, 0, 0, 0, 1, 0, 1],
            [0, 0, 0, 0, 0, 0, 1, 0]])
     """
+
     name = "Lollipop"
 
     def __init__(self, m=3, n=1, *args, **kwargs):
-        adja = concatenate_adjacency(adja_list=[complete_adjacency(m), path_adjacency(n + 1)], overlap=1)
+        adja = concatenate_adjacency(
+            adja_list=[complete_adjacency(m), path_adjacency(n + 1)], overlap=1
+        )
         super(Lollipop, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -543,12 +564,15 @@ class KayakPaddle(Model):
            [0, 0, 1, 0, 1],
            [0, 0, 1, 1, 0]])
     """
+
     name = "Kayak Paddle"
 
     def __init__(self, k=3, l=1, m=None, *args, **kwargs):
         if m is None:
             m = k
-        adja = concatenate_adjacency([cycle_adjacency(k), path_adjacency(l + 1), cycle_adjacency(m)])
+        adja = concatenate_adjacency(
+            [cycle_adjacency(k), path_adjacency(l + 1), cycle_adjacency(m)]
+        )
         super(KayakPaddle, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -609,12 +633,15 @@ class Barbell(Model):
            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
            [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])
     """
+
     name = "Barbell"
 
     def __init__(self, k=3, l=1, m=None, *args, **kwargs):
         if m is None:
             m = k
-        adja = concatenate_adjacency([complete_adjacency(k), path_adjacency(l + 1), complete_adjacency(m)])
+        adja = concatenate_adjacency(
+            [complete_adjacency(k), path_adjacency(l + 1), complete_adjacency(m)]
+        )
         super(Barbell, self).__init__(adjacency=adja, *args, **kwargs)
 
 
@@ -677,6 +704,7 @@ class CycleChain(Model):
            [0, 0, 0, 1, 0, 1],
            [0, 0, 1, 0, 1, 0]])
     """
+
     name = "Cycle Chain"
 
     def __init__(self, n=3, c=2, o=2, *args, **kwargs):
@@ -740,6 +768,7 @@ class HyperPaddle(Model):
            [0, 0, 0, 1, 0, 1],
            [0, 0, 0, 0, 1, 1]])
     """
+
     name = "Hyper Kayak Paddle"
 
     def __init__(self, k=3, m=3, l=1, *args, **kwargs):
@@ -748,9 +777,9 @@ class HyperPaddle(Model):
         left = Cycle(n=k).incidence
         incidence[:k, :k] = left
         right = Cycle(n=m).incidence
-        incidence[(n - m):, k:(k + m)] = right
+        incidence[(n - m) :, k : (k + m)] = right
         for i in range(l):
-            incidence[(k - 1 + i):(k + 2 + i), n - l + i] = 1
+            incidence[(k - 1 + i) : (k + 2 + i), n - l + i] = 1
         super(HyperPaddle, self).__init__(incidence=incidence, *args, **kwargs)
 
 
@@ -823,6 +852,7 @@ class Fan(Model):
            [0, 0, 0, 0, 0, 1, 0, 1],
            [0, 0, 0, 0, 1, 0, 1, 0]])
     """
+
     name = "Fan"
 
     def __init__(self, cycles=3, cycle_size=3, hyperedges=1, *args, **kwargs):
@@ -830,9 +860,10 @@ class Fan(Model):
         incidence = np.zeros((n, n + hyperedges), dtype=int)
         cycle_incidence = Cycle(n=cycle_size).incidence
         for c in range(cycles):
-            incidence[(c * cycle_size):((c + 1) * cycle_size),
-            (c * cycle_size):((c + 1) * cycle_size)] = cycle_incidence
+            incidence[
+                (c * cycle_size) : ((c + 1) * cycle_size),
+                (c * cycle_size) : ((c + 1) * cycle_size),
+            ] = cycle_incidence
             for h in range(hyperedges):
                 incidence[c * cycle_size + h, h - hyperedges] = 1
         super(Fan, self).__init__(incidence=incidence, *args, **kwargs)
-

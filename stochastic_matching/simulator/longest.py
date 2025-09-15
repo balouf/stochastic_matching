@@ -5,8 +5,16 @@ from stochastic_matching.simulator.extended import ExtendedSimulator
 
 
 @njit
-def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
-                 scores, forbidden_edges, k):
+def longest_core(
+    logs,
+    arrivals,
+    graph,
+    n_steps,
+    queue_size,  # Generic arguments
+    scores,
+    forbidden_edges,
+    k,
+):
     """
     Jitted function for policies based on longest-queue first.
 
@@ -46,7 +54,6 @@ def longest_core(logs, arrivals, graph, n_steps, queue_size,  # Generic argument
             greedy = True
 
     for age in range(n_steps):
-
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
@@ -181,12 +188,12 @@ class Longest(ExtendedSimulator):
 
     >>> avg_queues = sim.avg_queues
     >>> avg_queues[-1]
-    61.1767
+    np.float64(61.1767)
 
     Other nodes are not affected:
 
     >>> np.round(np.mean(avg_queues[:-1]), decimals=4)
-    0.7362
+    np.float64(0.7362)
 
     Playing with the beta parameter allows to adjust the trade-off (smaller queue, leak on the forbidden edge):
 
@@ -195,7 +202,7 @@ class Longest(ExtendedSimulator):
     >>> sim.flow
     array([2.9574, 1.008 , 0.9198, 0.018 , 0.9972, 2.061 , 1.0242])
     >>> sim.avg_queues[-1]
-    8.4628
+    np.float64(8.4628)
 
     Alternatively, one can use the k-filtering techniques:
 
@@ -284,7 +291,8 @@ class Longest(ExtendedSimulator):
     >>> paw.simulation
     array([1.048, 1.056, 1.016, 0.88 ])
     """
-    name = 'longest'
+
+    name = "longest"
 
     def __init__(self, model, shift_rewards=True, **kwargs):
         self.shift_rewards = shift_rewards
@@ -293,7 +301,7 @@ class Longest(ExtendedSimulator):
     def set_internal(self):
         super().set_internal()
         if self.shift_rewards:
-            self.internal['scores'] -= np.min(self.internal['scores'])
+            self.internal["scores"] -= np.min(self.internal["scores"])
 
     def run(self):
         longest_core(logs=self.logs, **self.internal)

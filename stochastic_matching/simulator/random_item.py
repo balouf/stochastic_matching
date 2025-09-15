@@ -91,8 +91,9 @@ class RandomItem(Simulator):
         0   0   0   0   0   0   0]]
     Steps done: 922
     """
+
     name = "random_item"
 
     def set_internal(self):
         super().set_internal()
-        self.internal['selector'] = random_item_selector
+        self.internal["selector"] = random_item_selector

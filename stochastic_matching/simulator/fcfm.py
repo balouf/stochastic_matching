@@ -33,7 +33,6 @@ def fcfm_core(logs, arrivals, graph, n_steps, queue_size, queues):
     inf = queues.infinity
 
     for age in range(n_steps):
-
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
@@ -125,11 +124,12 @@ class FCFM(Simulator):
         0   0   0   0   0   0   0]]
     Steps done: 291
     """
-    name = 'fcfm'
+
+    name = "fcfm"
 
     def set_internal(self):
         super().set_internal()
-        self.internal['queues'] = MultiQueue(self.model.n, max_queue=self.max_queue + 1)
+        self.internal["queues"] = MultiQueue(self.model.n, max_queue=self.max_queue + 1)
 
     def run(self):
         fcfm_core(logs=self.logs, **self.internal)

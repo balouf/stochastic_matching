@@ -17,6 +17,7 @@ class Logs:
     max_queue: :class:`int`
         Maximum number of items per class.
     """
+
     income: int64[:]
     traffic: int64[:]
     queue_log: int64[:, :]
@@ -28,7 +29,7 @@ class Logs:
 
     @property
     def steps_done(self):
-        return np.sum(self.income)
+        return int(np.sum(self.income))
 
     def update(self, queue_size, node, edge):
         self.income[node] += 1
@@ -54,6 +55,7 @@ class PhantomLogs:
     edges: :class:`~numpy.ndarray`
         Edge index.
     """
+
     income: int64[:]
     traffic: int64[:]
     edges: int64[:]
@@ -74,7 +76,7 @@ class PhantomLogs:
         if edge > -1:
             self.traffic[self.edges[edge]] += 1
         for i in range(self.n):
-            q = queue_size[i] + queue_size[i+self.n]
+            q = queue_size[i] + queue_size[i + self.n]
             self.queue_log[i, q] += 1
         self.steps_done += 1
 
@@ -90,7 +92,9 @@ def repr_logs(logs):
     -------
     None
     """
-    print(f"Arrivals: {logs.income.astype(int)}\n"
-          f"Traffic: {logs.traffic.astype(int)}\n"
-          f"Queues: {logs.queue_log.astype(int)}\n"
-          f"Steps done: {logs.steps_done}")
+    print(
+        f"Arrivals: {logs.income.astype(int)}\n"
+        f"Traffic: {logs.traffic.astype(int)}\n"
+        f"Queues: {logs.queue_log.astype(int)}\n"
+        f"Steps done: {logs.steps_done}"
+    )

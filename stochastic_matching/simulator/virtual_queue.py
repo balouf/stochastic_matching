@@ -6,8 +6,18 @@ from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
 @njit
-def vq_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
-            scores, ready_edges, edge_queue, forbidden_edges, k):  # Longest specific arguments
+def vq_core(
+    logs,
+    arrivals,
+    graph,
+    n_steps,
+    queue_size,  # Generic arguments
+    scores,
+    ready_edges,
+    edge_queue,
+    forbidden_edges,
+    k,
+):  # Longest specific arguments
     """
     Jitted function for virtual-queue policy.
 
@@ -54,7 +64,6 @@ def vq_core(logs, arrivals, graph, n_steps, queue_size,  # Generic arguments
     infinity = edge_queue.infinity
 
     for age in range(n_steps):
-
         # Draw an arrival
         node = arrivals.draw()
         queue_size[node] += 1
@@ -297,7 +306,8 @@ class VirtualQueue(ExtendedSimulator):
     >>> sim.avg_queues
     array([2.731     , 0.69633333, 0.22266667, 0.052     ])
     """
-    name = 'virtual_queue'
+
+    name = "virtual_queue"
 
     def __init__(self, model, max_edge_queue=None, **kwargs):
         self.max_edge_queue = max_edge_queue
@@ -305,11 +315,11 @@ class VirtualQueue(ExtendedSimulator):
 
     def set_internal(self):
         super().set_internal()
-        self.internal['ready_edges'] = np.zeros(self.model.m, dtype=np.bool_)
+        self.internal["ready_edges"] = np.zeros(self.model.m, dtype=np.bool_)
         meq = self.max_edge_queue
         if meq is None:
             meq = 10 * self.max_queue
-        self.internal['edge_queue'] = MultiQueue(self.model.m, max_queue=meq)
+        self.internal["edge_queue"] = MultiQueue(self.model.m, max_queue=meq)
 
     def run(self):
         vq_core(logs=self.logs, **self.internal)

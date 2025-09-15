@@ -14,9 +14,14 @@ def make_jit_graph(model):
     :class:`~stochastic_matching.simulator.graph.JitHyperGraph`
         Jitted graph.
     """
-    return JitHyperGraph(incid_ind=model.incidence_csr.indices, incid_ptr=model.incidence_csr.indptr,
-                         coinc_ind=model.incidence_csc.indices, coinc_ptr=model.incidence_csc.indptr,
-                         n=model.n, m=model.m)
+    return JitHyperGraph(
+        incid_ind=model.incidence_csr.indices,
+        incid_ptr=model.incidence_csr.indptr,
+        coinc_ind=model.incidence_csc.indices,
+        coinc_ptr=model.incidence_csc.indptr,
+        n=model.n,
+        m=model.m,
+    )
 
 
 @jitclass
@@ -39,6 +44,7 @@ class JitHyperGraph:
     m: :class:`int`
         Number of (hyper)edges.
     """
+
     incid_ind: int32[:]
     incid_ptr: int32[:]
     coinc_ind: int32[:]
@@ -66,7 +72,7 @@ class JitHyperGraph:
         :class:`~numpy.ndarray`
             Edges adjacent to the node.
         """
-        return self.incid_ind[self.incid_ptr[node]:self.incid_ptr[node + 1]]
+        return self.incid_ind[self.incid_ptr[node] : self.incid_ptr[node + 1]]
 
     def nodes(self, edge):
         """
@@ -80,4 +86,4 @@ class JitHyperGraph:
         :class:`~numpy.ndarray`
             Nodes adjacent to the edge.
         """
-        return self.coinc_ind[self.coinc_ptr[edge]:self.coinc_ptr[edge + 1]]
+        return self.coinc_ind[self.coinc_ptr[edge] : self.coinc_ptr[edge + 1]]

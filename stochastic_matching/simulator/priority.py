@@ -8,6 +8,7 @@ def make_priority_selector(weights, threshold, counterweights):
     """
     Make a jitted edge selector based on priorities.
     """
+
     def priority_selector(graph, queue_size, node):
         best_edge = -1
         best_weight = -1000
@@ -72,9 +73,9 @@ class Priority(Simulator):
     The last node is the pseudo-instable node.
 
     >>> fish.simulator.avg_queues[-1]
-    38.346
+    np.float64(38.346)
     >>> np.round(np.mean(fish.simulator.avg_queues[:-1]), decimals=2)
-    0.75
+    np.float64(0.75)
 
     Choosing proper counter-weights is important.
 
@@ -85,8 +86,9 @@ class Priority(Simulator):
     >>> fish.simulation
     array([2.9232, 1.0422, 0.9504, 0.216 , 0.7344, 1.8666, 1.2186])
     >>> fish.simulator.avg_queues[-1]
-    38.6016
+    np.float64(38.6016)
     """
+
     name = "priority"
 
     def __init__(self, model, weights, threshold=None, counterweights=None, **kwargs):
@@ -105,6 +107,8 @@ class Priority(Simulator):
 
     def set_internal(self):
         super().set_internal()
-        self.internal['selector'] = make_priority_selector(weights=self.weights,
-                                                           threshold=self.threshold,
-                                                           counterweights=self.counterweights)
+        self.internal["selector"] = make_priority_selector(
+            weights=self.weights,
+            threshold=self.threshold,
+            counterweights=self.counterweights,
+        )

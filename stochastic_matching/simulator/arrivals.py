@@ -77,6 +77,7 @@ class Arrivals:
     >>> Counter([arrivals.draw() for _ in range(800)])
     Counter({2: 291, 1: 210, 0: 208, 3: 91})
     """
+
     prob: float64[:]
     alias: int64[:]
     n: int

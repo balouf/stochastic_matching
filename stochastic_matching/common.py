@@ -77,7 +77,7 @@ class CharMaker:
 
     @staticmethod
     def to_char(i):
-        return chr(ord('A') + (i % 26))
+        return chr(ord("A") + (i % 26))
 
     def __getitem__(self, i):
         res = self.to_char(i)
@@ -162,12 +162,16 @@ def class_converter(subclass, motherclass):
         if subclass in class_dict:
             return class_dict[subclass]
         else:
-            raise ValueError(f"{subclass} is not a known name for a subclass of {motherclass.__name__}. "
-                             f"Known names: {', '.join(sorted(class_dict.keys()))}.")
+            raise ValueError(
+                f"{subclass} is not a known name for a subclass of {motherclass.__name__}. "
+                f"Known names: {', '.join(sorted(class_dict.keys()))}."
+            )
     elif isclass(subclass) and issubclass(subclass, motherclass):
         return subclass
     else:
-        raise TypeError(f"Subclass must be string or {motherclass.__name__} subclass (not instance).")
+        raise TypeError(
+            f"Subclass must be string or {motherclass.__name__} subclass (not instance)."
+        )
 
 
 def neighbors(i, compressed_incidence):
@@ -220,4 +224,6 @@ def neighbors(i, compressed_incidence):
     >>> neighbors(2, csc_matrix(incidence)) # doctest: +ELLIPSIS
     array([0, 1, 2, 3]...)
     """
-    return compressed_incidence.indices[compressed_incidence.indptr[i]:compressed_incidence.indptr[i + 1]]
+    return compressed_incidence.indices[
+        compressed_incidence.indptr[i] : compressed_incidence.indptr[i + 1]
+    ]

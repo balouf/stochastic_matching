@@ -38,7 +38,6 @@ def core_simulator(logs, arrivals, graph, n_steps, queue_size, selector):
     n, max_queue = logs.queue_log.shape
 
     for age in range(n_steps):
-
         node = arrivals.draw()
         queue_size[node] += 1
         if queue_size[node] == max_queue:
@@ -106,7 +105,7 @@ class Simulator:
     array([1.08296943, 0.26200873, 0.07423581, 0.8558952 ])
 
     >>> sim.delay
-    0.3669530919847866
+    np.float64(0.3669530919847866)
 
     >>> sim.ccdf #doctest: +NORMALIZE_WHITESPACE
     array([[1.        , 0.48471616, 0.27947598, 0.16593886, 0.10043668,
@@ -138,13 +137,13 @@ class Simulator:
     >>> fig #doctest: +ELLIPSIS
     <Figure size ...x... with 1 Axes>
     """
+
     name = None
     """
     Name that can be used to list all non-abstract classes.
     """
 
     def __init__(self, model, n_steps=1000000, seed=None, max_queue=1000):
-
         self.model = model
         self.max_queue = max_queue
         self.n_steps = n_steps
@@ -174,11 +173,12 @@ class Simulator:
         -------
         None
         """
-        self.internal = {'arrivals': Arrivals(mu=self.model.rates, seed=self.seed),
-                         'graph': make_jit_graph(self.model),
-                         'n_steps': self.n_steps,
-                         'queue_size': np.zeros(self.model.n, dtype=int)
-                         }
+        self.internal = {
+            "arrivals": Arrivals(mu=self.model.rates, seed=self.seed),
+            "graph": make_jit_graph(self.model),
+            "n_steps": self.n_steps,
+            "queue_size": np.zeros(self.model.n, dtype=int),
+        }
 
     def reset(self):
         """

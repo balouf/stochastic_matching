@@ -4,20 +4,30 @@ from scipy.optimize import linprog
 from scipy.spatial import HalfspaceIntersection
 from cached_property import cached_property
 
-from stochastic_matching.common import pseudo_inverse_scalar, clean_zeros, CharMaker, neighbors, class_converter
+from stochastic_matching.common import (
+    pseudo_inverse_scalar,
+    clean_zeros,
+    CharMaker,
+    neighbors,
+    class_converter,
+)
 from stochastic_matching.display import show
 from stochastic_matching.simulator.simulator import Simulator
 
-status_names = {(False, False): "Nonjective",
-                (True, False): "Injective-only",
-                (False, True): "Surjective-only",
-                (True, True): "Bijective"}
+status_names = {
+    (False, False): "Nonjective",
+    (True, False): "Injective-only",
+    (False, True): "Surjective-only",
+    (True, True): "Bijective",
+}
 """Name associated to a (injective, surjective) tuple."""
 
-status_names_simple_connected = {(False, False): "Bipartite with cycle(s)",
-                                 (True, False): "Tree",
-                                 (False, True): "Non-bipartite polycyclic",
-                                 (True, True): "Non-bipartite monocyclic"}
+status_names_simple_connected = {
+    (False, False): "Bipartite with cycle(s)",
+    (True, False): "Tree",
+    (False, True): "Non-bipartite polycyclic",
+    (True, True): "Non-bipartite monocyclic",
+}
 """Name associated to a (injective, surjective) tuple when the graph is simple and connected."""
 
 
@@ -111,7 +121,9 @@ def incidence_to_adjacency(incidence):
     """
     # noinspection PyUnresolvedReferences
     if not np.all(np.sum(incidence, axis=0) == 2):
-        raise ValueError("The incidence matrix does not seem to correspond to a simple graph.")
+        raise ValueError(
+            "The incidence matrix does not seem to correspond to a simple graph."
+        )
     incidence = sp.csc_matrix(incidence)
     n, m = incidence.shape
     adjacency = np.zeros((n, n), dtype=int)
@@ -439,10 +451,10 @@ class Kernel:
         dia = np.zeros((m, n))
         dia[:min_d, :min_d] = np.diag([pseudo_inverse_scalar(e) for e in s])
         ev = np.zeros(m)
-        ev[:len(s)] = s
+        ev[: len(s)] = s
         self.right = v[ev == 0, :]
         eu = np.zeros(n)
-        eu[:len(s)] = s
+        eu[: len(s)] = s
         self.left = u[:, eu == 0]
         self.inverse = v.T @ dia @ u.T
         self.right_inverse = kernel_inverse(self.right)
@@ -456,14 +468,16 @@ class Kernel:
         self.type = status_names[self.status]
 
     def __repr__(self):
-        return (f"Kernels of a graph with {self.left.shape[0]} nodes and {self.right.shape[1]} edges.\n"
-                f"Node dimension is {self.left.shape[1]}.\n"
-                f"Edge dimension is {self.right.shape[0]}\n"
-                f"Type: {self.type}\n"
-                f"Node kernel:\n"
-                f"{self.left}\n"
-                f"Edge kernel:\n"
-                f"{self.right}")
+        return (
+            f"Kernels of a graph with {self.left.shape[0]} nodes and {self.right.shape[1]} edges.\n"
+            f"Node dimension is {self.left.shape[1]}.\n"
+            f"Edge dimension is {self.right.shape[0]}\n"
+            f"Type: {self.type}\n"
+            f"Node kernel:\n"
+            f"{self.left}\n"
+            f"Edge kernel:\n"
+            f"{self.right}"
+        )
 
 
 def kernel_inverse(kernel):
@@ -646,7 +660,11 @@ def simple_left_kernel(left):
            [ 0,  1],
            [ 0,  1]])
     """
-    return np.around(left/np.max(left[:], axis=0)).astype(int)
+    return np.around(left / np.max(left[:], axis=0)).astype(int)
+
+
+def __intify_set(int_set):
+    return {int(i) for i in int_set}
 
 
 def traversal(model):
@@ -738,22 +756,25 @@ def traversal(model):
                             spin[j] = not spin[i]  # Simple
                             current_spanner.add(edge)
                 current_edges.add(edge)
-        cc = {'nodes': current_nodes, 'edges': current_edges}
+        cc = {
+            "nodes": __intify_set(current_nodes),
+            "edges": __intify_set(current_edges),
+        }
         if simple:
-            cc['spanner'] = current_spanner  # Simple
+            cc["spanner"] = __intify_set(current_spanner)  # Simple
             free_edges = current_edges - current_spanner
             for edge in free_edges:
                 pair = neighbors(edge, model.incidence_csc)
                 if spin[pair[0]] == spin[pair[1]]:
-                    cc['pivot'] = edge
+                    cc["pivot"] = edge if edge is False else int(edge)
                     free_edges.discard(edge)
                     break
             else:
-                cc['pivot'] = False
-            cc['seeds'] = free_edges
+                cc["pivot"] = False
+            cc["seeds"] = __intify_set(free_edges)
             injective = len(free_edges) == 0
-            surjective = cc['pivot'] is not False
-            cc['type'] = status_names_simple_connected[(injective, surjective)]
+            surjective = cc["pivot"] is not False
+            cc["type"] = status_names_simple_connected[(injective, surjective)]
         res.append(cc)
     return res
 
@@ -858,9 +879,12 @@ class Model:
     >>> diamond.kernel.type
     'Surjective-only'
     """
+
     name = "Generic"
 
-    def __init__(self, incidence=None, adjacency=None, rates=None, names=None, tol=1e-7):
+    def __init__(
+        self, incidence=None, adjacency=None, rates=None, names=None, tol=1e-7
+    ):
         self.tol = tol
         self.base_flow = None
         self.__seeds = None
@@ -968,7 +992,9 @@ class Model:
         """
         kernel = Kernel(self.incidence)
         if self.adjacency is not None:
-            self.__seeds = [i for c in self.connected_components for i in c['seeds']]
+            self.__seeds = [
+                int(i) for c in self.connected_components for i in c["seeds"]
+            ]
             kernel.right = simple_right_kernel(kernel.right, self.__seeds)
             kernel.right_inverse = kernel_inverse(kernel.right)
             kernel.left = simple_left_kernel(kernel.left)
@@ -1014,7 +1040,7 @@ class Model:
             mu = self.degree
         if mu is not None:
             if isinstance(mu, str):
-                if mu == 'uniform':
+                if mu == "uniform":
                     mu = np.ones(self.n)
                 else:
                     mu = self.degree
@@ -1191,11 +1217,12 @@ class Model:
                 c = np.zeros(d + 1)
                 c[d] = 1
                 a_ub = -np.vstack([self.kernel.right, np.ones(m)]).T
-                optimizer = linprog(c=c,
-                                    A_ub=a_ub,
-                                    b_ub=self.moore_penrose,
-                                    bounds=[(None, None)] * (d + 1)
-                                    )
+                optimizer = linprog(
+                    c=c,
+                    A_ub=a_ub,
+                    b_ub=self.moore_penrose,
+                    bounds=[(None, None)] * (d + 1),
+                )
                 flow = optimizer.slack - optimizer.x[-1]
                 clean_zeros(flow, tol=self.tol)
                 self.__maximin = flow
@@ -1242,12 +1269,13 @@ class Model:
             return self.moore_penrose
         else:
             weights = np.array(weights)
-            c = - self.kernel.right @ weights
-            optimizer = linprog(c=c,
-                                A_ub=-self.kernel.right.T,
-                                b_ub=self.moore_penrose,
-                                bounds=[(None, None)] * d
-                                )
+            c = -self.kernel.right @ weights
+            optimizer = linprog(
+                c=c,
+                A_ub=-self.kernel.right.T,
+                b_ub=self.moore_penrose,
+                bounds=[(None, None)] * d,
+            )
             clean_zeros(optimizer.slack, tol=self.tol)
             return optimizer.slack
 
@@ -1298,9 +1326,9 @@ class Model:
     @property
     def stabilizable(self):
         """
-        :class:`bool`: Is the model stabilizable, i.e is it bijective with a positive solution of the conservation law?
+        :class:`bool`: Is the model stabilizable, i.e. is it bijective with a positive solution of the conservation law.
         """
-        return np.all(self.maximin > 0) and self.kernel.status[1]
+        return bool(np.all(self.maximin > 0) and self.kernel.status[1])
 
     @property
     def vertices(self):
@@ -1405,13 +1433,18 @@ class Model:
             raise ValueError("The matching model admits no positive solution.")
         d, m = self.kernel.right.shape
         if d == 0:
-            dico = {'kernel_coordinates': None, 'edge_coordinates': self.maximin,
-                    'null_edges': [i for i in range(m) if self.maximin[i]==0]}
-            dico['bijective'] = ((self.m - self.n) == len(dico['null_edges']))
+            dico = {
+                "kernel_coordinates": None,
+                "edge_coordinates": self.maximin,
+                "null_edges": [i for i in range(m) if self.maximin[i] == 0],
+            }
+            dico["bijective"] = (self.m - self.n) == len(dico["null_edges"])
             res = [dico]
         else:
             if d > 1:
-                halfspaces = np.hstack([-self.kernel.right.T, -self.base_flow.reshape(self.m, 1)])
+                halfspaces = np.hstack(
+                    [-self.kernel.right.T, -self.base_flow.reshape(self.m, 1)]
+                )
                 interior_point = self.edge_to_kernel(self.maximin)
                 hs = HalfspaceIntersection(halfspaces, interior_point)
                 verts = hs.intersections
@@ -1438,11 +1471,15 @@ class Model:
             v = verts.shape[0]
             res = [dict() for _ in range(v)]
             for i, dico in enumerate(res):
-                dico['kernel_coordinates'] = verts[i, :]
-                dico['edge_coordinates'] = self.kernel_to_edge(dico['kernel_coordinates'])
-                clean_zeros(dico['edge_coordinates'], tol=self.tol)
-                dico['null_edges'] = [ i for i in range(m) if dico['edge_coordinates'][i] == 0 ]
-                dico['bijective'] = ((self.m - self.n) == len(dico['null_edges']))
+                dico["kernel_coordinates"] = verts[i, :]
+                dico["edge_coordinates"] = self.kernel_to_edge(
+                    dico["kernel_coordinates"]
+                )
+                clean_zeros(dico["edge_coordinates"], tol=self.tol)
+                dico["null_edges"] = [
+                    i for i in range(m) if dico["edge_coordinates"][i] == 0
+                ]
+                dico["bijective"] = (self.m - self.n) == len(dico["null_edges"])
         self.__vertices = res
         return res
 
@@ -1490,7 +1527,7 @@ class Model:
         >>> pyramid.show_graph()
         <IPython.core.display.HTML object>
         """
-        default = {'disp_flow': False, 'disp_rates': False}
+        default = {"disp_flow": False, "disp_rates": False}
         show(self, **{**default, **kwargs})
 
     def show_flow(self, **kwargs):
@@ -1514,7 +1551,7 @@ class Model:
         >>> pyramid.show_flow()
         <IPython.core.display.HTML object>
         """
-        default = {'check_flow': True}
+        default = {"check_flow": True}
         show(self, **{**default, **kwargs})
 
     def show_kernel(self, **kwargs):
@@ -1538,7 +1575,7 @@ class Model:
         >>> pyramid.show_kernel()
         <IPython.core.display.HTML object>
         """
-        default = {'disp_kernel': True, 'disp_flow': False, 'disp_zero': False}
+        default = {"disp_kernel": True, "disp_flow": False, "disp_zero": False}
         show(self, **{**default, **kwargs})
 
     def show_vertex(self, i, **kwargs):
@@ -1564,8 +1601,8 @@ class Model:
         >>> pyramid.show_vertex(2)
         <IPython.core.display.HTML object>
         """
-        flow = self.vertices[i]['edge_coordinates']
-        default = {'flow': flow, 'disp_zero': False, 'check_flow': True}
+        flow = self.vertices[i]["edge_coordinates"]
+        default = {"flow": flow, "disp_zero": False, "check_flow": True}
         show(self, **{**default, **kwargs})
 
     def run(self, simulator, n_steps=1000000, seed=None, max_queue=1000, **kwargs):
@@ -1646,8 +1683,12 @@ class Model:
         The virtual queue simulator manages to cope with the target flow on the hyperedge.
         """
         simulator = class_converter(simulator, Simulator)
-        self.simulator = simulator(self, n_steps=n_steps, seed=seed, max_queue=max_queue, **kwargs)
+        self.simulator = simulator(
+            self, n_steps=n_steps, seed=seed, max_queue=max_queue, **kwargs
+        )
         self.simulator.run()
         self.simulation = self.simulator.flow
         self.base_flow = self.simulation
-        return self.simulator.internal['n_steps'] == self.simulator.logs.steps_done
+        return bool(
+            self.simulator.internal["n_steps"] == self.simulator.logs.steps_done
+        )

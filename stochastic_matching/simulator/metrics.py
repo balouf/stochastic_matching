@@ -6,6 +6,7 @@ class Metric:
     """
     Blueprint for extracting a metric from the simulator.
     """
+
     name = None
 
     @staticmethod
@@ -28,7 +29,8 @@ class Traffic(Metric):
     """
     Matched edges.
     """
-    name = 'traffic'
+
+    name = "traffic"
 
     @staticmethod
     def get(simu):
@@ -39,7 +41,8 @@ class StepsDone(Metric):
     """
     Simulation duration.
     """
-    name = 'steps_done'
+
+    name = "steps_done"
 
     @staticmethod
     def get(simu):
@@ -50,7 +53,8 @@ class Income(Metric):
     """
     Number of arrived items per class.
     """
-    name = 'income'
+
+    name = "income"
 
     @staticmethod
     def get(simu):
@@ -69,11 +73,12 @@ class Regret(Metric):
     * Unmatched items are ignored to avoid side effects (e.g. if the optimal allocation is
       unstable, for example because of negative weights).
     """
-    name = 'regret'
+
+    name = "regret"
 
     @staticmethod
     def get(simu):
-        rewards = getattr(simu, 'rewards', np.ones(simu.model.m, dtype=int))
+        rewards = getattr(simu, "rewards", np.ones(simu.model.m, dtype=int))
         original_rates = simu.model.rates
         flow = Flow.get(simu)
         simu.model.rates = simu.model.incidence @ flow
@@ -86,7 +91,8 @@ class AvgQueues(Metric):
     """
     Average queue size per item class.
     """
-    name = 'avg_queues'
+
+    name = "avg_queues"
 
     @staticmethod
     def get(simu):
@@ -95,7 +101,8 @@ class AvgQueues(Metric):
 
 class Delay(Metric):
     """Average waiting time (i.e. average total queue size divided by global arrival rate)."""
-    name = 'delay'
+
+    name = "delay"
 
     @staticmethod
     def get(simu):
@@ -106,20 +113,25 @@ class CCDF(Metric):
     """
     Complementary Cumulative Distribution Function of queue size for each item class.
     """
-    name = 'ccdf'
+
+    name = "ccdf"
 
     @staticmethod
     def get(simu):
         steps = simu.logs.steps_done
         n = simu.model.n
-        return (steps - np.cumsum(np.hstack([np.zeros((n, 1)), simu.logs.queue_log]), axis=1)) / steps
+        return (
+            steps
+            - np.cumsum(np.hstack([np.zeros((n, 1)), simu.logs.queue_log]), axis=1)
+        ) / steps
 
 
 class Flow(Metric):
     """
     Edge matching rate.
     """
-    name = 'flow'
+
+    name = "flow"
 
     @staticmethod
     def get(simu):
@@ -151,8 +163,9 @@ def get_metrics(simu, metrics):
 
     """
     if isinstance(metrics, list):
-        return {k: v for metric in metrics
-                for k, v in get_metrics(simu, metric).items()}
+        return {
+            k: v for metric in metrics for k, v in get_metrics(simu, metric).items()
+        }
     try:
         getter = class_converter(metrics, Metric)
         return {getter.name: getter.get(simu)}

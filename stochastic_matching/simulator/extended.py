@@ -26,9 +26,10 @@ class ExtendedSimulator(Simulator):
     kwargs: :class:`dict`
         Keyword parameters of :class:`~stochastic_matching.simulator.simulator.Simulator`
     """
-    def __init__(self, model, rewards=None, beta=None,
-                 forbidden_edges=None, k=None,
-                 **kwargs):
+
+    def __init__(
+        self, model, rewards=None, beta=None, forbidden_edges=None, k=None, **kwargs
+    ):
         if rewards is not None:
             self.rewards = np.array(rewards)
         else:
@@ -51,6 +52,6 @@ class ExtendedSimulator(Simulator):
             scores = np.zeros(self.model.m, dtype=int)
         else:
             scores = self.rewards / self.beta
-        self.internal['scores'] = scores
-        self.internal['forbidden_edges'] = self.forbidden_edges
-        self.internal['k'] = self.k
+        self.internal["scores"] = scores
+        self.internal["forbidden_edges"] = self.forbidden_edges
+        self.internal["k"] = self.k

@@ -134,8 +134,9 @@ class RandomEdge(Simulator):
     >>> sim.show_ccdf() # doctest: +ELLIPSIS
     <Figure size ...x... with 1 Axes>
     """
+
     name = "random_edge"
 
     def set_internal(self):
         super().set_internal()
-        self.internal['selector'] = random_edge_selector
+        self.internal["selector"] = random_edge_selector

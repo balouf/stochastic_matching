@@ -41,20 +41,25 @@ def int_2_str(model, i):
         return model.names[i]
 
 
-VIS_LOCATION = 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+VIS_LOCATION = "https://unpkg.com/vis-network/standalone/umd/vis-network.min"
 """Default location of vis-network.js ."""
 
 VIS_OPTIONS = {
-    'interaction': {'navigationButtons': True},
-    'width': '600px',
-    'height': '600px'
+    "interaction": {"navigationButtons": True},
+    "width": "600px",
+    "height": "600px",
 }
 """Default options for the vis-network engine."""
 
 HYPER_GRAPH_VIS_OPTIONS = {
-    'groups': {
-        'HyperEdge': {'fixed': {'x': False}, 'color': {'background': 'black'}, 'shape': 'dot', 'size': 5},
-        'Node': {'fixed': {'x': False}}
+    "groups": {
+        "HyperEdge": {
+            "fixed": {"x": False},
+            "color": {"background": "black"},
+            "shape": "dot",
+            "size": 5,
+        },
+        "Node": {"fixed": {"x": False}},
     }
 }
 """Default additional options for hypergraphs in the vis-network engine."""
@@ -115,8 +120,14 @@ network.fit({
 """Alternate template with a mirror PNG that ca be saved."""
 
 
-def vis_code(vis_nodes=None, vis_edges=None, vis_options=None, template=None,
-             vis=None, div_name=None):
+def vis_code(
+    vis_nodes=None,
+    vis_edges=None,
+    vis_options=None,
+    template=None,
+    vis=None,
+    div_name=None,
+):
     """
     Create HTML to display a Vis network graph.
 
@@ -171,25 +182,33 @@ def vis_code(vis_nodes=None, vis_edges=None, vis_options=None, template=None,
     if div_name is None:
         div_name = str(uuid.uuid4())
     if vis_nodes is None:
-        vis_nodes = [{'id': 0}, {'id': 1}]
+        vis_nodes = [{"id": 0}, {"id": 1}]
     if vis_edges is None:
-        vis_edges = [{'from': 0, 'to': 1}]
+        vis_edges = [{"from": 0, "to": 1}]
     if vis_options is None:
         vis_options = dict()
     if template is None:
         template = HTML_TEMPLATE
     if vis is None:
         vis = VIS_LOCATION
-    dic = {'name': div_name,
-           'nodes': json.dumps(vis_nodes),
-           'edges': json.dumps(vis_edges),
-           'options': json.dumps({**VIS_OPTIONS, **vis_options}),
-           'vis': vis}
+    dic = {
+        "name": div_name,
+        "nodes": json.dumps(vis_nodes),
+        "edges": json.dumps(vis_edges),
+        "options": json.dumps({**VIS_OPTIONS, **vis_options}),
+        "vis": vis,
+    }
     return template % dic
 
 
-def vis_show(vis_nodes=None, vis_edges=None, vis_options=None, template=None,
-             vis=None, div_name=None):
+def vis_show(
+    vis_nodes=None,
+    vis_edges=None,
+    vis_options=None,
+    template=None,
+    vis=None,
+    div_name=None,
+):
     """
     Display a Vis graph (within a IPython / Jupyter session).
 
@@ -219,8 +238,18 @@ def vis_show(vis_nodes=None, vis_edges=None, vis_options=None, template=None,
     <IPython.core.display.HTML object>
     """
     # noinspection PyTypeChecker
-    display(HTML(vis_code(vis_nodes=vis_nodes, vis_edges=vis_edges, vis_options=vis_options,
-                          template=template, vis=vis, div_name=div_name)))
+    display(
+        HTML(
+            vis_code(
+                vis_nodes=vis_nodes,
+                vis_edges=vis_edges,
+                vis_options=vis_options,
+                template=template,
+                vis=vis,
+                div_name=div_name,
+            )
+        )
+    )
 
 
 def default_description(model):
@@ -264,12 +293,20 @@ def default_description(model):
      {'title': '3: (B, D)', 'label': ''},
      {'title': '4: (C, D)', 'label': ''}])
     """
-    nodes_info = [{'id': i, 'label': '',
-                  'title': f"{i}: {int_2_str(model, i)}" if model.names is not None else str(i)}
-                 for i in range(model.n)]
-    edges_info = [{'title': f"{j}: ({', '.join([int_2_str(model, i) for i in e])})",
-                   'label': ''}
-                     for j, e in [(j, neighbors(j, model.incidence_csc)) for j in range(model.m)]]
+    nodes_info = [
+        {
+            "id": i,
+            "label": "",
+            "title": f"{i}: {int_2_str(model, i)}"
+            if model.names is not None
+            else str(i),
+        }
+        for i in range(model.n)
+    ]
+    edges_info = [
+        {"title": f"{j}: ({', '.join([int_2_str(model, i) for i in e])})", "label": ""}
+        for j, e in [(j, neighbors(j, model.incidence_csc)) for j in range(model.m)]
+    ]
     return nodes_info, edges_info
 
 
@@ -347,27 +384,41 @@ def vis_converter(model, nodes_info, edges_info):
         vis_edges = edges_info
         for e, dico in enumerate(vis_edges):
             endpoints = neighbors(e, model.incidence_csc)
-            dico['from'] = int(endpoints[0])
-            dico['to'] = int(endpoints[1])
+            dico["from"] = int(endpoints[0])
+            dico["to"] = int(endpoints[1])
         return vis_nodes, vis_edges
     else:
         vis_nodes_1 = nodes_info
         vis_nodes_2 = edges_info
         for d in vis_nodes_1:
-            d['x'] = 0
-            d['group'] = 'Node'
+            d["x"] = 0
+            d["group"] = "Node"
         for j, d in enumerate(vis_nodes_2):
-            d['id'] = model.n + j
-            d['group'] = 'HyperEdge'
-            d['x'] = 600
-        vis_edges = [{'from': i, 'to': model.n + int(j),
-                      'title': f"{vis_nodes_1[i]['title']} <-> {vis_nodes_2[j]['title']}"} for i in range(model.n)
-                     for j in neighbors(i, model.incidence_csr)]
-        return vis_nodes_1+vis_nodes_2, vis_edges
+            d["id"] = model.n + j
+            d["group"] = "HyperEdge"
+            d["x"] = 600
+        vis_edges = [
+            {
+                "from": i,
+                "to": model.n + int(j),
+                "title": f"{vis_nodes_1[i]['title']} <-> {vis_nodes_2[j]['title']}",
+            }
+            for i in range(model.n)
+            for j in neighbors(i, model.incidence_csr)
+        ]
+        return vis_nodes_1 + vis_nodes_2, vis_edges
 
 
-def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=False, disp_zero=True,
-               check_flow=False, check_tolerance=1e-2):
+def info_maker(
+    model,
+    disp_rates=True,
+    disp_flow=True,
+    flow=None,
+    disp_kernel=False,
+    disp_zero=True,
+    check_flow=False,
+    check_tolerance=1e-2,
+):
     """
     Parameters
     ----------
@@ -491,17 +542,17 @@ def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=Fa
         disp_flow = True
     for i, node in enumerate(nodes_info):
         if disp_rates:
-            node['label'] = f"{model.rates[i]:.3g}"
+            node["label"] = f"{model.rates[i]:.3g}"
         else:
-            node['label'] = int_2_str(model, i)
+            node["label"] = int_2_str(model, i)
     if disp_flow:
         if flow is None:
             flow = model.base_flow
         for e, edge in enumerate(edges_info):
             if np.abs(flow[e]) > model.tol:
-                edge['label'] = f"{flow[e]:.3g}"
+                edge["label"] = f"{flow[e]:.3g}"
             elif disp_zero:
-                edge['label'] = "0"
+                edge["label"] = "0"
     if disp_kernel:
         d, m = model.kernel.right.shape
         for e, edge in enumerate(edges_info):
@@ -517,21 +568,21 @@ def info_maker(model, disp_rates=True, disp_flow=True, flow=None, disp_kernel=Fa
                 else:
                     label += f"{alpha:+.3g}"
                 label += f"α{i + 1}"
-            edge['label'] += label
+            edge["label"] += label
             if not label:
-                edge['color'] = 'black'
+                edge["color"] = "black"
     if check_flow and disp_flow:
         out_rate = model.incidence_csr @ flow
         for i, node in enumerate(nodes_info):
             if np.abs(model.rates[i] - out_rate[i]) / model.rates[i] > check_tolerance:
-                node['color'] = 'red'
+                node["color"] = "red"
         for e, edge in enumerate(edges_info):
             if flow[e] < -model.tol:
-                edge['color'] = 'red'
+                edge["color"] = "red"
             elif flow[e] < model.tol:
-                edge['color'] = 'orange'
+                edge["color"] = "orange"
             else:
-                edge['color'] = edge.get('color', 'blue')
+                edge["color"] = edge.get("color", "blue")
     return nodes_info, edges_info
 
 
@@ -596,10 +647,17 @@ def show(model, bipartite=False, png=False, **kwargs):
     >>> show(fan, bipartite=True)
     <IPython.core.display.HTML object>
     """
-    info_kwds = {'disp_rates', 'disp_flow', 'flow', 'disp_kernel', 'disp_zero',
-                 'check_flow', 'check_tolerance'}
-    converter_kwds = {'nodes_info', 'edges_info'}
-    vis_kwds = {'vis_options', 'template', 'vis', 'div_name'}
+    info_kwds = {
+        "disp_rates",
+        "disp_flow",
+        "flow",
+        "disp_kernel",
+        "disp_zero",
+        "check_flow",
+        "check_tolerance",
+    }
+    converter_kwds = {"nodes_info", "edges_info"}
+    vis_kwds = {"vis_options", "template", "vis", "div_name"}
 
     info_kwargs = {k: v for k, v in kwargs.items() if k in info_kwds}
     converter_kwargs = {k: v for k, v in kwargs.items() if k in converter_kwds}
@@ -607,26 +665,33 @@ def show(model, bipartite=False, png=False, **kwargs):
 
     nodes_info, edges_info = info_maker(model, **info_kwargs)
 
-    if 'nodes_info' in converter_kwargs:
-        nodes_info = [ {**n1, **n2} for n1, n2 in zip(nodes_info, converter_kwargs['nodes_info'])]
-    if 'edges_info' in converter_kwargs:
-        edges_info = [ {**e1, **e2} for e1, e2 in zip(edges_info, converter_kwargs['edges_info'])]
+    if "nodes_info" in converter_kwargs:
+        nodes_info = [
+            {**n1, **n2} for n1, n2 in zip(nodes_info, converter_kwargs["nodes_info"])
+        ]
+    if "edges_info" in converter_kwargs:
+        edges_info = [
+            {**e1, **e2} for e1, e2 in zip(edges_info, converter_kwargs["edges_info"])
+        ]
 
     vis_nodes, vis_edges = vis_converter(model, nodes_info, edges_info)
 
     if model.adjacency is None:
-        vis_kwargs['vis_options'] = {**vis_kwargs.get('vis_options', dict()), **HYPER_GRAPH_VIS_OPTIONS.copy()}
-        vis_options = vis_kwargs['vis_options']
+        vis_kwargs["vis_options"] = {
+            **vis_kwargs.get("vis_options", dict()),
+            **HYPER_GRAPH_VIS_OPTIONS.copy(),
+        }
+        vis_options = vis_kwargs["vis_options"]
         if bipartite:
-            vis_options['groups']['HyperEdge']['fixed']['x'] = True
-            vis_options['groups']['Node']['fixed']['x'] = True
-            inner_width = round(.8 * vis_options.get('width', 600))
+            vis_options["groups"]["HyperEdge"]["fixed"]["x"] = True
+            vis_options["groups"]["Node"]["fixed"]["x"] = True
+            inner_width = round(0.8 * vis_options.get("width", 600))
             for vis_node in vis_nodes:
-                if vis_node.get('group') == 'HyperEdge':
-                    vis_node['x'] = inner_width
+                if vis_node.get("group") == "HyperEdge":
+                    vis_node["x"] = inner_width
         else:
-            vis_options['groups']['HyperEdge']['fixed']['x'] = False
-            vis_options['groups']['Node']['fixed']['x'] = False
+            vis_options["groups"]["HyperEdge"]["fixed"]["x"] = False
+            vis_options["groups"]["Node"]["fixed"]["x"] = False
     if png:
-        vis_kwargs['template'] = PNG_TEMPLATE
+        vis_kwargs["template"] = PNG_TEMPLATE
     vis_show(vis_nodes, vis_edges, **vis_kwargs)

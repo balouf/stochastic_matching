@@ -70,6 +70,7 @@ class Iterator:
     {'x2': 4} {'x': 2}
     {'x2': 9} {'x': 3}
     """
+
     def __init__(self, parameter, values, name=None, process=None):
         self.parameter = parameter
         self.values = values
@@ -101,6 +102,7 @@ class SingleXP:
     params: :class:`dict`, optional
         Various (fixed) arguments.
     """
+
     def __init__(self, name, iterator=None, **params):
         self.name = name
         self.iterator = iterator
@@ -116,7 +118,10 @@ class SingleXP:
         if self.iterator is None:
             yield self.name, None, self.params
         else:
-            for kwarg, log, in self.iterator:
+            for (
+                kwarg,
+                log,
+            ) in self.iterator:
                 yield self.name, log, {**self.params, **kwarg}
 
 
@@ -151,7 +156,7 @@ class XP:
         return res
 
     def __radd__(self, other):
-        return self+other
+        return self + other
 
     def __len__(self):
         return sum(len(xp) for xp in self.xp_list)
@@ -175,7 +180,7 @@ def regret_delay(model):
     simu = model.simulator
     regret = simu.compute_regret()
     delay = sum(simu.compute_average_queues())
-    return {'regret': regret, 'delay': delay}
+    return {"regret": regret, "delay": delay}
 
 
 class Runner:
@@ -192,7 +197,7 @@ class Runner:
     def __call__(self, tup):
         name, kv, params = tup
         params = {**params}
-        model = params.pop('model')
+        model = params.pop("model")
         model.run(**params)
         out = get_metrics(model.simulator, self.metrics)
         # logs = model.simulator.logs
@@ -270,20 +275,24 @@ def cached(func):
     >>> content_after
     ['cube.pkl.gz']
     """
+
     @functools.wraps(func)
-    def wrapper_decorator(*args, cache_name=None, cache_path='.', cache_overwrite=False, **kwargs):
+    def wrapper_decorator(
+        *args, cache_name=None, cache_path=".", cache_overwrite=False, **kwargs
+    ):
         if cache_name is not None:
             cache = Path(cache_path) / Path(f"{cache_name}.pkl.gz")
             if cache.exists() and not cache_overwrite:
-                with gzip.open(cache, 'rb') as f:
+                with gzip.open(cache, "rb") as f:
                     return pickle.load(f)
         else:
             cache = None
         res = func(*args, **kwargs)
         if cache is not None:
-            with gzip.open(cache, 'wb') as f:
+            with gzip.open(cache, "wb") as f:
                 pickle.dump(res, f)
         return res
+
     return wrapper_decorator
 
 
@@ -332,7 +341,7 @@ def evaluate(xps, metrics=None, pool=None):
     >>> res['Diamond']['avg_queues']
     array([0.531, 0.214, 0.273, 0.616])
     >>> res['Diamond']['q0']
-    0.531
+    np.float64(0.531)
     >>> xp1 = XP('e-filtering', simulator='e_filtering', **base,
     ...          iterator=Iterator('epsilon', [.01, .1, 1], name='e'))
     >>> xp2 = XP(name='k-filtering', simulator='longest', forbidden_edges=True,
@@ -363,7 +372,7 @@ def evaluate(xps, metrics=None, pool=None):
     delay: [9.2024 1.013  0.1888]
     """
     if metrics is None:
-        metrics = ['regret', 'delay']
+        metrics = ["regret", "delay"]
     runner = Runner(metrics=metrics)
     if pool is None:
         res = [runner(p) for p in tqdm(xps)]
