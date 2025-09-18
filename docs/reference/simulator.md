@@ -13,6 +13,9 @@
 ```{eval-rst}
 .. automodule:: stochastic_matching.simulator.virtual_queue
     :members:
+
+.. automodule:: stochastic_matching.simulator.constant_regret
+    :members:
 ```
 
 # Epsilon-Filtering policy

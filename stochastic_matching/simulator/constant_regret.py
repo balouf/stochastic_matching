@@ -1,25 +1,43 @@
-from numba import njit
 import numpy as np
+from numba import njit
 
-from stochastic_matching.simulator.extended import ExtendedSimulator
+from stochastic_matching.simulator.simulator import Simulator
 from stochastic_matching.simulator.multiqueue import MultiQueue
 
 
 @njit
-def vq_core(
+def lin_fading(t):
+    """
+
+    Parameters
+    ----------
+    t: :class:`int`
+        Step index.
+
+    Returns
+    -------
+    :class:`int`
+        Step index + 1
+    """
+    return t + 1
+
+
+@njit
+def cr_core(
+    # Generic arguments
     logs,
     arrivals,
     graph,
     n_steps,
-    queue_size,  # Generic arguments
+    queue_size,
+    # Constant-regret specific arguments
     scores,
     ready_edges,
     edge_queue,
-    forbidden_edges,
-    k,
-):  # Longest specific arguments
+    fading
+):
     """
-    Jitted function for virtual-queue policy.
+    Jitted function for constant-regret policy.
 
     Parameters
     ----------
@@ -34,33 +52,24 @@ def vq_core(
     queue_size: :class:`~numpy.ndarray`
         Number of waiting items of each class.
     scores: :class:`~numpy.ndarray`
-        Default value for edges. Enables EGPD-like selection mechanism.
+        Normalized edge rewards (<0 on taboo edges). Enables EGPD-like selection mechanism.
     ready_edges: :class:`~numpy.ndarray`
         Tells if given edge is actionable.
     edge_queue: :class:`~stochastic_matching.simulator.multiqueue.MultiQueue`
         Edges waiting to be matched.
-    forbidden_edges: :class:`list`, optional
-        Edges that are disabled.
-    k: :class:`int`, optional
-        Queue size above which forbidden edges become available again.
+    fading: callable
+        Jitted function that drives reward relative weight.
 
     Returns
     -------
     None
     """
-
     n, max_queue = logs.queue_log.shape
     m = len(scores)
 
-    # Optimize forbidden edges and set greedy flag.
-    if forbidden_edges is not None:
-        forbid = {k: True for k in forbidden_edges}
-        has_forbidden = True
-    else:
-        forbid = {k: True for k in range(0)}
-        has_forbidden = False
-
     infinity = edge_queue.infinity
+
+    edge_size = np.zeros(m, dtype=np.int32)
 
     for age in range(n_steps):
         # Draw an arrival
@@ -70,7 +79,7 @@ def vq_core(
             return None
 
         # update scores
-        scores[graph.edges(node)] += 1
+        edge_size[graph.edges(node)] += 1
 
         # update readyness
         if queue_size[node] == 1:
@@ -82,24 +91,12 @@ def vq_core(
                 else:
                     ready_edges[e] = True
 
-        if has_forbidden:
-            restrain = True
-            if k is not None:
-                for v in range(n):
-                    if queue_size[v] >= k:
-                        restrain = False
-                        break
-        else:
-            restrain = False
-
         # Select best edge
         best_edge = -1
         best_score = 0
 
         for e in range(m):
-            if restrain and e in forbid:
-                continue
-            score = scores[e]
+            score = scores[e] + edge_size[e] / fading(age)
             if score > best_score:
                 best_edge = e
                 best_score = score
@@ -110,7 +107,7 @@ def vq_core(
             # Virtual pop of items:
             # for each node of the edge, lower scores of all adjacent edges by one
             for v in graph.nodes(best_edge):
-                scores[graph.edges(v)] -= 1
+                edge_size[graph.edges(v)] -= 1
 
         # Can a virtual edge be popped?
         best_edge = -1
@@ -129,22 +126,27 @@ def vq_core(
                     ready_edges[graph.edges(v)] = False
 
         logs.update(queue_size=queue_size, node=node, edge=best_edge)
+    return None
 
 
-class VirtualQueue(ExtendedSimulator):
+class ConstantRegret(Simulator):
     """
-    Non-Greedy Matching simulator derived from :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
-    Always pick-up the best edge according to a scoring function, even if that edge cannot be used (yet).
+    Non-Greedy Matching simulator that implements https://sophieyu.me/constant_regret_matching.pdf
+    Always pick-up the best positive edge according to a scoring function, even if that edge cannot be used (yet).
 
     Parameters
     ----------
     model: :class:`~stochastic_matching.model.Model`
         Model to simulate.
+    rewards: :class:`~numpy.ndarray`
+        Edge rewards.
+    fading: callable
+        Jitted function that drives reward relative weight.
     max_edge_queue: :class:`int`, optional
         In some extreme situation, the default allocated space for the edge virtual queue may be too small.
         If that happens someday, use this parameter to increase the VQ allocated memory.
     **kwargs
-        Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
+        Keyword parameters of :class:`~stochastic_matching.simulator.simulator.Simulator`.
 
 
     Examples
@@ -153,7 +155,7 @@ class VirtualQueue(ExtendedSimulator):
     Let start with a working triangle.
 
     >>> import stochastic_matching as sm
-    >>> sim = VirtualQueue(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
+    >>> sim = ConstantRegret(sm.Cycle(rates=[3, 4, 5]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Arrivals: [287 338 375]
@@ -165,7 +167,7 @@ class VirtualQueue(ExtendedSimulator):
 
     Unstable diamond (simulation ends before completion due to drift).
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
+    >>> sim = ConstantRegret(sm.CycleChain(rates='uniform'), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Arrivals: [85 82 85 86]
@@ -178,7 +180,7 @@ class VirtualQueue(ExtendedSimulator):
 
     Stable diamond without reward optimization:
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), n_steps=1000, seed=42, max_queue=10)
+    >>> sim = ConstantRegret(sm.CycleChain(rates=[1, 2, 2, 1]), n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Arrivals: [179 342 320 159]
@@ -191,64 +193,37 @@ class VirtualQueue(ExtendedSimulator):
 
     Let's optimize (kill traffic on first and last edges).
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0], beta=.01,
+    >>> sim = ConstantRegret(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
     ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
-    Arrivals: [22 51 55 27]
-    Traffic: [ 0 22 24 27  0]
-    Queues: [[136  16   3   0   0   0   0   0   0   0]
-     [112  14   8   6   7   4   3   1   0   0]
-     [ 73  21  13   7   9   8   4   5  12   3]
-     [105  31  11   5   2   1   0   0   0   0]]
-    Steps done: 155
+    Arrivals: [53 90 98 50]
+    Traffic: [ 0 49 40 41  9]
+    Queues: [[166  56  19  23  20   7   0   0   0   0]
+     [145  73  33  17   7   5   5   2   2   2]
+     [226  37  13   6   4   2   2   1   0   0]
+     [259  23   7   2   0   0   0   0   0   0]]
+    Steps done: 291
 
-    OK, it's working, but we reached the maximal queue size quite fast. Let's reduce the pressure.
+    OK, it's mostly working, but we reached the maximal queue size quite fast. Let's reduce the pressure.
 
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
-    ...                    beta=.8, n_steps=1000, seed=42, max_queue=10)
+    >>> slow_fading = njit(lambda t: np.sqrt(t+1)/15)
+    >>> sim = ConstantRegret(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=[0, 1, 1, 1, 0],
+    ...                    fading=slow_fading, n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Arrivals: [179 342 320 159]
-    Traffic: [ 32 146 161 146  13]
-    Queues: [[691 222  68  18   1   0   0   0   0   0]
-     [514 153 123 110  48  32  16   4   0   0]
-     [662 136  91  62  38   4   2   2   2   1]
-     [791 128  50  18   7   6   0   0   0   0]]
+    Traffic: [ 32 143 161 143  16]
+    Queues: [[400 259 189  91  52   6   3   0   0   0]
+     [292 170 140 130 116  84  49  17   2   0]
+     [887  67  26  10   5   2   2   1   0   0]
+     [932  47  13   4   4   0   0   0   0   0]]
     Steps done: 1000
 
-    Let's now use a k-filtering for this diamond:
-
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True,
-    ...                    rewards=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)
-    >>> sim.run()
-    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
-    Arrivals: [27 57 65 31]
-    Traffic: [ 0 27 29 28  0]
-    Queues: [[158  16   3   3   0   0   0   0   0   0]
-     [136  19   8   4   5   4   3   1   0   0]
-     [ 70  25  13  14  12  15  21   8   1   1]
-     [ 96  24  13  12   9  16   8   2   0   0]]
-    Steps done: 180
-
-    Let us reduce the pressure.
-
-    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True, rewards=[0, 1, 1, 1, 0],
-    ...                    n_steps=1000, seed=42, max_queue=10, k=6)
-    >>> sim.run()
-    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
-    Arrivals: [179 342 320 159]
-    Traffic: [ 31 145 161 145  14]
-    Queues: [[600 171 122  81  20   6   0   0   0   0]
-     [444 151 137 104  81  65  14   4   0   0]
-     [698  83  52  59  57  38   7   3   2   1]
-     [730 130  64  35  26   9   2   4   0   0]]
-    Steps done: 1000
-
-    A stable candy. While candies are not good for greedy policies, the virtual queue is
+    A stable candy. While candies are not good for greedy policies, virtual queues policies are
     designed to deal with it.
 
-    >>> sim = VirtualQueue(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
+    >>> sim = ConstantRegret(sm.HyperPaddle(rates=[1, 1, 1.5, 1, 1.5, 1, 1]), n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Arrivals: [140 126 154 112 224 121 123]
@@ -278,7 +253,7 @@ class VirtualQueue(ExtendedSimulator):
 
     Without optimization, all we do is self-matches (no queue at all):
 
-    >>> sim = VirtualQueue(stol, n_steps=1000, seed=42, max_queue=25)
+    >>> sim = ConstantRegret(stol, n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([236, 279, 342, 143,   0,   0,   0])
@@ -287,17 +262,18 @@ class VirtualQueue(ExtendedSimulator):
 
     >>> rewards = [-1, -1, 1, 2, 5, 4, 7]
 
-    With optimization, we get the desired results at the price of a huge queue:
+    With optimization, we get the desired results:
 
-    >>> sim = VirtualQueue(stol, rewards=rewards, beta=.01, n_steps=3000, seed=42, max_queue=300)
+    >>> sim = ConstantRegret(stol, rewards=rewards, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
-    array([  0,   0, 761, 242, 591,   0, 205])
+    array([  0,   0, 961, 342, 691,   0, 105])
     >>> sim.avg_queues
-    array([86.17266667,  0.53233333, 93.03      ,  0.33533333])
+    array([2.731     , 0.69633333, 0.22266667, 0.052     ])
 
-    Same traffic could be achieved with much lower queues by enforcing forbidden edges:
+    One can check that this is the same as using a regular virtual queue with forbidden edges:
 
+    >>> from stochastic_matching.simulator.virtual_queue import VirtualQueue
     >>> sim = VirtualQueue(stol, rewards=rewards, forbidden_edges=True, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
@@ -306,14 +282,28 @@ class VirtualQueue(ExtendedSimulator):
     array([2.731     , 0.69633333, 0.22266667, 0.052     ])
     """
 
-    name = "virtual_queue"
+    name = "constant_regret"
 
-    def __init__(self, model, max_edge_queue=None, **kwargs):
+    def __init__(self, model, rewards=None, fading=None, max_edge_queue=None, **kwargs):
+
+        if rewards is not None:
+            rewards = np.array(rewards)
+        else:
+            rewards = np.ones(model.m, dtype=int)
+        self.rewards = model.normalize_rewards(rewards)
+
+        if fading is None:
+            fading = lin_fading
+        self.fading = fading
+
         self.max_edge_queue = max_edge_queue
+
         super().__init__(model, **kwargs)
 
     def set_internal(self):
         super().set_internal()
+        self.internal["scores"] = self.rewards
+        self.internal["fading"] = self.fading
         self.internal["ready_edges"] = np.zeros(self.model.m, dtype=np.bool_)
         meq = self.max_edge_queue
         if meq is None:
@@ -321,4 +311,4 @@ class VirtualQueue(ExtendedSimulator):
         self.internal["edge_queue"] = MultiQueue(self.model.m, max_queue=meq)
 
     def run(self):
-        vq_core(logs=self.logs, **self.internal)
+        cr_core(logs=self.logs, **self.internal)

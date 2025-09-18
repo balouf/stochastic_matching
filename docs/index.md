@@ -6,6 +6,7 @@
 
 presentation
 tutorials/index
+companion/index
 reference/index
 :::
 

@@ -1228,6 +1228,43 @@ class Model:
                 self.__maximin = flow
         return self.__maximin
 
+    def shadow_prices(self, weights):
+        """
+        Return the shadow prices of each item type for a given reward. Cf https://doi.org/10.1145/3578338.3593532
+
+        Parameters
+        ----------
+        weights: :class:`~numpy.ndarray` or :class:`list`
+            Rewards associated to each edge.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Shadow prices.
+        """
+        optimizer = linprog(
+            c=self.rates,
+            A_ub=-self.incidence.T,
+            b_ub=-np.array(weights)
+        )
+        clean_zeros(optimizer.x, tol=self.tol)
+        return optimizer.x
+
+    def normalize_rewards(self, weights):
+        """
+        Parameters
+        ----------
+        weights: :class:`~numpy.ndarray` or :class:`list`
+            Rewards associated to each edge.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            For bijective cases, rewards with negative values on taboo edges, null values everywhere else.
+        """
+        return weights - self.shadow_prices(weights) @ self.incidence
+
+
     def optimize_rates(self, weights):
         """
         Tries to find a positive solution that minimizes/maximizes a given edge.

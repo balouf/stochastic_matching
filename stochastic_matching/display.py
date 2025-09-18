@@ -45,9 +45,9 @@ VIS_LOCATION = "https://unpkg.com/vis-network/standalone/umd/vis-network.min"
 """Default location of vis-network.js ."""
 
 VIS_OPTIONS = {
-    "interaction": {"navigationButtons": True},
-    "width": "600px",
-    "height": "600px",
+    "interaction": {"navigationButtons": False},
+    "width": "100%",
+    "height": "100%",
 }
 """Default options for the vis-network engine."""
 
@@ -64,56 +64,269 @@ HYPER_GRAPH_VIS_OPTIONS = {
 }
 """Default additional options for hypergraphs in the vis-network engine."""
 
+# language=HTML
 HTML_TEMPLATE = """
+<div class="sm-graph">
+<div id="%(name)s"></div>
+<a href="#" id="fit-%(name)s"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet(%(nodes)s);
+    const edges = new DataSet(%(edges)s);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = %(options)s;
+    const container = document.getElementById('%(name)s');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-%(name)s').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script>
+"""
+
+OLD_HTML_TEMPLATE = """
+<div class="sn-graph">
+<div id="%(name)s"></div>
+<a href="#" id="fit-%(name)s"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+>
+  &copy; Gismap 2025
+</a>
+</div>
+<script type="module">
+function loadVis(url, callback) {
+    if (window.vis) {
+        console.log("vis-network already loaded");
+        callback();
+        return;
+    }
+    // Lookup other loads in progress
+    if (document.querySelector('script[data-vis-loaded]')) {
+        // Script is loaded, wait until it is ready
+        var check = setInterval(function () {
+            if (window.vis) {
+                clearInterval(check);
+                console.log("vis-network sideload completed");
+                callback();
+            }
+        }, 20);
+        return;
+    }
+    // Add the script to the page, callback called when loaded
+    var script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.setAttribute('data-vis-loaded', '1');
+    script.onload = callback;
+    document.head.appendChild(script);
+    console.log('vis-network dynamically loaded');
+}
+loadVis('%(vis)s', function () {
+    const nodes = %(nodes)s;
+    const edges = %(edges)s;
+    const data = {
+        nodes: nodes,
+        edges: edges,
+    };
+    const options = %(options)s;
+    const container = document.getElementById('%(name)s');
+    const network = new vis.Network(container, data, options);
+    network.fit({maxZoomLevel: 1});
+
+    document.getElementById('fit-%(name)s').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    network.fit({ maxZoomLevel: 1 }); // Adjust zoom limit as needed
+  });
+})
+
+"""
+
+# language=HTML
+FULL_HTML_TEMPLATE = """
 <div id="%(name)s"></div>
 <script type="module">
-require.config({
-    paths: {
-        vis: '%(vis)s'
-    }
-});
-require(['vis'], function(vis){
-var nodes = %(nodes)s;
-var edges = %(edges)s;
-var data= {
-    nodes: nodes,
-    edges: edges,
+// 1. Define dark/light skins
+const darkOptions = {
+    nodes: {color: {background: "#222", border: "#999", highlight: "#444"}, font: {color: "#fff"}},
+    edges: {color: {color: "#fff", highlight: "#FFD700"}, font: {color: "#fff"}}
 };
-var options = %(options)s;
-var container = document.getElementById('%(name)s');
-var network = new vis.Network(container, data, options);
-network.fit({
-  maxZoomLevel: 1000});
-});
+const lightOptions = {
+    nodes: {
+        color: {
+            background: "#fff",
+            border: "#222",
+            highlight: "#FFD700"},
+        font: {color: "#222"}
+    },
+    edges: {color: {color: "#222", highlight: "#3876c2"}, font: {color: "#222"}}
+};
+
+// 2. Mode detection
+function getTheme() {
+    // Pydata Sphinx Theme: regarde la classe sur body
+    const pydataTheme = document.documentElement.getAttribute("data-theme");
+    if (pydataTheme === "dark" || pydataTheme === "light") {
+        return pydataTheme;
+    }
+    // Jupyter
+    const jupyterLabTheme = document.body.getAttribute("data-jp-theme-name");
+    if (jupyterLabTheme) {
+        // Simplify theme name to 'dark' or 'light'
+        const lowerName = jupyterLabTheme.toLowerCase();
+        if (lowerName.includes("dark")) {
+            return "dark";
+        }
+        if (lowerName.includes("light")) {
+            return "light";
+        }
+    }
+    // System
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+}
+
+// Universal function that loads vis.js only once
+function loadVis(url, callback) {
+    if (window.vis) {
+        console.log("vis-network already loaded");
+        callback();
+        return;
+    }
+    // Lookup other loads in progress
+    if (document.querySelector('script[data-vis-loaded]')) {
+        // Script is loaded, wait until it is ready
+        var check = setInterval(function () {
+            if (window.vis) {
+                clearInterval(check);
+                console.log("vis-network sideload completed");
+                callback();
+            }
+        }, 20);
+        return;
+    }
+    // Add the script to the page, callback called when loaded
+    var script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.setAttribute('data-vis-loaded', '1');
+    script.onload = callback;
+    document.head.appendChild(script);
+    console.log('vis-network dynamically loaded');
+}
+
+// Start display when vis is loaded
+function render() {
+loadVis('%(vis)s', function () {
+    const nodes = %(nodes)s;
+    const edges = %(edges)s;
+    const data = {
+        nodes: nodes,
+        edges: edges,
+    };
+    const options = %(options)s;
+    const container = document.getElementById('%(name)s');
+    const network = new vis.Network(container, data, options);
+    const theme = getTheme();
+    container._theme = theme;
+    const themeOptions = theme === "dark" ? darkOptions : lightOptions;
+    network.setOptions(themeOptions);
+    network.fit({maxZoomLevel: 200});
+})}
+
+render();
+// Adapter dynamiquement si le thème change
+window.addEventListener("theme-changed", () => render());
+const observer = new MutationObserver(mutations => {
+  for (const mutation of mutations) {
+    if (mutation.type === "attributes" && mutation.attributeName === "data-jp-theme-name") {
+      render();
+    }
+  }
+    });
+observer.observe(document.body, { attributes: true });
+if (window.matchMedia) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
+}
 </script>
 """
 """Default template."""
 
 PNG_TEMPLATE = """
 <div id="%(name)s"></div>
-<img id="canvasImg" alt="Right click to save me!">
-<script type="module">
-require.config({
-    paths: {
-        vis: '%(vis)s'
-    }
-});
-require(['vis'], function(vis){
-var nodes = %(nodes)s;
-var edges = %(edges)s;
-var data= {
+<img id="%(name)s-canvasImg" alt="Right click to save me!">
+<script>
+// Universal function that loads vis.js only once
+function loadVis(url, callback) {
+  if (window.vis) {
+    console.log("vis-network already loaded");
+    callback();
+    return;
+  }
+  // Lookup other loads in progress
+  if (document.querySelector('script[data-vis-loaded]')) {
+    // Script is loaded, wait until it is ready
+    var check = setInterval(function() {
+      if (window.vis) {
+        clearInterval(check);
+        console.log("vis-network sideload completed");
+        callback();
+      }
+    }, 20);
+    return;
+  }
+  // Add the script to the page, callback called when loaded
+  var script = document.createElement('script');
+  script.src = url;
+  script.async = true;
+  script.setAttribute('data-vis-loaded', '1');
+  script.onload = callback;
+  document.head.appendChild(script);
+  console.log('vis-network dynamically loaded');
+}
+
+// Start display when vis is loaded
+loadVis('%(vis)s', function() {
+  var nodes = %(nodes)s;
+  var edges = %(edges)s;
+  var data = {
     nodes: nodes,
     edges: edges,
-};
-var options = %(options)s;
-var container = document.getElementById('%(name)s');
-var network = new vis.Network(container, data, options);
-network.on("afterDrawing", function (ctx) {
-    var dataURL = ctx.canvas.toDataURL();
-    document.getElementById('canvasImg').src = dataURL;
-  });
-network.fit({
-  maxZoomLevel: 1000});
+  };
+  var options = %(options)s;
+  var container = document.getElementById('%(name)s');
+  var network = new vis.Network(container, data, options);
+  network.on("afterDrawing", function (ctx) {
+      var dataURL = ctx.canvas.toDataURL();
+      document.getElementById('%(name)s-canvasImg').src = dataURL;
+    });
+  network.fit({ maxZoomLevel: 1000 });
 });
 </script>
 """
@@ -157,27 +370,14 @@ def vis_code(
     >>> edge_list = [{'from': 0, 'to': 1}, {'from': 0, 'to': 2},
     ...          {'from': 1, 'to': 3}, {'from': 2, 'to': 3}]
     >>> print(vis_code(vis_nodes=node_list, vis_edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <div class="sm-graph">
     <div id="..."></div>
-    <script type="module">
-    require.config({
-        paths: {
-            vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
-        }
-    });
-    require(['vis'], function(vis){
-    var nodes = [{"id": 0}, {"id": 1}, {"id": 2}, {"id": 3}];
-    var edges = [{"from": 0, "to": 1}, {"from": 0, "to": 2}, {"from": 1, "to": 3}, {"from": 2, "to": 3}];
-    var data= {
-        nodes: nodes,
-        edges: edges,
-    };
-    var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": "600px"};
-    var container = document.getElementById('...');
-    var network = new vis.Network(container, data, options);
-    network.fit({
-      maxZoomLevel: 1000});
-    });
-    </script>
+    <a href="#" id="fit-..."
+    style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+    z-index: 10; pointer-events: auto;"
+    > Refresh
+    </a>
+    ...
     """
     if div_name is None:
         div_name = str(uuid.uuid4())
