@@ -1,0 +1,2444 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Stochastic matching on simple graphs &#8212; Stochastic Matching 0.3.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=1e28cc32"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/reproducibility';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="A polytope perspective" href="../companion/index.html" />
+    <link rel="prev" title="Comparing different vertex-approaching policies" href="vertex_simulation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.4" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.4 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.3.4 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Simple and Hyper Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis of rates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vertex_simulation.html">Comparing different vertex-approaching policies</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic matching on simple graphs</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Stochastic matching on simple graphs</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Stochastic-matching-on-simple-graphs">
+<h1>Stochastic matching on simple graphs<a class="headerlink" href="#Stochastic-matching-on-simple-graphs" title="Link to this heading">#</a></h1>
+<p>This is the notebook associated with the paper <a class="reference external" href="https://hal.archives-ouvertes.fr/hal-03502084">Stochastic dynamic matching: A mixed graph-theory and linear-algebra approach</a>.</p>
+<p>Its goal is to demonstrate how the results from the paper above can be obtained using the <a class="reference external" href="https://balouf.github.io/stochastic_matching/index.html">stochasting_matching</a> package.</p>
+<p>It contains in particular the production of all simulation-based results from the paper.</p>
+<p>Note that the notebook is NOT intended to be self-contained. Please refer to the paper for context and explanations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">VIS_OPTIONS</span>
+
+<span class="n">VIS_OPTIONS</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">VIS_OPTIONS</span><span class="p">[</span><span class="s2">&quot;interaction&quot;</span><span class="p">][</span><span class="s2">&quot;navigationButtons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<p>The default simulation corresponds to <span class="math notranslate nohighlight">\(10^{digits}\)</span> arrivals.</p>
+<ul class="simple">
+<li><p>Values below <span class="math notranslate nohighlight">\(6\)</span> should only be used for debugging.</p></li>
+<li><p>Use <span class="math notranslate nohighlight">\(10\)</span> for high quality results.</p></li>
+</ul>
+<p>Parallelization is used. You can cap the number of // jobs.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">digits</span>
+</pre></div>
+</div>
+</div>
+<section id="Basis-of-the-kernel">
+<h2>Basis of the kernel<a class="headerlink" href="#Basis-of-the-kernel" title="Link to this heading">#</a></h2>
+<p>This section of the notebook reproduces figures from <em>Basis of the kernel of the incidence matrix</em> parts.</p>
+<section id="Vector-of-the-kernel-space-for-the-diamond-graph.">
+<h3>Vector of the kernel space for the diamond graph.<a class="headerlink" href="#Vector-of-the-kernel-space-for-the-diamond-graph." title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)])</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="c804a2d2-aa7e-4472-8b67-f58062c651fc"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}];
+var edges = [{"title": "0: (1, 2)", "label": "+\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "-\u03b11", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "", "color": "black", "from": 1, "to": 2}, {"title": "3: (2, 4)", "label": "-\u03b11", "from": 1, "to": 3}, {"title": "4: (3, 4)", "label": "+\u03b11", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('c804a2d2-aa7e-4472-8b67-f58062c651fc');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Vector-of-the-kernel-space-for-a-kayak-paddle.">
+<h3>Vector of the kernel space for a kayak paddle.<a class="headerlink" href="#Vector-of-the-kernel-space-for-a-kayak-paddle." title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kayak</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)])</span>
+<span class="n">kayak</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="0d09b3f2-6ac4-47ee-92e2-ab736fd2d4cc"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}, {"id": 6, "label": "7", "title": "6: 7"}, {"id": 7, "label": "8", "title": "7: 8"}, {"id": 8, "label": "9", "title": "8: 9"}];
+var edges = [{"title": "0: (1, 2)", "label": "-\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "+\u03b11", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "+\u03b11", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "-2\u03b11", "from": 2, "to": 3}, {"title": "4: (4, 5)", "label": "+2\u03b11", "from": 3, "to": 4}, {"title": "5: (5, 6)", "label": "-\u03b11", "from": 4, "to": 5}, {"title": "6: (5, 9)", "label": "-\u03b11", "from": 4, "to": 8}, {"title": "7: (6, 7)", "label": "+\u03b11", "from": 5, "to": 6}, {"title": "8: (7, 8)", "label": "-\u03b11", "from": 6, "to": 7}, {"title": "9: (8, 9)", "label": "+\u03b11", "from": 7, "to": 8}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('0d09b3f2-6ac4-47ee-92e2-ab736fd2d4cc');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Two-possible-constructions-of-a-kernel-basis-for-the-triamond-graph">
+<h3>Two possible constructions of a kernel basis for the triamond graph<a class="headerlink" href="#Two-possible-constructions-of-a-kernel-basis-for-the-triamond-graph" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">triamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">])</span>
+<span class="n">triamond</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="ab2d05bc-7924-48d6-9e6e-88d068898748"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "5", "title": "1: 5"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "3", "title": "4: 3"}];
+var edges = [{"title": "0: (1, 5)", "label": "", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "", "from": 0, "to": 2}, {"title": "2: (5, 2)", "label": "", "from": 1, "to": 2}, {"title": "3: (5, 4)", "label": "", "from": 1, "to": 3}, {"title": "4: (2, 4)", "label": "", "from": 2, "to": 3}, {"title": "5: (2, 3)", "label": "", "from": 2, "to": 4}, {"title": "6: (4, 3)", "label": "", "from": 3, "to": 4}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('ab2d05bc-7924-48d6-9e6e-88d068898748');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">triamond</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">triamond</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="cf0002b6-ee5e-41bc-a7ba-231a6d65442c"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "5", "title": "1: 5"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "3", "title": "4: 3"}];
+var edges = [{"title": "0: (1, 5)", "label": "-\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "+\u03b11", "from": 0, "to": 2}, {"title": "2: (5, 2)", "label": "+\u03b11-\u03b12", "from": 1, "to": 2}, {"title": "3: (5, 4)", "label": "+\u03b12", "from": 1, "to": 3}, {"title": "4: (2, 4)", "label": "-\u03b11", "from": 2, "to": 3}, {"title": "5: (2, 3)", "label": "-\u03b11+\u03b12", "from": 2, "to": 4}, {"title": "6: (4, 3)", "label": "+\u03b11-\u03b12", "from": 3, "to": 4}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('cf0002b6-ee5e-41bc-a7ba-231a6d65442c');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">triamond</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">triamond</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="5341bbcf-1e0a-46f5-8a18-28c2b859a492"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "5", "title": "1: 5"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "3", "title": "4: 3"}];
+var edges = [{"title": "0: (1, 5)", "label": "+\u03b12", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "-\u03b12", "from": 0, "to": 2}, {"title": "2: (5, 2)", "label": "+\u03b11", "from": 1, "to": 2}, {"title": "3: (5, 4)", "label": "-\u03b11-\u03b12", "from": 1, "to": 3}, {"title": "4: (2, 4)", "label": "+\u03b12", "from": 2, "to": 3}, {"title": "5: (2, 3)", "label": "-\u03b11", "from": 2, "to": 4}, {"title": "6: (4, 3)", "label": "+\u03b11", "from": 3, "to": 4}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('5341bbcf-1e0a-46f5-8a18-28c2b859a492');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Two-possible-constructions-of-a-kernel-basis-for-the-codomino-graph">
+<h3>Two possible constructions of a kernel basis for the codomino graph<a class="headerlink" href="#Two-possible-constructions-of-a-kernel-basis-for-the-codomino-graph" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Codomino</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="97a1c572-6385-4a40-bd52-6a91b62a18da"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('97a1c572-6385-4a40-bd52-6a91b62a18da');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="89670927-57c1-4f5d-98cd-1d0466007ff8"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "-\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "+\u03b11", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "-\u03b11-\u03b12", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "+2\u03b11+\u03b12", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "+\u03b12", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "-\u03b11-\u03b12", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "+\u03b11", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "-\u03b11", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('89670927-57c1-4f5d-98cd-1d0466007ff8');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="f53736e6-0503-4beb-a167-3c3a376b6458"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "+\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "-\u03b11", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "+\u03b12", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "-\u03b11-\u03b12", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "+\u03b11-\u03b12", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "+\u03b12", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "-\u03b11", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "+\u03b11", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('f53736e6-0503-4beb-a167-3c3a376b6458');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+</section>
+<section id="Bijective-vertices-and-facets-of-the-convex-polytope">
+<h2>Bijective vertices and facets of the convex polytope<a class="headerlink" href="#Bijective-vertices-and-facets-of-the-convex-polytope" title="Link to this heading">#</a></h2>
+<p>This section of the notebook reproduces examples of polytopes.</p>
+<section id="Essential-matching,-simple-polytope">
+<h3>Essential matching, simple polytope<a class="headerlink" href="#Essential-matching,-simple-polytope" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generic solution</span>
+
+<span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Codomino</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">maximin</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="320939cf-7dab-4f4f-bf59-8b5ad6b9b769"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "2+\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "2-\u03b11", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "2+\u03b12", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "1-\u03b11-\u03b12", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "1+\u03b11-\u03b12", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "1+\u03b12", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "1-\u03b11", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "1+\u03b11", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('320939cf-7dab-4f4f-bf59-8b5ad6b9b769');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vertices</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([1., 3., 1., 3., 1., 0., 2., 0.]),
+  &#39;null_edges&#39;: [5, 7],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-1.,  0.]),
+  &#39;edge_coordinates&#39;: array([1., 3., 2., 2., 0., 1., 2., 0.]),
+  &#39;null_edges&#39;: [4, 7],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([0., 1.]),
+  &#39;edge_coordinates&#39;: array([2., 2., 3., 0., 0., 2., 1., 1.]),
+  &#39;null_edges&#39;: [3, 4],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 1., -1.]),
+  &#39;edge_coordinates&#39;: array([3., 1., 1., 1., 3., 0., 0., 2.]),
+  &#39;null_edges&#39;: [5, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([1., 0.]),
+  &#39;edge_coordinates&#39;: array([3., 1., 2., 0., 2., 1., 0., 2.]),
+  &#39;null_edges&#39;: [3, 6],
+  &#39;bijective&#39;: True}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="fe4de2a7-f8eb-4557-96db-4e2e29067b62"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "3", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('fe4de2a7-f8eb-4557-96db-4e2e29067b62');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="09df6887-0ce5-49c3-830d-3c363faa6058"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('09df6887-0ce5-49c3-830d-3c363faa6058');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="9bd59752-c5b5-41f1-b0fc-d94d0103529e"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "3", "color": "blue", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "", "color": "orange", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "1", "color": "blue", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "1", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('9bd59752-c5b5-41f1-b0fc-d94d0103529e');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="8ca58033-d282-4cd8-b1f1-d49e75dd963f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "1", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "3", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('8ca58033-d282-4cd8-b1f1-d49e75dd963f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="9f69cc56-c48d-40b0-ac68-138accda9cfd"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "", "color": "orange", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('9f69cc56-c48d-40b0-ac68-138accda9cfd');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Non-Essential-matching,-simple-polytope">
+<h3>Non-Essential matching, simple polytope<a class="headerlink" href="#Non-Essential-matching,-simple-polytope" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generic solution</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="c33482b2-680a-4ae4-b74c-908421720812"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "1+\u03b11", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "1-\u03b11", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "1+\u03b12", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "-\u03b11-\u03b12", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2+\u03b11-\u03b12", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "1+\u03b12", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "1-\u03b11", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "1+\u03b11", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('c33482b2-680a-4ae4-b74c-908421720812');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vertices</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 2., 0., 2., 2., 0., 2., 0.]),
+  &#39;null_edges&#39;: [0, 2, 5, 7],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1.,  1.]),
+  &#39;edge_coordinates&#39;: array([0., 2., 2., 0., 0., 2., 2., 0.]),
+  &#39;null_edges&#39;: [0, 3, 4, 7],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([ 1., -1.]),
+  &#39;edge_coordinates&#39;: array([2., 0., 0., 0., 4., 0., 0., 2.]),
+  &#39;null_edges&#39;: [1, 2, 3, 5, 6],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="0ae7f914-b3f0-4418-906f-67542e8e1d8c"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "", "color": "orange", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "2", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('0ae7f914-b3f0-4418-906f-67542e8e1d8c');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="a2ab8370-10b6-4943-839a-53f70f40626f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "", "color": "orange", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "", "color": "orange", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('a2ab8370-10b6-4943-839a-53f70f40626f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="56a34225-cd02-47e1-9dc7-dccbfc64248c"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "", "color": "orange", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "", "color": "orange", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "4", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 150};
+var container = document.getElementById('56a34225-cd02-47e1-9dc7-dccbfc64248c');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+<section id="Non-simple-polytope">
+<h3>Non-simple polytope<a class="headerlink" href="#Non-simple-polytope" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Pyramid</span><span class="p">(</span>
+    <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;9&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">pyramid</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">pyramid</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">pyramid</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">450</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="23d5261f-dbcd-409f-b00e-3727e3dbdc24"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "9", "title": "0: 9"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "1", "title": "2: 1"}, {"id": 3, "label": "8", "title": "3: 8"}, {"id": 4, "label": "7", "title": "4: 7"}, {"id": 5, "label": "3", "title": "5: 3"}, {"id": 6, "label": "4", "title": "6: 4"}, {"id": 7, "label": "5", "title": "7: 5"}, {"id": 8, "label": "6", "title": "8: 6"}, {"id": 9, "label": "10", "title": "9: 10"}];
+var edges = [{"title": "0: (9, 2)", "label": "2+\u03b11", "from": 0, "to": 1}, {"title": "1: (9, 1)", "label": "2-\u03b11", "from": 0, "to": 2}, {"title": "2: (2, 1)", "label": "+\u03b13", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "1-\u03b11-\u03b13", "from": 1, "to": 5}, {"title": "4: (1, 8)", "label": "1+\u03b11-\u03b13", "from": 2, "to": 3}, {"title": "5: (8, 7)", "label": "2-\u03b11+\u03b13", "from": 3, "to": 4}, {"title": "6: (7, 3)", "label": "3+\u03b11+\u03b12", "from": 4, "to": 5}, {"title": "7: (7, 6)", "label": "1-\u03b12-\u03b13", "from": 4, "to": 8}, {"title": "8: (3, 4)", "label": "2-\u03b12+\u03b13", "from": 5, "to": 6}, {"title": "9: (4, 5)", "label": "1+\u03b12-\u03b13", "from": 6, "to": 7}, {"title": "10: (5, 6)", "label": "1+\u03b13", "from": 7, "to": 8}, {"title": "11: (5, 10)", "label": "2-\u03b12", "from": 7, "to": 9}, {"title": "12: (6, 10)", "label": "2+\u03b12", "from": 8, "to": 9}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 450};
+var container = document.getElementById('23d5261f-dbcd-409f-b00e-3727e3dbdc24');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyramid</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1.,  1.,  0.]),
+  &#39;edge_coordinates&#39;: array([1., 3., 0., 2., 0., 3., 3., 0., 1., 2., 1., 1., 3.]),
+  &#39;null_edges&#39;: [2, 4, 7],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-1., -1.,  0.]),
+  &#39;edge_coordinates&#39;: array([1., 3., 0., 2., 0., 3., 1., 2., 3., 0., 1., 3., 1.]),
+  &#39;null_edges&#39;: [2, 4, 9],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([0., 0., 1.]),
+  &#39;edge_coordinates&#39;: array([2., 2., 1., 0., 0., 3., 3., 0., 3., 0., 2., 2., 2.]),
+  &#39;null_edges&#39;: [3, 4, 7, 9],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([ 1., -1.,  0.]),
+  &#39;edge_coordinates&#39;: array([3., 1., 0., 0., 2., 1., 3., 2., 3., 0., 1., 3., 1.]),
+  &#39;null_edges&#39;: [2, 3, 9],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([1., 1., 0.]),
+  &#39;edge_coordinates&#39;: array([3., 1., 0., 0., 2., 1., 5., 0., 1., 2., 1., 1., 3.]),
+  &#39;null_edges&#39;: [2, 3, 7],
+  &#39;bijective&#39;: True}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">pyramid</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vis_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">250</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="dbdcf14e-2d13-4005-96a4-52520d5adb4b"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "9", "title": "0: 9"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "1", "title": "2: 1"}, {"id": 3, "label": "8", "title": "3: 8"}, {"id": 4, "label": "7", "title": "4: 7"}, {"id": 5, "label": "3", "title": "5: 3"}, {"id": 6, "label": "4", "title": "6: 4"}, {"id": 7, "label": "5", "title": "7: 5"}, {"id": 8, "label": "6", "title": "8: 6"}, {"id": 9, "label": "10", "title": "9: 10"}];
+var edges = [{"title": "0: (9, 2)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (9, 1)", "label": "3", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 1)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "2", "color": "blue", "from": 1, "to": 5}, {"title": "4: (1, 8)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (8, 7)", "label": "3", "color": "blue", "from": 3, "to": 4}, {"title": "6: (7, 3)", "label": "3", "color": "blue", "from": 4, "to": 5}, {"title": "7: (7, 6)", "label": "", "color": "orange", "from": 4, "to": 8}, {"title": "8: (3, 4)", "label": "1", "color": "blue", "from": 5, "to": 6}, {"title": "9: (4, 5)", "label": "2", "color": "blue", "from": 6, "to": 7}, {"title": "10: (5, 6)", "label": "1", "color": "blue", "from": 7, "to": 8}, {"title": "11: (5, 10)", "label": "1", "color": "blue", "from": 7, "to": 9}, {"title": "12: (6, 10)", "label": "3", "color": "blue", "from": 8, "to": 9}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 250};
+var container = document.getElementById('dbdcf14e-2d13-4005-96a4-52520d5adb4b');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="8a154c3a-8f3e-4ef1-b83b-ad534eab62db"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "9", "title": "0: 9"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "1", "title": "2: 1"}, {"id": 3, "label": "8", "title": "3: 8"}, {"id": 4, "label": "7", "title": "4: 7"}, {"id": 5, "label": "3", "title": "5: 3"}, {"id": 6, "label": "4", "title": "6: 4"}, {"id": 7, "label": "5", "title": "7: 5"}, {"id": 8, "label": "6", "title": "8: 6"}, {"id": 9, "label": "10", "title": "9: 10"}];
+var edges = [{"title": "0: (9, 2)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (9, 1)", "label": "3", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 1)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "2", "color": "blue", "from": 1, "to": 5}, {"title": "4: (1, 8)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (8, 7)", "label": "3", "color": "blue", "from": 3, "to": 4}, {"title": "6: (7, 3)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "7: (7, 6)", "label": "2", "color": "blue", "from": 4, "to": 8}, {"title": "8: (3, 4)", "label": "3", "color": "blue", "from": 5, "to": 6}, {"title": "9: (4, 5)", "label": "", "color": "orange", "from": 6, "to": 7}, {"title": "10: (5, 6)", "label": "1", "color": "blue", "from": 7, "to": 8}, {"title": "11: (5, 10)", "label": "3", "color": "blue", "from": 7, "to": 9}, {"title": "12: (6, 10)", "label": "1", "color": "blue", "from": 8, "to": 9}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 250};
+var container = document.getElementById('8a154c3a-8f3e-4ef1-b83b-ad534eab62db');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="ef7080be-3928-4f5a-b5a7-fd99df346438"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "9", "title": "0: 9"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "1", "title": "2: 1"}, {"id": 3, "label": "8", "title": "3: 8"}, {"id": 4, "label": "7", "title": "4: 7"}, {"id": 5, "label": "3", "title": "5: 3"}, {"id": 6, "label": "4", "title": "6: 4"}, {"id": 7, "label": "5", "title": "7: 5"}, {"id": 8, "label": "6", "title": "8: 6"}, {"id": 9, "label": "10", "title": "9: 10"}];
+var edges = [{"title": "0: (9, 2)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (9, 1)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 1)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "", "color": "orange", "from": 1, "to": 5}, {"title": "4: (1, 8)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (8, 7)", "label": "3", "color": "blue", "from": 3, "to": 4}, {"title": "6: (7, 3)", "label": "3", "color": "blue", "from": 4, "to": 5}, {"title": "7: (7, 6)", "label": "", "color": "orange", "from": 4, "to": 8}, {"title": "8: (3, 4)", "label": "3", "color": "blue", "from": 5, "to": 6}, {"title": "9: (4, 5)", "label": "", "color": "orange", "from": 6, "to": 7}, {"title": "10: (5, 6)", "label": "2", "color": "blue", "from": 7, "to": 8}, {"title": "11: (5, 10)", "label": "2", "color": "blue", "from": 7, "to": 9}, {"title": "12: (6, 10)", "label": "2", "color": "blue", "from": 8, "to": 9}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 250};
+var container = document.getElementById('ef7080be-3928-4f5a-b5a7-fd99df346438');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="bb3196e2-4d2b-4168-bfd8-53aea3b4a20c"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "9", "title": "0: 9"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "1", "title": "2: 1"}, {"id": 3, "label": "8", "title": "3: 8"}, {"id": 4, "label": "7", "title": "4: 7"}, {"id": 5, "label": "3", "title": "5: 3"}, {"id": 6, "label": "4", "title": "6: 4"}, {"id": 7, "label": "5", "title": "7: 5"}, {"id": 8, "label": "6", "title": "8: 6"}, {"id": 9, "label": "10", "title": "9: 10"}];
+var edges = [{"title": "0: (9, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (9, 1)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 1)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "", "color": "orange", "from": 1, "to": 5}, {"title": "4: (1, 8)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (8, 7)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (7, 3)", "label": "3", "color": "blue", "from": 4, "to": 5}, {"title": "7: (7, 6)", "label": "2", "color": "blue", "from": 4, "to": 8}, {"title": "8: (3, 4)", "label": "3", "color": "blue", "from": 5, "to": 6}, {"title": "9: (4, 5)", "label": "", "color": "orange", "from": 6, "to": 7}, {"title": "10: (5, 6)", "label": "1", "color": "blue", "from": 7, "to": 8}, {"title": "11: (5, 10)", "label": "3", "color": "blue", "from": 7, "to": 9}, {"title": "12: (6, 10)", "label": "1", "color": "blue", "from": 8, "to": 9}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 250};
+var container = document.getElementById('bb3196e2-4d2b-4168-bfd8-53aea3b4a20c');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="f58c5ec4-958c-4e90-8b6f-c6d905fb94c3"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "9", "title": "0: 9"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "1", "title": "2: 1"}, {"id": 3, "label": "8", "title": "3: 8"}, {"id": 4, "label": "7", "title": "4: 7"}, {"id": 5, "label": "3", "title": "5: 3"}, {"id": 6, "label": "4", "title": "6: 4"}, {"id": 7, "label": "5", "title": "7: 5"}, {"id": 8, "label": "6", "title": "8: 6"}, {"id": 9, "label": "10", "title": "9: 10"}];
+var edges = [{"title": "0: (9, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (9, 1)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 1)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "", "color": "orange", "from": 1, "to": 5}, {"title": "4: (1, 8)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (8, 7)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (7, 3)", "label": "5", "color": "blue", "from": 4, "to": 5}, {"title": "7: (7, 6)", "label": "", "color": "orange", "from": 4, "to": 8}, {"title": "8: (3, 4)", "label": "1", "color": "blue", "from": 5, "to": 6}, {"title": "9: (4, 5)", "label": "2", "color": "blue", "from": 6, "to": 7}, {"title": "10: (5, 6)", "label": "1", "color": "blue", "from": 7, "to": 8}, {"title": "11: (5, 10)", "label": "1", "color": "blue", "from": 7, "to": 9}, {"title": "12: (6, 10)", "label": "3", "color": "blue", "from": 8, "to": 9}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 250};
+var container = document.getElementById('f58c5ec4-958c-4e90-8b6f-c6d905fb94c3');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+</section>
+</section>
+<section id="Greedy-policies">
+<h2>Greedy policies<a class="headerlink" href="#Greedy-policies" title="Link to this heading">#</a></h2>
+<p>This section of the notebook builds the figures from <em>Matching rates in surjective-only graphs: greedy policies</em>.</p>
+<section id="Complete-graph">
+<h3>Complete graph<a class="headerlink" href="#Complete-graph" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: the kernel is reversed compared to the figure in the paper; this does not change anything but signes in practice</span>
+
+<span class="n">complete</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Complete</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)])</span>
+<span class="n">complete</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="963976aa-db20-4a02-8878-54c6184b2e6f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}];
+var edges = [{"title": "0: (1, 2)", "label": "+\u03b12", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "+\u03b11", "from": 0, "to": 2}, {"title": "2: (1, 4)", "label": "-\u03b11-\u03b12", "from": 0, "to": 3}, {"title": "3: (2, 3)", "label": "-\u03b11-\u03b12", "from": 1, "to": 2}, {"title": "4: (2, 4)", "label": "+\u03b11", "from": 1, "to": 3}, {"title": "5: (3, 4)", "label": "+\u03b12", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('963976aa-db20-4a02-8878-54c6184b2e6f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">complete</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 0., 3., 3., 0., 0.]),
+  &#39;null_edges&#39;: [0, 1, 4, 5],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1.,  2.]),
+  &#39;edge_coordinates&#39;: array([3., 0., 0., 0., 0., 3.]),
+  &#39;null_edges&#39;: [1, 2, 3, 4],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([ 2., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 3., 0., 0., 3., 0.]),
+  &#39;null_edges&#39;: [0, 2, 3, 5],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<p>For heavy computational stuff, we use the following approach:</p>
+<ul class="simple">
+<li><p>Simulations are run on parallel.</p></li>
+<li><p>Results of interest are saved in a pickle file.</p></li>
+<li><p>If the pickle file exists, it bypasses the computation.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="kn">import</span> <span class="n">XP</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">evaluate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">complete</span><span class="p">,</span> <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+<span class="n">xps</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Longest&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;FCFM&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Random Edge&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;random_edge&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Random Item&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;random_item&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Priority&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">flow_kernel_coordinates</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">simu</span><span class="o">.</span><span class="n">flow</span>
+    <span class="k">return</span> <span class="n">simu</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edge_to_kernel</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">xps</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="n">flow_kernel_coordinates</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;complete&quot;</span>
+    <span class="p">)</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Longest&#39;: {&#39;flow&#39;: array([1.00000059, 1.0000066 , 1.00001283, 1.0000111 , 1.00000862,
+         0.99996026]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;FCFM&#39;: {&#39;flow&#39;: array([1.00000059, 1.0000066 , 1.00001283, 1.0000111 , 1.00000862,
+         0.99996026]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;Random Edge&#39;: {&#39;flow&#39;: array([1.00003558, 1.00002742, 0.99995652, 0.99996954, 0.99997213,
+         1.00003881]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;Random Item&#39;: {&#39;flow&#39;: array([1.00003558, 1.00002742, 0.99995652, 0.99996954, 0.99997213,
+         1.00003881]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;Priority&#39;: {&#39;flow&#39;: array([1.00000059, 1.0000066 , 1.00001283, 1.0000111 , 1.00000862,
+         0.99996026]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])}}
+</pre></div></div>
+</div>
+<p>No matter what policy is used, the results is always the same in a complete graph, as all greedy policies are equivalent.</p>
+</section>
+<section id="Diamond-graph">
+<h3>Diamond graph<a class="headerlink" href="#Diamond-graph" title="Link to this heading">#</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">beta_to_model</span><span class="p">(</span><span class="n">beta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span>
+        <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
+        <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">)</span>
+
+
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">β_vect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+<span class="n">model_iter</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">β_vect</span><span class="p">,</span> <span class="s2">&quot;β&quot;</span><span class="p">,</span> <span class="n">beta_to_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span>
+    <span class="s2">&quot;Greedy vertex&quot;</span><span class="p">,</span>
+    <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">iterator</span><span class="o">=</span><span class="n">model_iter</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">alpha</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">simu</span><span class="o">.</span><span class="n">flow</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">flow</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;diamond&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">min_flow2</span><span class="p">(</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">q13</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">beta</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q13</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">q2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p0</span> <span class="o">*</span> <span class="n">q2</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">p0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">beta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span>
+
+
+<span class="n">lbi</span> <span class="o">=</span> <span class="p">[</span><span class="n">min_flow2</span><span class="p">(</span><span class="n">β</span><span class="p">)</span> <span class="k">for</span> <span class="n">β</span> <span class="ow">in</span> <span class="n">β_vect</span><span class="p">]</span>
+<span class="n">ubi</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">min_flow2</span><span class="p">(</span><span class="n">β</span><span class="p">)</span> <span class="k">for</span> <span class="n">β</span> <span class="ow">in</span> <span class="n">β_vect</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tikzplotlib</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    workaround for matplotlib 3.6 renamed legend&#39;s _ncol to _ncols, which breaks tikzplotlib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;_ncols&quot;</span><span class="p">):</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_ncol</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_ncols</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+        <span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;Greedy vertex&quot;</span><span class="p">][</span><span class="s2">&quot;alpha&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">β_vect</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\Lambda_{\geqslant 0}$&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">β_vect</span><span class="p">,</span>
+    <span class="o">-</span><span class="n">res</span><span class="p">,</span>
+    <span class="n">res</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\Lambda_G = [</span><span class="se">\\</span><span class="s2">alpha_-, </span><span class="se">\\</span><span class="s2">alpha_+]$&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">β_vect</span><span class="p">,</span> <span class="n">ubi</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Upper bound from \eqref{eq:diamond-greedy-ineq}&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">β_vect</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha=0$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">β_vect</span><span class="p">,</span> <span class="n">lbi</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lower bound from \eqref{eq:diamond-greedy-ineq}&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">beta$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">β_vect</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">β_vect</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;diamond_</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">.tex&quot;</span><span class="p">,</span>
+    <span class="n">axis_width</span><span class="o">=</span><span class="s2">&quot;12cm&quot;</span><span class="p">,</span>
+    <span class="n">axis_height</span><span class="o">=</span><span class="s2">&quot;8cm&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_51_0.png" src="../_images/tutorials_reproducibility_51_0.png" />
+</div>
+</div>
+</section>
+<section id="Fish-graph">
+<h3>Fish graph<a class="headerlink" href="#Fish-graph" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span>
+    <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="4eee8f94-94f2-42f3-93a7-8d6543acb42f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "black", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "black", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "black", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "+\u03b11", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "1-\u03b11", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "2-\u03b11", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1+\u03b11", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('4eee8f94-94f2-42f3-93a7-8d6543acb42f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<section id="Limitation-lemma">
+<h4>Limitation lemma<a class="headerlink" href="#Limitation-lemma" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">paw</span><span class="o">.</span><span class="n">stabilizable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span><span class="o">.</span><span class="n">base_flow</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3., 1., 1., 1.])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="deca80e4-5f82-4f5f-8328-1ec93e85e8da"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4", "color": "red"}];
+var edges = [{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.819", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('deca80e4-5f82-4f5f-8328-1ec93e85e8da');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Theory predict a matching rate <span class="math notranslate nohighlight">\(9/11\)</span> for node 4.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">9</span> <span class="o">/</span> <span class="mi">11</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.8181818181818182
+</pre></div></div>
+</div>
+</section>
+<section id="Unstable-policy-lemma">
+<h4>Unstable policy lemma<a class="headerlink" href="#Unstable-policy-lemma" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="33e7293a-5028-4c9c-b100-5d1fad36e520"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4", "color": "red"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.818", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "5.4e-06", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('33e7293a-5028-4c9c-b100-5d1fad36e520');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Queues 3 and 5 are empty because 4 is transient and never empty.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_64_0.png" src="../_images/tutorials_reproducibility_64_0.png" />
+</div>
+</div>
+<p>For finite simulations, <em>transient</em> means <em>very big queue</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_66_0.png" src="../_images/tutorials_reproducibility_66_0.png" />
+</div>
+</div>
+</section>
+<section id="Threshold-controlled-priorities">
+<h4>Threshold-controlled priorities<a class="headerlink" href="#Threshold-controlled-priorities" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">counterweights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="cdd7b031-7711-4fd8-b076-e1cd8e125d64"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.000477", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('cdd7b031-7711-4fd8-b076-e1cd8e125d64');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_70_0.png" src="../_images/tutorials_reproducibility_70_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_71_0.png" src="../_images/tutorials_reproducibility_71_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_72_0.png" src="../_images/tutorials_reproducibility_72_0.png" />
+</div>
+</div>
+<p>The default priority policy implemented in the package is conditioned on the max queue size, while the policy described on the paper is conditioned on the queue size of one specific node. We can craft a new selector for the experiment.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pivot_priority_selector</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">counterweights</span><span class="p">,</span> <span class="n">pivot</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make a jitted edge selector based on priorities.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority_selector</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">best_edge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">best_weight</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span>
+
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">counterweights</span>
+
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">w</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">best_weight</span><span class="p">:</span>
+                    <span class="n">best_weight</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                    <span class="n">best_edge</span> <span class="o">=</span> <span class="n">e</span>
+        <span class="k">return</span> <span class="n">best_edge</span>
+
+    <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="n">priority_selector</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Fish</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Priority</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;fish&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">pivot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pivot</span> <span class="o">=</span> <span class="n">pivot</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set_internal</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">[</span><span class="s2">&quot;selector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pivot_priority_selector</span><span class="p">(</span>
+            <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span>
+            <span class="n">counterweights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">counterweights</span><span class="p">,</span>
+            <span class="n">pivot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pivot</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sm</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">get_classes</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Simulator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;fcfm&#39;: stochastic_matching.simulator.fcfm.FCFM,
+ &#39;priority&#39;: stochastic_matching.simulator.priority.Priority,
+ &#39;random_edge&#39;: stochastic_matching.simulator.random_edge.RandomEdge,
+ &#39;random_item&#39;: stochastic_matching.simulator.random_item.RandomItem,
+ &#39;e_filtering&#39;: stochastic_matching.simulator.e_filtering.EFiltering,
+ &#39;longest&#39;: stochastic_matching.simulator.longest.Longest,
+ &#39;virtual_queue&#39;: stochastic_matching.simulator.virtual_queue.VirtualQueue,
+ &#39;fish&#39;: __main__.Fish}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span>
+    <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">k_vect</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">k_iter</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="n">k_vect</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;iterator&quot;</span><span class="p">:</span> <span class="n">k_iter</span><span class="p">,</span> <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+
+<span class="n">xps</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span>
+    <span class="s2">&quot;pos&quot;</span><span class="p">,</span>
+    <span class="n">simulator</span><span class="o">=</span><span class="n">Fish</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">fish</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">counterweights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">pivot</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">xps</span> <span class="o">+=</span> <span class="n">XP</span><span class="p">(</span>
+    <span class="s2">&quot;neg&quot;</span><span class="p">,</span>
+    <span class="n">simulator</span><span class="o">=</span><span class="n">Fish</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">fish</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">counterweights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">pivot</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">edge_flow</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">simu</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">dill</span>
+
+<span class="n">dill</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;recurse&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">edge_flow</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;fish&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">k_vect</span><span class="p">)</span>
+<span class="n">alm</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">][</span><span class="s2">&quot;edge_flow&quot;</span><span class="p">]</span>
+<span class="n">alp</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">][</span><span class="s2">&quot;edge_flow&quot;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">k_vect</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\Lambda_{\geqslant 0}$&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">k_vect</span><span class="p">,</span> <span class="n">alp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha_+(k)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">k_vect</span><span class="p">,</span> <span class="n">alm</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha_-(k)$&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$k$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">k_vect</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">k_vect</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fish_semilog_</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">.tex&quot;</span><span class="p">,</span> <span class="n">axis_width</span><span class="o">=</span><span class="s2">&quot;6.5cm&quot;</span><span class="p">,</span> <span class="n">axis_height</span><span class="o">=</span><span class="s2">&quot;6cm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_78_0.png" src="../_images/tutorials_reproducibility_78_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">k_vect</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">k_vect</span><span class="p">,</span> <span class="n">alm</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$k$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha_-(k)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">k_vect</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">256</span><span class="p">])</span>
+<span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fish_loglog_</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">.tex&quot;</span><span class="p">,</span> <span class="n">axis_width</span><span class="o">=</span><span class="s2">&quot;6.5cm&quot;</span><span class="p">,</span> <span class="n">axis_height</span><span class="o">=</span><span class="s2">&quot;6cm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_79_0.png" src="../_images/tutorials_reproducibility_79_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Semi-filtering-policies-on-an-injective-only-vertex">
+<h2>Semi-filtering policies on an injective-only vertex<a class="headerlink" href="#Semi-filtering-policies-on-an-injective-only-vertex" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Codomino</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 2., 0., 4., 0., 0., 2., 0.]),
+  &#39;null_edges&#39;: [0, 2, 4, 5, 7],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1.,  1.]),
+  &#39;edge_coordinates&#39;: array([2., 0., 0., 2., 2., 0., 0., 2.]),
+  &#39;null_edges&#39;: [1, 2, 5, 6],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([1., 1.]),
+  &#39;edge_coordinates&#39;: array([2., 0., 2., 0., 0., 2., 0., 2.]),
+  &#39;null_edges&#39;: [1, 3, 4, 6],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="4c6e0356-b684-4f5f-a87e-cf5cf49d970a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "6", "title": "1: 6"}, {"id": 2, "label": "2", "title": "2: 2"}, {"id": 3, "label": "3", "title": "3: 3"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "4", "title": "5: 4"}];
+var edges = [{"title": "0: (1, 6)", "label": "", "color": "orange", "from": 0, "to": 1}, {"title": "1: (1, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (6, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (6, 5)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 5)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 4)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (5, 4)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": false}, "width": "600px", "height": 300};
+var container = document.getElementById('4c6e0356-b684-4f5f-a87e-cf5cf49d970a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Codomino</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">forbidden_edges</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">]</span>
+<span class="n">k_vect</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">k_iter</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">k_vect</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">codomino</span><span class="p">,</span>
+    <span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
+    <span class="s2">&quot;max_queue&quot;</span><span class="p">:</span> <span class="mi">20000</span><span class="p">,</span>
+    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="s2">&quot;forbidden_edges&quot;</span><span class="p">:</span> <span class="n">forbidden_edges</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">xps</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Injective&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">k_iter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ccdf0</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">simu</span><span class="o">.</span><span class="n">ccdf</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">leak</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">simu</span><span class="o">.</span><span class="n">flow</span><span class="p">[</span><span class="n">forbidden_edges</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="p">[</span><span class="n">ccdf0</span><span class="p">,</span> <span class="n">leak</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;injective&quot;</span><span class="p">)[</span><span class="s2">&quot;Injective&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;ccdf0&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;$k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5000</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Size of queue 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;CCDF&quot;</span><span class="p">)</span>
+<span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;codomino_semilog_</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">.tex&quot;</span><span class="p">,</span> <span class="n">axis_width</span><span class="o">=</span><span class="s2">&quot;4.5cm&quot;</span><span class="p">,</span> <span class="n">axis_height</span><span class="o">=</span><span class="s2">&quot;4cm&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_86_0.png" src="../_images/tutorials_reproducibility_86_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;ccdf0&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;$k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5000</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Size of queue 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;CCDF&quot;</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">clean_figure</span><span class="p">()</span>
+<span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;codomino_linear_</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">.tex&quot;</span><span class="p">,</span> <span class="n">axis_width</span><span class="o">=</span><span class="s2">&quot;6.5cm&quot;</span><span class="p">,</span> <span class="n">axis_height</span><span class="o">=</span><span class="s2">&quot;6cm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_87_0.png" src="../_images/tutorials_reproducibility_87_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;leak&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Threshold $k$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Leaking rate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">k_vect</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">k_vect</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">tikzplotlib_fix_ncols</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">tikzplotlib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;codomino_loglog_</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">.tex&quot;</span><span class="p">,</span> <span class="n">axis_width</span><span class="o">=</span><span class="s2">&quot;6.5cm&quot;</span><span class="p">,</span> <span class="n">axis_height</span><span class="o">=</span><span class="s2">&quot;6cm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_reproducibility_88_0.png" src="../_images/tutorials_reproducibility_88_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="vertex_simulation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Comparing different vertex-approaching policies</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../companion/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">A polytope perspective</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Basis-of-the-kernel">Basis of the kernel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Vector-of-the-kernel-space-for-the-diamond-graph.">Vector of the kernel space for the diamond graph.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Vector-of-the-kernel-space-for-a-kayak-paddle.">Vector of the kernel space for a kayak paddle.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Two-possible-constructions-of-a-kernel-basis-for-the-triamond-graph">Two possible constructions of a kernel basis for the triamond graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Two-possible-constructions-of-a-kernel-basis-for-the-codomino-graph">Two possible constructions of a kernel basis for the codomino graph</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Bijective-vertices-and-facets-of-the-convex-polytope">Bijective vertices and facets of the convex polytope</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Essential-matching,-simple-polytope">Essential matching, simple polytope</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Non-Essential-matching,-simple-polytope">Non-Essential matching, simple polytope</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Non-simple-polytope">Non-simple polytope</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Greedy-policies">Greedy policies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Complete-graph">Complete graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Diamond-graph">Diamond graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Fish-graph">Fish graph</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Limitation-lemma">Limitation lemma</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Unstable-policy-lemma">Unstable policy lemma</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Threshold-controlled-priorities">Threshold-controlled priorities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Semi-filtering-policies-on-an-injective-only-vertex">Semi-filtering policies on an injective-only vertex</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/reproducibility.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

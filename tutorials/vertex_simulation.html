@@ -1,0 +1,1546 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Comparing different vertex-approaching policies &#8212; Stochastic Matching 0.3.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=1e28cc32"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/vertex_simulation';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stochastic matching on simple graphs" href="reproducibility.html" />
+    <link rel="prev" title="Simulation" href="simulator.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.4" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.4 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.3.4 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Simple and Hyper Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis of rates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Comparing different vertex-approaching policies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducibility.html">Stochastic matching on simple graphs</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Comparing different vertex-approaching policies</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Comparing-different-vertex-approaching-policies">
+<h1>Comparing different vertex-approaching policies<a class="headerlink" href="#Comparing-different-vertex-approaching-policies" title="Link to this heading">#</a></h1>
+<p>The purpose of this notebook is to demonstrate how to use <code class="docutils literal notranslate"><span class="pre">stochastic_matching</span></code> to observe the performance of policies designed to reach vertices of the stable polytope.</p>
+<p>The protocol is as follows:</p>
+<ul class="simple">
+<li><p>We define the problem:</p>
+<ul>
+<li><p>Model (graph and arrival rates)</p></li>
+<li><p>Rewards associated to each edge</p></li>
+</ul>
+</li>
+<li><p>We run the following policies:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering, for various values of <span class="math notranslate nohighlight">\(\epsilon\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(k\)</span>-filtering, for various values of <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(EGPD\)</span>, for various values of <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>Note that the first two policies use the knowledge of the optimal vertex, computed using the model and rewards. The last one only uses the rewards and ignore the polytope structure.</p>
+<p>Then we compute the following metrics to observe their trade-offs.</p>
+<ul class="simple">
+<li><p>Regret: difference between the reward rate of the optimal flow and the reward rate of the achieved flow.</p></li>
+<li><p>Delay: some of the average queue size over all item classes.</p></li>
+</ul>
+<section id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Link to this heading">#</a></h2>
+<p>We import some packages.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="kn">import</span> <span class="n">XP</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">evaluate</span>
+
+<span class="c1"># change the default figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We make a function to wrap-up the experiments we want to perform.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span>
+<span class="n">e_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ϵ&quot;</span><span class="p">)</span>
+<span class="n">k_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">)])</span>
+<span class="n">b_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;β&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_xps</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+        <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">n_steps</span><span class="p">,</span>
+        <span class="s2">&quot;rewards&quot;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span>
+        <span class="s2">&quot;max_queue&quot;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ϵ-filtering&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;e_filtering&quot;</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">e_range</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+            <span class="n">XP</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;k-filtering&quot;</span><span class="p">,</span>
+                <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+                <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">iterator</span><span class="o">=</span><span class="n">k_range</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;EGPD&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">b_range</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Diamond-graph">
+<h2>Diamond graph<a class="headerlink" href="#Diamond-graph" title="Link to this heading">#</a></h2>
+<p>We start with a simple example on a diamond graph.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define model</span>
+<span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+    <span class="n">adjacency</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]),</span>
+    <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1.]),
+  &#39;edge_coordinates&#39;: array([0., 2., 1., 2., 0.]),
+  &#39;null_edges&#39;: [0, 4],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([1.]),
+  &#39;edge_coordinates&#39;: array([2., 0., 1., 0., 2.]),
+  &#39;null_edges&#39;: [1, 3],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<p>Let us try to reach the vertex with forbidden edges [1, 3].</p>
+<section id="Gentle-rewards">
+<h3>Gentle rewards<a class="headerlink" href="#Gentle-rewards" title="Link to this heading">#</a></h3>
+<p>To start, we use gentle rewards, where the forbidden edges are clearly indicated.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2., 0., 1., 0., 2.])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_xps</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;diamond_gentle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_15_0.png" src="../_images/tutorials_vertex_simulation_15_0.png" />
+</div>
+</div>
+<p>EGPD and <span class="math notranslate nohighlight">\(k\)</span>-filtering have similar performance, with <span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering coming third.</p>
+</section>
+<section id="Adversarial-rewards">
+<h3>Adversarial rewards<a class="headerlink" href="#Adversarial-rewards" title="Link to this heading">#</a></h3>
+<p>Now we choose rewards where one of the forbidden edges has the highest reward (the vertex remains the same).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2., 0., 1., 0., 2.])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_xps</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;diamond_adversarial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_21_0.png" src="../_images/tutorials_vertex_simulation_21_0.png" />
+</div>
+</div>
+<p>EGPD is now way above <span class="math notranslate nohighlight">\(k\)</span>-filtering (best) and <span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering (second best).</p>
+</section>
+<section id="Edge-case">
+<h3>Edge case<a class="headerlink" href="#Edge-case" title="Link to this heading">#</a></h3>
+<p>Now, we pick up a reward that is orthogonal to the polytope, e.g. any stable policy is optimal.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">rewards</span> <span class="o">@</span> <span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;edge_coordinates&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4.999999999999999
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">@</span> <span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;edge_coordinates&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+5.0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">diamond</span><span class="p">,</span>
+    <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">n_steps</span><span class="p">,</span>
+    <span class="s2">&quot;rewards&quot;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span>
+    <span class="s2">&quot;max_queue&quot;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">xp</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">XP</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;k-filtering&quot;</span><span class="p">,</span>
+            <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+            <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="n">iterator</span><span class="o">=</span><span class="n">k_range</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ϵ-filtering&quot;</span><span class="p">,</span>
+            <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;e_filtering&quot;</span><span class="p">,</span>
+            <span class="n">forbidden_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="n">iterator</span><span class="o">=</span><span class="n">e_range</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Longest&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;EGPD&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">b_range</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;diamond_edge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">pol</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;EGPD&quot;</span><span class="p">,</span> <span class="s2">&quot;β&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;ϵ-filtering&quot;</span><span class="p">,</span> <span class="s2">&quot;ϵ&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;k-filtering&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">)]:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">pol</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">pol</span><span class="p">][</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span>
+    <span class="n">yref</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;Longest&quot;</span><span class="p">][</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pol</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span> <span class="p">[</span><span class="n">yref</span><span class="p">,</span> <span class="n">yref</span><span class="p">],</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Longest&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_29_0.png" src="../_images/tutorials_vertex_simulation_29_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_29_1.png" src="../_images/tutorials_vertex_simulation_29_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_29_2.png" src="../_images/tutorials_vertex_simulation_29_2.png" />
+</div>
+</div>
+<p>Here, all optimization policies pay a delay price to reach a vertex that doesn’t need to be reached. They are all outperformed by a simple Longest policy.</p>
+</section>
+</section>
+<section id="Co-domino,-bijective-vertex">
+<h2>Co-domino, bijective vertex<a class="headerlink" href="#Co-domino,-bijective-vertex" title="Link to this heading">#</a></h2>
+<p>Try a stable vertex from a co-domino.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bijective</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+    <span class="n">adjacency</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">bijective</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-0.75, -1.  ]),
+  &#39;edge_coordinates&#39;: array([3., 1., 1., 1., 3., 0., 2., 0.]),
+  &#39;null_edges&#39;: [5, 7],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-0.75,  1.  ]),
+  &#39;edge_coordinates&#39;: array([1., 3., 1., 3., 1., 0., 0., 2.]),
+  &#39;null_edges&#39;: [5, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 0.25, -1.  ]),
+  &#39;edge_coordinates&#39;: array([3., 1., 2., 0., 2., 1., 2., 0.]),
+  &#39;null_edges&#39;: [3, 7],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([0.25, 1.  ]),
+  &#39;edge_coordinates&#39;: array([1., 3., 2., 2., 0., 1., 0., 2.]),
+  &#39;null_edges&#39;: [4, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([1.25, 0.  ]),
+  &#39;edge_coordinates&#39;: array([2., 2., 3., 0., 0., 2., 1., 1.]),
+  &#39;null_edges&#39;: [3, 4],
+  &#39;bijective&#39;: True}]
+</pre></div></div>
+</div>
+<p>We aim for [3, 7].</p>
+<section id="id1">
+<h3>Gentle rewards<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">bijective</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3., 1., 2., 0., 2., 1., 2., 0.])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_xps</span><span class="p">(</span><span class="n">bijective</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;bijective_gentle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_38_0.png" src="../_images/tutorials_vertex_simulation_38_0.png" />
+</div>
+</div>
+</section>
+<section id="id2">
+<h3>Adversarial rewards<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bijective</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3., 1., 2., 0., 2., 1., 2., 0.])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">make_xps</span><span class="p">(</span><span class="n">bijective</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;bijective_adversarial&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_42_0.png" src="../_images/tutorials_vertex_simulation_42_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Co-domino,-injective-vertex">
+<h2>Co-domino, injective vertex<a class="headerlink" href="#Co-domino,-injective-vertex" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define model</span>
+<span class="n">injective</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+    <span class="n">adjacency</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">injective</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1.        , -0.66666667]),
+  &#39;edge_coordinates&#39;: array([2., 0., 0., 2., 2., 0., 2., 0.]),
+  &#39;null_edges&#39;: [1, 2, 5, 7],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1.        ,  1.33333333]),
+  &#39;edge_coordinates&#39;: array([0., 2., 0., 4., 0., 0., 0., 2.]),
+  &#39;null_edges&#39;: [0, 2, 4, 5, 6],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([ 1.        , -0.66666667]),
+  &#39;edge_coordinates&#39;: array([2., 0., 2., 0., 0., 2., 2., 0.]),
+  &#39;null_edges&#39;: [1, 3, 4, 7],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<p>We choose [0, 2, 4, 5, 6] (the most injective vertex).</p>
+<section id="id3">
+<h3>Gentle rewards<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">injective</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0., 2., 0., 4., 0., 0., 0., 2.])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">make_xps</span><span class="p">(</span><span class="n">injective</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;injective_gentle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_49_0.png" src="../_images/tutorials_vertex_simulation_49_0.png" />
+</div>
+</div>
+</section>
+<section id="id4">
+<h3>Adversarial rewards<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">injective</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0., 2., 0., 4., 0., 0., 0., 2.])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">make_xps</span><span class="p">(</span><span class="n">injective</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;injective_adversarial&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_53_0.png" src="../_images/tutorials_vertex_simulation_53_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Hypergraph">
+<h2>Hypergraph<a class="headerlink" href="#Hypergraph" title="Link to this heading">#</a></h2>
+<p>Last but not least: Stolyar’s example from <a class="reference external" href="https://arxiv.org/abs/1608.01646">https://arxiv.org/abs/1608.01646</a></p>
+<p>The main difference compared to previous experiments is that we have a hypergraph instead of a simple graph. as a consequence, we use VQ-base policies instead of longest-based policies for <span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering and <span class="math notranslate nohighlight">\(k\)</span>-filtering.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_hypergraph_xps</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+        <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">n_steps</span><span class="p">,</span>
+        <span class="s2">&quot;rewards&quot;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span>
+        <span class="s2">&quot;max_queue&quot;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">XP</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ϵ-filtering&quot;</span><span class="p">,</span>
+                <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;e_filtering&quot;</span><span class="p">,</span>
+                <span class="n">base_policy</span><span class="o">=</span><span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span>
+                <span class="n">iterator</span><span class="o">=</span><span class="n">e_range</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">XP</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;k-filtering&quot;</span><span class="p">,</span>
+                <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span>
+                <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">iterator</span><span class="o">=</span><span class="n">k_range</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">base</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;EGPD&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">b_range</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hypergraph</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+    <span class="n">incidence</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-0.95137114, -1.39721027, -1.8187728 ]),
+  &#39;edge_coordinates&#39;: array([1.2, 1.5, 2. , 0.8, 0. , 0. , 0. ]),
+  &#39;null_edges&#39;: [4, 5, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-0.87751221, -1.00105977, -0.27035114]),
+  &#39;edge_coordinates&#39;: array([1.2, 0.7, 1.2, 0. , 0. , 0. , 0.8]),
+  &#39;null_edges&#39;: [3, 4, 5],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-0.78310692,  0.12871187,  0.15942051]),
+  &#39;edge_coordinates&#39;: array([1.2, 0. , 0.5, 0. , 0. , 0.7, 0.8]),
+  &#39;null_edges&#39;: [1, 3, 4],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-0.74907409,  1.02372897, -0.89783356]),
+  &#39;edge_coordinates&#39;: array([1.2, 0. , 0.5, 0.8, 0. , 1.5, 0. ]),
+  &#39;null_edges&#39;: [1, 4, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 0.28485256, -0.75722774, -0.02651911]),
+  &#39;edge_coordinates&#39;: array([0.5, 0. , 1.2, 0. , 0.7, 0. , 0.8]),
+  &#39;null_edges&#39;: [1, 3, 5],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 1.04125419, -0.9792125 , -1.40077503]),
+  &#39;edge_coordinates&#39;: array([0. , 0.3, 2. , 0.8, 1.2, 0. , 0. ]),
+  &#39;null_edges&#39;: [0, 5, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 1.06895129, -0.83065606, -0.82011691]),
+  &#39;edge_coordinates&#39;: array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3]),
+  &#39;null_edges&#39;: [0, 1, 5],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 1.0817136 , -0.49502465, -1.21658718]),
+  &#39;edge_coordinates&#39;: array([0. , 0. , 1.7, 0.8, 1.2, 0.3, 0. ]),
+  &#39;null_edges&#39;: [0, 1, 6],
+  &#39;bijective&#39;: True}]
+</pre></div></div>
+</div>
+<p>Aim for [0, 1, 5], as in the original example. Note that the example is bijective, so little delay is expected. In fact, all vertices are bijective.</p>
+<section id="Original-rewards">
+<h3>Original rewards<a class="headerlink" href="#Original-rewards" title="Link to this heading">#</a></h3>
+<p>To start with, consider the original rewards proposed in the article:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;hyper_original&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">yl</span><span class="p">,</span> <span class="s2">&quot;k:&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_63_0.png" src="../_images/tutorials_vertex_simulation_63_0.png" />
+</div>
+</div>
+<p>We see that the performance of EGPD is quite bad. The delay keeps increasing event after the optimal flow has been reached, while <span class="math notranslate nohighlight">\(k\)</span>-filtering converges to the stable edge-filtering solution.</p>
+</section>
+<section id="id5">
+<h3>Gentle rewards<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;hyper_gentle&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">yl</span><span class="p">,</span> <span class="s2">&quot;k:&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_68_0.png" src="../_images/tutorials_vertex_simulation_68_0.png" />
+</div>
+</div>
+<p>In this example, gentle rewards do not help, EGPD still fails to leverage the fact that the vertex is bijective.</p>
+</section>
+<section id="Variant-(second-arrival-rates)">
+<h3>Variant (second arrival rates)<a class="headerlink" href="#Variant-(second-arrival-rates)" title="Link to this heading">#</a></h3>
+<p>In <a class="reference external" href="https://arxiv.org/pdf/1608.01646">https://arxiv.org/pdf/1608.01646</a>, the authors introduce a new arrival profile and observe how the system evolves. In particular, we observe on their Figure 6 that the delay (<span class="math notranslate nohighlight">\(\hat{Q}_0\)</span>) increases. Let us observe how things change under a polytope perspective.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hypergraph</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1.11577889, -0.7324815 , -1.41267519]),
+  &#39;edge_coordinates&#39;: array([1.8, 0.8, 1.4, 1. , 0. , 0. , 0. ]),
+  &#39;null_edges&#39;: [4, 5, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-1.04191996, -0.336331  ,  0.13574648]),
+  &#39;edge_coordinates&#39;: array([1.8, 0. , 0.6, 0.2, 0. , 0. , 0.8]),
+  &#39;null_edges&#39;: [1, 4, 5],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([-1.00788713,  0.5586861 , -0.92150759]),
+  &#39;edge_coordinates&#39;: array([1.8, 0. , 0.6, 1. , 0. , 0.8, 0. ]),
+  &#39;null_edges&#39;: [1, 4, 6],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([ 0.212638  , -0.45381632, -1.13401   ]),
+  &#39;edge_coordinates&#39;: array([1. , 0. , 1.4, 1. , 0.8, 0. , 0. ]),
+  &#39;null_edges&#39;: [1, 5, 6],
+  &#39;bijective&#39;: True}]
+</pre></div></div>
+</div>
+<p>We have much less vertices than with the previous rates (4 against 8). Yet, they are still all bijective. Remind that if you take a surjective stabilizable model <em>at random</em> (i.e. take a surjective graph and rates randomly drawn in the simplex, provided they stabilize the graph), all its vertices are bijective. You need symmetries and/or carefully chosen arrival to have stable model with injective vertices.</p>
+<p>Look at the new vertex:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1. , 0. , 1.4, 1. , 0.8, 0. , 0. ])
+</pre></div></div>
+</div>
+<p>OK, so the solution is to consume all possible matches between first and second node, and to self-consume everything else. Let use see how the different policies behave:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;hyper2_original&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">yl</span><span class="p">,</span> <span class="s2">&quot;k:&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_77_0.png" src="../_images/tutorials_vertex_simulation_77_0.png" />
+</div>
+</div>
+<p>OK, so here, the delay for <span class="math notranslate nohighlight">\(k\)</span>-filtering in the no-regret zone is even lower than before (less than 1) and stable (no explosion when <span class="math notranslate nohighlight">\(k\rightarrow +\infty\)</span>), while EGPD has a big delay that goes to <span class="math notranslate nohighlight">\(\infty\)</span> when <span class="math notranslate nohighlight">\(\beta\rightarrow 0\)</span>.</p>
+</section>
+<section id="Variant-(gentle-rewards)">
+<h3>Variant (gentle rewards)<a class="headerlink" href="#Variant-(gentle-rewards)" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">hypergraph</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1. , 0. , 1.4, 1. , 0.8, 0. , 0. ])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">make_hypergraph_xps</span><span class="p">(</span><span class="n">hypergraph</span><span class="p">,</span> <span class="n">rewards</span><span class="p">),</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;hyper2_gentle&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">yl</span><span class="p">,</span> <span class="s2">&quot;k:&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_vertex_simulation_82_0.png" src="../_images/tutorials_vertex_simulation_82_0.png" />
+</div>
+</div>
+<p>In the no-regret zone, EGPD’s delay are slightly lower compared to using the original rewards, but there is still a delay explosion not experienced by <span class="math notranslate nohighlight">\(k\)</span>-filtering (nor <span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering).</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="simulator.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reproducibility.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Stochastic matching on simple graphs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Diamond-graph">Diamond graph</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Gentle-rewards">Gentle rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Adversarial-rewards">Adversarial rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Edge-case">Edge case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Co-domino,-bijective-vertex">Co-domino, bijective vertex</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Gentle rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Adversarial rewards</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Co-domino,-injective-vertex">Co-domino, injective vertex</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Gentle rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Adversarial rewards</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Hypergraph">Hypergraph</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Original-rewards">Original rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Gentle rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Variant-(second-arrival-rates)">Variant (second arrival rates)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Variant-(gentle-rewards)">Variant (gentle rewards)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/vertex_simulation.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

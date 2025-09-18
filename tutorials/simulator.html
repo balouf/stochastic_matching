@@ -1,0 +1,2988 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simulation &#8212; Stochastic Matching 0.3.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=1e28cc32"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/simulator';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Comparing different vertex-approaching policies" href="vertex_simulation.html" />
+    <link rel="prev" title="Analysis of rates" href="analysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.4" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.3.4 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.3.4 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Simple and Hyper Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis of rates</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vertex_simulation.html">Comparing different vertex-approaching policies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducibility.html">Stochastic matching on simple graphs</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Simulation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Simulation">
+<h1>Simulation<a class="headerlink" href="#Simulation" title="Link to this heading">#</a></h1>
+<p>The simulator allows to observe the behavior of the system under a given policy.</p>
+<p>The following policies are provided:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">get_classes</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Simulator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;fcfm&#39;: stochastic_matching.simulator.fcfm.FCFM,
+ &#39;priority&#39;: stochastic_matching.simulator.priority.Priority,
+ &#39;random_edge&#39;: stochastic_matching.simulator.random_edge.RandomEdge,
+ &#39;random_item&#39;: stochastic_matching.simulator.random_item.RandomItem,
+ &#39;e_filtering&#39;: stochastic_matching.simulator.e_filtering.EFiltering,
+ &#39;longest&#39;: stochastic_matching.simulator.longest.Longest,
+ &#39;virtual_queue&#39;: stochastic_matching.simulator.virtual_queue.VirtualQueue}
+</pre></div></div>
+</div>
+<p>NB: only simple graphs are considered in the present notebook.</p>
+<section id="Tadpole">
+<h2>Tadpole<a class="headerlink" href="#Tadpole" title="Link to this heading">#</a></h2>
+<section id="Bijective">
+<h3>Bijective<a class="headerlink" href="#Bijective" title="Link to this heading">#</a></h3>
+<p>Consider the following tadpole:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">VIS_OPTIONS</span>
+
+<span class="n">VIS_OPTIONS</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">tadpole</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">)</span>
+<span class="n">tadpole</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="63f67127-0f21-4fee-9546-07b5a6aaa03b"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}, {"id": 6, "label": "6", "title": "6"}, {"id": 7, "label": "7", "title": "7"}];
+var edges = [{"title": "0: (0, 1)", "label": "", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "", "from": 6, "to": 7}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('63f67127-0f21-4fee-9546-07b5a6aaa03b');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>This tadpole is not stabilizable: it is bijective and its unique solution has null edges.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e7fc063d-67d2-464f-aaf8-6ee3573baf32"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4"}, {"id": 5, "label": "1", "title": "5"}, {"id": 6, "label": "1", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
+var edges = [{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0", "color": "orange", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0", "color": "orange", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "1", "color": "blue", "from": 6, "to": 7}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('e7fc063d-67d2-464f-aaf8-6ee3573baf32');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>As a consequence, the system is unstable.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<p>The simulator finished before the end (due to queue overflow).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">steps_done</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+906433
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="fee4636d-206e-4403-84d3-2f7ac25a7c8a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4"}, {"id": 5, "label": "1", "title": "5"}, {"id": 6, "label": "1", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.995", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.00387", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.00691", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.99", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.00197", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "0.989", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.0104", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "0.99", "color": "blue", "from": 6, "to": 7}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('fee4636d-206e-4403-84d3-2f7ac25a7c8a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>We can look the CCDFs of the run to see what went wrong:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_16_0.png" src="../_images/tutorials_simulator_16_0.png" />
+</div>
+</div>
+<p>Node 7 overflowed, while node 5 was not in a good shape either.</p>
+<p>This can also be showed with average queue sizes:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_19_0.png" src="../_images/tutorials_simulator_19_0.png" />
+</div>
+</div>
+<p>Let’s change the arrival rates to have something nicer.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>We can see that it works!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="af21190f-55d8-4969-9ba2-c71c5f091cd2"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "2", "title": "4"}, {"id": 5, "label": "2", "title": "5"}, {"id": 6, "label": "2", "title": "6"}, {"id": 7, "label": "1", "title": "7"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.5", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "0.501", "color": "blue", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "0.499", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.501", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.499", "color": "blue", "from": 3, "to": 4}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 4, "to": 5}, {"title": "6: (5, 6)", "label": "0.998", "color": "blue", "from": 5, "to": 6}, {"title": "7: (6, 7)", "label": "0.999", "color": "blue", "from": 6, "to": 7}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('af21190f-55d8-4969-9ba2-c71c5f091cd2');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>We can see that the queues are much more tight!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_26_0.png" src="../_images/tutorials_simulator_26_0.png" />
+</div>
+</div>
+<p>Note that the average queue can be converted in an average waiting time.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_28_0.png" src="../_images/tutorials_simulator_28_0.png" />
+</div>
+</div>
+</section>
+<section id="Nonjective">
+<h3>Nonjective<a class="headerlink" href="#Nonjective" title="Link to this heading">#</a></h3>
+<p>Consider the following tadpole:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>It is bipartite and does not verify the stability condition NCond (even bipartite NCond), so all solution break the conservation law.</p>
+<p>Simulation fails:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="df04d081-bab5-4ad7-bf72-0799b5bb07be"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0", "color": "red"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2", "color": "red"}, {"id": 3, "label": "1", "title": "3"}, {"id": 4, "label": "1", "title": "4", "color": "red"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.502", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.165", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.5", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.165", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.668", "color": "blue", "from": 3, "to": 4}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('df04d081-bab5-4ad7-bf72-0799b5bb07be');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Nodes 0, 2, and 4 are in limbo.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_37_0.png" src="../_images/tutorials_simulator_37_0.png" />
+</div>
+</div>
+<p>Let’s change the arrival rates to have bipartite NCond (which is not non-bipartite NCond).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<p>We can see that it works! FCFM seems to stabilizes even if NCond is not met.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="7c59747f-3ba5-4f76-8b0f-7f6ad7145646"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "1", "title": "4"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.5", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "0.497", "color": "blue", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "0.502", "color": "blue", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "0.499", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "0.998", "color": "blue", "from": 3, "to": 4}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('7c59747f-3ba5-4f76-8b0f-7f6ad7145646');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_43_0.png" src="../_images/tutorials_simulator_43_0.png" />
+</div>
+</div>
+<p>Hum, the queues are quite high. Maybe we didn’t wait long enough?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tadpole</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tadpole</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_46_0.png" src="../_images/tutorials_simulator_46_0.png" />
+</div>
+</div>
+<p>Not so stable after all… This is not surprising because of the random walk between left and right nodes, which forces queues of arbitrary size if one waits long enough.</p>
+</section>
+</section>
+<section id="Diamond">
+<h2>Diamond<a class="headerlink" href="#Diamond" title="Link to this heading">#</a></h2>
+<p>Consider the following:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">ϵ</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">ϵ</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">ϵ</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Try fcfm</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;fcfm&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="7101ea1d-72e3-4d5f-bf08-463d2de72149"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.668", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.665", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.334", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('7101ea1d-72e3-4d5f-bf08-463d2de72149');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Nodes 0 and 3 are non-empty most of the time.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_55_0.png" src="../_images/tutorials_simulator_55_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_56_0.png" src="../_images/tutorials_simulator_56_0.png" />
+</div>
+</div>
+<p>Try random edge (we use a seed to have a True result; in practice, random node is highly borderline in this example and overflows relatively often).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;random_edge&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="91a0924a-3f83-41cf-a6b5-1018f7b4e5a0"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.667", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.667", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('91a0924a-3f83-41cf-a6b5-1018f7b4e5a0');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_60_0.png" src="../_images/tutorials_simulator_60_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_61_0.png" src="../_images/tutorials_simulator_61_0.png" />
+</div>
+</div>
+<p>Try random item.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;random_item&quot;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="c82dc9a8-aead-4c2a-ab77-9f3909326b3e"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1.33", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.668", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.198", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.666", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.333", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('c82dc9a8-aead-4c2a-ab77-9f3909326b3e');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_65_0.png" src="../_images/tutorials_simulator_65_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_66_0.png" src="../_images/tutorials_simulator_66_0.png" />
+</div>
+</div>
+<section id="Trying-to-reach-an-extreme-feasible-solution-with-a-greedy-policy">
+<h3>Trying to reach an extreme feasible solution with a greedy policy<a class="headerlink" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-greedy-policy" title="Link to this heading">#</a></h3>
+<p>Now we would like to have a greedy policy that tries to move on towards the extreme feasible solutions. Sadly, no such policy exists (cf <a class="reference external" href="https://hal.archives-ouvertes.fr/hal-03502084">https://hal.archives-ouvertes.fr/hal-03502084</a>).</p>
+<p>Yet, we can try to approach them with priority-based greedy selection. First, look at the extreme points (vertices).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
+    <span class="n">diamond</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="f876d7b9-19b4-4f85-a576-15dcb46d76a8"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "1", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('f876d7b9-19b4-4f85-a576-15dcb46d76a8');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="2f84801c-7e99-4eac-bd98-83d48ab51a23"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "1", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('2f84801c-7e99-4eac-bd98-83d48ab51a23');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>We can see that the first vertex prioritizes edges 1 and 3, while the second one prioritizes edges 0 and 4. Let us see what happens if one uses these priorities in a greedy policy.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="5c8499a0-d554-47f2-9cb9-6e70240fb39d"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1.07", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.933", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.931", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.0693", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('5c8499a0-d554-47f2-9cb9-6e70240fb39d');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="ed38d79f-e02d-4bfd-a0c2-1a51322e805e"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1.73", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.272", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.198", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.27", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.73", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('ed38d79f-e02d-4bfd-a0c2-1a51322e805e');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Not bad, but not perfect. To reach a vertex, we may need to use a filtering policy.</p>
+</section>
+<section id="Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy">
+<h3>Trying to reach an extreme feasible solution with a filtering policy<a class="headerlink" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-0.25]),
+  &#39;edge_coordinates&#39;: array([1. , 1. , 0.2, 1. , 0. ]),
+  &#39;null_edges&#39;: [4],
+  &#39;bijective&#39;: True},
+ {&#39;kernel_coordinates&#39;: array([0.75]),
+  &#39;edge_coordinates&#39;: array([2. , 0. , 0.2, 0. , 1. ]),
+  &#39;null_edges&#39;: [1, 3],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<p>The first kernel is bijective, we just need to forbid the null edge.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="9f0c4de3-a301-4b51-a623-2db490db3207"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.999", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.202", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.999", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('9f0c4de3-a301-4b51-a623-2db490db3207');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>We can check that the matching rate on edge 4 is 0.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1.00047808, 0.99915264, 0.20158848, 0.99878016, 0.        ])
+</pre></div></div>
+</div>
+<p>No noticeable impact on the performance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_83_0.png" src="../_images/tutorials_simulator_83_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_84_0.png" src="../_images/tutorials_simulator_84_0.png" />
+</div>
+</div>
+<p>Now we try on the second kernel.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="0003c762-bead-4683-80da-9c275920f8d4"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.999", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('0003c762-bead-4683-80da-9c275920f8d4');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>So this is unstable but the the matching rate on edges 1 and 3 is 0.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1.99957622, 0.        , 0.20045326, 0.        , 0.99910573])
+</pre></div></div>
+</div>
+<p>Performance is bad, as the vertex is injective-only (bipartite).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_91_0.png" src="../_images/tutorials_simulator_91_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_92_0.png" src="../_images/tutorials_simulator_92_0.png" />
+</div>
+</div>
+<p>The solution in that case is to use a k-filtering policy (i.e. with threshold).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+    <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="ab802fcc-4096-4de8-9afc-c37fbee6a8c8"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.00153", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.000197", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0.999", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('ab802fcc-4096-4de8-9afc-c37fbee6a8c8');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>So this is stable with a limited matching rate on edges 1 and 3.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1.9995712e+00, 1.5276800e-03, 1.9951488e-01, 1.9712000e-04,
+       9.9900160e-01])
+</pre></div></div>
+</div>
+<p>Performance is controlled by the threshold.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_99_0.png" src="../_images/tutorials_simulator_99_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_100_0.png" src="../_images/tutorials_simulator_100_0.png" />
+</div>
+</div>
+</section>
+<section id="Reward-maximization-variant">
+<h3>Reward maximization variant<a class="headerlink" href="#Reward-maximization-variant" title="Link to this heading">#</a></h3>
+<p>In many use cases, one may want to optimize the flow based on some reward associated to each edge. It turns out that this equivalent to finding a subset of edges to forbid such that the flow(s) on that subgraph will maximize the reward. <code class="docutils literal notranslate"><span class="pre">stochastic_matching</span></code> automatically implements this in two ways:</p>
+<ul class="simple">
+<li><p>It gives an optimal flow associated to a vector of rewards;</p></li>
+<li><p>the filtering policy can take a vector of rewards as arguments and automatically discard the null edges of one optimal solution.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2. , 0. , 0.2, 0. , 1. ])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="n">rewards</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="08f1c342-a52c-4cc7-8fde-a8956da030da"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2.2", "title": "1"}, {"id": 2, "label": "1.2", "title": "2"}, {"id": 3, "label": "1", "title": "3"}];
+var edges = [{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0.00243", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.199", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0.000672", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "1", "color": "blue", "from": 2, "to": 3}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('08f1c342-a52c-4cc7-8fde-a8956da030da');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_106_0.png" src="../_images/tutorials_simulator_106_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">diamond</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_107_0.png" src="../_images/tutorials_simulator_107_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Fish">
+<h2>Fish<a class="headerlink" href="#Fish" title="Link to this heading">#</a></h2>
+<p>The purpose of this example is to show a case where a family of greedy with priorities can asymptotically reach the vertices.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span>
+    <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="d7c1db2a-7394-449d-bb76-1ceba76d7fda"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('d7c1db2a-7394-449d-bb76-1ceba76d7fda');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Look at the vertices:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fish</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
+    <span class="n">fish</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="acae7d7f-6f51-423d-9052-cba05565a87f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "1", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "2", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('acae7d7f-6f51-423d-9052-cba05565a87f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="07606dbb-6c8b-432b-9efe-a48dc12cc26a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "", "color": "orange", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('07606dbb-6c8b-432b-9efe-a48dc12cc26a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Let us try to nullify the edge between 3 and 6 with adapted priorities. As this may be unstable, let us pick a large max queue.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="9493e5f1-cb3e-4b1c-ba6a-f98a774d875f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4", "color": "red"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.821", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "3.6e-06", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "0.996", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('9493e5f1-cb3e-4b1c-ba6a-f98a774d875f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>So we managed to almost nullify the edge at the price of making node 4 unstable (it cannot check the conservation law). This can be addressed by using a threshold above which the policy is altered.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counterweights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">counterweights</span><span class="o">=</span><span class="n">counterweights</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="a265047f-7b07-44a5-8159-67683ad49ebe"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.999", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "2.34e-05", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('a265047f-7b07-44a5-8159-67683ad49ebe');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>And that’s it! The threshold controls the trade-off between the size of queue 4 and the nullity of edge (3, 6).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_121_0.png" src="../_images/tutorials_simulator_121_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_122_0.png" src="../_images/tutorials_simulator_122_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">counterweights</span><span class="o">=</span><span class="n">counterweights</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e20e5760-6be3-4efe-af1c-9f2d16aac692"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.965", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.0342", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1.03", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1.96", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('e20e5760-6be3-4efe-af1c-9f2d16aac692');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>And that’s it! The threshold controls the trade-off between the size of queue 4 and the nullity of edge (3, 6).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_126_0.png" src="../_images/tutorials_simulator_126_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_127_0.png" src="../_images/tutorials_simulator_127_0.png" />
+</div>
+</div>
+<p>Last possibility: use a reward-based greedy scoring.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="n">rewards</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">shift_rewards</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="31c903db-9298-4060-8c7b-74ccfe082e60"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "0.999", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.994", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.000353", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('31c903db-9298-4060-8c7b-74ccfe082e60');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>And that’s it! Beta controls the trade-off between the size of queue 4 and the nullity of edge (3, 6).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_132_0.png" src="../_images/tutorials_simulator_132_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_133_0.png" src="../_images/tutorials_simulator_133_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="n">rewards</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">shift_rewards</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="3ecacbeb-8c11-4612-b077-ab1fd770ccbd"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}];
+var edges = [{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "0.994", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.98", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.0235", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1.02", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1.98", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('3ecacbeb-8c11-4612-b077-ab1fd770ccbd');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>And that’s it! Beta controls the trade-off between the size of queue 4 and the nullity of edge (3, 6).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_137_0.png" src="../_images/tutorials_simulator_137_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_138_0.png" src="../_images/tutorials_simulator_138_0.png" />
+</div>
+</div>
+</section>
+<section id="Reaching-a-highly-degenerated-vertex">
+<h2>Reaching a highly degenerated vertex<a class="headerlink" href="#Reaching-a-highly-degenerated-vertex" title="Link to this heading">#</a></h2>
+<p>The following model has <em>very injective</em> vertices.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Codomino</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">base_flow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 2., 0., 4., 0., 0., 2., 0.]),
+  &#39;null_edges&#39;: [0, 2, 4, 5, 7],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1.,  1.]),
+  &#39;edge_coordinates&#39;: array([2., 0., 0., 2., 2., 0., 0., 2.]),
+  &#39;null_edges&#39;: [1, 2, 5, 6],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([1., 1.]),
+  &#39;edge_coordinates&#39;: array([2., 0., 2., 0., 0., 2., 0., 2.]),
+  &#39;null_edges&#39;: [1, 3, 4, 6],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<p>In particular the first vertex is made of three unconnected pairs:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="770ab107-6546-4dea-b4fc-d62108597db3"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
+var edges = [{"title": "0: (0, 1)", "label": "", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('770ab107-6546-4dea-b4fc-d62108597db3');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>Let try to reach it with a filtering policy without threshold.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+    <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+    <span class="n">max_queue</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e9604778-0a83-4c0f-ad8a-e7c51de0889a"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
+var edges = [{"title": "0: (0, 1)", "label": "0", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0", "color": "orange", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('e9604778-0a83-4c0f-ad8a-e7c51de0889a');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>As this is pure filtering, the desired edges are indeed null.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.       , 1.9977536, 0.       , 3.9996384, 0.       , 0.       ,
+       2.0006656, 0.       ])
+</pre></div></div>
+</div>
+<p>But performance is awful!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_150_0.png" src="../_images/tutorials_simulator_150_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_151_0.png" src="../_images/tutorials_simulator_151_0.png" />
+</div>
+</div>
+<p>A solution in that case is to use a <span class="math notranslate nohighlight">\(k\)</span>-filtering policy (i.e. with threshold).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+    <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="f517ff17-2dd8-4c9d-a88a-53476117b1f0"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.00307", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.00293", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.00373", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('f517ff17-2dd8-4c9d-a88a-53476117b1f0');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<p>So this is stable with a limited matching rate on forbidden edges.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3.0672000e-03, 1.9972304e+00, 0.0000000e+00, 3.9954352e+00,
+       0.0000000e+00, 2.9280000e-03, 1.9968848e+00, 3.7328000e-03])
+</pre></div></div>
+</div>
+<p>Performance is controlled by the threshold.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_158_0.png" src="../_images/tutorials_simulator_158_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_159_0.png" src="../_images/tutorials_simulator_159_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+    <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="0a4b2181-af32-4088-acce-d1e2c7cca526"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.0444", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1.95", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0306", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.93", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.0123", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.0333", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.96", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.0435", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('0a4b2181-af32-4088-acce-d1e2c7cca526');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.0443776, 1.9524512, 0.0306336, 3.9258976, 0.0123232, 0.0332736,
+       1.9575072, 0.0435152])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_163_0.png" src="../_images/tutorials_simulator_163_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_164_0.png" src="../_images/tutorials_simulator_164_0.png" />
+</div>
+</div>
+<p>Other filtering policies exists:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;e_filtering&quot;</span><span class="p">,</span>
+    <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">],</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="e945d560-c04c-405b-bee3-8bdd9974525f"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.0276", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1.97", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.0203", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.95", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.00981", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.0194", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.97", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.0277", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('e945d560-c04c-405b-bee3-8bdd9974525f');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.027568 , 1.9696768, 0.0203312, 3.9526368, 0.0098112, 0.0194064,
+       1.9728544, 0.0276576])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_169_0.png" src="../_images/tutorials_simulator_169_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_170_0.png" src="../_images/tutorials_simulator_170_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">codomino</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;null_edges&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">rewards</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0, 1, 0, 1, 0, 0, 1, 0]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span> <span class="n">rewards</span><span class="o">=</span><span class="n">rewards</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="0d24f05e-d83e-4217-9f4e-8fac5673c556"></div>
+<script>
+require.config({
+    paths: {
+        vis: 'https://unpkg.com/vis-network/standalone/umd/vis-network.min'
+    }
+});
+require(['vis'], function(vis){
+var nodes = [{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}];
+var edges = [{"title": "0: (0, 1)", "label": "0.00829", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1.99", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0.00593", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "3.98", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0.00328", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0.00931", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "1.99", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0.0106", "color": "blue", "from": 4, "to": 5}];
+var data= {
+    nodes: nodes,
+    edges: edges,
+};
+var options = {"interaction": {"navigationButtons": true}, "width": "600px", "height": 300};
+var container = document.getElementById('0d24f05e-d83e-4217-9f4e-8fac5673c556');
+var network = new vis.Network(container, data, options);
+network.fit({
+  maxZoomLevel: 1000});
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([8.2896000e-03, 1.9915008e+00, 5.9280000e-03, 3.9822880e+00,
+       3.2800000e-03, 9.3072000e-03, 1.9884384e+00, 1.0620800e-02])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_ccdf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_175_0.png" src="../_images/tutorials_simulator_175_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[109]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">codomino</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">show_average_queues</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulator_176_0.png" src="../_images/tutorials_simulator_176_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="analysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analysis of rates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vertex_simulation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Comparing different vertex-approaching policies</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Tadpole">Tadpole</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Bijective">Bijective</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Nonjective">Nonjective</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Diamond">Diamond</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-greedy-policy">Trying to reach an extreme feasible solution with a greedy policy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Trying-to-reach-an-extreme-feasible-solution-with-a-filtering-policy">Trying to reach an extreme feasible solution with a filtering policy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Reward-maximization-variant">Reward maximization variant</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Fish">Fish</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Reaching-a-highly-degenerated-vertex">Reaching a highly degenerated vertex</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/simulator.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
