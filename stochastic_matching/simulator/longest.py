@@ -43,6 +43,8 @@ def longest_core(
     """
 
     n, max_queue = logs.queue_log.shape
+    if k is None:
+        k = max_queue + 1
 
     # Optimize forbidden edges and set greedy flag.
     greedy = False

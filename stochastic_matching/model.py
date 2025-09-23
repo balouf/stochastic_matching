@@ -286,6 +286,10 @@ class Kernel:
     >>> kernel.right
     array([[ 0.5, -0.5,  0. , -0.5,  0.5]])
 
+    Normalized version:
+
+    >>> kernel.alt_right
+    array([[ 1., -1.,  0., -1.,  1.]])
 
     The left kernel is trivial:
 
@@ -442,6 +446,14 @@ class Kernel:
         self.status = None
         self.type = None
         self.fit(incidence)
+
+    @property
+    def alt_right(self):
+        live_edges = self.right[self.right !=0]
+        if len(live_edges) > 0:
+            return self.right / np.min(np.abs(live_edges))
+        else:
+            return self.right
 
     def fit(self, incidence):
         n, m = incidence.shape
@@ -1228,13 +1240,13 @@ class Model:
                 self.__maximin = flow
         return self.__maximin
 
-    def shadow_prices(self, weights):
+    def shadow_prices(self, rewards):
         """
         Return the shadow prices of each item type for a given reward. Cf https://doi.org/10.1145/3578338.3593532
 
         Parameters
         ----------
-        weights: :class:`~numpy.ndarray` or :class:`list`
+        rewards: :class:`~numpy.ndarray` or :class:`list`
             Rewards associated to each edge.
 
         Returns
@@ -1245,25 +1257,102 @@ class Model:
         optimizer = linprog(
             c=self.rates,
             A_ub=-self.incidence.T,
-            b_ub=-np.array(weights)
+            b_ub=-np.array(rewards),
+            bounds=[(None, None)] * self.n
         )
         clean_zeros(optimizer.x, tol=self.tol)
         return optimizer.x
 
-    def normalize_rewards(self, weights):
+    def normalize_rewards(self, rewards):
         """
         Parameters
         ----------
-        weights: :class:`~numpy.ndarray` or :class:`list`
+        rewards: :class:`~numpy.ndarray` or :class:`list`
             Rewards associated to each edge.
 
         Returns
         -------
         :class:`~numpy.ndarray`
             For bijective cases, rewards with negative values on taboo edges, null values everywhere else.
-        """
-        return weights - self.shadow_prices(weights) @ self.incidence
 
+        Examples
+        --------
+
+        >>> import stochastic_matching as sm
+        >>> diamond = sm.CycleChain(rates=[4, 5, 2, 1])
+
+        First edge provides no reward (bijective vertex).
+
+        >>> diamond.normalize_rewards([0, 1, 1, 1, 1])
+        array([ 0.,  0.,  0.,  0., -1.])
+
+        First edge provides more reward (injective-only vertex).
+
+        >>> diamond.normalize_rewards([2, 1, 1, 1, 1])
+        array([ 0.,  0.,  0., -1.,  0.])
+
+        .. note::
+            Reward normalization can miss a taboo edge in injective-only case.
+
+        On bijective graphs, all edges are OK.
+
+        >>> paw = sm.Tadpole()
+        >>> paw.normalize_rewards([6, 3, 1, 2])
+        array([0., 0., 0., 0.])
+
+        Last example: the hypergraph from Nazari & Stolyar.
+
+        >>> ns = sm.NS19(rates=[1.2, 1.5, 2, 0.8])
+        >>> ns.normalize_rewards([-1, -1, 1, 2, 5, 4, 7])
+        array([-2., -5.,  0.,  0.,  0., -1.,  0.])
+        """
+        return rewards - self.shadow_prices(rewards) @ self.incidence
+
+    def gentle_rewards(self, rewards):
+        """
+        Parameters
+        ----------
+        rewards: :class:`~numpy.ndarray` or :class:`list`
+            Rewards associated to each edge.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Rewards with negative values on taboo edges, positive values everywhere else.
+            Absolute values are degree proportional.
+
+        Examples
+        --------
+
+        >>> import stochastic_matching as sm
+        >>> diamond = sm.CycleChain(rates=[4, 5, 2, 1])
+
+        First edge provides no reward (bijective vertex).
+
+        >>> diamond.gentle_rewards([0, 1, 1, 1, 1])
+        array([ 2,  2,  2,  2, -2])
+
+        First edge provides more reward (injective-only vertex).
+
+        >>> diamond.gentle_rewards([2, 1, 1, 1, 1])
+        array([ 2, -2,  2, -2,  2])
+
+        On bijective graphs, all edges are OK.
+
+        >>> paw = sm.Tadpole()
+        >>> paw.gentle_rewards([6, 3, 1, 2])
+        array([2, 2, 2, 2])
+
+        Last example: the hypergraph from Nazari & Stolyar.
+
+        >>> ns = sm.NS19(rates=[1.2, 1.5, 2, 0.8])
+        >>> ns.gentle_rewards([-1, -1, 1, 2, 5, 4, 7])
+        array([-1, -1,  1,  1,  2, -2,  3])
+        """
+        alt_rewards = self.incidence.sum(axis=0)
+        mask = self.optimize_rates(rewards) == 0
+        alt_rewards[mask] = -alt_rewards[mask]
+        return alt_rewards
 
     def optimize_rates(self, weights):
         """
@@ -1300,6 +1389,12 @@ class Model:
         >>> paw = sm.Tadpole()
         >>> paw.optimize_rates([6, 3, 1, 2])
         array([1., 1., 1., 1.])
+
+        Last example: the hypergraph from Nazari & Stolyar.
+
+        >>> ns = sm.NS19(rates=[1.2, 1.5, 2, 0.8])
+        >>> ns.optimize_rates([-1, -1, 1, 2, 5, 4, 7])
+        array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
         """
         d, m = self.kernel.right.shape
         if d == 0:

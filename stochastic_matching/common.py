@@ -108,6 +108,7 @@ def get_classes(root):
      'Cycle': <class 'stochastic_matching.graphs.Cycle'>,
      'Complete': <class 'stochastic_matching.graphs.Complete'>,
      'Codomino': <class 'stochastic_matching.graphs.Codomino'>,
+     'Nazari Stolyar': <class 'stochastic_matching.graphs.NS19'>,
      'Pyramid': <class 'stochastic_matching.graphs.Pyramid'>,
      'Tadpole': <class 'stochastic_matching.graphs.Tadpole'>,
      'Lollipop': <class 'stochastic_matching.graphs.Lollipop'>,

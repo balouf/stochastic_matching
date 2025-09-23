@@ -197,13 +197,13 @@ class ConstantRegret(Simulator):
     ...                    n_steps=1000, seed=42, max_queue=10)
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
-    Arrivals: [53 90 98 50]
-    Traffic: [ 0 49 40 41  9]
-    Queues: [[166  56  19  23  20   7   0   0   0   0]
-     [145  73  33  17   7   5   5   2   2   2]
-     [226  37  13   6   4   2   2   1   0   0]
-     [259  23   7   2   0   0   0   0   0   0]]
-    Steps done: 291
+    Arrivals: [20 44 51 23]
+    Traffic: [ 3 17 25 16  0]
+    Queues: [[136   2   0   0   0   0   0   0   0   0]
+     [127   4   6   1   0   0   0   0   0   0]
+     [ 24  22   9  13  14  20  16  13   4   3]
+     [ 40  17  22  21  22  14   1   1   0   0]]
+    Steps done: 138
 
     OK, it's mostly working, but we reached the maximal queue size quite fast. Let's reduce the pressure.
 
@@ -213,11 +213,11 @@ class ConstantRegret(Simulator):
     >>> sim.run()
     >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
     Arrivals: [179 342 320 159]
-    Traffic: [ 32 143 161 143  16]
-    Queues: [[400 259 189  91  52   6   3   0   0   0]
-     [292 170 140 130 116  84  49  17   2   0]
-     [887  67  26  10   5   2   2   1   0   0]
-     [932  47  13   4   4   0   0   0   0   0]]
+    Traffic: [ 43 136 161 136  23]
+    Queues: [[900  79  18   2   1   0   0   0   0   0]
+     [840  98  37  17   6   2   0   0   0   0]
+     [483 224 122  78  61  26   5   1   0   0]
+     [551 255 100  50  25  10   9   0   0   0]]
     Steps done: 1000
 
     A stable candy. While candies are not good for greedy policies, virtual queues policies are
@@ -246,25 +246,28 @@ class ConstantRegret(Simulator):
 
     Last but not least: Stolyar's example from https://arxiv.org/abs/1608.01646
 
-    >>> stol = sm.Model(incidence=[[1, 0, 0, 0, 1, 0, 0],
-    ...                       [0, 1, 0, 0, 1, 1, 1],
-    ...                       [0, 0, 1, 0, 0, 1, 1],
-    ...                       [0, 0, 0, 1, 0, 0, 1]], rates=[1.2, 1.5, 2, .8])
+    >>> ns = sm.NS19(rates=[1.2, 1.5, 2, .8])
 
     Without optimization, all we do is self-matches (no queue at all):
 
-    >>> sim = ConstantRegret(stol, n_steps=1000, seed=42, max_queue=25)
+    >>> sim = ConstantRegret(ns, n_steps=1000, seed=42, max_queue=25)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([236, 279, 342, 143,   0,   0,   0])
     >>> sim.avg_queues
     array([0., 0., 0., 0.])
 
+    Let's introduce some rewards:
+
     >>> rewards = [-1, -1, 1, 2, 5, 4, 7]
+    >>> ns.optimize_rates(rewards)
+    array([0. , 0. , 1.7, 0.5, 1.2, 0. , 0.3])
+    >>> ns.normalize_rewards(rewards)
+    array([-2., -5.,  0.,  0.,  0., -1.,  0.])
 
     With optimization, we get the desired results:
 
-    >>> sim = ConstantRegret(stol, rewards=rewards, n_steps=3000, seed=42, max_queue=300)
+    >>> sim = ConstantRegret(ns, rewards=rewards, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 961, 342, 691,   0, 105])
@@ -274,7 +277,7 @@ class ConstantRegret(Simulator):
     One can check that this is the same as using a regular virtual queue with forbidden edges:
 
     >>> from stochastic_matching.simulator.virtual_queue import VirtualQueue
-    >>> sim = VirtualQueue(stol, rewards=rewards, forbidden_edges=True, n_steps=3000, seed=42, max_queue=300)
+    >>> sim = VirtualQueue(ns, rewards=rewards, forbidden_edges=True, n_steps=3000, seed=42, max_queue=300)
     >>> sim.run()
     >>> sim.logs.traffic.astype(int)
     array([  0,   0, 961, 342, 691,   0, 105])
@@ -289,7 +292,7 @@ class ConstantRegret(Simulator):
         if rewards is not None:
             rewards = np.array(rewards)
         else:
-            rewards = np.ones(model.m, dtype=int)
+            rewards = model.incidence.sum(axis=0)
         self.rewards = model.normalize_rewards(rewards)
 
         if fading is None:

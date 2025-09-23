@@ -16,6 +16,8 @@ class ExtendedSimulator(Simulator):
         Model to simulate.
     rewards: :class:`~numpy.ndarray` or :class:`list`, optional
         Rewards associated to edges.
+    alt_rewards: :class:`str`, optional
+        Possible reward transformation.
     beta: :class:`float`, optional
         Reward factor: each edge is given a default score 1/beta (small beta means higher reward impact).
         Setting beta triggers reward-based scoring.
@@ -28,12 +30,20 @@ class ExtendedSimulator(Simulator):
     """
 
     def __init__(
-        self, model, rewards=None, beta=None, forbidden_edges=None, k=None, **kwargs
+        self, model, rewards=None, alt_rewards=None, beta=None, forbidden_edges=None, k=None, **kwargs
     ):
         if rewards is not None:
             self.rewards = np.array(rewards)
         else:
-            self.rewards = np.ones(model.m, dtype=int)
+            self.rewards = model.incidence.sum(axis=0)
+        if alt_rewards is None:
+            self.alt_rewards = self.rewards
+        elif alt_rewards == "gentle":
+            self.alt_rewards = model.gentle_rewards(self.rewards)
+        elif alt_rewards == "normalize":
+            self.alt_rewards = model.normalize_rewards(self.rewards)
+        else:
+            raise ValueError(f"Unknown reward transformation: {alt_rewards}.")
         self.beta = beta
         if forbidden_edges is True:
             flow = model.optimize_rates(self.rewards)
@@ -42,7 +52,7 @@ class ExtendedSimulator(Simulator):
                 forbidden_edges = None
         self.forbidden_edges = forbidden_edges
         if forbidden_edges and rewards is None:
-            self.rewards[forbidden_edges] = -1
+            self.rewards[forbidden_edges] = - self.rewards[forbidden_edges]
         self.k = k
         super().__init__(model, **kwargs)
 
@@ -51,7 +61,7 @@ class ExtendedSimulator(Simulator):
         if self.beta is None:
             scores = np.zeros(self.model.m, dtype=int)
         else:
-            scores = self.rewards / self.beta
+            scores = self.alt_rewards / self.beta
         self.internal["scores"] = scores
         self.internal["forbidden_edges"] = self.forbidden_edges
         self.internal["k"] = self.k

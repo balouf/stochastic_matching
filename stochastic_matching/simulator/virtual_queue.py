@@ -51,6 +51,8 @@ def vq_core(
 
     n, max_queue = logs.queue_log.shape
     m = len(scores)
+    if k is None:
+        k = max_queue + 1
 
     # Optimize forbidden edges and set greedy flag.
     if forbidden_edges is not None:
@@ -217,7 +219,56 @@ class VirtualQueue(ExtendedSimulator):
      [791 128  50  18   7   6   0   0   0   0]]
     Steps done: 1000
 
-    Let's now use a k-filtering for this diamond:
+    Let's play a bit with alt rewards, starting with adversarial rewards:
+
+    >>> rewards = [-1, 1, 1, 1, 2.9]
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=rewards,
+    ...                    beta=.8, n_steps=1000, seed=42, max_queue=10)
+    >>> sim.run()
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [179 342 320 159]
+    Traffic: [ 70 109 161 109  50]
+    Queues: [[664 213  84  28   8   3   0   0   0   0]
+     [460 247 135  70  50  25  10   3   0   0]
+     [824 122  38  10   5   1   0   0   0   0]
+     [902  71  20   7   0   0   0   0   0   0]]
+    Steps done: 1000
+
+    With those rewards, we are far from the target. Let's be gentle:
+
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=rewards,
+    ...                    alt_rewards="gentle", beta=.8, n_steps=1000, seed=42, max_queue=10)
+    >>> sim.model.gentle_rewards(rewards)
+    array([-2,  2,  2,  2, -2])
+    >>> sim.run()
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [29 58 68 32]
+    Traffic: [ 0 29 29 29  1]
+    Queues: [[168  16   3   0   0   0   0   0   0   0]
+     [143  15   9   5   7   4   3   1   0   0]
+     [ 70  24  16   9  22  18  11   8   4   5]
+     [ 95  32  23  10  19   7   1   0   0   0]]
+    Steps done: 187
+
+    OK, it works but pressure is restored. Let's normalize:
+
+    >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), rewards=rewards,
+    ...                    alt_rewards="normalize", beta=.8, n_steps=1000, seed=42, max_queue=10)
+    >>> sim.model.normalize_rewards(rewards)
+    array([ 0. ,  0. ,  0. ,  0. , -0.1])
+    >>> sim.run()
+    >>> sim.plogs # doctest: +NORMALIZE_WHITESPACE
+    Arrivals: [179 342 320 159]
+    Traffic: [ 95  84 161  84  75]
+    Queues: [[823 120  38  19   0   0   0   0   0   0]
+     [625 215  76  46  28   9   1   0   0   0]
+     [686 212  70  24   7   1   0   0   0   0]
+     [823 118  39  12   4   4   0   0   0   0]]
+    Steps done: 1000
+
+    Not enough pressure in this example!
+
+    Let's now use a k-filtering approach for this diamond:
 
     >>> sim = VirtualQueue(sm.CycleChain(rates=[1, 2, 2, 1]), forbidden_edges=True,
     ...                    rewards=[0, 1, 1, 1, 0], n_steps=1000, seed=42, max_queue=10)

@@ -376,6 +376,36 @@ class Codomino(Model):
         super(Codomino, self).__init__(adjacency=adja, *args, **kwargs)
 
 
+class NS19(Model):
+    """
+    Parameters
+    ----------
+    *args
+        Positional parameters for the model.
+    **kwargs
+        Keyword parameters for the model.
+
+    Examples
+    --------
+    >>> ns = NS19()
+    >>> ns.incidence
+    array([[1, 0, 0, 0, 1, 0, 0],
+           [0, 1, 0, 0, 1, 1, 1],
+           [0, 0, 1, 0, 0, 1, 1],
+           [0, 0, 0, 1, 0, 0, 1]])
+    """
+    name = "Nazari Stolyar"
+
+    def __init__(self, *args, **kwargs):
+        incidence = [
+            [1, 0, 0, 0, 1, 0, 0],
+            [0, 1, 0, 0, 1, 1, 1],
+            [0, 0, 1, 0, 0, 1, 1],
+            [0, 0, 0, 1, 0, 0, 1],
+        ]
+        super(NS19, self).__init__(incidence=incidence, *args, **kwargs)
+
+
 class Pyramid(Model):
     """
     Parameters

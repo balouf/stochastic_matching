@@ -1,4 +1,4 @@
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from pathlib import Path
 import gzip
 import dill as pickle
@@ -160,27 +160,6 @@ class XP:
 
     def __len__(self):
         return sum(len(xp) for xp in self.xp_list)
-
-
-def regret_delay(model):
-    """
-    Default metric extractor.
-
-    Parameters
-    ----------
-    model: :class:`~stochastic_matching.model.Model`
-        Simulated model.
-
-
-    Returns
-    -------
-    :class:`dict`
-        Regret and delay.
-    """
-    simu = model.simulator
-    regret = simu.compute_regret()
-    delay = sum(simu.compute_average_queues())
-    return {"regret": regret, "delay": delay}
 
 
 class Runner:

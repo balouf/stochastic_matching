@@ -758,7 +758,7 @@ def info_maker(
         for e, edge in enumerate(edges_info):
             label = ""
             for i in range(d):
-                alpha = model.kernel.right[i, e]
+                alpha = model.kernel.alt_right[i, e]
                 if alpha == 0:
                     continue
                 if alpha == 1:

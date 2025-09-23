@@ -9,6 +9,7 @@ from stochastic_matching.graphs import (
     Codomino,
     CycleChain,
     Complete,
+    NS19,
     Pyramid,
     HyperPaddle,
     KayakPaddle,
