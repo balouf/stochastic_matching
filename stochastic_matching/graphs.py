@@ -376,6 +376,50 @@ class Codomino(Model):
         super(Codomino, self).__init__(adjacency=adja, *args, **kwargs)
 
 
+class ErdosRenyi(Model):
+    """
+    Parameters
+    ----------
+    n: :class:`int`
+        Number of nodes.
+    d: :class:`int` or :class:`float`
+        Target degree of Erdos Renyi graph.
+    seed: :class:`int`, optional
+        Random number generator seed.
+    *args
+        Positional parameters for the model.
+    **kwargs
+        Keyword parameters for the model.
+
+    Examples
+    --------
+
+    >>> erdos_renyi = ErdosRenyi(n=10, d=3, seed=42)
+    >>> erdos_renyi.m
+    20
+    >>> erdos_renyi.adjacency.astype(int) # doctest: +NORMALIZE_WHITESPACE
+    array([[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+           [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+           [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+           [0, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+           [1, 1, 0, 0, 0, 0, 1, 0, 0, 1],
+           [1, 1, 0, 0, 0, 0, 1, 1, 1, 1],
+           [1, 1, 1, 1, 1, 1, 0, 0, 1, 0],
+           [0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+           [0, 1, 1, 0, 1, 1, 0, 1, 0, 0]])
+    """
+    name = "Erdös-Rényi"
+
+    def __init__(self, n=10, d=3, seed=None, *args, **kwargs):
+        if seed is not None:
+            np.random.seed(seed)
+        p = d / (n - 1)
+        edges = np.triu(np.random.rand(n, n) < p, 1)
+        adjacency = edges + edges.T
+        super(ErdosRenyi, self).__init__(adjacency=adjacency, *args, **kwargs)
+
+
 class NS19(Model):
     """
     Parameters
@@ -394,7 +438,7 @@ class NS19(Model):
            [0, 0, 1, 0, 0, 1, 1],
            [0, 0, 0, 1, 0, 0, 1]])
     """
-    name = "Nazari Stolyar"
+    name = "Nazari-Stolyar"
 
     def __init__(self, *args, **kwargs):
         incidence = [

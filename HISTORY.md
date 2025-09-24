@@ -1,5 +1,21 @@
 # History
 
+## 0.4.0 (2025-09-26): Prepare article revision
+
+* Added three notebooks for explicit support of https://hal.archives-ouvertes.fr/hal-03502084
+* Reward-based policies like EGPD have a `alt_rewards` option to alter the rewards internally.
+  Two alterations (`gentle` and `normalize`) are available.
+* Default rewards are now edge-degree proportional
+  to ensure default neutrality in hypergraphs.
+* New policy: CRPD (Constant-Regret Primal-Dual),
+  based on https://dl.acm.org/doi/10.1145/3578338.3593532 .
+* New graphs in library: Nazari-Stolyar, Erdös-Rényi.
+* Vis engine updated, with new default behavior (refresh button).
+* Fix: Numba error when using forbidden edge without `k`.
+* Chore: documentation files switched to markdown.
+* Chore: package backend switched to uv.
+
+
 ## 0.3.3 (2024-07-15): Simplified and unified metric computation
 
 * Extraction of metrics from simulation gathered in a unique submodule
