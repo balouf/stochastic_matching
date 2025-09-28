@@ -66,22 +66,22 @@ HYPER_GRAPH_VIS_OPTIONS = {
 
 # language=HTML
 HTML_TEMPLATE = """
-<div class="sm-graph">
+<div class="sm-graph" id="box-%(name)s">
 <div id="%(name)s"></div>
 <a href="#" id="fit-%(name)s"
   style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
   z-index: 10; pointer-events: auto;"
-> Refresh
+> Reload
 </a>
 <style>
-.sm-graph {
+#box-%(name)s {
 position: relative;
 width: 100%%;
-height: 50vh !important;
+height: %(height)s !important;
 max-width: 100vw;
 max-height: 100vh !important;
 }
-.sm-graph > div {
+#%(name)s {
   height: 100%%;   /* Make the inner div fill the parent */
 }
 </style>
@@ -370,12 +370,12 @@ def vis_code(
     >>> edge_list = [{'from': 0, 'to': 1}, {'from': 0, 'to': 2},
     ...          {'from': 1, 'to': 3}, {'from': 2, 'to': 3}]
     >>> print(vis_code(vis_nodes=node_list, vis_edges=edge_list)) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    <div class="sm-graph">
+    <div class="sm-graph" id="box-...">
     <div id="..."></div>
     <a href="#" id="fit-..."
     style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
     z-index: 10; pointer-events: auto;"
-    > Refresh
+    > Reload
     </a>
     ...
     """
@@ -391,11 +391,19 @@ def vis_code(
         template = HTML_TEMPLATE
     if vis is None:
         vis = VIS_LOCATION
+    vis_options = {**VIS_OPTIONS, **vis_options}
+    height = vis_options["height"]
+    if isinstance(height, int):
+        height = f"{height}px"
+        vis_options["height"] = height
+    if "px" not in height:
+        height = "50vh"
     dic = {
         "name": div_name,
         "nodes": json.dumps(vis_nodes),
         "edges": json.dumps(vis_edges),
-        "options": json.dumps({**VIS_OPTIONS, **vis_options}),
+        "options": json.dumps(vis_options),
+        "height": height,
         "vis": vis,
     }
     return template % dic

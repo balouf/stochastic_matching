@@ -40,7 +40,7 @@ This is the preferred method to install Stochastic Matching, as it will always i
 
 If you publish results based on [Stochastic Matching][SM], **please acknowledge** the usage of the package by quoting the following paper.
 
-* Céline Comte, Fabien Mathieu, Ana Bušić. [Online Stochastic Matching: A Polytope Perspective](https://hal.archives-ouvertes.fr/hal-03502084). 2024.
+* Céline Comte, Fabien Mathieu, Sushil Mahavir Varma, Ana Bušić. [Online Stochastic Matching: A Polytope Perspective](https://hal.archives-ouvertes.fr/hal-03502084). 2024.
 
 ## Credits
 
