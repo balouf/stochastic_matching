@@ -1,0 +1,1141 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=6c02275b"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.adjacency">adjacency (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.adjacency_to_incidence">adjacency_to_incidence() (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.aggregate">aggregate() (in module stochastic_matching.simulator.parallel)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.arrivals.Arrivals">Arrivals (class in stochastic_matching.simulator.arrivals)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.avg_queues">avg_queues (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.AvgQueues">AvgQueues (class in stochastic_matching.simulator.metrics)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Barbell">Barbell (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.cached">cached() (in module stochastic_matching.simulator.parallel)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.CCDF">CCDF (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.ccdf">ccdf (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
+      <li><a href="reference/common.html#stochastic_matching.common.CharMaker">CharMaker (class in stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/common.html#stochastic_matching.common.class_converter">class_converter() (in module stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/common.html#stochastic_matching.common.clean_zeros">clean_zeros() (in module stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Codomino">Codomino (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Complete">Complete (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.complete_adjacency">complete_adjacency() (in module stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.concatenate">concatenate() (in module stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.concatenate_adjacency">concatenate_adjacency() (in module stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.connected_components">connected_components (stochastic_matching.model.Model attribute)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret">ConstantRegret (class in stochastic_matching.simulator.constant_regret)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.core_simulator">core_simulator() (in module stochastic_matching.simulator.simulator)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.constant_regret.cr_core">cr_core() (in module stochastic_matching.simulator.constant_regret)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.arrivals.create_prob_alias">create_prob_alias() (in module stochastic_matching.simulator.arrivals)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Cycle">Cycle (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.cycle_adjacency">cycle_adjacency() (in module stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.CycleChain">CycleChain (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/display.html#stochastic_matching.display.default_description">default_description() (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.degree">degree (stochastic_matching.model.Model attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Delay">Delay (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.delay">delay (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.do_nothing">do_nothing() (in module stochastic_matching.simulator.parallel)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.edge_to_kernel">edge_to_kernel() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.e_filtering.EFiltering">EFiltering (class in stochastic_matching.simulator.e_filtering)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.ErdosRenyi">ErdosRenyi (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.evaluate">evaluate() (in module stochastic_matching.simulator.parallel)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.e_filtering.expand_model">expand_model() (in module stochastic_matching.simulator.e_filtering)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.extended.ExtendedSimulator">ExtendedSimulator (class in stochastic_matching.simulator.extended)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Fan">Fan (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.FCFM">FCFM (class in stochastic_matching.simulator.fcfm)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.fcfm_core">fcfm_core() (in module stochastic_matching.simulator.fcfm)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Flow">Flow (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.flow">flow (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.FULL_HTML_TEMPLATE">FULL_HTML_TEMPLATE (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.multiqueue.FullMultiQueue">FullMultiQueue (class in stochastic_matching.simulator.multiqueue)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.gentle_rewards">gentle_rewards() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.AvgQueues.get">get() (stochastic_matching.simulator.metrics.AvgQueues static method)</a>
+
+      <ul>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.CCDF.get">(stochastic_matching.simulator.metrics.CCDF static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Delay.get">(stochastic_matching.simulator.metrics.Delay static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Flow.get">(stochastic_matching.simulator.metrics.Flow static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Income.get">(stochastic_matching.simulator.metrics.Income static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Metric.get">(stochastic_matching.simulator.metrics.Metric static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Regret.get">(stochastic_matching.simulator.metrics.Regret static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.StepsDone.get">(stochastic_matching.simulator.metrics.StepsDone static method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Traffic.get">(stochastic_matching.simulator.metrics.Traffic static method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/common.html#stochastic_matching.common.get_classes">get_classes() (in module stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.get_metrics">get_metrics() (in module stochastic_matching.simulator.metrics)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/display.html#stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS">HYPER_GRAPH_VIS_OPTIONS (in module stochastic_matching.display)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.HyperPaddle">HyperPaddle (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.incidence">incidence (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.incidence_csc">incidence_csc (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.incidence_csr">incidence_csr (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.incidence_to_adjacency">incidence_to_adjacency() (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Income">Income (class in stochastic_matching.simulator.metrics)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.incompressible_flow">incompressible_flow() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.info_maker">info_maker() (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.int_2_str">int_2_str() (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.internal">internal (stochastic_matching.simulator.simulator.Simulator attribute)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.Iterator">Iterator (class in stochastic_matching.simulator.parallel)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.graph.JitHyperGraph">JitHyperGraph (class in stochastic_matching.simulator.graph)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.KayakPaddle">KayakPaddle (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Kernel">Kernel (class in stochastic_matching.model)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.kernel">kernel (stochastic_matching.model.Model attribute)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.kernel_inverse">kernel_inverse() (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.kernel_to_edge">kernel_to_edge() (stochastic_matching.model.Model method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.constant_regret.lin_fading">lin_fading() (in module stochastic_matching.simulator.constant_regret)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.logs.Logs">Logs (class in stochastic_matching.simulator.logs)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.logs">logs (stochastic_matching.simulator.simulator.Simulator attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Lollipop">Lollipop (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.longest.Longest">Longest (class in stochastic_matching.simulator.longest)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.longest.longest_core">longest_core() (in module stochastic_matching.simulator.longest)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.m">m (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.graph.make_jit_graph">make_jit_graph() (in module stochastic_matching.simulator.graph)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.priority.make_priority_selector">make_priority_selector() (in module stochastic_matching.simulator.priority)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.maximin">maximin (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Metric">Metric (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model">Model (class in stochastic_matching.model)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="reference/common.html#module-stochastic_matching.common">stochastic_matching.common</a>
+</li>
+        <li><a href="reference/display.html#module-stochastic_matching.display">stochastic_matching.display</a>
+</li>
+        <li><a href="reference/graphs.html#module-stochastic_matching.graphs">stochastic_matching.graphs</a>
+</li>
+        <li><a href="reference/model.html#module-stochastic_matching.model">stochastic_matching.model</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.arrivals">stochastic_matching.simulator.arrivals</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.constant_regret">stochastic_matching.simulator.constant_regret</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.e_filtering">stochastic_matching.simulator.e_filtering</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.extended">stochastic_matching.simulator.extended</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.fcfm">stochastic_matching.simulator.fcfm</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.graph">stochastic_matching.simulator.graph</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.logs">stochastic_matching.simulator.logs</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.longest">stochastic_matching.simulator.longest</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.metrics">stochastic_matching.simulator.metrics</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.multiqueue">stochastic_matching.simulator.multiqueue</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.parallel">stochastic_matching.simulator.parallel</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.priority">stochastic_matching.simulator.priority</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.random_edge">stochastic_matching.simulator.random_edge</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.random_item">stochastic_matching.simulator.random_item</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.simulator">stochastic_matching.simulator.simulator</a>
+</li>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.virtual_queue">stochastic_matching.simulator.virtual_queue</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.moore_penrose">moore_penrose (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.multiqueue.MultiQueue">MultiQueue (class in stochastic_matching.simulator.multiqueue)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.n">n (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret.name">name (stochastic_matching.simulator.constant_regret.ConstantRegret attribute)</a>
+
+      <ul>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.name">(stochastic_matching.simulator.e_filtering.EFiltering attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.FCFM.name">(stochastic_matching.simulator.fcfm.FCFM attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.longest.Longest.name">(stochastic_matching.simulator.longest.Longest attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.priority.Priority.name">(stochastic_matching.simulator.priority.Priority attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.random_edge.RandomEdge.name">(stochastic_matching.simulator.random_edge.RandomEdge attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.random_item.RandomItem.name">(stochastic_matching.simulator.random_item.RandomItem attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.name">(stochastic_matching.simulator.simulator.Simulator attribute)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.name">(stochastic_matching.simulator.virtual_queue.VirtualQueue attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.names">names (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/common.html#stochastic_matching.common.neighbors">neighbors() (in module stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.normalize_rewards">normalize_rewards() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.NS19">NS19 (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.optimize_edge">optimize_edge() (stochastic_matching.model.Model method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.optimize_rates">optimize_rates() (stochastic_matching.model.Model method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Path">Path (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.path_adjacency">path_adjacency() (in module stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.logs.PhantomLogs">PhantomLogs (class in stochastic_matching.simulator.logs)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.plogs">plogs (stochastic_matching.simulator.simulator.Simulator property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/display.html#stochastic_matching.display.PNG_TEMPLATE">PNG_TEMPLATE (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.priority.Priority">Priority (class in stochastic_matching.simulator.priority)</a>
+</li>
+      <li><a href="reference/common.html#stochastic_matching.common.pseudo_inverse_scalar">pseudo_inverse_scalar() (in module stochastic_matching.common)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Pyramid">Pyramid (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.random_edge.random_edge_selector">random_edge_selector() (in module stochastic_matching.simulator.random_edge)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.random_item.random_item_selector">random_item_selector() (in module stochastic_matching.simulator.random_item)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.random_edge.RandomEdge">RandomEdge (class in stochastic_matching.simulator.random_edge)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.random_item.RandomItem">RandomItem (class in stochastic_matching.simulator.random_item)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.rates">rates (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Regret">Regret (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.logs.repr_logs">repr_logs() (in module stochastic_matching.simulator.logs)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.reset">reset() (stochastic_matching.simulator.simulator.Simulator method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.run">run() (stochastic_matching.model.Model method)</a>
+
+      <ul>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret.run">(stochastic_matching.simulator.constant_regret.ConstantRegret method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.run">(stochastic_matching.simulator.e_filtering.EFiltering method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.FCFM.run">(stochastic_matching.simulator.fcfm.FCFM method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.longest.Longest.run">(stochastic_matching.simulator.longest.Longest method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.run">(stochastic_matching.simulator.simulator.Simulator method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.run">(stochastic_matching.simulator.virtual_queue.VirtualQueue method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.Runner">Runner (class in stochastic_matching.simulator.parallel)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.seeds">seeds (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret.set_internal">set_internal() (stochastic_matching.simulator.constant_regret.ConstantRegret method)</a>
+
+      <ul>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.set_internal">(stochastic_matching.simulator.e_filtering.EFiltering method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.extended.ExtendedSimulator.set_internal">(stochastic_matching.simulator.extended.ExtendedSimulator method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.fcfm.FCFM.set_internal">(stochastic_matching.simulator.fcfm.FCFM method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.longest.Longest.set_internal">(stochastic_matching.simulator.longest.Longest method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.priority.Priority.set_internal">(stochastic_matching.simulator.priority.Priority method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.random_edge.RandomEdge.set_internal">(stochastic_matching.simulator.random_edge.RandomEdge method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.random_item.RandomItem.set_internal">(stochastic_matching.simulator.random_item.RandomItem method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.set_internal">(stochastic_matching.simulator.simulator.Simulator method)</a>
+</li>
+        <li><a href="reference/simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.set_internal">(stochastic_matching.simulator.virtual_queue.VirtualQueue method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.shadow_prices">shadow_prices() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.show">show() (in module stochastic_matching.display)</a>
+
+      <ul>
+        <li><a href="reference/model.html#stochastic_matching.model.Model.show">(stochastic_matching.model.Model method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.show_average_queues">show_average_queues() (stochastic_matching.simulator.simulator.Simulator method)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.show_ccdf">show_ccdf() (stochastic_matching.simulator.simulator.Simulator method)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.show_flow">show_flow() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.show_graph">show_graph() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.show_kernel">show_kernel() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.show_vertex">show_vertex() (stochastic_matching.model.Model method)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.simple_left_kernel">simple_left_kernel() (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.simple_right_kernel">simple_right_kernel() (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.simulator.Simulator">Simulator (class in stochastic_matching.simulator.simulator)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.SingleXP">SingleXP (class in stochastic_matching.simulator.parallel)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.stabilizable">stabilizable (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Star">Star (class in stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.star_adjacency">star_adjacency() (in module stochastic_matching.graphs)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.status_names">status_names (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.status_names_simple_connected">status_names_simple_connected (in module stochastic_matching.model)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.StepsDone">StepsDone (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li>
+    stochastic_matching.common
+
+      <ul>
+        <li><a href="reference/common.html#module-stochastic_matching.common">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.display
+
+      <ul>
+        <li><a href="reference/display.html#module-stochastic_matching.display">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.graphs
+
+      <ul>
+        <li><a href="reference/graphs.html#module-stochastic_matching.graphs">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    stochastic_matching.model
+
+      <ul>
+        <li><a href="reference/model.html#module-stochastic_matching.model">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.arrivals
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.arrivals">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.constant_regret
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.constant_regret">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.e_filtering
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.e_filtering">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.extended
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.extended">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.fcfm
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.fcfm">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.graph
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.graph">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.logs
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.logs">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.longest
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.longest">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.metrics
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.metrics">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.multiqueue
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.multiqueue">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.parallel
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.parallel">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.priority
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.priority">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.random_edge
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.random_edge">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.random_item
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.random_item">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.simulator
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.simulator">module</a>
+</li>
+      </ul></li>
+      <li>
+    stochastic_matching.simulator.virtual_queue
+
+      <ul>
+        <li><a href="reference/simulator.html#module-stochastic_matching.simulator.virtual_queue">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graphs.html#stochastic_matching.graphs.Tadpole">Tadpole (class in stochastic_matching.graphs)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.metrics.Traffic">Traffic (class in stochastic_matching.simulator.metrics)</a>
+</li>
+      <li><a href="reference/model.html#stochastic_matching.model.traversal">traversal() (in module stochastic_matching.model)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/model.html#stochastic_matching.model.Model.vertices">vertices (stochastic_matching.model.Model property)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue">VirtualQueue (class in stochastic_matching.simulator.virtual_queue)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.vis_code">vis_code() (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.vis_converter">vis_converter() (in module stochastic_matching.display)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/display.html#stochastic_matching.display.VIS_LOCATION">VIS_LOCATION (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.VIS_OPTIONS">VIS_OPTIONS (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/display.html#stochastic_matching.display.vis_show">vis_show() (in module stochastic_matching.display)</a>
+</li>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.virtual_queue.vq_core">vq_core() (in module stochastic_matching.simulator.virtual_queue)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/simulator.html#stochastic_matching.simulator.parallel.XP">XP (class in stochastic_matching.simulator.parallel)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

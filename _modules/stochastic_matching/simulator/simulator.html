@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>stochastic_matching.simulator.simulator &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/stochastic_matching/simulator/simulator';</script>
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../../../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">stochastic_matching.simulator.simulator</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for stochastic_matching.simulator.simulator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.simulator.arrivals</span><span class="w"> </span><span class="kn">import</span> <span class="n">Arrivals</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.simulator.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_jit_graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.simulator.logs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Logs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">int_2_str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.simulator.logs</span><span class="w"> </span><span class="kn">import</span> <span class="n">repr_logs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.simulator.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">AvgQueues</span><span class="p">,</span> <span class="n">Regret</span><span class="p">,</span> <span class="n">Delay</span><span class="p">,</span> <span class="n">CCDF</span><span class="p">,</span> <span class="n">Flow</span>
+
+
+<div class="viewcode-block" id="core_simulator">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.core_simulator">[docs]</a>
+<span class="nd">@njit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">core_simulator</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="n">arrivals</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">,</span> <span class="n">selector</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic jitted function for queue-size based policies.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logs: :class:`~stochastic_matching.simulator.logs.Logs`</span>
+<span class="sd">        Monitored variables.</span>
+<span class="sd">    arrivals: :class:`~stochastic_matching.simulator.arrivals.Arrivals`</span>
+<span class="sd">        Item arrival process.</span>
+<span class="sd">    graph: :class:`~stochastic_matching.simulator.graph.JitHyperGraph`</span>
+<span class="sd">        Model graph.</span>
+<span class="sd">    n_steps: :class:`int`</span>
+<span class="sd">        Number of arrivals to process.</span>
+<span class="sd">    queue_size: :class:`~numpy.ndarray`</span>
+<span class="sd">        Number of waiting items of each class.</span>
+<span class="sd">    selector: callable</span>
+<span class="sd">        Jitted function that selects edge (or not) based on graph, queue_size, and arriving node.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n</span><span class="p">,</span> <span class="n">max_queue</span> <span class="o">=</span> <span class="n">logs</span><span class="o">.</span><span class="n">queue_log</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">arrivals</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">queue_size</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_queue</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">best_edge</span> <span class="o">=</span> <span class="n">selector</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">best_edge</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">queue_size</span><span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">best_edge</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="n">logs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">queue_size</span><span class="o">=</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">best_edge</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Simulator">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Simulator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class that describes the generic behavior of matching simulators.</span>
+<span class="sd">    See subclasses for detailed examples.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: :class:`~stochastic_matching.model.Model`</span>
+<span class="sd">        Model to simulate.</span>
+<span class="sd">    n_steps: :class:`int`, optional</span>
+<span class="sd">        Number of arrivals to simulate.</span>
+<span class="sd">    seed: :class:`int`, optional</span>
+<span class="sd">        Seed of the random generator</span>
+<span class="sd">    max_queue: :class:`int`</span>
+<span class="sd">        Max queue size. Necessary for speed and detection of unstability.</span>
+<span class="sd">        For stable systems very close to the unstability</span>
+<span class="sd">        border, the max_queue may be reached.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    internal: :class:`dict`</span>
+<span class="sd">        Inner variables. Default to arrivals, graphs, queue_size, n_steps. Subclasses can add other variables.</span>
+<span class="sd">    logs: :class:`~stochastic_matching.simulator.logs.Logs`</span>
+<span class="sd">        Monitored variables (traffic on edges, queue size distribution, number of steps achieved).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import stochastic_matching as sm</span>
+<span class="sd">    &gt;&gt;&gt; sim = sm.FCFM(sm.CycleChain(rates=[2, 2.1, 1.1, 1]), seed=42, n_steps=1000, max_queue=8)</span>
+<span class="sd">    &gt;&gt;&gt; sim</span>
+<span class="sd">    Simulator of type fcfm.</span>
+
+<span class="sd">    Use :meth:`~stochastic_matching.simulator.simulator.Simulator.run` to make the simulation.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.run()</span>
+
+<span class="sd">    Raw results are stored in `logs`. A `plog` property gives a pretty print of the logs.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.plogs #doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    Arrivals: [67 80 43 39]</span>
+<span class="sd">    Traffic: [43 17 14 23 12]</span>
+<span class="sd">    Queues: [[118  47  26  15  14   7   1   1]</span>
+<span class="sd">     [188  25  13   3   0   0   0   0]</span>
+<span class="sd">     [217   8   3   1   0   0   0   0]</span>
+<span class="sd">     [125  50  31  11   9   3   0   0]]</span>
+<span class="sd">    Steps done: 229</span>
+
+<span class="sd">    Different methods are proposed to provide various indicators.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.avg_queues</span>
+<span class="sd">    array([1.08296943, 0.26200873, 0.07423581, 0.8558952 ])</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.delay</span>
+<span class="sd">    np.float64(0.3669530919847866)</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.ccdf #doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    array([[1.        , 0.48471616, 0.27947598, 0.16593886, 0.10043668,</span>
+<span class="sd">            0.03930131, 0.00873362, 0.00436681, 0.        ],</span>
+<span class="sd">           [1.        , 0.1790393 , 0.069869  , 0.01310044, 0.        ,</span>
+<span class="sd">            0.        , 0.        , 0.        , 0.        ],</span>
+<span class="sd">           [1.        , 0.05240175, 0.01746725, 0.00436681, 0.        ,</span>
+<span class="sd">            0.        , 0.        , 0.        , 0.        ],</span>
+<span class="sd">           [1.        , 0.45414847, 0.23580786, 0.10043668, 0.05240175,</span>
+<span class="sd">            0.01310044, 0.        , 0.        , 0.        ]])</span>
+<span class="sd">    &gt;&gt;&gt; sim.flow</span>
+<span class="sd">    array([1.16419214, 0.46026201, 0.3790393 , 0.62270742, 0.32489083])</span>
+
+<span class="sd">    You can also draw the average or CCDF of the queues.</span>
+
+<span class="sd">    &gt;&gt;&gt; fig = sim.show_average_queues()</span>
+<span class="sd">    &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; fig = sim.show_average_queues(indices=[0, 3, 2], sort=True, as_time=True)</span>
+<span class="sd">    &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; fig = sim.show_ccdf()</span>
+<span class="sd">    &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; fig = sim.show_ccdf(indices=[0, 3, 2], sort=True, strict=True)</span>
+<span class="sd">    &gt;&gt;&gt; fig #doctest: +ELLIPSIS</span>
+<span class="sd">    &lt;Figure size ...x... with 1 Axes&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Name that can be used to list all non-abstract classes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span> <span class="o">=</span> <span class="n">max_queue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_steps</span> <span class="o">=</span> <span class="n">n_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">internal</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_internal</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">Logs</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plogs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print logs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">repr_logs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Simulator.set_internal">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.set_internal">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Populate the internal state.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internal</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;arrivals&quot;</span><span class="p">:</span> <span class="n">Arrivals</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
+            <span class="s2">&quot;graph&quot;</span><span class="p">:</span> <span class="n">make_jit_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">),</span>
+            <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_steps</span><span class="p">,</span>
+            <span class="s2">&quot;queue_size&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Simulator.reset">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.reset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reset internal state and monitored variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_internal</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">Logs</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">max_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queue</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Simulator.run">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run simulation.</span>
+<span class="sd">        Results are stored in the attribute :attr:`~stochastic_matching.simulator.simulator.Simulator.logs`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">core_simulator</span><span class="p">(</span><span class="n">logs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">internal</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">avg_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Average queue sizes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AvgQueues</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delay</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :class:`float`</span>
+<span class="sd">            Average waiting time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Delay</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            CCDFs of the queues.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">CCDF</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalize the simulated flow.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Flow on edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Flow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Regret</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Simulator.show_average_queues">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.show_average_queues">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show_average_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">as_time</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        indices: :class:`list`, optional</span>
+<span class="sd">            Indices of the nodes to display</span>
+<span class="sd">        sort: :class:`bool`, optional</span>
+<span class="sd">            If True, display the nodes by decreasing average queue size</span>
+<span class="sd">        as_time: :class:`bool`, optional</span>
+<span class="sd">            If True, display the nodes by decreasing average queue size</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~matplotlib.figure.Figure`</span>
+<span class="sd">            A figure of the CCDFs of the queues.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">averages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_queues</span>
+        <span class="k">if</span> <span class="n">as_time</span><span class="p">:</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rates</span>
+        <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">int_2_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">int_2_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">sort</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">averages</span><span class="p">)</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">averages</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">as_time</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Average waiting time&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Average queue occupancy&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Node&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Simulator.show_ccdf">
+<a class="viewcode-back" href="../../../reference/simulator.html#stochastic_matching.simulator.simulator.Simulator.show_ccdf">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show_ccdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        indices: :class:`list`, optional</span>
+<span class="sd">            Indices of the nodes to display</span>
+<span class="sd">        sort: :class:`bool`, optional</span>
+<span class="sd">            If True, order the nodes by decreasing average queue size</span>
+<span class="sd">        strict: :class:`bool`, default = False</span>
+<span class="sd">            Draws the curves as a true piece-wise function</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~matplotlib.figure.Figure`</span>
+<span class="sd">            A figure of the CCDFs of the queues.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ccdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ccdf</span>
+
+        <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ccdf</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">int_2_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">int_2_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">sort</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">averages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_queues</span>
+            <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">averages</span> <span class="o">=</span> <span class="n">averages</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">averages</span><span class="p">)</span>
+            <span class="n">ccdf</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">n_d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">x</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_d</span><span class="p">)</span>
+                <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">y</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+                <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ccdf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;CCDF&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Queue occupancy&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Simulator of type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

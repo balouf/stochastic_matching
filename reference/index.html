@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reference &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/index';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model" href="model.html" />
+    <link rel="prev" title="Simulations" href="../companion/simulations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.Kernel"><code class="docutils literal notranslate"><span class="pre">Kernel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.adjacency"><code class="docutils literal notranslate"><span class="pre">Model.adjacency</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.connected_components"><code class="docutils literal notranslate"><span class="pre">Model.connected_components</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.degree"><code class="docutils literal notranslate"><span class="pre">Model.degree</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.edge_to_kernel"><code class="docutils literal notranslate"><span class="pre">Model.edge_to_kernel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.gentle_rewards"><code class="docutils literal notranslate"><span class="pre">Model.gentle_rewards()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incidence"><code class="docutils literal notranslate"><span class="pre">Model.incidence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incidence_csc"><code class="docutils literal notranslate"><span class="pre">Model.incidence_csc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incidence_csr"><code class="docutils literal notranslate"><span class="pre">Model.incidence_csr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.incompressible_flow"><code class="docutils literal notranslate"><span class="pre">Model.incompressible_flow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.kernel"><code class="docutils literal notranslate"><span class="pre">Model.kernel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.kernel_to_edge"><code class="docutils literal notranslate"><span class="pre">Model.kernel_to_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.m"><code class="docutils literal notranslate"><span class="pre">Model.m</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.maximin"><code class="docutils literal notranslate"><span class="pre">Model.maximin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.moore_penrose"><code class="docutils literal notranslate"><span class="pre">Model.moore_penrose</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.n"><code class="docutils literal notranslate"><span class="pre">Model.n</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.names"><code class="docutils literal notranslate"><span class="pre">Model.names</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.normalize_rewards"><code class="docutils literal notranslate"><span class="pre">Model.normalize_rewards()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.optimize_edge"><code class="docutils literal notranslate"><span class="pre">Model.optimize_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.optimize_rates"><code class="docutils literal notranslate"><span class="pre">Model.optimize_rates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.rates"><code class="docutils literal notranslate"><span class="pre">Model.rates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.run"><code class="docutils literal notranslate"><span class="pre">Model.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.seeds"><code class="docutils literal notranslate"><span class="pre">Model.seeds</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.shadow_prices"><code class="docutils literal notranslate"><span class="pre">Model.shadow_prices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show"><code class="docutils literal notranslate"><span class="pre">Model.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_flow"><code class="docutils literal notranslate"><span class="pre">Model.show_flow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_graph"><code class="docutils literal notranslate"><span class="pre">Model.show_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_kernel"><code class="docutils literal notranslate"><span class="pre">Model.show_kernel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.show_vertex"><code class="docutils literal notranslate"><span class="pre">Model.show_vertex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.stabilizable"><code class="docutils literal notranslate"><span class="pre">Model.stabilizable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="model.html#stochastic_matching.model.Model.vertices"><code class="docutils literal notranslate"><span class="pre">Model.vertices</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.adjacency_to_incidence"><code class="docutils literal notranslate"><span class="pre">adjacency_to_incidence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.incidence_to_adjacency"><code class="docutils literal notranslate"><span class="pre">incidence_to_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.kernel_inverse"><code class="docutils literal notranslate"><span class="pre">kernel_inverse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.simple_left_kernel"><code class="docutils literal notranslate"><span class="pre">simple_left_kernel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.simple_right_kernel"><code class="docutils literal notranslate"><span class="pre">simple_right_kernel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.status_names"><code class="docutils literal notranslate"><span class="pre">status_names</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.status_names_simple_connected"><code class="docutils literal notranslate"><span class="pre">status_names_simple_connected</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html#stochastic_matching.model.traversal"><code class="docutils literal notranslate"><span class="pre">traversal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Graphs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Barbell"><code class="docutils literal notranslate"><span class="pre">Barbell</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Codomino"><code class="docutils literal notranslate"><span class="pre">Codomino</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Complete"><code class="docutils literal notranslate"><span class="pre">Complete</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Cycle"><code class="docutils literal notranslate"><span class="pre">Cycle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.CycleChain"><code class="docutils literal notranslate"><span class="pre">CycleChain</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.ErdosRenyi"><code class="docutils literal notranslate"><span class="pre">ErdosRenyi</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Fan"><code class="docutils literal notranslate"><span class="pre">Fan</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.HyperPaddle"><code class="docutils literal notranslate"><span class="pre">HyperPaddle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.KayakPaddle"><code class="docutils literal notranslate"><span class="pre">KayakPaddle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Lollipop"><code class="docutils literal notranslate"><span class="pre">Lollipop</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.NS19"><code class="docutils literal notranslate"><span class="pre">NS19</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Pyramid"><code class="docutils literal notranslate"><span class="pre">Pyramid</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Star"><code class="docutils literal notranslate"><span class="pre">Star</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.Tadpole"><code class="docutils literal notranslate"><span class="pre">Tadpole</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.complete_adjacency"><code class="docutils literal notranslate"><span class="pre">complete_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.concatenate"><code class="docutils literal notranslate"><span class="pre">concatenate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.concatenate_adjacency"><code class="docutils literal notranslate"><span class="pre">concatenate_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.cycle_adjacency"><code class="docutils literal notranslate"><span class="pre">cycle_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.path_adjacency"><code class="docutils literal notranslate"><span class="pre">path_adjacency()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html#stochastic_matching.graphs.star_adjacency"><code class="docutils literal notranslate"><span class="pre">star_adjacency()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Display</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.FULL_HTML_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">FULL_HTML_TEMPLATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">HYPER_GRAPH_VIS_OPTIONS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.PNG_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">PNG_TEMPLATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.VIS_LOCATION"><code class="docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">VIS_OPTIONS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.default_description"><code class="docutils literal notranslate"><span class="pre">default_description()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.info_maker"><code class="docutils literal notranslate"><span class="pre">info_maker()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.int_2_str"><code class="docutils literal notranslate"><span class="pre">int_2_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.vis_code"><code class="docutils literal notranslate"><span class="pre">vis_code()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.vis_converter"><code class="docutils literal notranslate"><span class="pre">vis_converter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html#stochastic_matching.display.vis_show"><code class="docutils literal notranslate"><span class="pre">vis_show()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.longest">Longest queue(s) first</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.longest.Longest"><code class="docutils literal notranslate"><span class="pre">Longest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.longest.Longest.name"><code class="docutils literal notranslate"><span class="pre">Longest.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.longest.Longest.run"><code class="docutils literal notranslate"><span class="pre">Longest.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.longest.Longest.set_internal"><code class="docutils literal notranslate"><span class="pre">Longest.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.longest.longest_core"><code class="docutils literal notranslate"><span class="pre">longest_core()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.virtual_queue">Virtual queue policy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue"><code class="docutils literal notranslate"><span class="pre">VirtualQueue</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.name"><code class="docutils literal notranslate"><span class="pre">VirtualQueue.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.run"><code class="docutils literal notranslate"><span class="pre">VirtualQueue.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.VirtualQueue.set_internal"><code class="docutils literal notranslate"><span class="pre">VirtualQueue.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.virtual_queue.vq_core"><code class="docutils literal notranslate"><span class="pre">vq_core()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret"><code class="docutils literal notranslate"><span class="pre">ConstantRegret</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret.name"><code class="docutils literal notranslate"><span class="pre">ConstantRegret.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret.run"><code class="docutils literal notranslate"><span class="pre">ConstantRegret.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.constant_regret.ConstantRegret.set_internal"><code class="docutils literal notranslate"><span class="pre">ConstantRegret.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.constant_regret.cr_core"><code class="docutils literal notranslate"><span class="pre">cr_core()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.constant_regret.lin_fading"><code class="docutils literal notranslate"><span class="pre">lin_fading()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.e_filtering">Epsilon-Filtering policy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.e_filtering.EFiltering"><code class="docutils literal notranslate"><span class="pre">EFiltering</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.name"><code class="docutils literal notranslate"><span class="pre">EFiltering.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.run"><code class="docutils literal notranslate"><span class="pre">EFiltering.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.e_filtering.EFiltering.set_internal"><code class="docutils literal notranslate"><span class="pre">EFiltering.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.e_filtering.expand_model"><code class="docutils literal notranslate"><span class="pre">expand_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.parallel">Tools for batch evaluations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.Iterator"><code class="docutils literal notranslate"><span class="pre">Iterator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.Runner"><code class="docutils literal notranslate"><span class="pre">Runner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.SingleXP"><code class="docutils literal notranslate"><span class="pre">SingleXP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.XP"><code class="docutils literal notranslate"><span class="pre">XP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.aggregate"><code class="docutils literal notranslate"><span class="pre">aggregate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.cached"><code class="docutils literal notranslate"><span class="pre">cached()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.do_nothing"><code class="docutils literal notranslate"><span class="pre">do_nothing()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.parallel.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.metrics">Metrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.AvgQueues"><code class="docutils literal notranslate"><span class="pre">AvgQueues</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.AvgQueues.get"><code class="docutils literal notranslate"><span class="pre">AvgQueues.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.CCDF"><code class="docutils literal notranslate"><span class="pre">CCDF</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.CCDF.get"><code class="docutils literal notranslate"><span class="pre">CCDF.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Delay"><code class="docutils literal notranslate"><span class="pre">Delay</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Delay.get"><code class="docutils literal notranslate"><span class="pre">Delay.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Flow"><code class="docutils literal notranslate"><span class="pre">Flow</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Flow.get"><code class="docutils literal notranslate"><span class="pre">Flow.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Income"><code class="docutils literal notranslate"><span class="pre">Income</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Income.get"><code class="docutils literal notranslate"><span class="pre">Income.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Metric"><code class="docutils literal notranslate"><span class="pre">Metric</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Metric.get"><code class="docutils literal notranslate"><span class="pre">Metric.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Regret"><code class="docutils literal notranslate"><span class="pre">Regret</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Regret.get"><code class="docutils literal notranslate"><span class="pre">Regret.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.StepsDone"><code class="docutils literal notranslate"><span class="pre">StepsDone</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.StepsDone.get"><code class="docutils literal notranslate"><span class="pre">StepsDone.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Traffic"><code class="docutils literal notranslate"><span class="pre">Traffic</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.Traffic.get"><code class="docutils literal notranslate"><span class="pre">Traffic.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.metrics.get_metrics"><code class="docutils literal notranslate"><span class="pre">get_metrics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.fcfm">First-Come First Served</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.fcfm.FCFM"><code class="docutils literal notranslate"><span class="pre">FCFM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.fcfm.FCFM.name"><code class="docutils literal notranslate"><span class="pre">FCFM.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.fcfm.FCFM.run"><code class="docutils literal notranslate"><span class="pre">FCFM.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.fcfm.FCFM.set_internal"><code class="docutils literal notranslate"><span class="pre">FCFM.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.fcfm.fcfm_core"><code class="docutils literal notranslate"><span class="pre">fcfm_core()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.priority">Other policies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.priority.Priority"><code class="docutils literal notranslate"><span class="pre">Priority</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.priority.Priority.name"><code class="docutils literal notranslate"><span class="pre">Priority.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.priority.Priority.set_internal"><code class="docutils literal notranslate"><span class="pre">Priority.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.priority.make_priority_selector"><code class="docutils literal notranslate"><span class="pre">make_priority_selector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_edge.RandomEdge"><code class="docutils literal notranslate"><span class="pre">RandomEdge</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_edge.RandomEdge.name"><code class="docutils literal notranslate"><span class="pre">RandomEdge.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_edge.RandomEdge.set_internal"><code class="docutils literal notranslate"><span class="pre">RandomEdge.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_edge.random_edge_selector"><code class="docutils literal notranslate"><span class="pre">random_edge_selector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_item.RandomItem"><code class="docutils literal notranslate"><span class="pre">RandomItem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_item.RandomItem.name"><code class="docutils literal notranslate"><span class="pre">RandomItem.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_item.RandomItem.set_internal"><code class="docutils literal notranslate"><span class="pre">RandomItem.set_internal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.random_item.random_item_selector"><code class="docutils literal notranslate"><span class="pre">random_item_selector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#generic-class">Generic Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.internal"><code class="docutils literal notranslate"><span class="pre">Simulator.internal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.logs"><code class="docutils literal notranslate"><span class="pre">Simulator.logs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.avg_queues"><code class="docutils literal notranslate"><span class="pre">Simulator.avg_queues</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.ccdf"><code class="docutils literal notranslate"><span class="pre">Simulator.ccdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.delay"><code class="docutils literal notranslate"><span class="pre">Simulator.delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.flow"><code class="docutils literal notranslate"><span class="pre">Simulator.flow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.name"><code class="docutils literal notranslate"><span class="pre">Simulator.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.plogs"><code class="docutils literal notranslate"><span class="pre">Simulator.plogs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.reset"><code class="docutils literal notranslate"><span class="pre">Simulator.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.run"><code class="docutils literal notranslate"><span class="pre">Simulator.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.set_internal"><code class="docutils literal notranslate"><span class="pre">Simulator.set_internal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.show_average_queues"><code class="docutils literal notranslate"><span class="pre">Simulator.show_average_queues()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.Simulator.show_ccdf"><code class="docutils literal notranslate"><span class="pre">Simulator.show_ccdf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.simulator.core_simulator"><code class="docutils literal notranslate"><span class="pre">core_simulator()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#extended-class">Extended Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.extended.ExtendedSimulator"><code class="docutils literal notranslate"><span class="pre">ExtendedSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.extended.ExtendedSimulator.set_internal"><code class="docutils literal notranslate"><span class="pre">ExtendedSimulator.set_internal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulator.html#module-stochastic_matching.simulator.arrivals">Internal tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.arrivals.Arrivals"><code class="docutils literal notranslate"><span class="pre">Arrivals</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.arrivals.create_prob_alias"><code class="docutils literal notranslate"><span class="pre">create_prob_alias()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.graph.JitHyperGraph"><code class="docutils literal notranslate"><span class="pre">JitHyperGraph</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.graph.make_jit_graph"><code class="docutils literal notranslate"><span class="pre">make_jit_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.multiqueue.FullMultiQueue"><code class="docutils literal notranslate"><span class="pre">FullMultiQueue</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.multiqueue.MultiQueue"><code class="docutils literal notranslate"><span class="pre">MultiQueue</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.logs.Logs"><code class="docutils literal notranslate"><span class="pre">Logs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.logs.PhantomLogs"><code class="docutils literal notranslate"><span class="pre">PhantomLogs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html#stochastic_matching.simulator.logs.repr_logs"><code class="docutils literal notranslate"><span class="pre">repr_logs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.CharMaker"><code class="docutils literal notranslate"><span class="pre">CharMaker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.class_converter"><code class="docutils literal notranslate"><span class="pre">class_converter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.clean_zeros"><code class="docutils literal notranslate"><span class="pre">clean_zeros()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.get_classes"><code class="docutils literal notranslate"><span class="pre">get_classes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.neighbors"><code class="docutils literal notranslate"><span class="pre">neighbors()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#stochastic_matching.common.pseudo_inverse_scalar"><code class="docutils literal notranslate"><span class="pre">pseudo_inverse_scalar()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../companion/simulations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="model.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/index.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

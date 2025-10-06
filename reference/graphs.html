@@ -1,0 +1,1296 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Graphs &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/graphs';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Display" href="display.html" />
+    <link rel="prev" title="Model" href="model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Graphs</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="graphs">
+<h1>Graphs<a class="headerlink" href="#graphs" title="Link to this heading">#</a></h1>
+<p>This module defines models for different graphs.</p>
+<dl class="py class" id="module-stochastic_matching.graphs">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Barbell">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Barbell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Barbell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Barbell" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first complete graph.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second complete graph. Default to the size of the first complete graph.</p></li>
+<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two complete graphs.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Traditional barbel graph with complete graphs of same size and unit bridge.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">barbel_5</span> <span class="o">=</span> <span class="n">Barbell</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">barbel_5</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 1, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A bow-tie (two triangles with one node in common).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Barbell</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>Something more elaborated.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Barbell</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Codomino">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Codomino</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Codomino"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Codomino" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span> <span class="o">=</span> <span class="n">Codomino</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="go">array([[0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 1],</span>
+<span class="go">       [0, 1, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Complete">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Complete" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A triangle:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span> <span class="o">=</span> <span class="n">Complete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1],</span>
+<span class="go">       [1, 0, 1],</span>
+<span class="go">       [1, 1, 0]])</span>
+</pre></div>
+</div>
+<p><span class="math notranslate nohighlight">\(K_5\)</span>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">k5</span> <span class="o">=</span> <span class="n">Complete</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k5</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 1, 1],</span>
+<span class="go">       [1, 0, 1, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 1, 0, 1],</span>
+<span class="go">       [1, 1, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p><span class="math notranslate nohighlight">\(K_4\)</span>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">k4</span> <span class="o">=</span> <span class="n">Complete</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k4</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 1],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [1, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Cycle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Cycle" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A triangle:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">triangle</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1],</span>
+<span class="go">       [1, 0, 1],</span>
+<span class="go">       [1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A pentacle:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pentacle</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pentacle</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [1, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A square:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">Cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.CycleChain">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">CycleChain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#CycleChain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.CycleChain" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the cycles.</p></li>
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of copies.</p></li>
+<li><p><strong>o</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Overlap between cycles.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>The diamond graph (two triangles).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">CycleChain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>The <em>triamond</em> graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CycleChain</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>The triangular snake graph <span class="math notranslate nohighlight">\(TS_9\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/TriangularSnakeGraph.html">https://mathworld.wolfram.com/TriangularSnakeGraph.html</a>)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CycleChain</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 0, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>The domino graph, or 3-ladder graph (cf <a class="reference external" href="https://mathworld.wolfram.com/LadderGraph.html">https://mathworld.wolfram.com/LadderGraph.html</a>)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CycleChain</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.ErdosRenyi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">ErdosRenyi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#ErdosRenyi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.ErdosRenyi" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – Target degree of Erdos Renyi graph.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Random number generator seed.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">erdos_renyi</span> <span class="o">=</span> <span class="n">ErdosRenyi</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">erdos_renyi</span><span class="o">.</span><span class="n">m</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">erdos_renyi</span><span class="o">.</span><span class="n">adjacency</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> 
+<span class="go">array([[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 1, 0, 0, 0, 0, 1, 0, 0, 1],</span>
+<span class="go">       [1, 1, 0, 0, 0, 0, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 1, 1, 0, 1, 0, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Fan">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Fan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycle_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperedges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Fan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Fan" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cycles</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of cycles</p></li>
+<li><p><strong>cycle_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of cycles</p></li>
+<li><p><strong>hyperedges</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of hyperedges that connect the cycles.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A basic 3-leaves clover:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span> <span class="o">=</span> <span class="n">Fan</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clover</span><span class="o">.</span><span class="n">incidence</span>  
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>Increase the hyperedge connectivity:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span> <span class="o">=</span> <span class="n">Fan</span><span class="p">(</span><span class="n">hyperedges</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connected</span><span class="o">.</span><span class="n">incidence</span>  
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]])</span>
+</pre></div>
+</div>
+<p>With only two cycles, we have a simple graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">Fan</span><span class="p">(</span><span class="n">cycles</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cycle_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">incidence</span> 
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">incidence_to_adjacency</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span> 
+<span class="go">array([[0, 1, 0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.HyperPaddle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">HyperPaddle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#HyperPaddle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.HyperPaddle" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the second cycle.</p></li>
+<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path of 3-edges that joins the two cycles.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>The <em>candy</em>, a basic but very useful hypergraph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">HyperPaddle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span><span class="o">.</span><span class="n">incidence</span>
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A more elaborate hypergraph</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span>
+<span class="go">array([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0]])</span>
+</pre></div>
+</div>
+<p>Warning: without any hyperedge, we have two disconnected cycles.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">HyperPaddle</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">incidence</span>
+<span class="go">array([[1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.KayakPaddle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">KayakPaddle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#KayakPaddle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.KayakPaddle" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Size of the first cycle.</p></li>
+<li><p><strong>l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the path that joins the two cycles.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Size of the second cycle. Default to the size of the first cycle.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A square and a triangle joined by a path of length 3.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak</span> <span class="o">=</span> <span class="n">KayakPaddle</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kayak</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A bow-tie (two triangles with one node in common).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">KayakPaddle</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Lollipop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Lollipop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Lollipop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Lollipop" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the complete graph.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A triangle with a one-edge tail (paw graph):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l_3_1</span> <span class="o">=</span> <span class="n">Lollipop</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l_3_1</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A larger lollipop:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l_5_3</span> <span class="o">=</span> <span class="n">Lollipop</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l_5_3</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 1, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [1, 1, 1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.NS19">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">NS19</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#NS19"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.NS19" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ns</span> <span class="o">=</span> <span class="n">NS19</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ns</span><span class="o">.</span><span class="n">incidence</span>
+<span class="go">array([[1, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 1]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Path">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Path" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Default is a two nodes line:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1],</span>
+<span class="go">       [1, 0]])</span>
+</pre></div>
+</div>
+<p>Class name:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;Path&#39;</span>
+</pre></div>
+</div>
+<p>A five nodes line with alphabetical names:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p5</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p5</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">p5</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p5</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+<span class="go">[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Pyramid">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Pyramid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Pyramid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Pyramid" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">Pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span><span class="o">.</span><span class="n">adjacency</span>
+<span class="go">array([[0, 1, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Star">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Star"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Star" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Default is a 4 nodes star (one center and three branches):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s4</span> <span class="o">=</span> <span class="n">Star</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s4</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 1],</span>
+<span class="go">       [1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0]])</span>
+</pre></div>
+</div>
+<p>A five nodes star:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s5</span> <span class="o">=</span> <span class="n">Star</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s5</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 1, 1],</span>
+<span class="go">       [1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.Tadpole">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">Tadpole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#Tadpole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.Tadpole" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the tail.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A triangle with a one-edge tail (paw graph):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span> <span class="o">=</span> <span class="n">Tadpole</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">paw</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0],</span>
+<span class="go">       [1, 0, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A pentacle:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c5</span> <span class="o">=</span> <span class="n">Tadpole</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c5</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 0, 1],</span>
+<span class="go">       [1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [1, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+<p>A larger tadpole:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">long_pan</span> <span class="o">=</span> <span class="n">Tadpole</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">long_pan</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.complete_adjacency">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">complete_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#complete_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.complete_adjacency" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjacency matrix of a complete graph <span class="math notranslate nohighlight">\(K_n\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/CompleteGraph.html">https://mathworld.wolfram.com/CompleteGraph.html</a>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.concatenate">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.concatenate" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – The graphs that one want to merge. They must all be simple (and in particular have an adjacency matrix).</p></li>
+<li><p><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of nodes that are common to two consecutive graphs. Default to 1.</p></li>
+<li><p><strong>*args</strong> – Positional parameters for the model.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword parameters for the model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Model of the concatenated graph.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A codomino graph:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span> <span class="o">=</span> <span class="n">concatenate</span><span class="p">([</span><span class="n">Cycle</span><span class="p">(),</span> <span class="n">Cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Cycle</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codomino</span><span class="o">.</span><span class="n">adjacency</span> 
+<span class="go">array([[0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 1],</span>
+<span class="go">       [0, 1, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.concatenate_adjacency">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">concatenate_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adja_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#concatenate_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.concatenate_adjacency" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adja_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The adjacency matrices that one wants to merge.</p></li>
+<li><p><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – Number of nodes that are common to two consecutive graphs. Default to 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Concatenated adjacency.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A codomino adjacency:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">concatenate_adjacency</span><span class="p">([</span><span class="n">cycle_adjacency</span><span class="p">(),</span> <span class="n">cycle_adjacency</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">cycle_adjacency</span><span class="p">()],</span> <span class="mi">2</span><span class="p">)</span> 
+<span class="go">array([[0, 1, 1, 0, 0, 0],</span>
+<span class="go">       [1, 0, 1, 0, 1, 0],</span>
+<span class="go">       [1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 1],</span>
+<span class="go">       [0, 1, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.cycle_adjacency">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">cycle_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#cycle_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.cycle_adjacency" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Length of the cycle.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjacency matrix of a cycle graph <span class="math notranslate nohighlight">\(C_n\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/CycleGraph.html">https://mathworld.wolfram.com/CycleGraph.html</a>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.path_adjacency">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">path_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#path_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.path_adjacency" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjacency matrix of a path graph <span class="math notranslate nohighlight">\(P_n\)</span> (cf <a class="reference external" href="https://mathworld.wolfram.com/PathGraph.html">https://mathworld.wolfram.com/PathGraph.html</a>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.graphs.star_adjacency">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.graphs.</span></span><span class="sig-name descname"><span class="pre">star_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/graphs.html#star_adjacency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.graphs.star_adjacency" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of nodes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjacency matrix of a star graph <span class="math notranslate nohighlight">\(S_n\)</span> (<a class="reference external" href="https://mathworld.wolfram.com/StarGraph.html">https://mathworld.wolfram.com/StarGraph.html</a>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="display.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Display</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Barbell"><code class="docutils literal notranslate"><span class="pre">Barbell</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Codomino"><code class="docutils literal notranslate"><span class="pre">Codomino</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Complete"><code class="docutils literal notranslate"><span class="pre">Complete</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Cycle"><code class="docutils literal notranslate"><span class="pre">Cycle</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.CycleChain"><code class="docutils literal notranslate"><span class="pre">CycleChain</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.ErdosRenyi"><code class="docutils literal notranslate"><span class="pre">ErdosRenyi</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Fan"><code class="docutils literal notranslate"><span class="pre">Fan</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.HyperPaddle"><code class="docutils literal notranslate"><span class="pre">HyperPaddle</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.KayakPaddle"><code class="docutils literal notranslate"><span class="pre">KayakPaddle</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Lollipop"><code class="docutils literal notranslate"><span class="pre">Lollipop</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.NS19"><code class="docutils literal notranslate"><span class="pre">NS19</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Pyramid"><code class="docutils literal notranslate"><span class="pre">Pyramid</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Star"><code class="docutils literal notranslate"><span class="pre">Star</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.Tadpole"><code class="docutils literal notranslate"><span class="pre">Tadpole</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.complete_adjacency"><code class="docutils literal notranslate"><span class="pre">complete_adjacency()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.concatenate"><code class="docutils literal notranslate"><span class="pre">concatenate()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.concatenate_adjacency"><code class="docutils literal notranslate"><span class="pre">concatenate_adjacency()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.cycle_adjacency"><code class="docutils literal notranslate"><span class="pre">cycle_adjacency()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.path_adjacency"><code class="docutils literal notranslate"><span class="pre">path_adjacency()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.graphs.star_adjacency"><code class="docutils literal notranslate"><span class="pre">star_adjacency()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/graphs.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

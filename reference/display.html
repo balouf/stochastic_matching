@@ -1,0 +1,942 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Display &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/display';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simulation" href="simulator.html" />
+    <link rel="prev" title="Graphs" href="graphs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../companion/index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphs.html">Graphs</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulator.html">Simulation</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Display</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="display">
+<h1>Display<a class="headerlink" href="#display" title="Link to this heading">#</a></h1>
+<p>Display method (mostly using visJS).</p>
+<dl class="py data" id="module-stochastic_matching.display">
+<dt class="sig sig-object py" id="stochastic_matching.display.FULL_HTML_TEMPLATE">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">FULL_HTML_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n&lt;div</span> <span class="pre">id=&quot;%(name)s&quot;&gt;&lt;/div&gt;\n&lt;script</span> <span class="pre">type=&quot;module&quot;&gt;\n//</span> <span class="pre">1.</span> <span class="pre">Define</span> <span class="pre">dark/light</span> <span class="pre">skins\nconst</span> <span class="pre">darkOptions</span> <span class="pre">=</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">nodes:</span> <span class="pre">{color:</span> <span class="pre">{background:</span> <span class="pre">&quot;#222&quot;,</span> <span class="pre">border:</span> <span class="pre">&quot;#999&quot;,</span> <span class="pre">highlight:</span> <span class="pre">&quot;#444&quot;},</span> <span class="pre">font:</span> <span class="pre">{color:</span> <span class="pre">&quot;#fff&quot;}},\n</span>&#160;&#160;&#160; <span class="pre">edges:</span> <span class="pre">{color:</span> <span class="pre">{color:</span> <span class="pre">&quot;#fff&quot;,</span> <span class="pre">highlight:</span> <span class="pre">&quot;#FFD700&quot;},</span> <span class="pre">font:</span> <span class="pre">{color:</span> <span class="pre">&quot;#fff&quot;}}\n};\nconst</span> <span class="pre">lightOptions</span> <span class="pre">=</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">nodes:</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">color:</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">background:</span> <span class="pre">&quot;#fff&quot;,\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">border:</span> <span class="pre">&quot;#222&quot;,\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">highlight:</span> <span class="pre">&quot;#FFD700&quot;},\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">font:</span> <span class="pre">{color:</span> <span class="pre">&quot;#222&quot;}\n</span>&#160;&#160;&#160; <span class="pre">},\n</span>&#160;&#160;&#160; <span class="pre">edges:</span> <span class="pre">{color:</span> <span class="pre">{color:</span> <span class="pre">&quot;#222&quot;,</span> <span class="pre">highlight:</span> <span class="pre">&quot;#3876c2&quot;},</span> <span class="pre">font:</span> <span class="pre">{color:</span> <span class="pre">&quot;#222&quot;}}\n};\n\n//</span> <span class="pre">2.</span> <span class="pre">Mode</span> <span class="pre">detection\nfunction</span> <span class="pre">getTheme()</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Pydata</span> <span class="pre">Sphinx</span> <span class="pre">Theme:</span> <span class="pre">regarde</span> <span class="pre">la</span> <span class="pre">classe</span> <span class="pre">sur</span> <span class="pre">body\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">pydataTheme</span> <span class="pre">=</span> <span class="pre">document.documentElement.getAttribute(&quot;data-theme&quot;);\n</span>&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(pydataTheme</span> <span class="pre">===</span> <span class="pre">&quot;dark&quot;</span> <span class="pre">||</span> <span class="pre">pydataTheme</span> <span class="pre">===</span> <span class="pre">&quot;light&quot;)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">pydataTheme;\n</span>&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Jupyter\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">jupyterLabTheme</span> <span class="pre">=</span> <span class="pre">document.body.getAttribute(&quot;data-jp-theme-name&quot;);\n</span>&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(jupyterLabTheme)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Simplify</span> <span class="pre">theme</span> <span class="pre">name</span> <span class="pre">to</span> <span class="pre">\'dark\'</span> <span class="pre">or</span> <span class="pre">\'light\'\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">lowerName</span> <span class="pre">=</span> <span class="pre">jupyterLabTheme.toLowerCase();\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(lowerName.includes(&quot;dark&quot;))</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">&quot;dark&quot;;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(lowerName.includes(&quot;light&quot;))</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">&quot;light&quot;;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">System\n</span>&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">window.matchMedia</span> <span class="pre">&amp;&amp;</span> <span class="pre">window.matchMedia(\'(prefers-color-scheme:</span> <span class="pre">dark)\').matches</span> <span class="pre">?</span> <span class="pre">&quot;dark&quot;</span> <span class="pre">:</span> <span class="pre">&quot;light&quot;;\n}\n\n//</span> <span class="pre">Universal</span> <span class="pre">function</span> <span class="pre">that</span> <span class="pre">loads</span> <span class="pre">vis.js</span> <span class="pre">only</span> <span class="pre">once\nfunction</span> <span class="pre">loadVis(url,</span> <span class="pre">callback)</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(window.vis)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">console.log(&quot;vis-network</span> <span class="pre">already</span> <span class="pre">loaded&quot;);\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">callback();\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return;\n</span>&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Lookup</span> <span class="pre">other</span> <span class="pre">loads</span> <span class="pre">in</span> <span class="pre">progress\n</span>&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(document.querySelector(\'script[data-vis-loaded]\'))</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Script</span> <span class="pre">is</span> <span class="pre">loaded,</span> <span class="pre">wait</span> <span class="pre">until</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">ready\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">var</span> <span class="pre">check</span> <span class="pre">=</span> <span class="pre">setInterval(function</span> <span class="pre">()</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(window.vis)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">clearInterval(check);\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">console.log(&quot;vis-network</span> <span class="pre">sideload</span> <span class="pre">completed&quot;);\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">callback();\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">},</span> <span class="pre">20);\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return;\n</span>&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Add</span> <span class="pre">the</span> <span class="pre">script</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">page,</span> <span class="pre">callback</span> <span class="pre">called</span> <span class="pre">when</span> <span class="pre">loaded\n</span>&#160;&#160;&#160; <span class="pre">var</span> <span class="pre">script</span> <span class="pre">=</span> <span class="pre">document.createElement(\'script\');\n</span>&#160;&#160;&#160; <span class="pre">script.src</span> <span class="pre">=</span> <span class="pre">url;\n</span>&#160;&#160;&#160; <span class="pre">script.async</span> <span class="pre">=</span> <span class="pre">true;\n</span>&#160;&#160;&#160; <span class="pre">script.setAttribute(\'data-vis-loaded\',</span> <span class="pre">\'1\');\n</span>&#160;&#160;&#160; <span class="pre">script.onload</span> <span class="pre">=</span> <span class="pre">callback;\n</span>&#160;&#160;&#160; <span class="pre">document.head.appendChild(script);\n</span>&#160;&#160;&#160; <span class="pre">console.log(\'vis-network</span> <span class="pre">dynamically</span> <span class="pre">loaded\');\n}\n\n//</span> <span class="pre">Start</span> <span class="pre">display</span> <span class="pre">when</span> <span class="pre">vis</span> <span class="pre">is</span> <span class="pre">loaded\nfunction</span> <span class="pre">render()</span> <span class="pre">{\nloadVis(\'%(vis)s\',</span> <span class="pre">function</span> <span class="pre">()</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">nodes</span> <span class="pre">=</span> <span class="pre">%(nodes)s;\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">edges</span> <span class="pre">=</span> <span class="pre">%(edges)s;\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">data</span> <span class="pre">=</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">nodes:</span> <span class="pre">nodes,\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">edges:</span> <span class="pre">edges,\n</span>&#160;&#160;&#160; <span class="pre">};\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">options</span> <span class="pre">=</span> <span class="pre">%(options)s;\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">container</span> <span class="pre">=</span> <span class="pre">document.getElementById(\'%(name)s\');\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">network</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">vis.Network(container,</span> <span class="pre">data,</span> <span class="pre">options);\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">theme</span> <span class="pre">=</span> <span class="pre">getTheme();\n</span>&#160;&#160;&#160; <span class="pre">container._theme</span> <span class="pre">=</span> <span class="pre">theme;\n</span>&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">themeOptions</span> <span class="pre">=</span> <span class="pre">theme</span> <span class="pre">===</span> <span class="pre">&quot;dark&quot;</span> <span class="pre">?</span> <span class="pre">darkOptions</span> <span class="pre">:</span> <span class="pre">lightOptions;\n</span>&#160;&#160;&#160; <span class="pre">network.setOptions(themeOptions);\n</span>&#160;&#160;&#160; <span class="pre">network.fit({maxZoomLevel:</span> <span class="pre">200});\n})}\n\nrender();\n//</span> <span class="pre">Adapter</span> <span class="pre">dynamiquement</span> <span class="pre">si</span> <span class="pre">le</span> <span class="pre">thème</span> <span class="pre">change\nwindow.addEventListener(&quot;theme-changed&quot;,</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">render());\nconst</span> <span class="pre">observer</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">MutationObserver(mutations</span> <span class="pre">=&gt;</span> <span class="pre">{\n</span>&#160; <span class="pre">for</span> <span class="pre">(const</span> <span class="pre">mutation</span> <span class="pre">of</span> <span class="pre">mutations)</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(mutation.type</span> <span class="pre">===</span> <span class="pre">&quot;attributes&quot;</span> <span class="pre">&amp;&amp;</span> <span class="pre">mutation.attributeName</span> <span class="pre">===</span> <span class="pre">&quot;data-jp-theme-name&quot;)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">render();\n</span>&#160;&#160;&#160; <span class="pre">}\n</span>&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">});\nobserver.observe(document.body,</span> <span class="pre">{</span> <span class="pre">attributes:</span> <span class="pre">true</span> <span class="pre">});\nif</span> <span class="pre">(window.matchMedia)</span> <span class="pre">{\n</span>&#160; <span class="pre">window.matchMedia(\'(prefers-color-scheme:</span> <span class="pre">dark)\').addEventListener(\'change\',</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">render());\n}\n&lt;/script&gt;\n'</span></em><a class="headerlink" href="#stochastic_matching.display.FULL_HTML_TEMPLATE" title="Link to this definition">#</a></dt>
+<dd><p>Default template.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">HYPER_GRAPH_VIS_OPTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'groups':</span> <span class="pre">{'HyperEdge':</span> <span class="pre">{'color':</span> <span class="pre">{'background':</span> <span class="pre">'black'},</span> <span class="pre">'fixed':</span> <span class="pre">{'x':</span> <span class="pre">False},</span> <span class="pre">'shape':</span> <span class="pre">'dot',</span> <span class="pre">'size':</span> <span class="pre">5},</span> <span class="pre">'Node':</span> <span class="pre">{'fixed':</span> <span class="pre">{'x':</span> <span class="pre">False}}}}</span></em><a class="headerlink" href="#stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS" title="Link to this definition">#</a></dt>
+<dd><p>Default additional options for hypergraphs in the vis-network engine.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.display.PNG_TEMPLATE">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">PNG_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n&lt;div</span> <span class="pre">id=&quot;%(name)s&quot;&gt;&lt;/div&gt;\n&lt;img</span> <span class="pre">id=&quot;%(name)s-canvasImg&quot;</span> <span class="pre">alt=&quot;Right</span> <span class="pre">click</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">me!&quot;&gt;\n&lt;script&gt;\n//</span> <span class="pre">Universal</span> <span class="pre">function</span> <span class="pre">that</span> <span class="pre">loads</span> <span class="pre">vis.js</span> <span class="pre">only</span> <span class="pre">once\nfunction</span> <span class="pre">loadVis(url,</span> <span class="pre">callback)</span> <span class="pre">{\n</span>&#160; <span class="pre">if</span> <span class="pre">(window.vis)</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">console.log(&quot;vis-network</span> <span class="pre">already</span> <span class="pre">loaded&quot;);\n</span>&#160;&#160;&#160; <span class="pre">callback();\n</span>&#160;&#160;&#160; <span class="pre">return;\n</span>&#160; <span class="pre">}\n</span>&#160; <span class="pre">//</span> <span class="pre">Lookup</span> <span class="pre">other</span> <span class="pre">loads</span> <span class="pre">in</span> <span class="pre">progress\n</span>&#160; <span class="pre">if</span> <span class="pre">(document.querySelector(\'script[data-vis-loaded]\'))</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">//</span> <span class="pre">Script</span> <span class="pre">is</span> <span class="pre">loaded,</span> <span class="pre">wait</span> <span class="pre">until</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">ready\n</span>&#160;&#160;&#160; <span class="pre">var</span> <span class="pre">check</span> <span class="pre">=</span> <span class="pre">setInterval(function()</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(window.vis)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">clearInterval(check);\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">console.log(&quot;vis-network</span> <span class="pre">sideload</span> <span class="pre">completed&quot;);\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">callback();\n</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160; <span class="pre">},</span> <span class="pre">20);\n</span>&#160;&#160;&#160; <span class="pre">return;\n</span>&#160; <span class="pre">}\n</span>&#160; <span class="pre">//</span> <span class="pre">Add</span> <span class="pre">the</span> <span class="pre">script</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">page,</span> <span class="pre">callback</span> <span class="pre">called</span> <span class="pre">when</span> <span class="pre">loaded\n</span>&#160; <span class="pre">var</span> <span class="pre">script</span> <span class="pre">=</span> <span class="pre">document.createElement(\'script\');\n</span>&#160; <span class="pre">script.src</span> <span class="pre">=</span> <span class="pre">url;\n</span>&#160; <span class="pre">script.async</span> <span class="pre">=</span> <span class="pre">true;\n</span>&#160; <span class="pre">script.setAttribute(\'data-vis-loaded\',</span> <span class="pre">\'1\');\n</span>&#160; <span class="pre">script.onload</span> <span class="pre">=</span> <span class="pre">callback;\n</span>&#160; <span class="pre">document.head.appendChild(script);\n</span>&#160; <span class="pre">console.log(\'vis-network</span> <span class="pre">dynamically</span> <span class="pre">loaded\');\n}\n\n//</span> <span class="pre">Start</span> <span class="pre">display</span> <span class="pre">when</span> <span class="pre">vis</span> <span class="pre">is</span> <span class="pre">loaded\nloadVis(\'%(vis)s\',</span> <span class="pre">function()</span> <span class="pre">{\n</span>&#160; <span class="pre">var</span> <span class="pre">nodes</span> <span class="pre">=</span> <span class="pre">%(nodes)s;\n</span>&#160; <span class="pre">var</span> <span class="pre">edges</span> <span class="pre">=</span> <span class="pre">%(edges)s;\n</span>&#160; <span class="pre">var</span> <span class="pre">data</span> <span class="pre">=</span> <span class="pre">{\n</span>&#160;&#160;&#160; <span class="pre">nodes:</span> <span class="pre">nodes,\n</span>&#160;&#160;&#160; <span class="pre">edges:</span> <span class="pre">edges,\n</span>&#160; <span class="pre">};\n</span>&#160; <span class="pre">var</span> <span class="pre">options</span> <span class="pre">=</span> <span class="pre">%(options)s;\n</span>&#160; <span class="pre">var</span> <span class="pre">container</span> <span class="pre">=</span> <span class="pre">document.getElementById(\'%(name)s\');\n</span>&#160; <span class="pre">var</span> <span class="pre">network</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">vis.Network(container,</span> <span class="pre">data,</span> <span class="pre">options);\n</span>&#160; <span class="pre">network.on(&quot;afterDrawing&quot;,</span> <span class="pre">function</span> <span class="pre">(ctx)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">var</span> <span class="pre">dataURL</span> <span class="pre">=</span> <span class="pre">ctx.canvas.toDataURL();\n</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">document.getElementById(\'%(name)s-canvasImg\').src</span> <span class="pre">=</span> <span class="pre">dataURL;\n</span>&#160;&#160;&#160; <span class="pre">});\n</span>&#160; <span class="pre">network.fit({</span> <span class="pre">maxZoomLevel:</span> <span class="pre">1000</span> <span class="pre">});\n});\n&lt;/script&gt;\n'</span></em><a class="headerlink" href="#stochastic_matching.display.PNG_TEMPLATE" title="Link to this definition">#</a></dt>
+<dd><p>Alternate template with a mirror PNG that ca be saved.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.display.VIS_LOCATION">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">VIS_LOCATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://unpkg.com/vis-network/standalone/umd/vis-network.min'</span></em><a class="headerlink" href="#stochastic_matching.display.VIS_LOCATION" title="Link to this definition">#</a></dt>
+<dd><p>Default location of vis-network.js .</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="stochastic_matching.display.VIS_OPTIONS">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">VIS_OPTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'height':</span> <span class="pre">'100%',</span> <span class="pre">'interaction':</span> <span class="pre">{'navigationButtons':</span> <span class="pre">False},</span> <span class="pre">'width':</span> <span class="pre">'100%'}</span></em><a class="headerlink" href="#stochastic_matching.display.VIS_OPTIONS" title="Link to this definition">#</a></dt>
+<dd><p>Default options for the vis-network engine.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.default_description">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">default_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#default_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.default_description" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">stochastic_matching.model.Model</span></code></a>) – Model to visualize.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>nodes_info <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <cite>dict</cite> – Skeleton node description.</p></li>
+<li><p>nodes_info <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <cite>dict</cite> – Skeleton node description.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">default_description</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;},</span>
+<span class="go">  {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;},</span>
+<span class="go">  {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;},</span>
+<span class="go">  {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
+<span class="go">[{&#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;3: (1, 3)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;4: (2, 3)&#39;, &#39;label&#39;: &#39;&#39;}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="s1">&#39;alpha&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">default_description</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0: A&#39;},</span>
+<span class="go">  {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1: B&#39;},</span>
+<span class="go">  {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2: C&#39;},</span>
+<span class="go">  {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3: D&#39;}],</span>
+<span class="go">[{&#39;title&#39;: &#39;0: (A, B)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;1: (A, C)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;3: (B, D)&#39;, &#39;label&#39;: &#39;&#39;},</span>
+<span class="go"> {&#39;title&#39;: &#39;4: (C, D)&#39;, &#39;label&#39;: &#39;&#39;}])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.info_maker">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">info_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#info_maker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.info_maker" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to visualize.</p></li>
+<li><p><strong>disp_rates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Labels the nodes with their rates. Otherwise the names are used.</p></li>
+<li><p><strong>disp_flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Label the edges with the given flow.</p></li>
+<li><p><strong>flow</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, optional) – Flow to use. If None, the base flow will be used. If not None, overrides <cite>disp_flow</cite>.</p></li>
+<li><p><strong>disp_kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Display the kernel basis on the edges. Compatible with the display of a flow.</p></li>
+<li><p><strong>disp_zero</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If False, do not label the edge with a null flow.</p></li>
+<li><p><strong>check_flow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – If True, color the edges with their positivity and the nodes with their compliance to the conservation law.</p></li>
+<li><p><strong>check_tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional) – Relative error when checking conservation law on nodes.
+For simulations, a relatively high value is recommended, for example 1e-2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>nodes_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of nodes.</p></li>
+<li><p><strong>edges_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of edges.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>It is probably best to play a bit with the options, but the following examples should give the general idea.</p>
+<p>We start with the so-called <em>pyramid</em> graph (the names comes from one of its kernel,
+and not from the shape of the graph itself).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Pyramid</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, the label of a node (its displayed name) is its arrival rate,
+and the label of an edge is its Moore_penrose flow.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">{&#39;id&#39;: 3, &#39;label&#39;: &#39;2&#39;, &#39;title&#39;: &#39;3: D&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;1&#39;}</span>
+</pre></div>
+</div>
+<p>We can disable the display of the arrival rates, so the actual name of the node will be displayed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">{&#39;id&#39;: 3, &#39;label&#39;: &#39;D&#39;, &#39;title&#39;: &#39;3: D&#39;}</span>
+</pre></div>
+</div>
+<p>We ask for no label on edges.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;&#39;}</span>
+</pre></div>
+</div>
+<p>We can set custom weights on the edges, for instance use a different flow vector.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">flow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">flow</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">e_i</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pyramid</span><span class="o">.</span><span class="n">m</span><span class="p">)],</span> <span class="n">flow</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can ask for the kernel basis to be indicated as well.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">flow</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;0+α1&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;3: (B, F)&#39;, &#39;label&#39;: &#39;3-α1+α2-α3&#39;}</span>
+</pre></div>
+</div>
+<p>We can remove the flow to have just the kernel basis.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;+α1&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;3: (B, F)&#39;, &#39;label&#39;: &#39;-α1+α2-α3&#39;}</span>
+</pre></div>
+</div>
+<p>By asking null values to be silent, we get avoid things like <cite>0+…</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">flow</span><span class="p">,</span> <span class="n">disp_zero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;+α1&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;3: (B, F)&#39;, &#39;label&#39;: &#39;3-α1+α2-α3&#39;}</span>
+</pre></div>
+</div>
+<p>If we ask to check the flow, null edges are displayed in orange.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">flow</span><span class="p">,</span> <span class="n">check_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (B, C)&#39;, &#39;label&#39;: &#39;0&#39;, &#39;color&#39;: &#39;orange&#39;}</span>
+</pre></div>
+</div>
+<p>Note that the kernel basis is not necessarily +/- 1, even on simple graphs.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kayak</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">kayak</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;3: (2, 3)&#39;, &#39;label&#39;: &#39;1+2α1&#39;}</span>
+</pre></div>
+</div>
+<p>When kernel is displayed, edges that are not part of any kernel are shown in black.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">disp_kernel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;1&#39;, &#39;color&#39;: &#39;black&#39;}</span>
+</pre></div>
+</div>
+<p>Nodes that do not check the conservation law and negative edges are shown in red.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">,</span> <span class="n">e_i</span> <span class="o">=</span> <span class="n">info_maker</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="n">check_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;3&#39;, &#39;title&#39;: &#39;2&#39;, &#39;color&#39;: &#39;red&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;-1&#39;, &#39;color&#39;: &#39;red&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.int_2_str">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">int_2_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#int_2_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.int_2_str" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – A stochastic model.</p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Node index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name of the node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">int_2_str</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;One&#39;</span><span class="p">,</span> <span class="s1">&#39;Two&#39;</span><span class="p">,</span> <span class="s1">&#39;Three&#39;</span><span class="p">,</span> <span class="s1">&#39;Four&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">int_2_str</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;Three&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="s1">&#39;alpha&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">int_2_str</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;C&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.show">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bipartite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">png</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.show" title="Link to this definition">#</a></dt>
+<dd><p>End-to-end display solution for model.
+It is basically a pipe
+<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> -&gt;
+<a class="reference internal" href="#stochastic_matching.display.info_maker" title="stochastic_matching.display.info_maker"><code class="xref py py-meth docutils literal notranslate"><span class="pre">info_maker()</span></code></a> -&gt;
+<a class="reference internal" href="#stochastic_matching.display.vis_converter" title="stochastic_matching.display.vis_converter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_converter()</span></code></a> -&gt;
+<a class="reference internal" href="#stochastic_matching.display.vis_show" title="stochastic_matching.display.vis_show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_show()</span></code></a>.</p>
+<p>The extra arguments are passed when needed on the right spot along the pipe, allowing maximal flexibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – The model to display.</p></li>
+<li><p><strong>bipartite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional) – Tells if the bipartite node/edge structure should be explicitly shown.</p></li>
+<li><p><strong>png</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Make a mirror PNG that can be saved.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments. See <a class="reference internal" href="#stochastic_matching.display.info_maker" title="stochastic_matching.display.info_maker"><code class="xref py py-meth docutils literal notranslate"><span class="pre">info_maker()</span></code></a>,
+<a class="reference internal" href="#stochastic_matching.display.vis_converter" title="stochastic_matching.display.vis_converter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_converter()</span></code></a>, and
+<a class="reference internal" href="#stochastic_matching.display.vis_show" title="stochastic_matching.display.vis_show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vis_show()</span></code></a> for details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v9.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Pyramid</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Basic display.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+<p>With this, the nodes and edges will not show anything. The result can be exported as png.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nodes_info</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pyramid</span><span class="o">.</span><span class="n">n</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges_info</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pyramid</span><span class="o">.</span><span class="n">m</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">show</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="n">nodes_info</span><span class="p">,</span> <span class="n">edges_info</span><span class="o">=</span><span class="n">edges_info</span><span class="p">,</span> <span class="n">png</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+<p>Fan is a true hypergraph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fan</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Fan</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To display:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show</span><span class="p">(</span><span class="n">fan</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+<p>To display in bipartite mode:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show</span><span class="p">(</span><span class="n">fan</span><span class="p">,</span> <span class="n">bipartite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.vis_code">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">vis_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vis_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#vis_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.vis_code" title="Link to this definition">#</a></dt>
+<dd><p>Create HTML to display a Vis network graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
+<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
+<li><p><strong>vis_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Template to use. Default to <code class="xref py py-obj docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code>.</p></li>
+<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js. Default to <a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION" title="stochastic_matching.display.VIS_LOCATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></p></li>
+<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Vis code (HTML by default).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">node_list</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edge_list</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+<span class="gp">... </span>         <span class="p">{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">vis_code</span><span class="p">(</span><span class="n">vis_nodes</span><span class="o">=</span><span class="n">node_list</span><span class="p">,</span> <span class="n">vis_edges</span><span class="o">=</span><span class="n">edge_list</span><span class="p">))</span> 
+<span class="go">&lt;div class=&quot;sm-graph&quot; id=&quot;box-...&quot;&gt;</span>
+<span class="go">&lt;div id=&quot;...&quot;&gt;&lt;/div&gt;</span>
+<span class="go">&lt;a href=&quot;#&quot; id=&quot;fit-...&quot;</span>
+<span class="go">style=&quot;position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);</span>
+<span class="go">z-index: 10; pointer-events: auto;&quot;</span>
+<span class="go">&gt; Reload</span>
+<span class="go">&lt;/a&gt;</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.vis_converter">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">vis_converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#vis_converter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.vis_converter" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="model.html#stochastic_matching.model.Model" title="stochastic_matching.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>) – Model to visualize.</p></li>
+<li><p><strong>nodes_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of nodes.</p></li>
+<li><p><strong>edges_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of edges.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of the nodes that will be displayed in vis.
+If the graph is simple, this is just the input nodes.
+For hypergraphs, both nodes and hyperedges are displayed as nodes in vis.</p></li>
+<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – Description of the edges that will be displayed in vis.
+If the graph is simple, this is just the input edges, with endpoints info added for vis.
+For hypergraphs, each edge in vis links a node and a hyperedge..</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">default_description</span><span class="p">(</span><span class="n">diamond</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vis_converter</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;},</span>
+<span class="go">  {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;},</span>
+<span class="go">  {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;},</span>
+<span class="go">  {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3&#39;}],</span>
+<span class="go"> [{&#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 1},</span>
+<span class="go">  {&#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 2},</span>
+<span class="go">  {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 2},</span>
+<span class="go">  {&#39;title&#39;: &#39;3: (1, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 3},</span>
+<span class="go">  {&#39;title&#39;: &#39;4: (2, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 2, &#39;to&#39;: 3}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diamond</span><span class="o">.</span><span class="n">adjacency</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vis_converter</span><span class="p">(</span><span class="n">diamond</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span> 
+<span class="go">([{&#39;id&#39;: 0, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;0&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">  {&#39;id&#39;: 1, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;1&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">  {&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">  {&#39;id&#39;: 3, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;3&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;},</span>
+<span class="go">  {&#39;title&#39;: &#39;0: (0, 1)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 1, &#39;id&#39;: 4, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="go">  {&#39;title&#39;: &#39;1: (0, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 0, &#39;to&#39;: 2, &#39;id&#39;: 5, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="go">  {&#39;title&#39;: &#39;2: (1, 2)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 2, &#39;id&#39;: 6, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="go">  {&#39;title&#39;: &#39;3: (1, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 1, &#39;to&#39;: 3, &#39;id&#39;: 7, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600},</span>
+<span class="go">  {&#39;title&#39;: &#39;4: (2, 3)&#39;, &#39;label&#39;: &#39;&#39;, &#39;from&#39;: 2, &#39;to&#39;: 3, &#39;id&#39;: 8, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600}],</span>
+<span class="go"> [{&#39;from&#39;: 0, &#39;to&#39;: 4, &#39;title&#39;: &#39;0 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 0, &#39;to&#39;: 5, &#39;title&#39;: &#39;0 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 1, &#39;to&#39;: 4, &#39;title&#39;: &#39;1 &lt;-&gt; 0: (0, 1)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 1, &#39;to&#39;: 6, &#39;title&#39;: &#39;1 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 1, &#39;to&#39;: 7, &#39;title&#39;: &#39;1 &lt;-&gt; 3: (1, 3)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 2, &#39;to&#39;: 5, &#39;title&#39;: &#39;2 &lt;-&gt; 1: (0, 2)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 2, &#39;to&#39;: 6, &#39;title&#39;: &#39;2 &lt;-&gt; 2: (1, 2)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 2, &#39;to&#39;: 8, &#39;title&#39;: &#39;2 &lt;-&gt; 4: (2, 3)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 3, &#39;to&#39;: 7, &#39;title&#39;: &#39;3 &lt;-&gt; 3: (1, 3)&#39;},</span>
+<span class="go">  {&#39;from&#39;: 3, &#39;to&#39;: 8, &#39;title&#39;: &#39;3 &lt;-&gt; 4: (2, 3)&#39;}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candy</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">HyperPaddle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vis_nodes</span><span class="p">,</span> <span class="n">vis_edges</span> <span class="o">=</span> <span class="n">vis_converter</span><span class="p">(</span><span class="n">candy</span><span class="p">,</span> <span class="o">*</span><span class="n">default_description</span><span class="p">(</span><span class="n">candy</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vis_nodes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">{&#39;id&#39;: 2, &#39;label&#39;: &#39;&#39;, &#39;title&#39;: &#39;2&#39;, &#39;x&#39;: 0, &#39;group&#39;: &#39;Node&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vis_nodes</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span>
+<span class="go">{&#39;title&#39;: &#39;6: (2, 3, 4)&#39;, &#39;label&#39;: &#39;&#39;, &#39;id&#39;: 13, &#39;group&#39;: &#39;HyperEdge&#39;, &#39;x&#39;: 600}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vis_edges</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="go">{&#39;from&#39;: 2, &#39;to&#39;: 13, &#39;title&#39;: &#39;2 &lt;-&gt; 6: (2, 3, 4)&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stochastic_matching.display.vis_show">
+<span class="sig-prename descclassname"><span class="pre">stochastic_matching.display.</span></span><span class="sig-name descname"><span class="pre">vis_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vis_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/stochastic_matching/display.html#vis_show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stochastic_matching.display.vis_show" title="Link to this definition">#</a></dt>
+<dd><p>Display a Vis graph (within a IPython / Jupyter session).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vis_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the nodes of the graph. Each node is a dictionary with mandatory key <cite>id</cite>.</p></li>
+<li><p><strong>vis_edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) – List the edges of the graph. Each node is a dictionary with mandatory keys <cite>from</cite> and <cite>to</cite>.</p></li>
+<li><p><strong>vis_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, optional) – Options to pass to Vis.</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Template to use. Default to <code class="xref py py-obj docutils literal notranslate"><span class="pre">HTML_TEMPLATE</span></code>.</p></li>
+<li><p><strong>vis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Location of vis.js. Default to <a class="reference internal" href="#stochastic_matching.display.VIS_LOCATION" title="stochastic_matching.display.VIS_LOCATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></p></li>
+<li><p><strong>div_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Id of the div that will host the display.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html#IPython.display.HTML" title="(in IPython v9.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTML</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vis_show</span><span class="p">()</span>
+<span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="graphs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Graphs</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="simulator.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Simulation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.FULL_HTML_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">FULL_HTML_TEMPLATE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.HYPER_GRAPH_VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">HYPER_GRAPH_VIS_OPTIONS</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.PNG_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">PNG_TEMPLATE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.VIS_LOCATION"><code class="docutils literal notranslate"><span class="pre">VIS_LOCATION</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.VIS_OPTIONS"><code class="docutils literal notranslate"><span class="pre">VIS_OPTIONS</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.default_description"><code class="docutils literal notranslate"><span class="pre">default_description()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.info_maker"><code class="docutils literal notranslate"><span class="pre">info_maker()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.int_2_str"><code class="docutils literal notranslate"><span class="pre">int_2_str()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.vis_code"><code class="docutils literal notranslate"><span class="pre">vis_code()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.vis_converter"><code class="docutils literal notranslate"><span class="pre">vis_converter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic_matching.display.vis_show"><code class="docutils literal notranslate"><span class="pre">vis_show()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/display.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

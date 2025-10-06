@@ -1,0 +1,1319 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>First Steps &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'companion/first_steps';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Polytope analysis" href="polytope.html" />
+    <link rel="prev" title="A polytope perspective" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polytope.html">Polytope analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulations.html">Simulations</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">A polytope perspective</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">First Steps</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="First-Steps">
+<h1>First Steps<a class="headerlink" href="#First-Steps" title="Link to this heading">#</a></h1>
+<section id="Categorizing-graphs-by-kernel">
+<h2>Categorizing graphs by kernel<a class="headerlink" href="#Categorizing-graphs-by-kernel" title="Link to this heading">#</a></h2>
+<p>A matching model is primarly defined by its compatibility graph <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<p><a class="reference external" href="https://balouf.github.io/stochastic_matching/index.html">Stochastic Matching</a> can categorize the type of graph by looking at the kernels of its incidence matrix. One can check the four categories from the paper.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A model graph can be built using the adjacency or incidence matrix, for graphs and hypergraphs respectively.</p>
+<p><a class="reference external" href="https://balouf.github.io/stochastic_matching/index.html">Stochastic Matching</a> also provide a graph library.</p>
+</div>
+<section id="Bijective-case">
+<h3>Bijective case<a class="headerlink" href="#Bijective-case" title="Link to this heading">#</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The method <code class="docutils literal notranslate"><span class="pre">show_graph</span></code> represents the nodes with their label, which default to their indices (integers).</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="n">pan</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">()</span>
+<span class="n">pan</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="9e7bfec8-2902-4186-b624-99e018539dd9"></div>
+<a href="#" id="fit-9e7bfec8-2902-4186-b624-99e018539dd9"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('9e7bfec8-2902-4186-b624-99e018539dd9');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-9e7bfec8-2902-4186-b624-99e018539dd9').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The display of the graphs is managed by <a class="reference external" href="https://visjs.github.io/vis-network/docs/network/">VisJS Network</a>. Sometimes, the result is not convincing (graph not centered, skewed, …). Refreshing the graph usually fixes the issue.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pan</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 4 nodes and 4 edges.
+Node dimension is 0.
+Edge dimension is 0
+Type: Bijective
+Node kernel:
+[]
+Edge kernel:
+[]
+</pre></div></div>
+</div>
+</section>
+<section id="Surjective-only-case">
+<h3>Surjective-only case<a class="headerlink" href="#Surjective-only-case" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="ada4d06e-6d6e-4019-95c6-4d429b8ddfae"></div>
+<a href="#" id="fit-ada4d06e-6d6e-4019-95c6-4d429b8ddfae"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('ada4d06e-6d6e-4019-95c6-4d429b8ddfae');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-ada4d06e-6d6e-4019-95c6-4d429b8ddfae').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 4 nodes and 5 edges.
+Node dimension is 0.
+Edge dimension is 1
+Type: Surjective-only
+Node kernel:
+[]
+Edge kernel:
+[[ 1 -1  0 -1  1]]
+</pre></div></div>
+</div>
+</section>
+<section id="Injective-only-case">
+<h3>Injective-only case<a class="headerlink" href="#Injective-only-case" title="Link to this heading">#</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you have custom labels, the indices can be accessed by hovering over nodes.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">star</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Star</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;L1&quot;</span><span class="p">,</span> <span class="s2">&quot;L2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">])</span>
+<span class="n">star</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="92ce0541-c7ab-4556-94c6-d5e7a9838223"></div>
+<a href="#" id="fit-92ce0541-c7ab-4556-94c6-d5e7a9838223"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "R", "title": "0: R"}, {"id": 1, "label": "L1", "title": "1: L1"}, {"id": 2, "label": "L2", "title": "2: L2"}, {"id": 3, "label": "L3", "title": "3: L3"}]);
+    const edges = new DataSet([{"title": "0: (R, L1)", "label": "", "from": 0, "to": 1}, {"title": "1: (R, L2)", "label": "", "from": 0, "to": 2}, {"title": "2: (R, L3)", "label": "", "from": 0, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('92ce0541-c7ab-4556-94c6-d5e7a9838223');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-92ce0541-c7ab-4556-94c6-d5e7a9838223').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">star</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 4 nodes and 3 edges.
+Node dimension is 1.
+Edge dimension is 0
+Type: Injective-only
+Node kernel:
+[[-1]
+ [ 1]
+ [ 1]
+ [ 1]]
+Edge kernel:
+[]
+</pre></div></div>
+</div>
+</section>
+<section id="Nonjective-case-(not-surjective,-not-injective)">
+<h3><em>Nonjective</em> case (not surjective, not injective)<a class="headerlink" href="#Nonjective-case-(not-surjective,-not-injective)" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cycle</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">cycle</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="0cfb64a6-6cd7-4d4a-a253-e4744f37456f"></div>
+<a href="#" id="fit-0cfb64a6-6cd7-4d4a-a253-e4744f37456f"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "0", "title": "0"}, {"id": 1, "label": "1", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "3", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('0cfb64a6-6cd7-4d4a-a253-e4744f37456f');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-0cfb64a6-6cd7-4d4a-a253-e4744f37456f').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cycle</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 4 nodes and 4 edges.
+Node dimension is 1.
+Edge dimension is 1
+Type: Nonjective
+Node kernel:
+[[ 1]
+ [-1]
+ [ 1]
+ [-1]]
+Edge kernel:
+[[ 1 -1 -1  1]]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Rate-solutions">
+<h2>Rate solutions<a class="headerlink" href="#Rate-solutions" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Achievable matching rates <span class="math notranslate nohighlight">\(\mu\)</span> depends on the arrival rates <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<p>While the <a class="reference external" href="https://hal.science/hal-03502084">paper</a> sometimes gives the matching rates <span class="math notranslate nohighlight">\(\mu\)</span> as a generic function of the arrival rates <span class="math notranslate nohighlight">\(\lambda\)</span>, <a class="reference external" href="https://balouf.github.io/stochastic_matching/index.html">Stochastic Matching</a> requires a numeric values of <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<p>Arrival rates can be defined when the model is instanciated, or afterwards.</p>
+</div>
+<section id="id1">
+<h3>Bijective case<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When a flow is specified, <code class="docutils literal notranslate"><span class="pre">show_kernel</span></code> displays on edges the possible matching rates.</p>
+<p>The nodes show their arrival rates.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">triangle</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">triangle</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">triangle</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="42325b20-1c64-4a83-b8cd-6610fb741310"></div>
+<a href="#" id="fit-42325b20-1c64-4a83-b8cd-6610fb741310"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "3", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "5", "title": "2"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "1", "color": "black", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "black", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "3", "color": "black", "from": 1, "to": 2}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('42325b20-1c64-4a83-b8cd-6610fb741310');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-42325b20-1c64-4a83-b8cd-6610fb741310').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pan</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">pan</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="1bef3e9c-f669-4538-ae2f-8156e8b1f2c7"></div>
+<a href="#" id="fit-1bef3e9c-f669-4538-ae2f-8156e8b1f2c7"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "4", "title": "0"}, {"id": 1, "label": "5", "title": "1"}, {"id": 2, "label": "5", "title": "2"}, {"id": 3, "label": "2", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "3", "color": "black", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "black", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "2", "color": "black", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "2", "color": "black", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('1bef3e9c-f669-4538-ae2f-8156e8b1f2c7');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-1bef3e9c-f669-4538-ae2f-8156e8b1f2c7').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pentagon</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Cycle</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">pentagon</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="23e0b392-ac8f-4271-a215-b73b756de9d3"></div>
+<a href="#" id="fit-23e0b392-ac8f-4271-a215-b73b756de9d3"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "3", "title": "1"}, {"id": 2, "label": "4", "title": "2"}, {"id": 3, "label": "4", "title": "3"}, {"id": 4, "label": "3", "title": "4"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "1", "color": "black", "from": 0, "to": 1}, {"title": "1: (0, 4)", "label": "1", "color": "black", "from": 0, "to": 4}, {"title": "2: (1, 2)", "label": "2", "color": "black", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "2", "color": "black", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "2", "color": "black", "from": 3, "to": 4}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('23e0b392-ac8f-4271-a215-b73b756de9d3');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-23e0b392-ac8f-4271-a215-b73b756de9d3').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A <em>puppet</em> graph is just one frying pan and two stars glued together!</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">puppet</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">Star</span><span class="p">(),</span> <span class="n">sm</span><span class="o">.</span><span class="n">Star</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)],</span>
+                        <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">puppet</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="40d12afe-054d-43b4-b2af-f6cae5b000af"></div>
+<a href="#" id="fit-40d12afe-054d-43b4-b2af-f6cae5b000af"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "3", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "6", "title": "2"}, {"id": 3, "label": "5", "title": "3"}, {"id": 4, "label": "1", "title": "4"}, {"id": 5, "label": "2", "title": "5"}, {"id": 6, "label": "4", "title": "6"}, {"id": 7, "label": "2", "title": "7"}, {"id": 8, "label": "1", "title": "8"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "1", "color": "black", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "black", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "3", "color": "black", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "1", "color": "black", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "1", "color": "black", "from": 3, "to": 4}, {"title": "5: (3, 5)", "label": "2", "color": "black", "from": 3, "to": 5}, {"title": "6: (3, 6)", "label": "1", "color": "black", "from": 3, "to": 6}, {"title": "7: (6, 7)", "label": "2", "color": "black", "from": 6, "to": 7}, {"title": "8: (6, 8)", "label": "1", "color": "black", "from": 6, "to": 8}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('40d12afe-054d-43b4-b2af-f6cae5b000af');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-40d12afe-054d-43b4-b2af-f6cae5b000af').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+</section>
+<section id="id2">
+<h3>Surjective-only case<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="766310ec-f6d3-47d5-9266-6fae97000e91"></div>
+<a href="#" id="fit-766310ec-f6d3-47d5-9266-6fae97000e91"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "7", "title": "0"}, {"id": 1, "label": "9", "title": "1"}, {"id": 2, "label": "7", "title": "2"}, {"id": 3, "label": "5", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "4+\u03b11", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "3-\u03b11", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "2", "color": "black", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "3-\u03b11", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "2+\u03b11", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('766310ec-f6d3-47d5-9266-6fae97000e91');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-766310ec-f6d3-47d5-9266-6fae97000e91').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kayak</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">kayak</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">kayak</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="5d372db7-78ea-4640-aef8-00a7e81be564"></div>
+<a href="#" id="fit-5d372db7-78ea-4640-aef8-00a7e81be564"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "3", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "5", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "5", "title": "5"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "1+\u03b11", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2-\u03b11", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "3-\u03b11", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "+2\u03b11", "from": 2, "to": 3}, {"title": "4: (3, 4)", "label": "1-\u03b11", "from": 3, "to": 4}, {"title": "5: (3, 5)", "label": "2-\u03b11", "from": 3, "to": 5}, {"title": "6: (4, 5)", "label": "3+\u03b11", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('5d372db7-78ea-4640-aef8-00a7e81be564');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-5d372db7-78ea-4640-aef8-00a7e81be564').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+</section>
+<section id="Bipartite-case">
+<h3>Bipartite case<a class="headerlink" href="#Bipartite-case" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cycle</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">cycle</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">cycle</span><span class="o">.</span><span class="n">optimize_edge</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph">
+<div id="73cf5f91-e049-4511-8a72-0afbad9ce130"></div>
+<a href="#" id="fit-73cf5f91-e049-4511-8a72-0afbad9ce130"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Refresh
+</a>
+<style>
+.sm-graph {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+.sm-graph > div {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "2", "title": "1"}, {"id": 2, "label": "1", "title": "2"}, {"id": 3, "label": "1", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "1+\u03b11", "from": 0, "to": 1}, {"title": "1: (0, 3)", "label": "1-\u03b11", "from": 0, "to": 3}, {"title": "2: (1, 2)", "label": "1-\u03b11", "from": 1, "to": 2}, {"title": "3: (2, 3)", "label": "+\u03b11", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('73cf5f91-e049-4511-8a72-0afbad9ce130');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-73cf5f91-e049-4511-8a72-0afbad9ce130').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">A polytope perspective</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="polytope.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Polytope analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Categorizing-graphs-by-kernel">Categorizing graphs by kernel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Bijective-case">Bijective case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Surjective-only-case">Surjective-only case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Injective-only-case">Injective-only case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Nonjective-case-(not-surjective,-not-injective)"><em>Nonjective</em> case (not surjective, not injective)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Rate-solutions">Rate solutions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bijective case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Surjective-only case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Bipartite-case">Bipartite case</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/companion/first_steps.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

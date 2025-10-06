@@ -1,0 +1,2206 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simulations &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'companion/simulations';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Polytope analysis" href="polytope.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    A polytope perspective
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polytope.html">Polytope analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Simulations</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">A polytope perspective</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Simulations</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Simulations">
+<h1>Simulations<a class="headerlink" href="#Simulations" title="Link to this heading">#</a></h1>
+<p>A significant part of the <a class="reference external" href="https://balouf.github.io/stochastic_matching/index.html">Stochastic Matching package</a> is devoted to simulations, allowing to check the practical value of theoretical results and to explore new conjectures.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <em>refresh</em> parameter below tells if the simulation should run if a simulation file already exists. It is there to modify this notebook without re-running all simulations.</p>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">refresh</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<section id="Drift-of-optimal-solution-for-injective-only-vertices">
+<h2>Drift of optimal solution for injective-only vertices<a class="headerlink" href="#Drift-of-optimal-solution-for-injective-only-vertices" title="Link to this heading">#</a></h2>
+<p>Injective-only vertices have the property that any regret-optimal policy, like forbidden-edges, must generate the delay of an unbiased random walk, which is of the order of <span class="math notranslate nohighlight">\(\sqrt(T)\)</span>.</p>
+<p>We can verify that on an injective-only vertex of the diamond graph.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-595657cf-db9c-4b97-b00f-7684bc470bd7">
+<div id="595657cf-db9c-4b97-b00f-7684bc470bd7"></div>
+<a href="#" id="fit-595657cf-db9c-4b97-b00f-7684bc470bd7"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-595657cf-db9c-4b97-b00f-7684bc470bd7 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#595657cf-db9c-4b97-b00f-7684bc470bd7 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "3", "title": "1"}, {"id": 2, "label": "3", "title": "2"}, {"id": 3, "label": "2", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "0", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "2", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('595657cf-db9c-4b97-b00f-7684bc470bd7');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-595657cf-db9c-4b97-b00f-7684bc470bd7').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<p>Let us build iterated experiments to measure the delay as a function of the simulation time <span class="math notranslate nohighlight">\(T\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="kn">import</span> <span class="n">XP</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">evaluate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xp</span>  <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;RW&#39;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(),</span>
+         <span class="n">iterator</span><span class="o">=</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;n_steps&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">t</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">)],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;T&#39;</span><span class="p">),</span>
+         <span class="n">max_queue</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+         <span class="n">forbidden_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rewards</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>An <code class="docutils literal notranslate"><span class="pre">XP</span></code> is designed by specifying static and varying parameters. Here we fix a <code class="docutils literal notranslate"><span class="pre">ML</span></code> policy with forbidden edges that aims for an injective-only vertex of the diamond graph, with extra queue capacity to absorb instability, and varying simulation duration.</p></li>
+<li><p>Most scenarios involve stable policies, so one very long simulation is enough. Here, we focus on the short-term to mid-term performance of an unstable policy, so redundancy is required. We choose 10,000.</p></li>
+<li><p>In its low level implementation, the package allows to stop/restart a simulation. That means that we could just run long-term simulations and monitor the state at some stopping points. We don’t do that here for simplicity. As a result, we know that the proposed experiment is could be sped up by a factor 2 at the price of extra XP design.</p></li>
+<li><p>The individual simulations are ordered like <code class="docutils literal notranslate"><span class="pre">abcdabcdabcd...</span></code> instead of <code class="docutils literal notranslate"><span class="pre">aaabbbcccddd...</span></code> to ease the parallelism.</p></li>
+</ul>
+</div>
+<p>OK, let’s run 140,000 simulations of duration up from <span class="math notranslate nohighlight">\(1024\)</span> to <span class="math notranslate nohighlight">\(2^{23}\approx 8.10^6\)</span> time steps. Count a bit more than 2 sims per second and per logical core on 2+Ghz computers, in average.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;drift&quot;</span><span class="p">,</span> <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s gather everything.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;RW&#39;</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;RW&#39;</span><span class="p">][</span><span class="s1">&#39;delay&#39;</span><span class="p">]):</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">]</span>
+<span class="n">delay</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<p>And… plot the results!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Forbidden-edges policy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">/</span><span class="mf">3.14</span><span class="p">)</span><span class="o">/</span><span class="mi">15</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">frac{</span><span class="se">\\</span><span class="s1">sqrt{2T/</span><span class="se">\\</span><span class="s1">pi}}</span><span class="si">{15}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Simulation duration $T$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay $D$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_16_0.png" src="../_images/companion_simulations_16_0.png" />
+</div>
+</div>
+</section>
+<section id="Vertices-of-simple-graphs">
+<h2>Vertices of simple graphs<a class="headerlink" href="#Vertices-of-simple-graphs" title="Link to this heading">#</a></h2>
+<p>Our objective here is to evaluate the performance of policies that try to achieve a given vertex of the polytope of a matching problem <span class="math notranslate nohighlight">\((G, \lambda)\)</span>, starting with the assumption that <span class="math notranslate nohighlight">\(G\)</span> is a simple graph.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In our framework, polytopes are always embedded in the space of <em>matching rates</em>, so a vertex represents a matching rate. For simplicity, we also identify a vertex with its positive support, meaning the set of edges where the matching rate is positive, which can be viewed as a subgraph of <span class="math notranslate nohighlight">\(G\)</span>.</p>
+</div>
+<section id="Preparation">
+<h3>Preparation<a class="headerlink" href="#Preparation" title="Link to this heading">#</a></h3>
+<p>First, some settings that should apply to all our simulations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span>
+<span class="n">common</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="n">n_steps</span><span class="p">,</span>
+        <span class="s2">&quot;max_queue&quot;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Then, we write a small mixer of common and specific parameters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">xp_builder</span><span class="p">(</span><span class="n">common</span><span class="p">,</span> <span class="n">specific</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">XP</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">specific</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+</pre></div>
+</div>
+</div>
+<p>We prepare specific parameters for each policy.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+
+<span class="n">k_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">)])</span>
+<span class="n">e_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ϵ&quot;</span><span class="p">)</span>
+<span class="n">b_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;β&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exp_fad</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">njit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">x</span><span class="p">)</span>
+<span class="n">v_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;fading&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">exp_fad</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">10</span><span class="p">)],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">)</span>
+
+<span class="n">specific</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;k-filtering&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="s1">&#39;forbidden_edges&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s1">&#39;iterator&#39;</span><span class="p">:</span> <span class="n">k_range</span><span class="p">},</span>
+    <span class="s1">&#39;EGPD&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span>
+             <span class="s1">&#39;iterator&#39;</span><span class="p">:</span> <span class="n">b_range</span><span class="p">},</span>
+    <span class="s2">&quot;ϵ-filtering&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s2">&quot;e_filtering&quot;</span><span class="p">,</span>
+                    <span class="s1">&#39;iterator&#39;</span><span class="p">:</span> <span class="n">e_range</span><span class="p">},</span>
+    <span class="s2">&quot;EGPD+&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s2">&quot;virtual_queue&quot;</span><span class="p">,</span> <span class="s1">&#39;alt_rewards&#39;</span><span class="p">:</span> <span class="s1">&#39;gentle&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;iterator&#39;</span><span class="p">:</span>  <span class="n">b_range</span><span class="p">},</span>
+    <span class="s2">&quot;CRPD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s1">&#39;constant_regret&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;iterator&#39;</span><span class="p">:</span> <span class="n">v_range</span><span class="p">},</span>
+    <span class="s2">&quot;Taboo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="s1">&#39;forbidden_edges&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+           <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Finally, a display function with a few options.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name_relabelling</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Taboo&#39;</span><span class="p">:</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Phi_{E^*}$&#39;</span><span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;loglog&quot;</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_min</span><span class="o">=</span><span class="mi">10</span><span class="o">**-</span><span class="mi">8</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">view</span> <span class="o">==</span> <span class="s2">&quot;loglog&quot;</span><span class="p">:</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span>
+    <span class="k">elif</span> <span class="n">view</span> <span class="o">==</span> <span class="s2">&quot;logx&quot;</span><span class="p">:</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2"> is not a recognized display view.&quot;</span><span class="p">)</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">res</span><span class="p">]</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span>
+                                   <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">by_key</span><span class="p">()[</span><span class="s1">&#39;color&#39;</span><span class="p">])}</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;regret&#39;</span><span class="p">])):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name_relabelling</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+        <span class="n">delay</span><span class="p">,</span> <span class="n">regret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">delay</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">regret</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">plot</span><span class="p">([</span><span class="n">delay</span><span class="p">],</span> <span class="p">[</span><span class="n">regret</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plot</span><span class="p">([</span><span class="n">delay</span><span class="p">,</span> <span class="n">delay</span><span class="p">],</span> <span class="p">[</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Regret&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Delay&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">view</span> <span class="o">==</span> <span class="s2">&quot;logx&quot;</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_max</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">y_max</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We are now ready to start various experiments.</p>
+</section>
+<section id="Diamond">
+<h3>Diamond<a class="headerlink" href="#Diamond" title="Link to this heading">#</a></h3>
+<section id="Injective-only-vertex">
+<h4>Injective-only vertex<a class="headerlink" href="#Injective-only-vertex" title="Link to this heading">#</a></h4>
+<p>Let’s reach an injective-only vertex.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="n">diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">()</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-1b9fa613-026e-4d92-83b5-9b107ee81e1c">
+<div id="1b9fa613-026e-4d92-83b5-9b107ee81e1c"></div>
+<a href="#" id="fit-1b9fa613-026e-4d92-83b5-9b107ee81e1c"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-1b9fa613-026e-4d92-83b5-9b107ee81e1c {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#1b9fa613-026e-4d92-83b5-9b107ee81e1c {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "3", "title": "1"}, {"id": 2, "label": "3", "title": "2"}, {"id": 3, "label": "2", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "2", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "0", "color": "orange", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('1b9fa613-026e-4d92-83b5-9b107ee81e1c');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-1b9fa613-026e-4d92-83b5-9b107ee81e1c').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The rewards are adversarial here: the largest reward corresponds to a taboo edge.</p>
+</div>
+<p>Let us compute the delay/regret trade-offs and display the results.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">diamond</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;diamond-injective&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mf">.4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_36_0.png" src="../_images/companion_simulations_36_0.png" />
+</div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>A simulation can only provide a finite-horizon estimate of the long-term behavior of a policy. In particular, it will always yield a finite delay even for policies that are proven to be unstable, i.e. those that have infinite long-term delay.</p>
+<p>This explains why some of the policies considered here seem to achieve finite delay and zero rate-regret (that is, constant global-regret) in simulations.</p>
+<p>For injective-only vertices, unstability stems from arrival deviations that behave roughly like an unbiased random walk, with magnitude on the order of <span class="math notranslate nohighlight">\(\sqrt(T)\)</span>, where <span class="math notranslate nohighlight">\(T\)</span> is the number of time steps simulated (cf the first serie of experiments above). If <span class="math notranslate nohighlight">\(\sqrt(T)\)</span> is small relative to the typical long-term delay of a policy (which is always the case for unstable policies), the trade-off between regret and delay cannot be observed through simulations.</p>
+<p>As a consequence, for injective-only vertices:</p>
+<ul class="simple">
+<li><p>The regret values observed in the far right portion of the figures should be ignored, as they reflect discrepancies between long-term and finite-horizon values.</p></li>
+<li><p>Simulations should be run over as many time steps as possible to broaden the parameter range over which long-term and finite-horizon estimates coincide.</p></li>
+</ul>
+</div>
+<p>Take-away:</p>
+<ul class="simple">
+<li><p>EGPD has not a good trade-off;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span>-filtering and CRPD have average performance;</p></li>
+<li><p><span class="math notranslate nohighlight">\(k\)</span>-filtering and EGPD+ are the best here.</p></li>
+</ul>
+</section>
+<section id="Bijective-vertex">
+<h4>Bijective vertex<a class="headerlink" href="#Bijective-vertex" title="Link to this heading">#</a></h4>
+<p>We now change the rates and rewards so that the target is a bijective vertex.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diamond</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">]</span>
+<span class="n">diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-b00fc180-4fa7-4953-b1e1-1db654f777f4">
+<div id="b00fc180-4fa7-4953-b1e1-1db654f777f4"></div>
+<a href="#" id="fit-b00fc180-4fa7-4953-b1e1-1db654f777f4"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-b00fc180-4fa7-4953-b1e1-1db654f777f4 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#b00fc180-4fa7-4953-b1e1-1db654f777f4 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "4", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "4", "title": "2"}, {"id": 3, "label": "2", "title": "3"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "1", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "3", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 3)", "label": "2", "color": "blue", "from": 1, "to": 3}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('b00fc180-4fa7-4953-b1e1-1db654f777f4');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-b00fc180-4fa7-4953-b1e1-1db654f777f4').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The rewards are even more adversarial here: the largest reward corresponds the unique taboo edge, while a live edge has a negative reward.</p>
+</div>
+<p>As before, let’s see the trade-offs.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">diamond</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;diamond-bijective&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;logx&quot;</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mf">.15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_44_0.png" src="../_images/companion_simulations_44_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Codomino">
+<h3>Codomino<a class="headerlink" href="#Codomino" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>Injective-only vertex<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Codomino</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-b06564b3-67a7-40e9-92dc-264023862edd">
+<div id="b06564b3-67a7-40e9-92dc-264023862edd"></div>
+<a href="#" id="fit-b06564b3-67a7-40e9-92dc-264023862edd"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-b06564b3-67a7-40e9-92dc-264023862edd {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#b06564b3-67a7-40e9-92dc-264023862edd {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "2", "title": "0"}, {"id": 1, "label": "4", "title": "1"}, {"id": 2, "label": "2", "title": "2"}, {"id": 3, "label": "2", "title": "3"}, {"id": 4, "label": "4", "title": "4"}, {"id": 5, "label": "2", "title": "5"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "0", "color": "orange", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "0", "color": "orange", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "4", "color": "blue", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "0", "color": "orange", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "2", "color": "blue", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "0", "color": "orange", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('b06564b3-67a7-40e9-92dc-264023862edd');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-b06564b3-67a7-40e9-92dc-264023862edd').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">codomino</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;codomino-injective&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">2</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_48_0.png" src="../_images/companion_simulations_48_0.png" />
+</div>
+</div>
+</section>
+<section id="Bijective-only-vertex">
+<h4>Bijective-only vertex<a class="headerlink" href="#Bijective-only-vertex" title="Link to this heading">#</a></h4>
+<p>Here, we choose rewards so that all taboo edge have a positive weight, while two live edges have a negative weight.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">codomino</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">codomino</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">codomino</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6">
+<div id="3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6"></div>
+<a href="#" id="fit-3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "4", "title": "0"}, {"id": 1, "label": "5", "title": "1"}, {"id": 2, "label": "5", "title": "2"}, {"id": 3, "label": "3", "title": "3"}, {"id": 4, "label": "3", "title": "4"}, {"id": 5, "label": "2", "title": "5"}]);
+    const edges = new DataSet([{"title": "0: (0, 1)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (0, 2)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (1, 2)", "label": "2", "color": "blue", "from": 1, "to": 2}, {"title": "3: (1, 4)", "label": "0", "color": "orange", "from": 1, "to": 4}, {"title": "4: (2, 3)", "label": "2", "color": "blue", "from": 2, "to": 3}, {"title": "5: (3, 4)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (3, 5)", "label": "0", "color": "orange", "from": 3, "to": 5}, {"title": "7: (4, 5)", "label": "2", "color": "blue", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-3a12b4a7-56b0-40ba-aa5b-851ab5ab49b6').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">codomino</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;codomino-bijective&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s1">&#39;logx&#39;</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_52_0.png" src="../_images/companion_simulations_52_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Larger-graphs">
+<h3>Larger graphs<a class="headerlink" href="#Larger-graphs" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span>
+<span class="n">er</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ErdosRenyi</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">er</span><span class="o">.</span><span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1006
+</pre></div></div>
+</div>
+<p>To select a vertex, we draw random rewards, which are optimized at a unique point w.h.p.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">er</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="id2">
+<h4>Injective-only vertex<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vertex</span> <span class="o">=</span> <span class="n">er</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vertex</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+np.int64(97)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">er</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;er-injective&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_59_0.png" src="../_images/companion_simulations_59_0.png" />
+</div>
+</div>
+</section>
+<section id="id3">
+<h4>Bijective vertex<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">er</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">er</span><span class="o">.</span><span class="n">rates</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">vertex</span> <span class="o">=</span> <span class="n">er</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vertex</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+np.int64(100)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">er</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;er-bijective&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_62_0.png" src="../_images/companion_simulations_62_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Vertices-of-hypergraphs">
+<h2>Vertices of hypergraphs<a class="headerlink" href="#Vertices-of-hypergraphs" title="Link to this heading">#</a></h2>
+<p>We now remove the hypothesis that <span class="math notranslate nohighlight">\(G\)</span> is a simple graph. We need to adjust some policy settings accordingly, switching from <em>longest queue</em> to <em>virtual queue</em> to ensure stability.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;k-filtering&#39;</span><span class="p">,</span> <span class="s1">&#39;Taboo&#39;</span><span class="p">]:</span>
+    <span class="n">specific</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;simulator&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>
+    <span class="n">specific</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;alt_rewards&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gentle&#39;</span>
+<span class="n">specific</span><span class="p">[</span><span class="s1">&#39;ϵ-filtering&#39;</span><span class="p">][</span><span class="s1">&#39;base_policy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>
+</pre></div>
+</div>
+</div>
+<section id="Abandonment">
+<h3>Abandonment<a class="headerlink" href="#Abandonment" title="Link to this heading">#</a></h3>
+<p>To start, we consider a diamond graph where one item class can be abandonned and where the optional solution is to abandon it entirely. As usual, we pick adversarial rewards so that the resulting vertex looks a bit counter-intuitive.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add a self-loop to the last node of a diamond.</span>
+<span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">diamond</span><span class="o">.</span><span class="n">incidence</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+<span class="c1"># Create model</span>
+<span class="n">modified_diamond</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1"># Set rewards</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Show optimal rates</span>
+<span class="n">modified_diamond</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">modified_diamond</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-976396d8-4818-4c1d-a97f-ed5629793130">
+<div id="976396d8-4818-4c1d-a97f-ed5629793130"></div>
+<a href="#" id="fit-976396d8-4818-4c1d-a97f-ed5629793130"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-976396d8-4818-4c1d-a97f-ed5629793130 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#976396d8-4818-4c1d-a97f-ed5629793130 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "4", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "4", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "4", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "2", "title": "3", "x": 0, "group": "Node"}, {"title": "0: (0, 1)", "label": "2", "color": "blue", "id": 4, "group": "HyperEdge", "x": 600}, {"title": "1: (0, 2)", "label": "2", "color": "blue", "id": 5, "group": "HyperEdge", "x": 600}, {"title": "2: (1, 2)", "label": "2", "color": "blue", "id": 6, "group": "HyperEdge", "x": 600}, {"title": "3: (1, 3)", "label": "0", "color": "orange", "id": 7, "group": "HyperEdge", "x": 600}, {"title": "4: (2, 3)", "label": "0", "color": "orange", "id": 8, "group": "HyperEdge", "x": 600}, {"title": "5: (3)", "label": "2", "color": "blue", "id": 9, "group": "HyperEdge", "x": 600}]);
+    const edges = new DataSet([{"from": 0, "to": 4, "title": "0 <-> 0: (0, 1)"}, {"from": 0, "to": 5, "title": "0 <-> 1: (0, 2)"}, {"from": 1, "to": 4, "title": "1 <-> 0: (0, 1)"}, {"from": 1, "to": 6, "title": "1 <-> 2: (1, 2)"}, {"from": 1, "to": 7, "title": "1 <-> 3: (1, 3)"}, {"from": 2, "to": 5, "title": "2 <-> 1: (0, 2)"}, {"from": 2, "to": 6, "title": "2 <-> 2: (1, 2)"}, {"from": 2, "to": 8, "title": "2 <-> 4: (2, 3)"}, {"from": 3, "to": 7, "title": "3 <-> 3: (1, 3)"}, {"from": 3, "to": 8, "title": "3 <-> 4: (2, 3)"}, {"from": 3, "to": 9, "title": "3 <-> 5: (3)"}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}};
+    const container = document.getElementById('976396d8-4818-4c1d-a97f-ed5629793130');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-976396d8-4818-4c1d-a97f-ed5629793130').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">modified_diamond</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;abandonment&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_69_0.png" src="../_images/companion_simulations_69_0.png" />
+</div>
+</div>
+</section>
+<section id="Nazari-&amp;-Stolyar-example">
+<h3>Nazari &amp; Stolyar example<a class="headerlink" href="#Nazari-&-Stolyar-example" title="Link to this heading">#</a></h3>
+<p>See <a class="reference external" href="https://arxiv.org/abs/1608.01646">https://arxiv.org/abs/1608.01646</a> for details.</p>
+<section id="First-arrival-rates">
+<h4>First arrival rates<a class="headerlink" href="#First-arrival-rates" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ns19</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">NS19</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">ns19</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">ns19</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-2389dbb2-cc12-43a3-aa7b-05246f3b0de0">
+<div id="2389dbb2-cc12-43a3-aa7b-05246f3b0de0"></div>
+<a href="#" id="fit-2389dbb2-cc12-43a3-aa7b-05246f3b0de0"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-2389dbb2-cc12-43a3-aa7b-05246f3b0de0 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#2389dbb2-cc12-43a3-aa7b-05246f3b0de0 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1.2", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "1.5", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "2", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "0.8", "title": "3", "x": 0, "group": "Node"}, {"title": "0: (0)", "label": "0", "color": "orange", "id": 4, "group": "HyperEdge", "x": 600}, {"title": "1: (1)", "label": "0", "color": "orange", "id": 5, "group": "HyperEdge", "x": 600}, {"title": "2: (2)", "label": "1.7", "color": "blue", "id": 6, "group": "HyperEdge", "x": 600}, {"title": "3: (3)", "label": "0.5", "color": "blue", "id": 7, "group": "HyperEdge", "x": 600}, {"title": "4: (0, 1)", "label": "1.2", "color": "blue", "id": 8, "group": "HyperEdge", "x": 600}, {"title": "5: (1, 2)", "label": "0", "color": "orange", "id": 9, "group": "HyperEdge", "x": 600}, {"title": "6: (1, 2, 3)", "label": "0.3", "color": "blue", "id": 10, "group": "HyperEdge", "x": 600}]);
+    const edges = new DataSet([{"from": 0, "to": 4, "title": "0 <-> 0: (0)"}, {"from": 0, "to": 8, "title": "0 <-> 4: (0, 1)"}, {"from": 1, "to": 5, "title": "1 <-> 1: (1)"}, {"from": 1, "to": 8, "title": "1 <-> 4: (0, 1)"}, {"from": 1, "to": 9, "title": "1 <-> 5: (1, 2)"}, {"from": 1, "to": 10, "title": "1 <-> 6: (1, 2, 3)"}, {"from": 2, "to": 6, "title": "2 <-> 2: (2)"}, {"from": 2, "to": 9, "title": "2 <-> 5: (1, 2)"}, {"from": 2, "to": 10, "title": "2 <-> 6: (1, 2, 3)"}, {"from": 3, "to": 7, "title": "3 <-> 3: (3)"}, {"from": 3, "to": 10, "title": "3 <-> 6: (1, 2, 3)"}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}};
+    const container = document.getElementById('2389dbb2-cc12-43a3-aa7b-05246f3b0de0');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-2389dbb2-cc12-43a3-aa7b-05246f3b0de0').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">ns19</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;ns19-a&quot;</span><span class="p">,</span> <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s1">&#39;logx&#39;</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_74_0.png" src="../_images/companion_simulations_74_0.png" />
+</div>
+</div>
+</section>
+<section id="Second-arrival-rates">
+<h4>Second arrival rates<a class="headerlink" href="#Second-arrival-rates" title="Link to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ns19</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">.8</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">ns19</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">flow</span><span class="o">=</span><span class="n">ns19</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-ce9eebe0-99d4-4d91-87df-fd5754736cde">
+<div id="ce9eebe0-99d4-4d91-87df-fd5754736cde"></div>
+<a href="#" id="fit-ce9eebe0-99d4-4d91-87df-fd5754736cde"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-ce9eebe0-99d4-4d91-87df-fd5754736cde {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#ce9eebe0-99d4-4d91-87df-fd5754736cde {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1.8", "title": "0", "x": 0, "group": "Node"}, {"id": 1, "label": "0.8", "title": "1", "x": 0, "group": "Node"}, {"id": 2, "label": "1.4", "title": "2", "x": 0, "group": "Node"}, {"id": 3, "label": "1", "title": "3", "x": 0, "group": "Node"}, {"title": "0: (0)", "label": "1", "color": "blue", "id": 4, "group": "HyperEdge", "x": 600}, {"title": "1: (1)", "label": "0", "color": "orange", "id": 5, "group": "HyperEdge", "x": 600}, {"title": "2: (2)", "label": "1.4", "color": "blue", "id": 6, "group": "HyperEdge", "x": 600}, {"title": "3: (3)", "label": "1", "color": "blue", "id": 7, "group": "HyperEdge", "x": 600}, {"title": "4: (0, 1)", "label": "0.8", "color": "blue", "id": 8, "group": "HyperEdge", "x": 600}, {"title": "5: (1, 2)", "label": "0", "color": "orange", "id": 9, "group": "HyperEdge", "x": 600}, {"title": "6: (1, 2, 3)", "label": "0", "color": "orange", "id": 10, "group": "HyperEdge", "x": 600}]);
+    const edges = new DataSet([{"from": 0, "to": 4, "title": "0 <-> 0: (0)"}, {"from": 0, "to": 8, "title": "0 <-> 4: (0, 1)"}, {"from": 1, "to": 5, "title": "1 <-> 1: (1)"}, {"from": 1, "to": 8, "title": "1 <-> 4: (0, 1)"}, {"from": 1, "to": 9, "title": "1 <-> 5: (1, 2)"}, {"from": 1, "to": 10, "title": "1 <-> 6: (1, 2, 3)"}, {"from": 2, "to": 6, "title": "2 <-> 2: (2)"}, {"from": 2, "to": 9, "title": "2 <-> 5: (1, 2)"}, {"from": 2, "to": 10, "title": "2 <-> 6: (1, 2, 3)"}, {"from": 3, "to": 7, "title": "3 <-> 3: (3)"}, {"from": 3, "to": 10, "title": "3 <-> 6: (1, 2, 3)"}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%", "groups": {"HyperEdge": {"fixed": {"x": false}, "color": {"background": "black"}, "shape": "dot", "size": 5}, "Node": {"fixed": {"x": false}}}};
+    const container = document.getElementById('ce9eebe0-99d4-4d91-87df-fd5754736cde');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-ce9eebe0-99d4-4d91-87df-fd5754736cde').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In the example above, the first self-edge is used despite having a negative reward: it is an example of a graph with self-edges where the optimal stable solution is not the same than the optimal solution.</p>
+<p>Note that the optimal solution can always be made stable (if <span class="math notranslate nohighlight">\(G\)</span> is surjective) by adding zero-reward mono-edges.</p>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">ns19</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">specific</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;ns19-b&quot;</span><span class="p">,</span> <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s1">&#39;logx&#39;</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_79_0.png" src="../_images/companion_simulations_79_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Flexibility-of-greedy-policies">
+<h2>Flexibility of greedy policies<a class="headerlink" href="#Flexibility-of-greedy-policies" title="Link to this heading">#</a></h2>
+<section id="Complete-graph">
+<h3>Complete graph<a class="headerlink" href="#Complete-graph" title="Link to this heading">#</a></h3>
+<p>For complete graphs, all greedy policies are equivalent because there is never any true choice to make in that case. Let us check that by running a few greedy policies.</p>
+<p>We will use the graph <span class="math notranslate nohighlight">\(K_4\)</span>, which has a 2-D kernel. With uniform arrival rates, its polytope is a triangle.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">complete</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Complete</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">complete</span><span class="o">.</span><span class="n">vertices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;kernel_coordinates&#39;: array([-1., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 0., 3., 3., 0., 0.]),
+  &#39;null_edges&#39;: [0, 1, 4, 5],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([-1.,  2.]),
+  &#39;edge_coordinates&#39;: array([3., 0., 0., 0., 0., 3.]),
+  &#39;null_edges&#39;: [1, 2, 3, 4],
+  &#39;bijective&#39;: False},
+ {&#39;kernel_coordinates&#39;: array([ 2., -1.]),
+  &#39;edge_coordinates&#39;: array([0., 3., 0., 0., 3., 0.]),
+  &#39;null_edges&#39;: [0, 2, 3, 5],
+  &#39;bijective&#39;: False}]
+</pre></div></div>
+</div>
+<p>For the comparison, we will consider the following greedy policies:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">complete_policies</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Longest&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;longest&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;FCFM&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;fcfm&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Random Edge&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;random_edge&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Random Item&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;random_item&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Priority&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>We run the simulation, gathering the resulting matching rate in edge and kernel coordinates:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">flow_kernel_coordinates</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">simu</span><span class="o">.</span><span class="n">flow</span>
+    <span class="k">return</span> <span class="n">simu</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edge_to_kernel</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+<span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">complete</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">complete_policies</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">xps</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="n">flow_kernel_coordinates</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+        <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span>
+    <span class="p">)</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Longest&#39;: {&#39;flow&#39;: array([1.00000059, 1.0000066 , 1.00001283, 1.0000111 , 1.00000862,
+         0.99996026]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;FCFM&#39;: {&#39;flow&#39;: array([1.00000059, 1.0000066 , 1.00001283, 1.0000111 , 1.00000862,
+         0.99996026]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;Random Edge&#39;: {&#39;flow&#39;: array([1.00003558, 1.00002742, 0.99995652, 0.99996954, 0.99997213,
+         1.00003881]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;Random Item&#39;: {&#39;flow&#39;: array([1.00003558, 1.00002742, 0.99995652, 0.99996954, 0.99997213,
+         1.00003881]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])},
+ &#39;Priority&#39;: {&#39;flow&#39;: array([1.00000059, 1.0000066 , 1.00001283, 1.0000111 , 1.00000862,
+         0.99996026]),
+  &#39;flow_kernel_coordinates&#39;: array([0., 0.])}}
+</pre></div></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In the results above, the randomized policies (on Items and Edges) have not exactly the same rate than the deterministic policies, despite the use of a seed. The reason is that there is one unique random generator per simulator, so having a randomized policy impacts the drawing of arrivals (even if the number of possibilities is always reduced to 1).</p>
+</div>
+</section>
+<section id="id4">
+<h3>Diamond<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>For the diamond, the capacity of greedy policies to affect the matching rates depends on the traffic <span class="math notranslate nohighlight">\(\beta\)</span> on the central edge, which corresponds to the unbalance between the two opposite pairs of nodes. Roughly speaking, when the central traffic is scarse, greedy policies get to choose more, leading to a greater influence.</p>
+<p>First, let us build the experiments for various <span class="math notranslate nohighlight">\(\beta\)</span>. Note that all models are symmetric so we can focus on targeting one vertex.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">beta_to_model</span><span class="p">(</span><span class="n">beta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sm</span><span class="o">.</span><span class="n">CycleChain</span><span class="p">(</span>
+        <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
+        <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">)</span>
+
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">β_vect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+<span class="n">model_iter</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">β_vect</span><span class="p">,</span> <span class="s2">&quot;β&quot;</span><span class="p">,</span> <span class="n">beta_to_model</span><span class="p">)</span>
+
+<span class="n">xps</span> <span class="o">=</span> <span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Greedy vertex&quot;</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">iterator</span><span class="o">=</span><span class="n">model_iter</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>What we want to measure are the kernel coordinate <span class="math notranslate nohighlight">\(\alpha\)</span> of the matching rates of the policy.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">alpha</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">simu</span><span class="o">.</span><span class="n">flow</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">flow</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;greedy-diamond&quot;</span><span class="p">,</span> <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;Greedy vertex&quot;</span><span class="p">][</span><span class="s2">&quot;alpha&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>Theoretical bounds:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">min_flow2</span><span class="p">(</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">q13</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">beta</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q13</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">q2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p0</span> <span class="o">*</span> <span class="n">q2</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">p0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">beta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span>
+
+
+<span class="n">lbi</span> <span class="o">=</span> <span class="p">[</span><span class="n">min_flow2</span><span class="p">(</span><span class="n">β</span><span class="p">)</span> <span class="k">for</span> <span class="n">β</span> <span class="ow">in</span> <span class="n">β_vect</span><span class="p">]</span>
+<span class="n">ubi</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">min_flow2</span><span class="p">(</span><span class="n">β</span><span class="p">)</span> <span class="k">for</span> <span class="n">β</span> <span class="ow">in</span> <span class="n">β_vect</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">β_vect</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">Lambda_{</span><span class="se">\\</span><span class="s2">geqslant 0}$&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">β_vect</span><span class="p">,</span>
+    <span class="o">-</span><span class="n">res</span><span class="p">,</span>
+    <span class="n">res</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">Lambda_G = [</span><span class="se">\\</span><span class="s2">alpha_-, </span><span class="se">\\</span><span class="s2">alpha_+]$&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">β_vect</span><span class="p">,</span> <span class="n">ubi</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Upper bound&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">β_vect</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha=0$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">β_vect</span><span class="p">,</span> <span class="n">lbi</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lower bound&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">beta$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">alpha$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">β_vect</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">β_vect</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_99_0.png" src="../_images/companion_simulations_99_0.png" />
+</div>
+</div>
+</section>
+<section id="Fish-graph">
+<h3>Fish graph<a class="headerlink" href="#Fish-graph" title="Link to this heading">#</a></h3>
+<p>The Fish graph, with properly designed arrival rates, is a counter-example to the lack of flexibility of greedy policies in surjective-only graphs, as it is feasible for a family of greedy policies to converge to the vertex. There, however, a price to pay in terms of delay, despite the fact that the vertex is bijective.</p>
+<p>Here is the graph:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">KayakPaddle</span><span class="p">(</span>
+    <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">show_kernel</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disp_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-86bde7b5-6313-4906-a3cf-625d42c8eaec">
+<div id="86bde7b5-6313-4906-a3cf-625d42c8eaec"></div>
+<a href="#" id="fit-86bde7b5-6313-4906-a3cf-625d42c8eaec"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-86bde7b5-6313-4906-a3cf-625d42c8eaec {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#86bde7b5-6313-4906-a3cf-625d42c8eaec {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}]);
+    const edges = new DataSet([{"title": "0: (1, 2)", "label": "3", "color": "black", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "black", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "black", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.5+\u03b11", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.5-\u03b11", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1.5-\u03b11", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "1.5+\u03b11", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('86bde7b5-6313-4906-a3cf-625d42c8eaec');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-86bde7b5-6313-4906-a3cf-625d42c8eaec').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<p>Our target is the bijective vertex <span class="math notranslate nohighlight">\(\alpha=1/2\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">fish</span><span class="o">.</span><span class="n">kernel_to_edge</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9">
+<div id="3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9"></div>
+<a href="#" id="fit-3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}]);
+    const edges = new DataSet([{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "1", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0", "color": "orange", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-3bfb0cb2-fff7-4cff-bc40-f3c3eb5b06c9').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<section id="Rate-limitation-lemma">
+<h4>Rate limitation lemma<a class="headerlink" href="#Rate-limitation-lemma" title="Link to this heading">#</a></h4>
+<p>To build the policy, the first part consists in noticing that if nodes 3 is forced to prioritize the <em>tail</em> of the fish (nodes 1 and 2), then the rate that 3 can send to the <em>body</em> is at most <span class="math notranslate nohighlight">\(9/11\approx 0.818\)</span>. This result does not depend on the body shape so we heck it on a simple frying pan (the body reduced to one node outside of 3).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Tadpole</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span> <span class="n">rates</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">paw</span><span class="o">.</span><span class="n">stabilizable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span><span class="o">.</span><span class="n">base_flow</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3., 1., 1., 1.])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paw</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-df2ff754-ccc2-4446-a863-1e8ebcd5bbb1">
+<div id="df2ff754-ccc2-4446-a863-1e8ebcd5bbb1"></div>
+<a href="#" id="fit-df2ff754-ccc2-4446-a863-1e8ebcd5bbb1"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-df2ff754-ccc2-4446-a863-1e8ebcd5bbb1 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#df2ff754-ccc2-4446-a863-1e8ebcd5bbb1 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4", "color": "red"}]);
+    const edges = new DataSet([{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.818", "color": "blue", "from": 2, "to": 3}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('df2ff754-ccc2-4446-a863-1e8ebcd5bbb1');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-df2ff754-ccc2-4446-a863-1e8ebcd5bbb1').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+</section>
+<section id="Unstable-greedy-policy-lemma">
+<h4>Unstable greedy policy lemma<a class="headerlink" href="#Unstable-greedy-policy-lemma" title="Link to this heading">#</a></h4>
+<p>Building on the rate limitation, one can craft an instable greedy policy that <em>starves</em> the body of the fish. Starvation induces a constantly growing number of waiting items. Using priorities, we can shape the policy so that waiting items are mostly of type 4. As a side-effect, that would nullify the edge <span class="math notranslate nohighlight">\((3, 6)\)</span>, which is what we want.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">max_queue</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade">
+<div id="ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade"></div>
+<a href="#" id="fit-ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4", "color": "red"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}]);
+    const edges = new DataSet([{"title": "0: (1, 2)", "label": "2.91", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1.09", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1.09", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.818", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0", "color": "orange", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-ee6a03b0-3cf5-494a-9e2c-5a45d1f65ade').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<p>We can check that the queue is concentrated on node 4.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">simulator</span><span class="o">.</span><span class="n">avg_queues</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([8.51466300e-01, 8.47361100e-01, 2.00000000e-07, 5.01960123e+04,
+       3.00000000e-07, 1.98790250e+00])
+</pre></div></div>
+</div>
+<p>To finalize, all what we need is relax the unstable greedy policy into a stable policy when queues are too high.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">counterweights</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+<span class="n">fish</span><span class="o">.</span><span class="n">show_flow</span><span class="p">(</span><span class="n">disp_rates</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-4f24701e-be59-48c7-aef9-5f1f04a8013d">
+<div id="4f24701e-be59-48c7-aef9-5f1f04a8013d"></div>
+<a href="#" id="fit-4f24701e-be59-48c7-aef9-5f1f04a8013d"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-4f24701e-be59-48c7-aef9-5f1f04a8013d {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#4f24701e-be59-48c7-aef9-5f1f04a8013d {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "1", "title": "0: 1"}, {"id": 1, "label": "2", "title": "1: 2"}, {"id": 2, "label": "3", "title": "2: 3"}, {"id": 3, "label": "4", "title": "3: 4"}, {"id": 4, "label": "5", "title": "4: 5"}, {"id": 5, "label": "6", "title": "5: 6"}]);
+    const edges = new DataSet([{"title": "0: (1, 2)", "label": "3", "color": "blue", "from": 0, "to": 1}, {"title": "1: (1, 3)", "label": "1", "color": "blue", "from": 0, "to": 2}, {"title": "2: (2, 3)", "label": "1", "color": "blue", "from": 1, "to": 2}, {"title": "3: (3, 4)", "label": "0.996", "color": "blue", "from": 2, "to": 3}, {"title": "4: (3, 6)", "label": "0.00031", "color": "blue", "from": 2, "to": 5}, {"title": "5: (4, 5)", "label": "1", "color": "blue", "from": 3, "to": 4}, {"title": "6: (5, 6)", "label": "2", "color": "blue", "from": 4, "to": 5}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('4f24701e-be59-48c7-aef9-5f1f04a8013d');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-4f24701e-be59-48c7-aef9-5f1f04a8013d').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+</section>
+<section id="Evaluation">
+<h4>Evaluation<a class="headerlink" href="#Evaluation" title="Link to this heading">#</a></h4>
+<p>As often, we have a delay/regret trade-off.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">t_range</span> <span class="o">=</span> <span class="n">Iterator</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">14</span><span class="p">)),</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Phi_k^+$&#39;</span>
+<span class="n">fish_policies</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                                <span class="s1">&#39;counterweights&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;iterator&#39;</span><span class="p">:</span> <span class="n">t_range</span><span class="p">},</span>
+                 <span class="s1">&#39;Taboo&#39;</span><span class="p">:</span> <span class="n">specific</span><span class="p">[</span><span class="s1">&#39;Taboo&#39;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The priority policy has no built-in regret management, so we need to post-compute it.</p>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fish</span><span class="o">.</span><span class="n">simulator</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">xps</span> <span class="o">=</span> <span class="n">xp_builder</span><span class="p">({</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">fish</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">},</span> <span class="n">fish_policies</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="s2">&quot;regret&quot;</span><span class="p">,</span> <span class="s2">&quot;flow&quot;</span><span class="p">],</span> <span class="n">cache_name</span><span class="o">=</span><span class="s2">&quot;fish&quot;</span><span class="p">,</span>
+                   <span class="n">cache_overwrite</span><span class="o">=</span><span class="n">refresh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">regret</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+    <span class="n">original_rates</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">rates</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">incidence</span> <span class="o">@</span> <span class="n">flow</span>
+    <span class="n">best_flow</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">optimize_rates</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">original_rates</span>
+    <span class="k">return</span> <span class="n">rewards</span> <span class="o">@</span> <span class="p">(</span><span class="n">best_flow</span> <span class="o">-</span> <span class="n">flow</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;regret&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">regret</span><span class="p">(</span><span class="n">fish</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">rewards</span><span class="p">)</span> <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;flow&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_res</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_simulations_126_0.png" src="../_images/companion_simulations_126_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="polytope.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Polytope analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../reference/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Drift-of-optimal-solution-for-injective-only-vertices">Drift of optimal solution for injective-only vertices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Vertices-of-simple-graphs">Vertices of simple graphs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Preparation">Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Diamond">Diamond</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Injective-only-vertex">Injective-only vertex</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Bijective-vertex">Bijective vertex</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Codomino">Codomino</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Injective-only vertex</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Bijective-only-vertex">Bijective-only vertex</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Larger-graphs">Larger graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Injective-only vertex</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bijective vertex</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Vertices-of-hypergraphs">Vertices of hypergraphs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Abandonment">Abandonment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Nazari-&amp;-Stolyar-example">Nazari &amp; Stolyar example</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#First-arrival-rates">First arrival rates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Second-arrival-rates">Second arrival rates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Flexibility-of-greedy-policies">Flexibility of greedy policies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Complete-graph">Complete graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Diamond</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Fish-graph">Fish graph</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Rate-limitation-lemma">Rate limitation lemma</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Unstable-greedy-policy-lemma">Unstable greedy policy lemma</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Evaluation">Evaluation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/companion/simulations.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
