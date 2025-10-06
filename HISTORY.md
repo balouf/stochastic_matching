@@ -1,8 +1,10 @@
 # History
 
-## 0.4.0 (2025-09-26): Prepare article revision
+## 0.4.0 (2025-09-26): Major revision
 
-* Added three notebooks for explicit support of https://hal.archives-ouvertes.fr/hal-03502084
+The objective of this update is to support a major revision of https://hal.archives-ouvertes.fr/hal-03502084
+
+* Added an explicit companion section in the documentation (three dedicated notebooks)
 * Reward-based policies like EGPD have a `alt_rewards` option to alter the rewards internally.
   Two alterations (`gentle` and `normalize`) are available.
 * Default rewards are now edge-degree proportional
@@ -12,6 +14,7 @@
 * New graphs in library: Nazari-Stolyar, Erdös-Rényi.
 * Vis engine updated, with new default behavior (refresh button).
 * Fix: Numba error when using forbidden edge without `k`.
+* Tested Python versions: 3.10 to 3.13.
 * Chore: documentation files switched to markdown.
 * Chore: package backend switched to uv.
 
