@@ -13,16 +13,10 @@ It contains in particular:
 This section is NOT intended to be self-contained. Please refer to the [paper] for context and explanations.
 :::
 
-:::{Note}
-The last notebook is the companion code for a separate article.
-:::
-
-
 :::{toctree}
 first_steps
 polytope
 simulations
-muerte
 :::
 
 
