@@ -7,7 +7,8 @@ Its goal is to demonstrate how the results from the paper above can be obtained 
 It contains in particular:
 
 - Demonstration of the use of the [package] for theoretical description (graph categorization, etc...);
-- the production of all simulation-based results from the [paper].
+- the production of all simulation-based results from the [paper];
+- companion notebooks for follow-up papers.
 
 :::{warning}
 This section is NOT intended to be self-contained. Please refer to the [paper] for context and explanations.
@@ -17,6 +18,7 @@ This section is NOT intended to be self-contained. Please refer to the [paper] f
 first_steps
 polytope
 simulations
+hypergraph_candy
 :::
 
 
