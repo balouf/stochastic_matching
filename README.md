@@ -7,6 +7,7 @@
 [![Documentation Status](https://github.com/balouf/stochastic_matching/actions/workflows/docs.yml/badge.svg?branch=master)](https://github.com/balouf/stochastic_matching/actions?query=workflow%3Adocs)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Coverage](https://codecov.io/gh/balouf/stochastic_matching/branch/master/graphs/badge.svg)](https://codecov.io/gh/balouf/stochastic_matching/tree/master/stochastic_matching)
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/balouf/stochastic_matching/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/balouf/stochastic_matching)
 
 Stochastic Matching provides tools to analyze the behavior of stochastic matching problems.
 
