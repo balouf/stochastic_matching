@@ -1,0 +1,1642 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Realist Vampire(s) Seeking Consenting Suicidal Person(s) &#8212; Stochastic Matching 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6c02275b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'companion/realist_vampires';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Online Stochastic Matchings: Stability on Hypergraphs" href="hypergraph_candy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/sm_logo_short.png" class="logo__image only-light" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+    <img src="../_static/sm_logo_short.png" class="logo__image only-dark pst-js-only" alt="Stochastic Matching 0.4.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Companion notebooks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../presentation.html">
+    Presentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Companion notebooks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/balouf/stochastic_matching" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">A Polytope Perspective</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polytope.html">Polytope analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulations.html">Simulations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Stability on Hypergraphs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hypergraph_candy.html">Online Stochastic Matchings: Stability on Hypergraphs</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Realist Vampire(s)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Realist Vampire(s) Seeking Consenting Suicidal Person(s)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Companion notebooks</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Realist Vampire(s) Seeking Consenting Suicidal Person(s)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Realist-Vampire(s)-Seeking-Consenting-Suicidal-Person(s)">
+<h1>Realist Vampire(s) Seeking Consenting Suicidal Person(s)<a class="headerlink" href="#Realist-Vampire(s)-Seeking-Consenting-Suicidal-Person(s)" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the companion notebook to the article <em>Realist Vampire(s) Seeking Consenting Suicidal Person(s)</em> (SAGT 2026, Springer LNCS) and to its extended version (available on HAL and arXiv). It is NOT intended to be self-contained. Please refer to the paper for context and explanations.</p>
+</div>
+<!-- TODO(Fabien): add the HAL link of the extended version once deposited, and the Springer DOI once the proceedings are out. --><section id="Preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#Preliminaries" title="Link to this heading">#</a></h2>
+<section id="Basic-Blood-Types">
+<h3>Basic Blood Types<a class="headerlink" href="#Basic-Blood-Types" title="Link to this heading">#</a></h3>
+<p>First, we define the different blood types. In addition to the <span class="math notranslate nohighlight">\(2^3\)</span> main types depending on the presence of <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(Rhesus\)</span> markers, we add a void type that will be used later to model non-ghoul humans.</p>
+<p>An important property is <em>can_feed</em>, that tells whether a vampire of a given type can feed on a ghoul of another type.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BloodType</span><span class="p">:</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">]</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;X&#39;</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;O</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sanitized_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_feed_on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">markers</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">void</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<p>Let us compute all possible groups. We’ll store them in a list, a class, and a dict for easy access.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Groups</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">BloodType</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">Groups</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">sanitized_name</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">groups_</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">):</span> <span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">}</span>
+
+<span class="n">groups</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[O-, O+, B-, B+, A-, A+, AB-, AB+]
+</pre></div></div>
+</div>
+</section>
+<section id="Vampire/Ghoul-Types">
+<h3>Vampire/Ghoul Types<a class="headerlink" href="#Vampire/Ghoul-Types" title="Link to this heading">#</a></h3>
+<p>We now define Vampire/Ghoul types, which are defined by two blood types. The following properties are defined:</p>
+<ul class="simple">
+<li><p><em>autarkic</em>: the vampire can feed on their ghoul.</p></li>
+<li><p><em>compatible_with</em>: each vampire of the two pairs can feed on the other pair’s ghoul.</p></li>
+<li><p><em>swinger</em>: a non plug-and-drink pair compatible with another non plug-and-drink pair.</p></li>
+<li><p><em>helpless</em>: a non plug-and-drink pair that is only compatible with plug-and-drink pairs.</p></li>
+<li><p><em>three_compatible</em>: each vampire of three pairs can feed on a distinct available ghoul, in a cyclic fashion.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">VGType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compatible_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_compatible</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;autarkic&quot;</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">auto_compatible</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compatible_types</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;helpless&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;swinger&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auto_compatible</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">can_feed_on</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compatible_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">can_feed_on</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">can_feed_on</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">three_cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other1</span><span class="p">,</span> <span class="n">other2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">can_feed_on</span><span class="p">(</span><span class="n">other1</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other1</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">can_feed_on</span><span class="p">(</span><span class="n">other2</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other2</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">can_feed_on</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">three_compatible_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other1</span><span class="p">,</span> <span class="n">other2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">three_cycle</span><span class="p">(</span><span class="n">other1</span><span class="p">,</span> <span class="n">other2</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">three_cycle</span><span class="p">(</span><span class="n">other2</span><span class="p">,</span> <span class="n">other1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We now prepare all possible VG pairs and observe their distribution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">vgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">VGType</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">vgs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">vgs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v1</span><span class="o">.</span><span class="n">compatible_with</span><span class="p">(</span><span class="n">v2</span><span class="p">):</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">compatible_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+<span class="n">vgs_</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">vg</span><span class="p">):</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vgs</span><span class="p">)}</span>
+<span class="n">Counter</span><span class="p">(</span><span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Counter({&#39;autarkic&#39;: 27, &#39;helpless&#39;: 19, &#39;swinger&#39;: 18})
+</pre></div></div>
+</div>
+</section>
+<section id="Human-types">
+<h3>Human types<a class="headerlink" href="#Human-types" title="Link to this heading">#</a></h3>
+<p>We call <em>human</em> a potential ghoul not yet affiliated to any vampire. Humans can be modelled as a VG pair where the vampire is a placeholder, denoted <span class="math notranslate nohighlight">\(X\)</span>, compatible with everyone, e.g. <em>X/O+</em></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Human</span><span class="p">(</span><span class="n">VGType</span><span class="p">):</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;human&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">BloodType</span><span class="o">.</span><span class="n">void</span><span class="p">()</span> <span class="c1"># alway compatible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">g</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">humans</span> <span class="o">=</span> <span class="p">[</span><span class="n">Human</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
+<span class="n">humans</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[X/O-, X/O+, X/B-, X/B+, X/A-, X/A+, X/AB-, X/AB+]
+</pre></div></div>
+</div>
+</section>
+<section id="Blood-type-distribution">
+<h3>Blood type distribution<a class="headerlink" href="#Blood-type-distribution" title="Link to this heading">#</a></h3>
+<p>For numeric computation, we need statistics on the blood type probabilities. We leverage Wikipedia to access recent data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">bs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fake_useragent</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserAgent</span>
+<span class="n">ua</span> <span class="o">=</span> <span class="n">UserAgent</span><span class="p">()</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://en.wikipedia.org/wiki/Blood_type_distribution_by_country&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="n">ua</span><span class="o">.</span><span class="n">random</span><span class="p">})</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+<span class="n">table</span> <span class="o">=</span> <span class="n">soup</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">](</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;−&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">table</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="s1">&#39;th&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]]</span>
+<span class="n">blood_type_by_country</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">table</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">country</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">th</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="k">else</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">line</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])}</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">blood_type_by_country</span><span class="p">[</span><span class="n">country</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">/</span><span class="n">total</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">blood_type_by_country</span><span class="p">[</span><span class="n">country</span><span class="p">][</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blood_type_by_country</span><span class="p">[</span><span class="s1">&#39;United States&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;O+&#39;: 0.374,
+ &#39;A+&#39;: 0.35700000000000004,
+ &#39;B+&#39;: 0.085,
+ &#39;AB+&#39;: 0.034,
+ &#39;O-&#39;: 0.066,
+ &#39;A-&#39;: 0.063,
+ &#39;B-&#39;: 0.015,
+ &#39;AB-&#39;: 0.006,
+ &#39;X&#39;: 1.0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blood_type_by_country</span><span class="p">[</span><span class="s1">&#39;France&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;O+&#39;: 0.365,
+ &#39;A+&#39;: 0.382,
+ &#39;B+&#39;: 0.077,
+ &#39;AB+&#39;: 0.025,
+ &#39;O-&#39;: 0.065,
+ &#39;A-&#39;: 0.068,
+ &#39;B-&#39;: 0.013999999999999999,
+ &#39;AB-&#39;: 0.004,
+ &#39;X&#39;: 1.0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blood_type_by_country</span><span class="p">[</span><span class="s1">&#39;World&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;O+&#39;: 0.3878396121603878,
+ &#39;A+&#39;: 0.2757297242702757,
+ &#39;B+&#39;: 0.0818099181900818,
+ &#39;AB+&#39;: 0.0201999798000202,
+ &#39;O-&#39;: 0.1323098676901323,
+ &#39;A-&#39;: 0.0818099181900818,
+ &#39;B-&#39;: 0.0201999798000202,
+ &#39;AB-&#39;: 0.00010099989900010099,
+ &#39;X&#39;: 1.0}
+</pre></div></div>
+</div>
+<p>Given a list of VG types and a country, issue normalized arrival rates.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">arrival_rates</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s2">&quot;United States&quot;</span><span class="p">):</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">blood_type_by_country</span><span class="p">[</span><span class="n">country</span><span class="p">]</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">probs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">vg</span><span class="o">.</span><span class="n">v</span><span class="p">)]</span><span class="o">*</span><span class="n">probs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">vg</span><span class="o">.</span><span class="n">g</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span> <span class="p">]</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">/</span><span class="n">total</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>For the record, one can compute the distribution per VG category:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="n">shares</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">rates</span> <span class="o">=</span> <span class="n">arrival_rates</span><span class="p">(</span><span class="n">vgs</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vgs</span><span class="p">):</span>
+    <span class="n">shares</span><span class="p">[</span><span class="n">vg</span><span class="o">.</span><span class="n">category</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="nb">dict</span><span class="p">(</span><span class="n">shares</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;autarkic&#39;: 56.6078, &#39;helpless&#39;: 28.1786, &#39;swinger&#39;: 15.2136}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Instability-study">
+<h2>Instability study<a class="headerlink" href="#Instability-study" title="Link to this heading">#</a></h2>
+<p>We know that the base model is not stabilisable. Yet, we can still investigate through simulations the practical performance of a robust matching algorithm in that setting.</p>
+<p>Towards that goal, we write a function that converts a list of VG types into a matching problem.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stochastic_matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">relaxed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">threesomes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vgs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vgs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">relaxed</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span> <span class="ow">and</span> <span class="n">vg</span><span class="o">.</span><span class="n">auto_compatible</span><span class="p">):</span>
+            <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">compatible_with</span><span class="p">(</span><span class="n">vgs</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">threesomes</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">three_compatible_with</span><span class="p">(</span><span class="n">vgs</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">vgs</span><span class="p">[</span><span class="n">k</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">v</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">vg</span><span class="p">,</span> <span class="n">vgs</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">vgs</span><span class="p">[</span><span class="n">k</span><span class="p">]]):</span>
+                        <span class="k">continue</span>
+                    <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+    <span class="n">incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
+        <span class="n">incidence</span><span class="p">[</span><span class="n">e</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">incidence</span><span class="o">=</span><span class="n">incidence</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">vg</span><span class="p">)</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span><span class="p">],</span>
+                     <span class="n">rates</span><span class="o">=</span><span class="n">arrival_rates</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">cats</span> <span class="o">=</span> <span class="p">[</span><span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span><span class="p">]</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">adjacency</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">incidence_to_adjacency</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">incidence</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<section id="Swingers-only">
+<h3>Swingers-only<a class="headerlink" href="#Swingers-only" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The compatibility graphs below are interactive VisJS widgets. They render when the notebook is executed locally (see the README for requirements); most static notebook viewers will not display them.</p>
+</div>
+<p>We first focus on the interdependent types, because this subgraph is smaller and makes sense from a selfish perspective.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swingers</span> <span class="o">=</span> <span class="p">[</span><span class="n">vg</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span> <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s1">&#39;swinger&#39;</span><span class="p">]</span>
+<span class="n">s_model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">swingers</span><span class="p">)</span>
+<span class="n">s_model</span><span class="o">.</span><span class="n">show_graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-eed3042e-e2bd-45e8-a205-84d15536a03b">
+<div id="eed3042e-e2bd-45e8-a205-84d15536a03b"></div>
+<a href="#" id="fit-eed3042e-e2bd-45e8-a205-84d15536a03b"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-eed3042e-e2bd-45e8-a205-84d15536a03b {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#eed3042e-e2bd-45e8-a205-84d15536a03b {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "O+/B-", "title": "0: O+/B-"}, {"id": 1, "label": "O+/A-", "title": "1: O+/A-"}, {"id": 2, "label": "O+/AB-", "title": "2: O+/AB-"}, {"id": 3, "label": "B-/O+", "title": "3: B-/O+"}, {"id": 4, "label": "B-/A-", "title": "4: B-/A-"}, {"id": 5, "label": "B-/A+", "title": "5: B-/A+"}, {"id": 6, "label": "B+/A-", "title": "6: B+/A-"}, {"id": 7, "label": "B+/A+", "title": "7: B+/A+"}, {"id": 8, "label": "B+/AB-", "title": "8: B+/AB-"}, {"id": 9, "label": "A-/O+", "title": "9: A-/O+"}, {"id": 10, "label": "A-/B-", "title": "10: A-/B-"}, {"id": 11, "label": "A-/B+", "title": "11: A-/B+"}, {"id": 12, "label": "A+/B-", "title": "12: A+/B-"}, {"id": 13, "label": "A+/B+", "title": "13: A+/B+"}, {"id": 14, "label": "A+/AB-", "title": "14: A+/AB-"}, {"id": 15, "label": "AB-/O+", "title": "15: AB-/O+"}, {"id": 16, "label": "AB-/B+", "title": "16: AB-/B+"}, {"id": 17, "label": "AB-/A+", "title": "17: AB-/A+"}]);
+    const edges = new DataSet([{"title": "0: (O+/B-, B-/O+)", "label": "", "from": 0, "to": 3}, {"title": "1: (O+/B-, AB-/O+)", "label": "", "from": 0, "to": 15}, {"title": "2: (O+/A-, A-/O+)", "label": "", "from": 1, "to": 9}, {"title": "3: (O+/A-, AB-/O+)", "label": "", "from": 1, "to": 15}, {"title": "4: (O+/AB-, AB-/O+)", "label": "", "from": 2, "to": 15}, {"title": "5: (B-/O+, A+/B-)", "label": "", "from": 3, "to": 12}, {"title": "6: (B-/A-, A-/B-)", "label": "", "from": 4, "to": 10}, {"title": "7: (B-/A-, A+/B-)", "label": "", "from": 4, "to": 12}, {"title": "8: (B-/A+, A+/B-)", "label": "", "from": 5, "to": 12}, {"title": "9: (B+/A-, A-/O+)", "label": "", "from": 6, "to": 9}, {"title": "10: (B+/A-, A-/B-)", "label": "", "from": 6, "to": 10}, {"title": "11: (B+/A-, A-/B+)", "label": "", "from": 6, "to": 11}, {"title": "12: (B+/A-, A+/B-)", "label": "", "from": 6, "to": 12}, {"title": "13: (B+/A-, A+/B+)", "label": "", "from": 6, "to": 13}, {"title": "14: (B+/A-, AB-/O+)", "label": "", "from": 6, "to": 15}, {"title": "15: (B+/A-, AB-/B+)", "label": "", "from": 6, "to": 16}, {"title": "16: (B+/A+, A+/B-)", "label": "", "from": 7, "to": 12}, {"title": "17: (B+/A+, A+/B+)", "label": "", "from": 7, "to": 13}, {"title": "18: (B+/AB-, AB-/O+)", "label": "", "from": 8, "to": 15}, {"title": "19: (B+/AB-, AB-/B+)", "label": "", "from": 8, "to": 16}, {"title": "20: (A+/B-, AB-/O+)", "label": "", "from": 12, "to": 15}, {"title": "21: (A+/B-, AB-/A+)", "label": "", "from": 12, "to": 17}, {"title": "22: (A+/AB-, AB-/O+)", "label": "", "from": 14, "to": 15}, {"title": "23: (A+/AB-, AB-/A+)", "label": "", "from": 14, "to": 17}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "100%", "height": "100%"};
+    const container = document.getElementById('eed3042e-e2bd-45e8-a205-84d15536a03b');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-eed3042e-e2bd-45e8-a205-84d15536a03b').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<p>Nice structure.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s_model</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 18 nodes and 24 edges.
+Node dimension is 0.
+Edge dimension is 6
+Type: Surjective-only
+Node kernel:
+[]
+Edge kernel:
+[[ 0.18564813 -0.18564813 -0.11463919  0.11463919  0.         -0.18564813
+  -0.19214373  0.19214373  0.          0.11463919  0.19214373  0.
+  -0.26575452  0.07361079 -0.48089508  0.36625589  0.07361079 -0.07361079
+   0.36625589 -0.36625589  0.1392361   0.04641203  0.04641203 -0.04641203]
+ [ 0.08466247 -0.08466247 -0.22494382  0.22494382  0.         -0.08466247
+  -0.35173899  0.35173899  0.          0.22494382  0.35173899  0.
+  -0.32129137 -0.03044762  0.10796964 -0.33291347 -0.03044762  0.03044762
+  -0.33291347  0.33291347  0.06349685  0.02116562  0.02116562 -0.02116562]
+ [ 0.3402013  -0.3402013   0.26340467 -0.26340467  0.         -0.3402013
+   0.00616079 -0.00616079  0.         -0.26340467 -0.00616079  0.
+  -0.06338772  0.06954851  0.29393959 -0.03053492  0.06954851 -0.06954851
+  -0.03053492  0.03053492  0.50515097 -0.16494968 -0.16494968  0.16494968]
+ [ 0.15985628 -0.15985628 -0.08200998  0.08200998  0.         -0.15985628
+   0.22238511 -0.22238511  0.          0.08200998 -0.22238511  0.
+  -0.15377323  0.37615834  0.02856796 -0.11057794  0.37615834 -0.37615834
+  -0.11057794  0.11057794 -0.13010779  0.28996407  0.28996407 -0.28996407]
+ [ 0.27385782 -0.27385782 -0.01054319  0.01054319  0.         -0.27385782
+   0.02064647 -0.02064647  0.          0.01054319 -0.02064647  0.
+   0.35695983 -0.33631335  0.00105219 -0.01159538 -0.33631335  0.33631335
+  -0.01159538  0.01159538 -0.04460664  0.31846445  0.31846445 -0.31846445]
+ [ 0.0935128  -0.0935128  -0.35595784  0.35595784  0.         -0.0935128
+   0.23687079 -0.23687079  0.          0.35595784 -0.23687079  0.
+   0.26657431 -0.02970352 -0.26431943 -0.09163841 -0.02970352  0.02970352
+  -0.09163841  0.09163841  0.3201346  -0.2266218  -0.2266218   0.2266218 ]]
+</pre></div></div>
+</div>
+<p>As predicted, it is not stabilisable.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s_model</span><span class="o">.</span><span class="n">stabilizable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+</section>
+<section id="Helpless-excluded">
+<h3>Helpless-excluded<a class="headerlink" href="#Helpless-excluded" title="Link to this heading">#</a></h3>
+<p>Excluding helpless types is harsh but leads to strong stability.</p>
+<p>We first remove the self-loops to have a simple graph to display (it is only for display).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">helpfuls</span> <span class="o">=</span> <span class="p">[</span><span class="n">vg</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span> <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="s1">&#39;helpless&#39;</span><span class="p">]</span>
+<span class="n">as_model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">helpfuls</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;autarkic&quot;</span><span class="p">:</span> <span class="s2">&quot;#00FF00&quot;</span><span class="p">,</span> <span class="s2">&quot;swinger&quot;</span><span class="p">:</span> <span class="s2">&quot;#FF8888&quot;</span><span class="p">,</span> <span class="s2">&quot;helpless&quot;</span><span class="p">:</span> <span class="s2">&quot;#FF0000&quot;</span><span class="p">}</span>
+<span class="n">physics</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="s2">&quot;barnesHut&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barnesHut&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;gravitationalConstant&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">15000</span><span class="p">,</span>
+      <span class="s2">&quot;centralGravity&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+      <span class="s2">&quot;springLength&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+      <span class="s2">&quot;springConstant&quot;</span><span class="p">:</span> <span class="mf">0.0015</span><span class="p">,</span>
+      <span class="s2">&quot;damping&quot;</span><span class="p">:</span> <span class="mf">0.095</span><span class="p">,</span>
+      <span class="s2">&quot;avoidOverlap&quot;</span><span class="p">:</span> <span class="mf">0.12</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;maxVelocity&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="s2">&quot;stabilization&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;iterations&quot;</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
+      <span class="s2">&quot;updateInterval&quot;</span><span class="p">:</span> <span class="mi">25</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="n">nodes_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;background&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">vg</span><span class="o">.</span><span class="n">category</span><span class="p">]}}</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">helpfuls</span><span class="p">]</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1000px&quot;</span><span class="p">,</span> <span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;font&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">}},</span> <span class="s2">&quot;physics&quot;</span><span class="p">:</span> <span class="n">physics</span><span class="p">}</span>
+<span class="n">as_model</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="n">vis_options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="n">nodes_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-beee35c6-47eb-4b9b-b599-e30cebec4290">
+<div id="beee35c6-47eb-4b9b-b599-e30cebec4290"></div>
+<a href="#" id="fit-beee35c6-47eb-4b9b-b599-e30cebec4290"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-beee35c6-47eb-4b9b-b599-e30cebec4290 {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#beee35c6-47eb-4b9b-b599-e30cebec4290 {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "O-/O-", "title": "0: O-/O-", "color": {"background": "#00FF00"}}, {"id": 1, "label": "O+/O-", "title": "1: O+/O-", "color": {"background": "#00FF00"}}, {"id": 2, "label": "O+/O+", "title": "2: O+/O+", "color": {"background": "#00FF00"}}, {"id": 3, "label": "O+/B-", "title": "3: O+/B-", "color": {"background": "#FF8888"}}, {"id": 4, "label": "O+/A-", "title": "4: O+/A-", "color": {"background": "#FF8888"}}, {"id": 5, "label": "O+/AB-", "title": "5: O+/AB-", "color": {"background": "#FF8888"}}, {"id": 6, "label": "B-/O-", "title": "6: B-/O-", "color": {"background": "#00FF00"}}, {"id": 7, "label": "B-/O+", "title": "7: B-/O+", "color": {"background": "#FF8888"}}, {"id": 8, "label": "B-/B-", "title": "8: B-/B-", "color": {"background": "#00FF00"}}, {"id": 9, "label": "B-/A-", "title": "9: B-/A-", "color": {"background": "#FF8888"}}, {"id": 10, "label": "B-/A+", "title": "10: B-/A+", "color": {"background": "#FF8888"}}, {"id": 11, "label": "B+/O-", "title": "11: B+/O-", "color": {"background": "#00FF00"}}, {"id": 12, "label": "B+/O+", "title": "12: B+/O+", "color": {"background": "#00FF00"}}, {"id": 13, "label": "B+/B-", "title": "13: B+/B-", "color": {"background": "#00FF00"}}, {"id": 14, "label": "B+/B+", "title": "14: B+/B+", "color": {"background": "#00FF00"}}, {"id": 15, "label": "B+/A-", "title": "15: B+/A-", "color": {"background": "#FF8888"}}, {"id": 16, "label": "B+/A+", "title": "16: B+/A+", "color": {"background": "#FF8888"}}, {"id": 17, "label": "B+/AB-", "title": "17: B+/AB-", "color": {"background": "#FF8888"}}, {"id": 18, "label": "A-/O-", "title": "18: A-/O-", "color": {"background": "#00FF00"}}, {"id": 19, "label": "A-/O+", "title": "19: A-/O+", "color": {"background": "#FF8888"}}, {"id": 20, "label": "A-/B-", "title": "20: A-/B-", "color": {"background": "#FF8888"}}, {"id": 21, "label": "A-/B+", "title": "21: A-/B+", "color": {"background": "#FF8888"}}, {"id": 22, "label": "A-/A-", "title": "22: A-/A-", "color": {"background": "#00FF00"}}, {"id": 23, "label": "A+/O-", "title": "23: A+/O-", "color": {"background": "#00FF00"}}, {"id": 24, "label": "A+/O+", "title": "24: A+/O+", "color": {"background": "#00FF00"}}, {"id": 25, "label": "A+/B-", "title": "25: A+/B-", "color": {"background": "#FF8888"}}, {"id": 26, "label": "A+/B+", "title": "26: A+/B+", "color": {"background": "#FF8888"}}, {"id": 27, "label": "A+/A-", "title": "27: A+/A-", "color": {"background": "#00FF00"}}, {"id": 28, "label": "A+/A+", "title": "28: A+/A+", "color": {"background": "#00FF00"}}, {"id": 29, "label": "A+/AB-", "title": "29: A+/AB-", "color": {"background": "#FF8888"}}, {"id": 30, "label": "AB-/O-", "title": "30: AB-/O-", "color": {"background": "#00FF00"}}, {"id": 31, "label": "AB-/O+", "title": "31: AB-/O+", "color": {"background": "#FF8888"}}, {"id": 32, "label": "AB-/B-", "title": "32: AB-/B-", "color": {"background": "#00FF00"}}, {"id": 33, "label": "AB-/B+", "title": "33: AB-/B+", "color": {"background": "#FF8888"}}, {"id": 34, "label": "AB-/A-", "title": "34: AB-/A-", "color": {"background": "#00FF00"}}, {"id": 35, "label": "AB-/A+", "title": "35: AB-/A+", "color": {"background": "#FF8888"}}, {"id": 36, "label": "AB-/AB-", "title": "36: AB-/AB-", "color": {"background": "#00FF00"}}, {"id": 37, "label": "AB+/O-", "title": "37: AB+/O-", "color": {"background": "#00FF00"}}, {"id": 38, "label": "AB+/O+", "title": "38: AB+/O+", "color": {"background": "#00FF00"}}, {"id": 39, "label": "AB+/B-", "title": "39: AB+/B-", "color": {"background": "#00FF00"}}, {"id": 40, "label": "AB+/B+", "title": "40: AB+/B+", "color": {"background": "#00FF00"}}, {"id": 41, "label": "AB+/A-", "title": "41: AB+/A-", "color": {"background": "#00FF00"}}, {"id": 42, "label": "AB+/A+", "title": "42: AB+/A+", "color": {"background": "#00FF00"}}, {"id": 43, "label": "AB+/AB-", "title": "43: AB+/AB-", "color": {"background": "#00FF00"}}, {"id": 44, "label": "AB+/AB+", "title": "44: AB+/AB+", "color": {"background": "#00FF00"}}]);
+    const edges = new DataSet([{"title": "0: (O-/O-, O+/O-)", "label": "", "from": 0, "to": 1}, {"title": "1: (O-/O-, B-/O-)", "label": "", "from": 0, "to": 6}, {"title": "2: (O-/O-, B+/O-)", "label": "", "from": 0, "to": 11}, {"title": "3: (O-/O-, A-/O-)", "label": "", "from": 0, "to": 18}, {"title": "4: (O-/O-, A+/O-)", "label": "", "from": 0, "to": 23}, {"title": "5: (O-/O-, AB-/O-)", "label": "", "from": 0, "to": 30}, {"title": "6: (O-/O-, AB+/O-)", "label": "", "from": 0, "to": 37}, {"title": "7: (O+/O-, O+/O+)", "label": "", "from": 1, "to": 2}, {"title": "8: (O+/O-, B-/O-)", "label": "", "from": 1, "to": 6}, {"title": "9: (O+/O-, B-/O+)", "label": "", "from": 1, "to": 7}, {"title": "10: (O+/O-, B+/O-)", "label": "", "from": 1, "to": 11}, {"title": "11: (O+/O-, B+/O+)", "label": "", "from": 1, "to": 12}, {"title": "12: (O+/O-, A-/O-)", "label": "", "from": 1, "to": 18}, {"title": "13: (O+/O-, A-/O+)", "label": "", "from": 1, "to": 19}, {"title": "14: (O+/O-, A+/O-)", "label": "", "from": 1, "to": 23}, {"title": "15: (O+/O-, A+/O+)", "label": "", "from": 1, "to": 24}, {"title": "16: (O+/O-, AB-/O-)", "label": "", "from": 1, "to": 30}, {"title": "17: (O+/O-, AB-/O+)", "label": "", "from": 1, "to": 31}, {"title": "18: (O+/O-, AB+/O-)", "label": "", "from": 1, "to": 37}, {"title": "19: (O+/O-, AB+/O+)", "label": "", "from": 1, "to": 38}, {"title": "20: (O+/O+, B+/O-)", "label": "", "from": 2, "to": 11}, {"title": "21: (O+/O+, B+/O+)", "label": "", "from": 2, "to": 12}, {"title": "22: (O+/O+, A+/O-)", "label": "", "from": 2, "to": 23}, {"title": "23: (O+/O+, A+/O+)", "label": "", "from": 2, "to": 24}, {"title": "24: (O+/O+, AB+/O-)", "label": "", "from": 2, "to": 37}, {"title": "25: (O+/O+, AB+/O+)", "label": "", "from": 2, "to": 38}, {"title": "26: (O+/B-, B-/O-)", "label": "", "from": 3, "to": 6}, {"title": "27: (O+/B-, B-/O+)", "label": "", "from": 3, "to": 7}, {"title": "28: (O+/B-, B+/O-)", "label": "", "from": 3, "to": 11}, {"title": "29: (O+/B-, B+/O+)", "label": "", "from": 3, "to": 12}, {"title": "30: (O+/B-, AB-/O-)", "label": "", "from": 3, "to": 30}, {"title": "31: (O+/B-, AB-/O+)", "label": "", "from": 3, "to": 31}, {"title": "32: (O+/B-, AB+/O-)", "label": "", "from": 3, "to": 37}, {"title": "33: (O+/B-, AB+/O+)", "label": "", "from": 3, "to": 38}, {"title": "34: (O+/A-, A-/O-)", "label": "", "from": 4, "to": 18}, {"title": "35: (O+/A-, A-/O+)", "label": "", "from": 4, "to": 19}, {"title": "36: (O+/A-, A+/O-)", "label": "", "from": 4, "to": 23}, {"title": "37: (O+/A-, A+/O+)", "label": "", "from": 4, "to": 24}, {"title": "38: (O+/A-, AB-/O-)", "label": "", "from": 4, "to": 30}, {"title": "39: (O+/A-, AB-/O+)", "label": "", "from": 4, "to": 31}, {"title": "40: (O+/A-, AB+/O-)", "label": "", "from": 4, "to": 37}, {"title": "41: (O+/A-, AB+/O+)", "label": "", "from": 4, "to": 38}, {"title": "42: (O+/AB-, AB-/O-)", "label": "", "from": 5, "to": 30}, {"title": "43: (O+/AB-, AB-/O+)", "label": "", "from": 5, "to": 31}, {"title": "44: (O+/AB-, AB+/O-)", "label": "", "from": 5, "to": 37}, {"title": "45: (O+/AB-, AB+/O+)", "label": "", "from": 5, "to": 38}, {"title": "46: (B-/O-, B-/B-)", "label": "", "from": 6, "to": 8}, {"title": "47: (B-/O-, B+/O-)", "label": "", "from": 6, "to": 11}, {"title": "48: (B-/O-, B+/B-)", "label": "", "from": 6, "to": 13}, {"title": "49: (B-/O-, A-/O-)", "label": "", "from": 6, "to": 18}, {"title": "50: (B-/O-, A-/B-)", "label": "", "from": 6, "to": 20}, {"title": "51: (B-/O-, A+/O-)", "label": "", "from": 6, "to": 23}, {"title": "52: (B-/O-, A+/B-)", "label": "", "from": 6, "to": 25}, {"title": "53: (B-/O-, AB-/O-)", "label": "", "from": 6, "to": 30}, {"title": "54: (B-/O-, AB-/B-)", "label": "", "from": 6, "to": 32}, {"title": "55: (B-/O-, AB+/O-)", "label": "", "from": 6, "to": 37}, {"title": "56: (B-/O-, AB+/B-)", "label": "", "from": 6, "to": 39}, {"title": "57: (B-/O+, B+/O-)", "label": "", "from": 7, "to": 11}, {"title": "58: (B-/O+, B+/B-)", "label": "", "from": 7, "to": 13}, {"title": "59: (B-/O+, A+/O-)", "label": "", "from": 7, "to": 23}, {"title": "60: (B-/O+, A+/B-)", "label": "", "from": 7, "to": 25}, {"title": "61: (B-/O+, AB+/O-)", "label": "", "from": 7, "to": 37}, {"title": "62: (B-/O+, AB+/B-)", "label": "", "from": 7, "to": 39}, {"title": "63: (B-/B-, B+/O-)", "label": "", "from": 8, "to": 11}, {"title": "64: (B-/B-, B+/B-)", "label": "", "from": 8, "to": 13}, {"title": "65: (B-/B-, AB-/O-)", "label": "", "from": 8, "to": 30}, {"title": "66: (B-/B-, AB-/B-)", "label": "", "from": 8, "to": 32}, {"title": "67: (B-/B-, AB+/O-)", "label": "", "from": 8, "to": 37}, {"title": "68: (B-/B-, AB+/B-)", "label": "", "from": 8, "to": 39}, {"title": "69: (B-/A-, A-/O-)", "label": "", "from": 9, "to": 18}, {"title": "70: (B-/A-, A-/B-)", "label": "", "from": 9, "to": 20}, {"title": "71: (B-/A-, A+/O-)", "label": "", "from": 9, "to": 23}, {"title": "72: (B-/A-, A+/B-)", "label": "", "from": 9, "to": 25}, {"title": "73: (B-/A-, AB-/O-)", "label": "", "from": 9, "to": 30}, {"title": "74: (B-/A-, AB-/B-)", "label": "", "from": 9, "to": 32}, {"title": "75: (B-/A-, AB+/O-)", "label": "", "from": 9, "to": 37}, {"title": "76: (B-/A-, AB+/B-)", "label": "", "from": 9, "to": 39}, {"title": "77: (B-/A+, A+/O-)", "label": "", "from": 10, "to": 23}, {"title": "78: (B-/A+, A+/B-)", "label": "", "from": 10, "to": 25}, {"title": "79: (B-/A+, AB+/O-)", "label": "", "from": 10, "to": 37}, {"title": "80: (B-/A+, AB+/B-)", "label": "", "from": 10, "to": 39}, {"title": "81: (B+/O-, B+/O+)", "label": "", "from": 11, "to": 12}, {"title": "82: (B+/O-, B+/B-)", "label": "", "from": 11, "to": 13}, {"title": "83: (B+/O-, B+/B+)", "label": "", "from": 11, "to": 14}, {"title": "84: (B+/O-, A-/O-)", "label": "", "from": 11, "to": 18}, {"title": "85: (B+/O-, A-/O+)", "label": "", "from": 11, "to": 19}, {"title": "86: (B+/O-, A-/B-)", "label": "", "from": 11, "to": 20}, {"title": "87: (B+/O-, A-/B+)", "label": "", "from": 11, "to": 21}, {"title": "88: (B+/O-, A+/O-)", "label": "", "from": 11, "to": 23}, {"title": "89: (B+/O-, A+/O+)", "label": "", "from": 11, "to": 24}, {"title": "90: (B+/O-, A+/B-)", "label": "", "from": 11, "to": 25}, {"title": "91: (B+/O-, A+/B+)", "label": "", "from": 11, "to": 26}, {"title": "92: (B+/O-, AB-/O-)", "label": "", "from": 11, "to": 30}, {"title": "93: (B+/O-, AB-/O+)", "label": "", "from": 11, "to": 31}, {"title": "94: (B+/O-, AB-/B-)", "label": "", "from": 11, "to": 32}, {"title": "95: (B+/O-, AB-/B+)", "label": "", "from": 11, "to": 33}, {"title": "96: (B+/O-, AB+/O-)", "label": "", "from": 11, "to": 37}, {"title": "97: (B+/O-, AB+/O+)", "label": "", "from": 11, "to": 38}, {"title": "98: (B+/O-, AB+/B-)", "label": "", "from": 11, "to": 39}, {"title": "99: (B+/O-, AB+/B+)", "label": "", "from": 11, "to": 40}, {"title": "100: (B+/O+, B+/B-)", "label": "", "from": 12, "to": 13}, {"title": "101: (B+/O+, B+/B+)", "label": "", "from": 12, "to": 14}, {"title": "102: (B+/O+, A+/O-)", "label": "", "from": 12, "to": 23}, {"title": "103: (B+/O+, A+/O+)", "label": "", "from": 12, "to": 24}, {"title": "104: (B+/O+, A+/B-)", "label": "", "from": 12, "to": 25}, {"title": "105: (B+/O+, A+/B+)", "label": "", "from": 12, "to": 26}, {"title": "106: (B+/O+, AB+/O-)", "label": "", "from": 12, "to": 37}, {"title": "107: (B+/O+, AB+/O+)", "label": "", "from": 12, "to": 38}, {"title": "108: (B+/O+, AB+/B-)", "label": "", "from": 12, "to": 39}, {"title": "109: (B+/O+, AB+/B+)", "label": "", "from": 12, "to": 40}, {"title": "110: (B+/B-, B+/B+)", "label": "", "from": 13, "to": 14}, {"title": "111: (B+/B-, AB-/O-)", "label": "", "from": 13, "to": 30}, {"title": "112: (B+/B-, AB-/O+)", "label": "", "from": 13, "to": 31}, {"title": "113: (B+/B-, AB-/B-)", "label": "", "from": 13, "to": 32}, {"title": "114: (B+/B-, AB-/B+)", "label": "", "from": 13, "to": 33}, {"title": "115: (B+/B-, AB+/O-)", "label": "", "from": 13, "to": 37}, {"title": "116: (B+/B-, AB+/O+)", "label": "", "from": 13, "to": 38}, {"title": "117: (B+/B-, AB+/B-)", "label": "", "from": 13, "to": 39}, {"title": "118: (B+/B-, AB+/B+)", "label": "", "from": 13, "to": 40}, {"title": "119: (B+/B+, AB+/O-)", "label": "", "from": 14, "to": 37}, {"title": "120: (B+/B+, AB+/O+)", "label": "", "from": 14, "to": 38}, {"title": "121: (B+/B+, AB+/B-)", "label": "", "from": 14, "to": 39}, {"title": "122: (B+/B+, AB+/B+)", "label": "", "from": 14, "to": 40}, {"title": "123: (B+/A-, A-/O-)", "label": "", "from": 15, "to": 18}, {"title": "124: (B+/A-, A-/O+)", "label": "", "from": 15, "to": 19}, {"title": "125: (B+/A-, A-/B-)", "label": "", "from": 15, "to": 20}, {"title": "126: (B+/A-, A-/B+)", "label": "", "from": 15, "to": 21}, {"title": "127: (B+/A-, A+/O-)", "label": "", "from": 15, "to": 23}, {"title": "128: (B+/A-, A+/O+)", "label": "", "from": 15, "to": 24}, {"title": "129: (B+/A-, A+/B-)", "label": "", "from": 15, "to": 25}, {"title": "130: (B+/A-, A+/B+)", "label": "", "from": 15, "to": 26}, {"title": "131: (B+/A-, AB-/O-)", "label": "", "from": 15, "to": 30}, {"title": "132: (B+/A-, AB-/O+)", "label": "", "from": 15, "to": 31}, {"title": "133: (B+/A-, AB-/B-)", "label": "", "from": 15, "to": 32}, {"title": "134: (B+/A-, AB-/B+)", "label": "", "from": 15, "to": 33}, {"title": "135: (B+/A-, AB+/O-)", "label": "", "from": 15, "to": 37}, {"title": "136: (B+/A-, AB+/O+)", "label": "", "from": 15, "to": 38}, {"title": "137: (B+/A-, AB+/B-)", "label": "", "from": 15, "to": 39}, {"title": "138: (B+/A-, AB+/B+)", "label": "", "from": 15, "to": 40}, {"title": "139: (B+/A+, A+/O-)", "label": "", "from": 16, "to": 23}, {"title": "140: (B+/A+, A+/O+)", "label": "", "from": 16, "to": 24}, {"title": "141: (B+/A+, A+/B-)", "label": "", "from": 16, "to": 25}, {"title": "142: (B+/A+, A+/B+)", "label": "", "from": 16, "to": 26}, {"title": "143: (B+/A+, AB+/O-)", "label": "", "from": 16, "to": 37}, {"title": "144: (B+/A+, AB+/O+)", "label": "", "from": 16, "to": 38}, {"title": "145: (B+/A+, AB+/B-)", "label": "", "from": 16, "to": 39}, {"title": "146: (B+/A+, AB+/B+)", "label": "", "from": 16, "to": 40}, {"title": "147: (B+/AB-, AB-/O-)", "label": "", "from": 17, "to": 30}, {"title": "148: (B+/AB-, AB-/O+)", "label": "", "from": 17, "to": 31}, {"title": "149: (B+/AB-, AB-/B-)", "label": "", "from": 17, "to": 32}, {"title": "150: (B+/AB-, AB-/B+)", "label": "", "from": 17, "to": 33}, {"title": "151: (B+/AB-, AB+/O-)", "label": "", "from": 17, "to": 37}, {"title": "152: (B+/AB-, AB+/O+)", "label": "", "from": 17, "to": 38}, {"title": "153: (B+/AB-, AB+/B-)", "label": "", "from": 17, "to": 39}, {"title": "154: (B+/AB-, AB+/B+)", "label": "", "from": 17, "to": 40}, {"title": "155: (A-/O-, A-/A-)", "label": "", "from": 18, "to": 22}, {"title": "156: (A-/O-, A+/O-)", "label": "", "from": 18, "to": 23}, {"title": "157: (A-/O-, A+/A-)", "label": "", "from": 18, "to": 27}, {"title": "158: (A-/O-, AB-/O-)", "label": "", "from": 18, "to": 30}, {"title": "159: (A-/O-, AB-/A-)", "label": "", "from": 18, "to": 34}, {"title": "160: (A-/O-, AB+/O-)", "label": "", "from": 18, "to": 37}, {"title": "161: (A-/O-, AB+/A-)", "label": "", "from": 18, "to": 41}, {"title": "162: (A-/O+, A+/O-)", "label": "", "from": 19, "to": 23}, {"title": "163: (A-/O+, A+/A-)", "label": "", "from": 19, "to": 27}, {"title": "164: (A-/O+, AB+/O-)", "label": "", "from": 19, "to": 37}, {"title": "165: (A-/O+, AB+/A-)", "label": "", "from": 19, "to": 41}, {"title": "166: (A-/B-, AB-/O-)", "label": "", "from": 20, "to": 30}, {"title": "167: (A-/B-, AB-/A-)", "label": "", "from": 20, "to": 34}, {"title": "168: (A-/B-, AB+/O-)", "label": "", "from": 20, "to": 37}, {"title": "169: (A-/B-, AB+/A-)", "label": "", "from": 20, "to": 41}, {"title": "170: (A-/B+, AB+/O-)", "label": "", "from": 21, "to": 37}, {"title": "171: (A-/B+, AB+/A-)", "label": "", "from": 21, "to": 41}, {"title": "172: (A-/A-, A+/O-)", "label": "", "from": 22, "to": 23}, {"title": "173: (A-/A-, A+/A-)", "label": "", "from": 22, "to": 27}, {"title": "174: (A-/A-, AB-/O-)", "label": "", "from": 22, "to": 30}, {"title": "175: (A-/A-, AB-/A-)", "label": "", "from": 22, "to": 34}, {"title": "176: (A-/A-, AB+/O-)", "label": "", "from": 22, "to": 37}, {"title": "177: (A-/A-, AB+/A-)", "label": "", "from": 22, "to": 41}, {"title": "178: (A+/O-, A+/O+)", "label": "", "from": 23, "to": 24}, {"title": "179: (A+/O-, A+/A-)", "label": "", "from": 23, "to": 27}, {"title": "180: (A+/O-, A+/A+)", "label": "", "from": 23, "to": 28}, {"title": "181: (A+/O-, AB-/O-)", "label": "", "from": 23, "to": 30}, {"title": "182: (A+/O-, AB-/O+)", "label": "", "from": 23, "to": 31}, {"title": "183: (A+/O-, AB-/A-)", "label": "", "from": 23, "to": 34}, {"title": "184: (A+/O-, AB-/A+)", "label": "", "from": 23, "to": 35}, {"title": "185: (A+/O-, AB+/O-)", "label": "", "from": 23, "to": 37}, {"title": "186: (A+/O-, AB+/O+)", "label": "", "from": 23, "to": 38}, {"title": "187: (A+/O-, AB+/A-)", "label": "", "from": 23, "to": 41}, {"title": "188: (A+/O-, AB+/A+)", "label": "", "from": 23, "to": 42}, {"title": "189: (A+/O+, A+/A-)", "label": "", "from": 24, "to": 27}, {"title": "190: (A+/O+, A+/A+)", "label": "", "from": 24, "to": 28}, {"title": "191: (A+/O+, AB+/O-)", "label": "", "from": 24, "to": 37}, {"title": "192: (A+/O+, AB+/O+)", "label": "", "from": 24, "to": 38}, {"title": "193: (A+/O+, AB+/A-)", "label": "", "from": 24, "to": 41}, {"title": "194: (A+/O+, AB+/A+)", "label": "", "from": 24, "to": 42}, {"title": "195: (A+/B-, AB-/O-)", "label": "", "from": 25, "to": 30}, {"title": "196: (A+/B-, AB-/O+)", "label": "", "from": 25, "to": 31}, {"title": "197: (A+/B-, AB-/A-)", "label": "", "from": 25, "to": 34}, {"title": "198: (A+/B-, AB-/A+)", "label": "", "from": 25, "to": 35}, {"title": "199: (A+/B-, AB+/O-)", "label": "", "from": 25, "to": 37}, {"title": "200: (A+/B-, AB+/O+)", "label": "", "from": 25, "to": 38}, {"title": "201: (A+/B-, AB+/A-)", "label": "", "from": 25, "to": 41}, {"title": "202: (A+/B-, AB+/A+)", "label": "", "from": 25, "to": 42}, {"title": "203: (A+/B+, AB+/O-)", "label": "", "from": 26, "to": 37}, {"title": "204: (A+/B+, AB+/O+)", "label": "", "from": 26, "to": 38}, {"title": "205: (A+/B+, AB+/A-)", "label": "", "from": 26, "to": 41}, {"title": "206: (A+/B+, AB+/A+)", "label": "", "from": 26, "to": 42}, {"title": "207: (A+/A-, A+/A+)", "label": "", "from": 27, "to": 28}, {"title": "208: (A+/A-, AB-/O-)", "label": "", "from": 27, "to": 30}, {"title": "209: (A+/A-, AB-/O+)", "label": "", "from": 27, "to": 31}, {"title": "210: (A+/A-, AB-/A-)", "label": "", "from": 27, "to": 34}, {"title": "211: (A+/A-, AB-/A+)", "label": "", "from": 27, "to": 35}, {"title": "212: (A+/A-, AB+/O-)", "label": "", "from": 27, "to": 37}, {"title": "213: (A+/A-, AB+/O+)", "label": "", "from": 27, "to": 38}, {"title": "214: (A+/A-, AB+/A-)", "label": "", "from": 27, "to": 41}, {"title": "215: (A+/A-, AB+/A+)", "label": "", "from": 27, "to": 42}, {"title": "216: (A+/A+, AB+/O-)", "label": "", "from": 28, "to": 37}, {"title": "217: (A+/A+, AB+/O+)", "label": "", "from": 28, "to": 38}, {"title": "218: (A+/A+, AB+/A-)", "label": "", "from": 28, "to": 41}, {"title": "219: (A+/A+, AB+/A+)", "label": "", "from": 28, "to": 42}, {"title": "220: (A+/AB-, AB-/O-)", "label": "", "from": 29, "to": 30}, {"title": "221: (A+/AB-, AB-/O+)", "label": "", "from": 29, "to": 31}, {"title": "222: (A+/AB-, AB-/A-)", "label": "", "from": 29, "to": 34}, {"title": "223: (A+/AB-, AB-/A+)", "label": "", "from": 29, "to": 35}, {"title": "224: (A+/AB-, AB+/O-)", "label": "", "from": 29, "to": 37}, {"title": "225: (A+/AB-, AB+/O+)", "label": "", "from": 29, "to": 38}, {"title": "226: (A+/AB-, AB+/A-)", "label": "", "from": 29, "to": 41}, {"title": "227: (A+/AB-, AB+/A+)", "label": "", "from": 29, "to": 42}, {"title": "228: (AB-/O-, AB-/B-)", "label": "", "from": 30, "to": 32}, {"title": "229: (AB-/O-, AB-/A-)", "label": "", "from": 30, "to": 34}, {"title": "230: (AB-/O-, AB-/AB-)", "label": "", "from": 30, "to": 36}, {"title": "231: (AB-/O-, AB+/O-)", "label": "", "from": 30, "to": 37}, {"title": "232: (AB-/O-, AB+/B-)", "label": "", "from": 30, "to": 39}, {"title": "233: (AB-/O-, AB+/A-)", "label": "", "from": 30, "to": 41}, {"title": "234: (AB-/O-, AB+/AB-)", "label": "", "from": 30, "to": 43}, {"title": "235: (AB-/O+, AB+/O-)", "label": "", "from": 31, "to": 37}, {"title": "236: (AB-/O+, AB+/B-)", "label": "", "from": 31, "to": 39}, {"title": "237: (AB-/O+, AB+/A-)", "label": "", "from": 31, "to": 41}, {"title": "238: (AB-/O+, AB+/AB-)", "label": "", "from": 31, "to": 43}, {"title": "239: (AB-/B-, AB-/A-)", "label": "", "from": 32, "to": 34}, {"title": "240: (AB-/B-, AB-/AB-)", "label": "", "from": 32, "to": 36}, {"title": "241: (AB-/B-, AB+/O-)", "label": "", "from": 32, "to": 37}, {"title": "242: (AB-/B-, AB+/B-)", "label": "", "from": 32, "to": 39}, {"title": "243: (AB-/B-, AB+/A-)", "label": "", "from": 32, "to": 41}, {"title": "244: (AB-/B-, AB+/AB-)", "label": "", "from": 32, "to": 43}, {"title": "245: (AB-/B+, AB+/O-)", "label": "", "from": 33, "to": 37}, {"title": "246: (AB-/B+, AB+/B-)", "label": "", "from": 33, "to": 39}, {"title": "247: (AB-/B+, AB+/A-)", "label": "", "from": 33, "to": 41}, {"title": "248: (AB-/B+, AB+/AB-)", "label": "", "from": 33, "to": 43}, {"title": "249: (AB-/A-, AB-/AB-)", "label": "", "from": 34, "to": 36}, {"title": "250: (AB-/A-, AB+/O-)", "label": "", "from": 34, "to": 37}, {"title": "251: (AB-/A-, AB+/B-)", "label": "", "from": 34, "to": 39}, {"title": "252: (AB-/A-, AB+/A-)", "label": "", "from": 34, "to": 41}, {"title": "253: (AB-/A-, AB+/AB-)", "label": "", "from": 34, "to": 43}, {"title": "254: (AB-/A+, AB+/O-)", "label": "", "from": 35, "to": 37}, {"title": "255: (AB-/A+, AB+/B-)", "label": "", "from": 35, "to": 39}, {"title": "256: (AB-/A+, AB+/A-)", "label": "", "from": 35, "to": 41}, {"title": "257: (AB-/A+, AB+/AB-)", "label": "", "from": 35, "to": 43}, {"title": "258: (AB-/AB-, AB+/O-)", "label": "", "from": 36, "to": 37}, {"title": "259: (AB-/AB-, AB+/B-)", "label": "", "from": 36, "to": 39}, {"title": "260: (AB-/AB-, AB+/A-)", "label": "", "from": 36, "to": 41}, {"title": "261: (AB-/AB-, AB+/AB-)", "label": "", "from": 36, "to": 43}, {"title": "262: (AB+/O-, AB+/O+)", "label": "", "from": 37, "to": 38}, {"title": "263: (AB+/O-, AB+/B-)", "label": "", "from": 37, "to": 39}, {"title": "264: (AB+/O-, AB+/B+)", "label": "", "from": 37, "to": 40}, {"title": "265: (AB+/O-, AB+/A-)", "label": "", "from": 37, "to": 41}, {"title": "266: (AB+/O-, AB+/A+)", "label": "", "from": 37, "to": 42}, {"title": "267: (AB+/O-, AB+/AB-)", "label": "", "from": 37, "to": 43}, {"title": "268: (AB+/O-, AB+/AB+)", "label": "", "from": 37, "to": 44}, {"title": "269: (AB+/O+, AB+/B-)", "label": "", "from": 38, "to": 39}, {"title": "270: (AB+/O+, AB+/B+)", "label": "", "from": 38, "to": 40}, {"title": "271: (AB+/O+, AB+/A-)", "label": "", "from": 38, "to": 41}, {"title": "272: (AB+/O+, AB+/A+)", "label": "", "from": 38, "to": 42}, {"title": "273: (AB+/O+, AB+/AB-)", "label": "", "from": 38, "to": 43}, {"title": "274: (AB+/O+, AB+/AB+)", "label": "", "from": 38, "to": 44}, {"title": "275: (AB+/B-, AB+/B+)", "label": "", "from": 39, "to": 40}, {"title": "276: (AB+/B-, AB+/A-)", "label": "", "from": 39, "to": 41}, {"title": "277: (AB+/B-, AB+/A+)", "label": "", "from": 39, "to": 42}, {"title": "278: (AB+/B-, AB+/AB-)", "label": "", "from": 39, "to": 43}, {"title": "279: (AB+/B-, AB+/AB+)", "label": "", "from": 39, "to": 44}, {"title": "280: (AB+/B+, AB+/A-)", "label": "", "from": 40, "to": 41}, {"title": "281: (AB+/B+, AB+/A+)", "label": "", "from": 40, "to": 42}, {"title": "282: (AB+/B+, AB+/AB-)", "label": "", "from": 40, "to": 43}, {"title": "283: (AB+/B+, AB+/AB+)", "label": "", "from": 40, "to": 44}, {"title": "284: (AB+/A-, AB+/A+)", "label": "", "from": 41, "to": 42}, {"title": "285: (AB+/A-, AB+/AB-)", "label": "", "from": 41, "to": 43}, {"title": "286: (AB+/A-, AB+/AB+)", "label": "", "from": 41, "to": 44}, {"title": "287: (AB+/A+, AB+/AB-)", "label": "", "from": 42, "to": 43}, {"title": "288: (AB+/A+, AB+/AB+)", "label": "", "from": 42, "to": 44}, {"title": "289: (AB+/AB-, AB+/AB+)", "label": "", "from": 43, "to": 44}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "1000px", "height": "100%", "nodes": {"font": {"size": 60}}, "physics": {"solver": "barnesHut", "barnesHut": {"gravitationalConstant": -15000, "centralGravity": 0.25, "springLength": 200, "springConstant": 0.0015, "damping": 0.095, "avoidOverlap": 0.12}, "maxVelocity": 15, "stabilization": {"iterations": 800, "updateInterval": 25}}};
+    const container = document.getElementById('beee35c6-47eb-4b9b-b599-e30cebec4290');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-beee35c6-47eb-4b9b-b599-e30cebec4290').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<p>Back to the real thing (with self-loops).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sa_model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">helpfuls</span><span class="p">)</span>
+<span class="n">sa_model</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 45 nodes and 317 edges.
+Node dimension is 0.
+Edge dimension is 272
+Type: Surjective-only
+Node kernel:
+[]
+Edge kernel:
+[[ 1.85577352e-01  4.60120460e-02  7.29821545e-02 ...  4.78644736e-04
+  -1.19916425e-03 -1.67780899e-03]
+ [ 1.70012321e-01  2.91401361e-02  6.69110172e-02 ...  2.85079976e-03
+   9.21133624e-04 -1.92966614e-03]
+ [ 1.51967077e-01  2.44349889e-02  7.03749366e-02 ... -1.77408140e-03
+  -2.70700952e-04  1.50338044e-03]
+ ...
+ [-2.89699459e-02 -1.53198499e-02 -1.07370205e-02 ...  9.29353881e-01
+  -6.42094593e-02  6.43665994e-03]
+ [ 8.74057828e-03  8.55991905e-04  3.83245243e-04 ... -6.30747725e-02
+   8.15041946e-01 -1.21883281e-01]
+ [ 3.77105242e-02  1.61758418e-02  1.11202657e-02 ...  7.57134673e-03
+  -1.20748594e-01  8.71680059e-01]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sa_model</span><span class="o">.</span><span class="n">stabilizable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+</section>
+<section id="All-categories">
+<h3>All categories<a class="headerlink" href="#All-categories" title="Link to this heading">#</a></h3>
+<p>We first remove the self-loops to have a simple graph to display (it is only for display).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">nodes_info</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;background&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">vg</span><span class="o">.</span><span class="n">category</span><span class="p">]}}</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span><span class="p">]</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1000px&quot;</span><span class="p">,</span> <span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;font&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">}},</span> <span class="s2">&quot;physics&quot;</span><span class="p">:</span> <span class="n">physics</span><span class="p">}</span>
+<span class="n">full_model</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="n">vis_options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">nodes_info</span><span class="o">=</span><span class="n">nodes_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="sm-graph" id="box-f9438dd7-5bc7-46bb-b057-d2e681f8413a">
+<div id="f9438dd7-5bc7-46bb-b057-d2e681f8413a"></div>
+<a href="#" id="fit-f9438dd7-5bc7-46bb-b057-d2e681f8413a"
+  style="position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);
+  z-index: 10; pointer-events: auto;"
+> Reload
+</a>
+<style>
+#box-f9438dd7-5bc7-46bb-b057-d2e681f8413a {
+position: relative;
+width: 100%;
+height: 50vh !important;
+max-width: 100vw;
+max-height: 100vh !important;
+}
+#f9438dd7-5bc7-46bb-b057-d2e681f8413a {
+  height: 100%;   /* Make the inner div fill the parent */
+}
+</style>
+</div>
+<script type="module">
+import { DataSet, Network } from "https://unpkg.com/vis-network/standalone/esm/vis-network.min.js";
+// CSS will be automatically injected into the page.
+function render () {
+    const nodes = new DataSet([{"id": 0, "label": "O-/O-", "title": "0: O-/O-", "color": {"background": "#00FF00"}}, {"id": 1, "label": "O-/O+", "title": "1: O-/O+", "color": {"background": "#FF0000"}}, {"id": 2, "label": "O-/B-", "title": "2: O-/B-", "color": {"background": "#FF0000"}}, {"id": 3, "label": "O-/B+", "title": "3: O-/B+", "color": {"background": "#FF0000"}}, {"id": 4, "label": "O-/A-", "title": "4: O-/A-", "color": {"background": "#FF0000"}}, {"id": 5, "label": "O-/A+", "title": "5: O-/A+", "color": {"background": "#FF0000"}}, {"id": 6, "label": "O-/AB-", "title": "6: O-/AB-", "color": {"background": "#FF0000"}}, {"id": 7, "label": "O-/AB+", "title": "7: O-/AB+", "color": {"background": "#FF0000"}}, {"id": 8, "label": "O+/O-", "title": "8: O+/O-", "color": {"background": "#00FF00"}}, {"id": 9, "label": "O+/O+", "title": "9: O+/O+", "color": {"background": "#00FF00"}}, {"id": 10, "label": "O+/B-", "title": "10: O+/B-", "color": {"background": "#FF8888"}}, {"id": 11, "label": "O+/B+", "title": "11: O+/B+", "color": {"background": "#FF0000"}}, {"id": 12, "label": "O+/A-", "title": "12: O+/A-", "color": {"background": "#FF8888"}}, {"id": 13, "label": "O+/A+", "title": "13: O+/A+", "color": {"background": "#FF0000"}}, {"id": 14, "label": "O+/AB-", "title": "14: O+/AB-", "color": {"background": "#FF8888"}}, {"id": 15, "label": "O+/AB+", "title": "15: O+/AB+", "color": {"background": "#FF0000"}}, {"id": 16, "label": "B-/O-", "title": "16: B-/O-", "color": {"background": "#00FF00"}}, {"id": 17, "label": "B-/O+", "title": "17: B-/O+", "color": {"background": "#FF8888"}}, {"id": 18, "label": "B-/B-", "title": "18: B-/B-", "color": {"background": "#00FF00"}}, {"id": 19, "label": "B-/B+", "title": "19: B-/B+", "color": {"background": "#FF0000"}}, {"id": 20, "label": "B-/A-", "title": "20: B-/A-", "color": {"background": "#FF8888"}}, {"id": 21, "label": "B-/A+", "title": "21: B-/A+", "color": {"background": "#FF8888"}}, {"id": 22, "label": "B-/AB-", "title": "22: B-/AB-", "color": {"background": "#FF0000"}}, {"id": 23, "label": "B-/AB+", "title": "23: B-/AB+", "color": {"background": "#FF0000"}}, {"id": 24, "label": "B+/O-", "title": "24: B+/O-", "color": {"background": "#00FF00"}}, {"id": 25, "label": "B+/O+", "title": "25: B+/O+", "color": {"background": "#00FF00"}}, {"id": 26, "label": "B+/B-", "title": "26: B+/B-", "color": {"background": "#00FF00"}}, {"id": 27, "label": "B+/B+", "title": "27: B+/B+", "color": {"background": "#00FF00"}}, {"id": 28, "label": "B+/A-", "title": "28: B+/A-", "color": {"background": "#FF8888"}}, {"id": 29, "label": "B+/A+", "title": "29: B+/A+", "color": {"background": "#FF8888"}}, {"id": 30, "label": "B+/AB-", "title": "30: B+/AB-", "color": {"background": "#FF8888"}}, {"id": 31, "label": "B+/AB+", "title": "31: B+/AB+", "color": {"background": "#FF0000"}}, {"id": 32, "label": "A-/O-", "title": "32: A-/O-", "color": {"background": "#00FF00"}}, {"id": 33, "label": "A-/O+", "title": "33: A-/O+", "color": {"background": "#FF8888"}}, {"id": 34, "label": "A-/B-", "title": "34: A-/B-", "color": {"background": "#FF8888"}}, {"id": 35, "label": "A-/B+", "title": "35: A-/B+", "color": {"background": "#FF8888"}}, {"id": 36, "label": "A-/A-", "title": "36: A-/A-", "color": {"background": "#00FF00"}}, {"id": 37, "label": "A-/A+", "title": "37: A-/A+", "color": {"background": "#FF0000"}}, {"id": 38, "label": "A-/AB-", "title": "38: A-/AB-", "color": {"background": "#FF0000"}}, {"id": 39, "label": "A-/AB+", "title": "39: A-/AB+", "color": {"background": "#FF0000"}}, {"id": 40, "label": "A+/O-", "title": "40: A+/O-", "color": {"background": "#00FF00"}}, {"id": 41, "label": "A+/O+", "title": "41: A+/O+", "color": {"background": "#00FF00"}}, {"id": 42, "label": "A+/B-", "title": "42: A+/B-", "color": {"background": "#FF8888"}}, {"id": 43, "label": "A+/B+", "title": "43: A+/B+", "color": {"background": "#FF8888"}}, {"id": 44, "label": "A+/A-", "title": "44: A+/A-", "color": {"background": "#00FF00"}}, {"id": 45, "label": "A+/A+", "title": "45: A+/A+", "color": {"background": "#00FF00"}}, {"id": 46, "label": "A+/AB-", "title": "46: A+/AB-", "color": {"background": "#FF8888"}}, {"id": 47, "label": "A+/AB+", "title": "47: A+/AB+", "color": {"background": "#FF0000"}}, {"id": 48, "label": "AB-/O-", "title": "48: AB-/O-", "color": {"background": "#00FF00"}}, {"id": 49, "label": "AB-/O+", "title": "49: AB-/O+", "color": {"background": "#FF8888"}}, {"id": 50, "label": "AB-/B-", "title": "50: AB-/B-", "color": {"background": "#00FF00"}}, {"id": 51, "label": "AB-/B+", "title": "51: AB-/B+", "color": {"background": "#FF8888"}}, {"id": 52, "label": "AB-/A-", "title": "52: AB-/A-", "color": {"background": "#00FF00"}}, {"id": 53, "label": "AB-/A+", "title": "53: AB-/A+", "color": {"background": "#FF8888"}}, {"id": 54, "label": "AB-/AB-", "title": "54: AB-/AB-", "color": {"background": "#00FF00"}}, {"id": 55, "label": "AB-/AB+", "title": "55: AB-/AB+", "color": {"background": "#FF0000"}}, {"id": 56, "label": "AB+/O-", "title": "56: AB+/O-", "color": {"background": "#00FF00"}}, {"id": 57, "label": "AB+/O+", "title": "57: AB+/O+", "color": {"background": "#00FF00"}}, {"id": 58, "label": "AB+/B-", "title": "58: AB+/B-", "color": {"background": "#00FF00"}}, {"id": 59, "label": "AB+/B+", "title": "59: AB+/B+", "color": {"background": "#00FF00"}}, {"id": 60, "label": "AB+/A-", "title": "60: AB+/A-", "color": {"background": "#00FF00"}}, {"id": 61, "label": "AB+/A+", "title": "61: AB+/A+", "color": {"background": "#00FF00"}}, {"id": 62, "label": "AB+/AB-", "title": "62: AB+/AB-", "color": {"background": "#00FF00"}}, {"id": 63, "label": "AB+/AB+", "title": "63: AB+/AB+", "color": {"background": "#00FF00"}}]);
+    const edges = new DataSet([{"title": "0: (O-/O-, O+/O-)", "label": "", "from": 0, "to": 8}, {"title": "1: (O-/O-, B-/O-)", "label": "", "from": 0, "to": 16}, {"title": "2: (O-/O-, B+/O-)", "label": "", "from": 0, "to": 24}, {"title": "3: (O-/O-, A-/O-)", "label": "", "from": 0, "to": 32}, {"title": "4: (O-/O-, A+/O-)", "label": "", "from": 0, "to": 40}, {"title": "5: (O-/O-, AB-/O-)", "label": "", "from": 0, "to": 48}, {"title": "6: (O-/O-, AB+/O-)", "label": "", "from": 0, "to": 56}, {"title": "7: (O-/O+, O+/O-)", "label": "", "from": 1, "to": 8}, {"title": "8: (O-/O+, B+/O-)", "label": "", "from": 1, "to": 24}, {"title": "9: (O-/O+, A+/O-)", "label": "", "from": 1, "to": 40}, {"title": "10: (O-/O+, AB+/O-)", "label": "", "from": 1, "to": 56}, {"title": "11: (O-/B-, B-/O-)", "label": "", "from": 2, "to": 16}, {"title": "12: (O-/B-, B+/O-)", "label": "", "from": 2, "to": 24}, {"title": "13: (O-/B-, AB-/O-)", "label": "", "from": 2, "to": 48}, {"title": "14: (O-/B-, AB+/O-)", "label": "", "from": 2, "to": 56}, {"title": "15: (O-/B+, B+/O-)", "label": "", "from": 3, "to": 24}, {"title": "16: (O-/B+, AB+/O-)", "label": "", "from": 3, "to": 56}, {"title": "17: (O-/A-, A-/O-)", "label": "", "from": 4, "to": 32}, {"title": "18: (O-/A-, A+/O-)", "label": "", "from": 4, "to": 40}, {"title": "19: (O-/A-, AB-/O-)", "label": "", "from": 4, "to": 48}, {"title": "20: (O-/A-, AB+/O-)", "label": "", "from": 4, "to": 56}, {"title": "21: (O-/A+, A+/O-)", "label": "", "from": 5, "to": 40}, {"title": "22: (O-/A+, AB+/O-)", "label": "", "from": 5, "to": 56}, {"title": "23: (O-/AB-, AB-/O-)", "label": "", "from": 6, "to": 48}, {"title": "24: (O-/AB-, AB+/O-)", "label": "", "from": 6, "to": 56}, {"title": "25: (O-/AB+, AB+/O-)", "label": "", "from": 7, "to": 56}, {"title": "26: (O+/O-, O+/O+)", "label": "", "from": 8, "to": 9}, {"title": "27: (O+/O-, B-/O-)", "label": "", "from": 8, "to": 16}, {"title": "28: (O+/O-, B-/O+)", "label": "", "from": 8, "to": 17}, {"title": "29: (O+/O-, B+/O-)", "label": "", "from": 8, "to": 24}, {"title": "30: (O+/O-, B+/O+)", "label": "", "from": 8, "to": 25}, {"title": "31: (O+/O-, A-/O-)", "label": "", "from": 8, "to": 32}, {"title": "32: (O+/O-, A-/O+)", "label": "", "from": 8, "to": 33}, {"title": "33: (O+/O-, A+/O-)", "label": "", "from": 8, "to": 40}, {"title": "34: (O+/O-, A+/O+)", "label": "", "from": 8, "to": 41}, {"title": "35: (O+/O-, AB-/O-)", "label": "", "from": 8, "to": 48}, {"title": "36: (O+/O-, AB-/O+)", "label": "", "from": 8, "to": 49}, {"title": "37: (O+/O-, AB+/O-)", "label": "", "from": 8, "to": 56}, {"title": "38: (O+/O-, AB+/O+)", "label": "", "from": 8, "to": 57}, {"title": "39: (O+/O+, B+/O-)", "label": "", "from": 9, "to": 24}, {"title": "40: (O+/O+, B+/O+)", "label": "", "from": 9, "to": 25}, {"title": "41: (O+/O+, A+/O-)", "label": "", "from": 9, "to": 40}, {"title": "42: (O+/O+, A+/O+)", "label": "", "from": 9, "to": 41}, {"title": "43: (O+/O+, AB+/O-)", "label": "", "from": 9, "to": 56}, {"title": "44: (O+/O+, AB+/O+)", "label": "", "from": 9, "to": 57}, {"title": "45: (O+/B-, B-/O-)", "label": "", "from": 10, "to": 16}, {"title": "46: (O+/B-, B-/O+)", "label": "", "from": 10, "to": 17}, {"title": "47: (O+/B-, B+/O-)", "label": "", "from": 10, "to": 24}, {"title": "48: (O+/B-, B+/O+)", "label": "", "from": 10, "to": 25}, {"title": "49: (O+/B-, AB-/O-)", "label": "", "from": 10, "to": 48}, {"title": "50: (O+/B-, AB-/O+)", "label": "", "from": 10, "to": 49}, {"title": "51: (O+/B-, AB+/O-)", "label": "", "from": 10, "to": 56}, {"title": "52: (O+/B-, AB+/O+)", "label": "", "from": 10, "to": 57}, {"title": "53: (O+/B+, B+/O-)", "label": "", "from": 11, "to": 24}, {"title": "54: (O+/B+, B+/O+)", "label": "", "from": 11, "to": 25}, {"title": "55: (O+/B+, AB+/O-)", "label": "", "from": 11, "to": 56}, {"title": "56: (O+/B+, AB+/O+)", "label": "", "from": 11, "to": 57}, {"title": "57: (O+/A-, A-/O-)", "label": "", "from": 12, "to": 32}, {"title": "58: (O+/A-, A-/O+)", "label": "", "from": 12, "to": 33}, {"title": "59: (O+/A-, A+/O-)", "label": "", "from": 12, "to": 40}, {"title": "60: (O+/A-, A+/O+)", "label": "", "from": 12, "to": 41}, {"title": "61: (O+/A-, AB-/O-)", "label": "", "from": 12, "to": 48}, {"title": "62: (O+/A-, AB-/O+)", "label": "", "from": 12, "to": 49}, {"title": "63: (O+/A-, AB+/O-)", "label": "", "from": 12, "to": 56}, {"title": "64: (O+/A-, AB+/O+)", "label": "", "from": 12, "to": 57}, {"title": "65: (O+/A+, A+/O-)", "label": "", "from": 13, "to": 40}, {"title": "66: (O+/A+, A+/O+)", "label": "", "from": 13, "to": 41}, {"title": "67: (O+/A+, AB+/O-)", "label": "", "from": 13, "to": 56}, {"title": "68: (O+/A+, AB+/O+)", "label": "", "from": 13, "to": 57}, {"title": "69: (O+/AB-, AB-/O-)", "label": "", "from": 14, "to": 48}, {"title": "70: (O+/AB-, AB-/O+)", "label": "", "from": 14, "to": 49}, {"title": "71: (O+/AB-, AB+/O-)", "label": "", "from": 14, "to": 56}, {"title": "72: (O+/AB-, AB+/O+)", "label": "", "from": 14, "to": 57}, {"title": "73: (O+/AB+, AB+/O-)", "label": "", "from": 15, "to": 56}, {"title": "74: (O+/AB+, AB+/O+)", "label": "", "from": 15, "to": 57}, {"title": "75: (B-/O-, B-/B-)", "label": "", "from": 16, "to": 18}, {"title": "76: (B-/O-, B+/O-)", "label": "", "from": 16, "to": 24}, {"title": "77: (B-/O-, B+/B-)", "label": "", "from": 16, "to": 26}, {"title": "78: (B-/O-, A-/O-)", "label": "", "from": 16, "to": 32}, {"title": "79: (B-/O-, A-/B-)", "label": "", "from": 16, "to": 34}, {"title": "80: (B-/O-, A+/O-)", "label": "", "from": 16, "to": 40}, {"title": "81: (B-/O-, A+/B-)", "label": "", "from": 16, "to": 42}, {"title": "82: (B-/O-, AB-/O-)", "label": "", "from": 16, "to": 48}, {"title": "83: (B-/O-, AB-/B-)", "label": "", "from": 16, "to": 50}, {"title": "84: (B-/O-, AB+/O-)", "label": "", "from": 16, "to": 56}, {"title": "85: (B-/O-, AB+/B-)", "label": "", "from": 16, "to": 58}, {"title": "86: (B-/O+, B+/O-)", "label": "", "from": 17, "to": 24}, {"title": "87: (B-/O+, B+/B-)", "label": "", "from": 17, "to": 26}, {"title": "88: (B-/O+, A+/O-)", "label": "", "from": 17, "to": 40}, {"title": "89: (B-/O+, A+/B-)", "label": "", "from": 17, "to": 42}, {"title": "90: (B-/O+, AB+/O-)", "label": "", "from": 17, "to": 56}, {"title": "91: (B-/O+, AB+/B-)", "label": "", "from": 17, "to": 58}, {"title": "92: (B-/B-, B+/O-)", "label": "", "from": 18, "to": 24}, {"title": "93: (B-/B-, B+/B-)", "label": "", "from": 18, "to": 26}, {"title": "94: (B-/B-, AB-/O-)", "label": "", "from": 18, "to": 48}, {"title": "95: (B-/B-, AB-/B-)", "label": "", "from": 18, "to": 50}, {"title": "96: (B-/B-, AB+/O-)", "label": "", "from": 18, "to": 56}, {"title": "97: (B-/B-, AB+/B-)", "label": "", "from": 18, "to": 58}, {"title": "98: (B-/B+, B+/O-)", "label": "", "from": 19, "to": 24}, {"title": "99: (B-/B+, B+/B-)", "label": "", "from": 19, "to": 26}, {"title": "100: (B-/B+, AB+/O-)", "label": "", "from": 19, "to": 56}, {"title": "101: (B-/B+, AB+/B-)", "label": "", "from": 19, "to": 58}, {"title": "102: (B-/A-, A-/O-)", "label": "", "from": 20, "to": 32}, {"title": "103: (B-/A-, A-/B-)", "label": "", "from": 20, "to": 34}, {"title": "104: (B-/A-, A+/O-)", "label": "", "from": 20, "to": 40}, {"title": "105: (B-/A-, A+/B-)", "label": "", "from": 20, "to": 42}, {"title": "106: (B-/A-, AB-/O-)", "label": "", "from": 20, "to": 48}, {"title": "107: (B-/A-, AB-/B-)", "label": "", "from": 20, "to": 50}, {"title": "108: (B-/A-, AB+/O-)", "label": "", "from": 20, "to": 56}, {"title": "109: (B-/A-, AB+/B-)", "label": "", "from": 20, "to": 58}, {"title": "110: (B-/A+, A+/O-)", "label": "", "from": 21, "to": 40}, {"title": "111: (B-/A+, A+/B-)", "label": "", "from": 21, "to": 42}, {"title": "112: (B-/A+, AB+/O-)", "label": "", "from": 21, "to": 56}, {"title": "113: (B-/A+, AB+/B-)", "label": "", "from": 21, "to": 58}, {"title": "114: (B-/AB-, AB-/O-)", "label": "", "from": 22, "to": 48}, {"title": "115: (B-/AB-, AB-/B-)", "label": "", "from": 22, "to": 50}, {"title": "116: (B-/AB-, AB+/O-)", "label": "", "from": 22, "to": 56}, {"title": "117: (B-/AB-, AB+/B-)", "label": "", "from": 22, "to": 58}, {"title": "118: (B-/AB+, AB+/O-)", "label": "", "from": 23, "to": 56}, {"title": "119: (B-/AB+, AB+/B-)", "label": "", "from": 23, "to": 58}, {"title": "120: (B+/O-, B+/O+)", "label": "", "from": 24, "to": 25}, {"title": "121: (B+/O-, B+/B-)", "label": "", "from": 24, "to": 26}, {"title": "122: (B+/O-, B+/B+)", "label": "", "from": 24, "to": 27}, {"title": "123: (B+/O-, A-/O-)", "label": "", "from": 24, "to": 32}, {"title": "124: (B+/O-, A-/O+)", "label": "", "from": 24, "to": 33}, {"title": "125: (B+/O-, A-/B-)", "label": "", "from": 24, "to": 34}, {"title": "126: (B+/O-, A-/B+)", "label": "", "from": 24, "to": 35}, {"title": "127: (B+/O-, A+/O-)", "label": "", "from": 24, "to": 40}, {"title": "128: (B+/O-, A+/O+)", "label": "", "from": 24, "to": 41}, {"title": "129: (B+/O-, A+/B-)", "label": "", "from": 24, "to": 42}, {"title": "130: (B+/O-, A+/B+)", "label": "", "from": 24, "to": 43}, {"title": "131: (B+/O-, AB-/O-)", "label": "", "from": 24, "to": 48}, {"title": "132: (B+/O-, AB-/O+)", "label": "", "from": 24, "to": 49}, {"title": "133: (B+/O-, AB-/B-)", "label": "", "from": 24, "to": 50}, {"title": "134: (B+/O-, AB-/B+)", "label": "", "from": 24, "to": 51}, {"title": "135: (B+/O-, AB+/O-)", "label": "", "from": 24, "to": 56}, {"title": "136: (B+/O-, AB+/O+)", "label": "", "from": 24, "to": 57}, {"title": "137: (B+/O-, AB+/B-)", "label": "", "from": 24, "to": 58}, {"title": "138: (B+/O-, AB+/B+)", "label": "", "from": 24, "to": 59}, {"title": "139: (B+/O+, B+/B-)", "label": "", "from": 25, "to": 26}, {"title": "140: (B+/O+, B+/B+)", "label": "", "from": 25, "to": 27}, {"title": "141: (B+/O+, A+/O-)", "label": "", "from": 25, "to": 40}, {"title": "142: (B+/O+, A+/O+)", "label": "", "from": 25, "to": 41}, {"title": "143: (B+/O+, A+/B-)", "label": "", "from": 25, "to": 42}, {"title": "144: (B+/O+, A+/B+)", "label": "", "from": 25, "to": 43}, {"title": "145: (B+/O+, AB+/O-)", "label": "", "from": 25, "to": 56}, {"title": "146: (B+/O+, AB+/O+)", "label": "", "from": 25, "to": 57}, {"title": "147: (B+/O+, AB+/B-)", "label": "", "from": 25, "to": 58}, {"title": "148: (B+/O+, AB+/B+)", "label": "", "from": 25, "to": 59}, {"title": "149: (B+/B-, B+/B+)", "label": "", "from": 26, "to": 27}, {"title": "150: (B+/B-, AB-/O-)", "label": "", "from": 26, "to": 48}, {"title": "151: (B+/B-, AB-/O+)", "label": "", "from": 26, "to": 49}, {"title": "152: (B+/B-, AB-/B-)", "label": "", "from": 26, "to": 50}, {"title": "153: (B+/B-, AB-/B+)", "label": "", "from": 26, "to": 51}, {"title": "154: (B+/B-, AB+/O-)", "label": "", "from": 26, "to": 56}, {"title": "155: (B+/B-, AB+/O+)", "label": "", "from": 26, "to": 57}, {"title": "156: (B+/B-, AB+/B-)", "label": "", "from": 26, "to": 58}, {"title": "157: (B+/B-, AB+/B+)", "label": "", "from": 26, "to": 59}, {"title": "158: (B+/B+, AB+/O-)", "label": "", "from": 27, "to": 56}, {"title": "159: (B+/B+, AB+/O+)", "label": "", "from": 27, "to": 57}, {"title": "160: (B+/B+, AB+/B-)", "label": "", "from": 27, "to": 58}, {"title": "161: (B+/B+, AB+/B+)", "label": "", "from": 27, "to": 59}, {"title": "162: (B+/A-, A-/O-)", "label": "", "from": 28, "to": 32}, {"title": "163: (B+/A-, A-/O+)", "label": "", "from": 28, "to": 33}, {"title": "164: (B+/A-, A-/B-)", "label": "", "from": 28, "to": 34}, {"title": "165: (B+/A-, A-/B+)", "label": "", "from": 28, "to": 35}, {"title": "166: (B+/A-, A+/O-)", "label": "", "from": 28, "to": 40}, {"title": "167: (B+/A-, A+/O+)", "label": "", "from": 28, "to": 41}, {"title": "168: (B+/A-, A+/B-)", "label": "", "from": 28, "to": 42}, {"title": "169: (B+/A-, A+/B+)", "label": "", "from": 28, "to": 43}, {"title": "170: (B+/A-, AB-/O-)", "label": "", "from": 28, "to": 48}, {"title": "171: (B+/A-, AB-/O+)", "label": "", "from": 28, "to": 49}, {"title": "172: (B+/A-, AB-/B-)", "label": "", "from": 28, "to": 50}, {"title": "173: (B+/A-, AB-/B+)", "label": "", "from": 28, "to": 51}, {"title": "174: (B+/A-, AB+/O-)", "label": "", "from": 28, "to": 56}, {"title": "175: (B+/A-, AB+/O+)", "label": "", "from": 28, "to": 57}, {"title": "176: (B+/A-, AB+/B-)", "label": "", "from": 28, "to": 58}, {"title": "177: (B+/A-, AB+/B+)", "label": "", "from": 28, "to": 59}, {"title": "178: (B+/A+, A+/O-)", "label": "", "from": 29, "to": 40}, {"title": "179: (B+/A+, A+/O+)", "label": "", "from": 29, "to": 41}, {"title": "180: (B+/A+, A+/B-)", "label": "", "from": 29, "to": 42}, {"title": "181: (B+/A+, A+/B+)", "label": "", "from": 29, "to": 43}, {"title": "182: (B+/A+, AB+/O-)", "label": "", "from": 29, "to": 56}, {"title": "183: (B+/A+, AB+/O+)", "label": "", "from": 29, "to": 57}, {"title": "184: (B+/A+, AB+/B-)", "label": "", "from": 29, "to": 58}, {"title": "185: (B+/A+, AB+/B+)", "label": "", "from": 29, "to": 59}, {"title": "186: (B+/AB-, AB-/O-)", "label": "", "from": 30, "to": 48}, {"title": "187: (B+/AB-, AB-/O+)", "label": "", "from": 30, "to": 49}, {"title": "188: (B+/AB-, AB-/B-)", "label": "", "from": 30, "to": 50}, {"title": "189: (B+/AB-, AB-/B+)", "label": "", "from": 30, "to": 51}, {"title": "190: (B+/AB-, AB+/O-)", "label": "", "from": 30, "to": 56}, {"title": "191: (B+/AB-, AB+/O+)", "label": "", "from": 30, "to": 57}, {"title": "192: (B+/AB-, AB+/B-)", "label": "", "from": 30, "to": 58}, {"title": "193: (B+/AB-, AB+/B+)", "label": "", "from": 30, "to": 59}, {"title": "194: (B+/AB+, AB+/O-)", "label": "", "from": 31, "to": 56}, {"title": "195: (B+/AB+, AB+/O+)", "label": "", "from": 31, "to": 57}, {"title": "196: (B+/AB+, AB+/B-)", "label": "", "from": 31, "to": 58}, {"title": "197: (B+/AB+, AB+/B+)", "label": "", "from": 31, "to": 59}, {"title": "198: (A-/O-, A-/A-)", "label": "", "from": 32, "to": 36}, {"title": "199: (A-/O-, A+/O-)", "label": "", "from": 32, "to": 40}, {"title": "200: (A-/O-, A+/A-)", "label": "", "from": 32, "to": 44}, {"title": "201: (A-/O-, AB-/O-)", "label": "", "from": 32, "to": 48}, {"title": "202: (A-/O-, AB-/A-)", "label": "", "from": 32, "to": 52}, {"title": "203: (A-/O-, AB+/O-)", "label": "", "from": 32, "to": 56}, {"title": "204: (A-/O-, AB+/A-)", "label": "", "from": 32, "to": 60}, {"title": "205: (A-/O+, A+/O-)", "label": "", "from": 33, "to": 40}, {"title": "206: (A-/O+, A+/A-)", "label": "", "from": 33, "to": 44}, {"title": "207: (A-/O+, AB+/O-)", "label": "", "from": 33, "to": 56}, {"title": "208: (A-/O+, AB+/A-)", "label": "", "from": 33, "to": 60}, {"title": "209: (A-/B-, AB-/O-)", "label": "", "from": 34, "to": 48}, {"title": "210: (A-/B-, AB-/A-)", "label": "", "from": 34, "to": 52}, {"title": "211: (A-/B-, AB+/O-)", "label": "", "from": 34, "to": 56}, {"title": "212: (A-/B-, AB+/A-)", "label": "", "from": 34, "to": 60}, {"title": "213: (A-/B+, AB+/O-)", "label": "", "from": 35, "to": 56}, {"title": "214: (A-/B+, AB+/A-)", "label": "", "from": 35, "to": 60}, {"title": "215: (A-/A-, A+/O-)", "label": "", "from": 36, "to": 40}, {"title": "216: (A-/A-, A+/A-)", "label": "", "from": 36, "to": 44}, {"title": "217: (A-/A-, AB-/O-)", "label": "", "from": 36, "to": 48}, {"title": "218: (A-/A-, AB-/A-)", "label": "", "from": 36, "to": 52}, {"title": "219: (A-/A-, AB+/O-)", "label": "", "from": 36, "to": 56}, {"title": "220: (A-/A-, AB+/A-)", "label": "", "from": 36, "to": 60}, {"title": "221: (A-/A+, A+/O-)", "label": "", "from": 37, "to": 40}, {"title": "222: (A-/A+, A+/A-)", "label": "", "from": 37, "to": 44}, {"title": "223: (A-/A+, AB+/O-)", "label": "", "from": 37, "to": 56}, {"title": "224: (A-/A+, AB+/A-)", "label": "", "from": 37, "to": 60}, {"title": "225: (A-/AB-, AB-/O-)", "label": "", "from": 38, "to": 48}, {"title": "226: (A-/AB-, AB-/A-)", "label": "", "from": 38, "to": 52}, {"title": "227: (A-/AB-, AB+/O-)", "label": "", "from": 38, "to": 56}, {"title": "228: (A-/AB-, AB+/A-)", "label": "", "from": 38, "to": 60}, {"title": "229: (A-/AB+, AB+/O-)", "label": "", "from": 39, "to": 56}, {"title": "230: (A-/AB+, AB+/A-)", "label": "", "from": 39, "to": 60}, {"title": "231: (A+/O-, A+/O+)", "label": "", "from": 40, "to": 41}, {"title": "232: (A+/O-, A+/A-)", "label": "", "from": 40, "to": 44}, {"title": "233: (A+/O-, A+/A+)", "label": "", "from": 40, "to": 45}, {"title": "234: (A+/O-, AB-/O-)", "label": "", "from": 40, "to": 48}, {"title": "235: (A+/O-, AB-/O+)", "label": "", "from": 40, "to": 49}, {"title": "236: (A+/O-, AB-/A-)", "label": "", "from": 40, "to": 52}, {"title": "237: (A+/O-, AB-/A+)", "label": "", "from": 40, "to": 53}, {"title": "238: (A+/O-, AB+/O-)", "label": "", "from": 40, "to": 56}, {"title": "239: (A+/O-, AB+/O+)", "label": "", "from": 40, "to": 57}, {"title": "240: (A+/O-, AB+/A-)", "label": "", "from": 40, "to": 60}, {"title": "241: (A+/O-, AB+/A+)", "label": "", "from": 40, "to": 61}, {"title": "242: (A+/O+, A+/A-)", "label": "", "from": 41, "to": 44}, {"title": "243: (A+/O+, A+/A+)", "label": "", "from": 41, "to": 45}, {"title": "244: (A+/O+, AB+/O-)", "label": "", "from": 41, "to": 56}, {"title": "245: (A+/O+, AB+/O+)", "label": "", "from": 41, "to": 57}, {"title": "246: (A+/O+, AB+/A-)", "label": "", "from": 41, "to": 60}, {"title": "247: (A+/O+, AB+/A+)", "label": "", "from": 41, "to": 61}, {"title": "248: (A+/B-, AB-/O-)", "label": "", "from": 42, "to": 48}, {"title": "249: (A+/B-, AB-/O+)", "label": "", "from": 42, "to": 49}, {"title": "250: (A+/B-, AB-/A-)", "label": "", "from": 42, "to": 52}, {"title": "251: (A+/B-, AB-/A+)", "label": "", "from": 42, "to": 53}, {"title": "252: (A+/B-, AB+/O-)", "label": "", "from": 42, "to": 56}, {"title": "253: (A+/B-, AB+/O+)", "label": "", "from": 42, "to": 57}, {"title": "254: (A+/B-, AB+/A-)", "label": "", "from": 42, "to": 60}, {"title": "255: (A+/B-, AB+/A+)", "label": "", "from": 42, "to": 61}, {"title": "256: (A+/B+, AB+/O-)", "label": "", "from": 43, "to": 56}, {"title": "257: (A+/B+, AB+/O+)", "label": "", "from": 43, "to": 57}, {"title": "258: (A+/B+, AB+/A-)", "label": "", "from": 43, "to": 60}, {"title": "259: (A+/B+, AB+/A+)", "label": "", "from": 43, "to": 61}, {"title": "260: (A+/A-, A+/A+)", "label": "", "from": 44, "to": 45}, {"title": "261: (A+/A-, AB-/O-)", "label": "", "from": 44, "to": 48}, {"title": "262: (A+/A-, AB-/O+)", "label": "", "from": 44, "to": 49}, {"title": "263: (A+/A-, AB-/A-)", "label": "", "from": 44, "to": 52}, {"title": "264: (A+/A-, AB-/A+)", "label": "", "from": 44, "to": 53}, {"title": "265: (A+/A-, AB+/O-)", "label": "", "from": 44, "to": 56}, {"title": "266: (A+/A-, AB+/O+)", "label": "", "from": 44, "to": 57}, {"title": "267: (A+/A-, AB+/A-)", "label": "", "from": 44, "to": 60}, {"title": "268: (A+/A-, AB+/A+)", "label": "", "from": 44, "to": 61}, {"title": "269: (A+/A+, AB+/O-)", "label": "", "from": 45, "to": 56}, {"title": "270: (A+/A+, AB+/O+)", "label": "", "from": 45, "to": 57}, {"title": "271: (A+/A+, AB+/A-)", "label": "", "from": 45, "to": 60}, {"title": "272: (A+/A+, AB+/A+)", "label": "", "from": 45, "to": 61}, {"title": "273: (A+/AB-, AB-/O-)", "label": "", "from": 46, "to": 48}, {"title": "274: (A+/AB-, AB-/O+)", "label": "", "from": 46, "to": 49}, {"title": "275: (A+/AB-, AB-/A-)", "label": "", "from": 46, "to": 52}, {"title": "276: (A+/AB-, AB-/A+)", "label": "", "from": 46, "to": 53}, {"title": "277: (A+/AB-, AB+/O-)", "label": "", "from": 46, "to": 56}, {"title": "278: (A+/AB-, AB+/O+)", "label": "", "from": 46, "to": 57}, {"title": "279: (A+/AB-, AB+/A-)", "label": "", "from": 46, "to": 60}, {"title": "280: (A+/AB-, AB+/A+)", "label": "", "from": 46, "to": 61}, {"title": "281: (A+/AB+, AB+/O-)", "label": "", "from": 47, "to": 56}, {"title": "282: (A+/AB+, AB+/O+)", "label": "", "from": 47, "to": 57}, {"title": "283: (A+/AB+, AB+/A-)", "label": "", "from": 47, "to": 60}, {"title": "284: (A+/AB+, AB+/A+)", "label": "", "from": 47, "to": 61}, {"title": "285: (AB-/O-, AB-/B-)", "label": "", "from": 48, "to": 50}, {"title": "286: (AB-/O-, AB-/A-)", "label": "", "from": 48, "to": 52}, {"title": "287: (AB-/O-, AB-/AB-)", "label": "", "from": 48, "to": 54}, {"title": "288: (AB-/O-, AB+/O-)", "label": "", "from": 48, "to": 56}, {"title": "289: (AB-/O-, AB+/B-)", "label": "", "from": 48, "to": 58}, {"title": "290: (AB-/O-, AB+/A-)", "label": "", "from": 48, "to": 60}, {"title": "291: (AB-/O-, AB+/AB-)", "label": "", "from": 48, "to": 62}, {"title": "292: (AB-/O+, AB+/O-)", "label": "", "from": 49, "to": 56}, {"title": "293: (AB-/O+, AB+/B-)", "label": "", "from": 49, "to": 58}, {"title": "294: (AB-/O+, AB+/A-)", "label": "", "from": 49, "to": 60}, {"title": "295: (AB-/O+, AB+/AB-)", "label": "", "from": 49, "to": 62}, {"title": "296: (AB-/B-, AB-/A-)", "label": "", "from": 50, "to": 52}, {"title": "297: (AB-/B-, AB-/AB-)", "label": "", "from": 50, "to": 54}, {"title": "298: (AB-/B-, AB+/O-)", "label": "", "from": 50, "to": 56}, {"title": "299: (AB-/B-, AB+/B-)", "label": "", "from": 50, "to": 58}, {"title": "300: (AB-/B-, AB+/A-)", "label": "", "from": 50, "to": 60}, {"title": "301: (AB-/B-, AB+/AB-)", "label": "", "from": 50, "to": 62}, {"title": "302: (AB-/B+, AB+/O-)", "label": "", "from": 51, "to": 56}, {"title": "303: (AB-/B+, AB+/B-)", "label": "", "from": 51, "to": 58}, {"title": "304: (AB-/B+, AB+/A-)", "label": "", "from": 51, "to": 60}, {"title": "305: (AB-/B+, AB+/AB-)", "label": "", "from": 51, "to": 62}, {"title": "306: (AB-/A-, AB-/AB-)", "label": "", "from": 52, "to": 54}, {"title": "307: (AB-/A-, AB+/O-)", "label": "", "from": 52, "to": 56}, {"title": "308: (AB-/A-, AB+/B-)", "label": "", "from": 52, "to": 58}, {"title": "309: (AB-/A-, AB+/A-)", "label": "", "from": 52, "to": 60}, {"title": "310: (AB-/A-, AB+/AB-)", "label": "", "from": 52, "to": 62}, {"title": "311: (AB-/A+, AB+/O-)", "label": "", "from": 53, "to": 56}, {"title": "312: (AB-/A+, AB+/B-)", "label": "", "from": 53, "to": 58}, {"title": "313: (AB-/A+, AB+/A-)", "label": "", "from": 53, "to": 60}, {"title": "314: (AB-/A+, AB+/AB-)", "label": "", "from": 53, "to": 62}, {"title": "315: (AB-/AB-, AB+/O-)", "label": "", "from": 54, "to": 56}, {"title": "316: (AB-/AB-, AB+/B-)", "label": "", "from": 54, "to": 58}, {"title": "317: (AB-/AB-, AB+/A-)", "label": "", "from": 54, "to": 60}, {"title": "318: (AB-/AB-, AB+/AB-)", "label": "", "from": 54, "to": 62}, {"title": "319: (AB-/AB+, AB+/O-)", "label": "", "from": 55, "to": 56}, {"title": "320: (AB-/AB+, AB+/B-)", "label": "", "from": 55, "to": 58}, {"title": "321: (AB-/AB+, AB+/A-)", "label": "", "from": 55, "to": 60}, {"title": "322: (AB-/AB+, AB+/AB-)", "label": "", "from": 55, "to": 62}, {"title": "323: (AB+/O-, AB+/O+)", "label": "", "from": 56, "to": 57}, {"title": "324: (AB+/O-, AB+/B-)", "label": "", "from": 56, "to": 58}, {"title": "325: (AB+/O-, AB+/B+)", "label": "", "from": 56, "to": 59}, {"title": "326: (AB+/O-, AB+/A-)", "label": "", "from": 56, "to": 60}, {"title": "327: (AB+/O-, AB+/A+)", "label": "", "from": 56, "to": 61}, {"title": "328: (AB+/O-, AB+/AB-)", "label": "", "from": 56, "to": 62}, {"title": "329: (AB+/O-, AB+/AB+)", "label": "", "from": 56, "to": 63}, {"title": "330: (AB+/O+, AB+/B-)", "label": "", "from": 57, "to": 58}, {"title": "331: (AB+/O+, AB+/B+)", "label": "", "from": 57, "to": 59}, {"title": "332: (AB+/O+, AB+/A-)", "label": "", "from": 57, "to": 60}, {"title": "333: (AB+/O+, AB+/A+)", "label": "", "from": 57, "to": 61}, {"title": "334: (AB+/O+, AB+/AB-)", "label": "", "from": 57, "to": 62}, {"title": "335: (AB+/O+, AB+/AB+)", "label": "", "from": 57, "to": 63}, {"title": "336: (AB+/B-, AB+/B+)", "label": "", "from": 58, "to": 59}, {"title": "337: (AB+/B-, AB+/A-)", "label": "", "from": 58, "to": 60}, {"title": "338: (AB+/B-, AB+/A+)", "label": "", "from": 58, "to": 61}, {"title": "339: (AB+/B-, AB+/AB-)", "label": "", "from": 58, "to": 62}, {"title": "340: (AB+/B-, AB+/AB+)", "label": "", "from": 58, "to": 63}, {"title": "341: (AB+/B+, AB+/A-)", "label": "", "from": 59, "to": 60}, {"title": "342: (AB+/B+, AB+/A+)", "label": "", "from": 59, "to": 61}, {"title": "343: (AB+/B+, AB+/AB-)", "label": "", "from": 59, "to": 62}, {"title": "344: (AB+/B+, AB+/AB+)", "label": "", "from": 59, "to": 63}, {"title": "345: (AB+/A-, AB+/A+)", "label": "", "from": 60, "to": 61}, {"title": "346: (AB+/A-, AB+/AB-)", "label": "", "from": 60, "to": 62}, {"title": "347: (AB+/A-, AB+/AB+)", "label": "", "from": 60, "to": 63}, {"title": "348: (AB+/A+, AB+/AB-)", "label": "", "from": 61, "to": 62}, {"title": "349: (AB+/A+, AB+/AB+)", "label": "", "from": 61, "to": 63}, {"title": "350: (AB+/AB-, AB+/AB+)", "label": "", "from": 62, "to": 63}]);
+    const data = {
+            nodes: nodes,
+            edges: edges,
+    };
+    const options = {"interaction": {"navigationButtons": false}, "width": "1000px", "height": "100%", "nodes": {"font": {"size": 60}}, "physics": {"solver": "barnesHut", "barnesHut": {"gravitationalConstant": -15000, "centralGravity": 0.25, "springLength": 200, "springConstant": 0.0015, "damping": 0.095, "avoidOverlap": 0.12}, "maxVelocity": 15, "stabilization": {"iterations": 800, "updateInterval": 25}}};
+    const container = document.getElementById('f9438dd7-5bc7-46bb-b057-d2e681f8413a');
+    const network = new Network(container, data, options);
+    network.fit({maxZoomLevel: 10});
+    network.redraw();
+}
+
+render();
+document.getElementById('fit-f9438dd7-5bc7-46bb-b057-d2e681f8413a').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent page jump
+    render(); // Adjust zoom limit as needed
+});
+</script></div>
+</div>
+<p>Back to the real thing.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">)</span>
+<span class="n">full_model</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 64 nodes and 378 edges.
+Node dimension is 0.
+Edge dimension is 314
+Type: Surjective-only
+Node kernel:
+[]
+Edge kernel:
+[[-8.07660786e-02 -5.14815963e-03  1.55185186e-01 ...  1.23681204e-03
+   1.07651019e-03 -1.60301853e-04]
+ [-5.27865346e-02  1.35874032e-02  1.66497191e-01 ...  4.31476721e-03
+   3.36397446e-03 -9.50792748e-04]
+ [-7.31481008e-02 -1.48678109e-02  1.68269311e-01 ... -8.36046328e-04
+   1.31250595e-03  2.14855228e-03]
+ ...
+ [ 1.05249784e-02  1.28211539e-02 -4.16977264e-02 ...  9.33214398e-01
+  -5.95732615e-02  7.21234047e-03]
+ [ 3.51189245e-02  1.37009886e-02 -1.00579058e-01 ... -5.94140329e-02
+   8.18611345e-01 -1.21974622e-01]
+ [ 2.45939461e-02  8.79834759e-04 -5.88813319e-02 ...  7.37156906e-03
+  -1.21815393e-01  8.70813038e-01]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_model</span><span class="o">.</span><span class="n">stabilizable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+</section>
+<section id="Threesomes">
+<h3>Threesomes<a class="headerlink" href="#Threesomes" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">three</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="n">threesomes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">three</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 64 nodes and 4397 edges.
+Node dimension is 0.
+Edge dimension is 4333
+Type: Surjective-only
+Node kernel:
+[]
+Edge kernel:
+[[ 3.89524050e-02 -9.99891026e-02  1.02077254e-02 ...  3.03768858e-04
+   1.54222108e-04 -1.49546751e-04]
+ [ 4.03133967e-02 -1.01467934e-01  1.12084971e-02 ... -3.78626371e-05
+  -1.29415410e-04 -9.15527730e-05]
+ [ 4.00204502e-02 -1.01827540e-01  1.07834303e-02 ... -3.54594281e-05
+  -1.62044872e-04 -1.26585444e-04]
+ ...
+ [ 2.34574620e-03 -6.13999101e-03  5.82162293e-04 ...  9.96407855e-01
+  -3.22429376e-03  3.67850837e-04]
+ [-1.13259079e-02  2.88977694e-02 -3.03025921e-03 ... -3.23536900e-03
+   8.71888904e-01 -1.24875727e-01]
+ [-1.36716541e-02  3.50377604e-02 -3.61242151e-03 ...  3.56775597e-04
+  -1.24886802e-01  8.74756422e-01]]
+</pre></div></div>
+</div>
+</section>
+<section id="Queue-sizes-on-different-setups">
+<h3>Queue sizes on different setups<a class="headerlink" href="#Queue-sizes-on-different-setups" title="Link to this heading">#</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">stochastic_matching.simulator.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">StepsDone</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grouped_delay</span><span class="p">(</span><span class="n">simu</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="n">wait</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">simu</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cats</span><span class="p">):</span>
+        <span class="n">wait</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">simu</span><span class="o">.</span><span class="n">avg_queues</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Warning:</strong> we monitor queues with a null recurrent behaviour here, so we need to set a maximum queue size one order of magnitude higher than the square root of the number of steps.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;longest&quot;</span><span class="p">,</span> <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;max_queue&quot;</span><span class="p">:</span> <span class="mi">400000</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+<span class="n">vq_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">base_params</span><span class="p">,</span> <span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="s2">&quot;virtual_queue&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="n">xps</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span>
+    <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Swingers&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">build_model</span><span class="p">([</span><span class="n">vg</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span> <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s1">&#39;swinger&#39;</span><span class="p">]),</span> <span class="o">**</span><span class="n">base_params</span><span class="p">),</span>
+    <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s2">&quot;Helpfuls&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">build_model</span><span class="p">([</span><span class="n">vg</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span> <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="s1">&#39;helpless&#39;</span><span class="p">]),</span> <span class="o">**</span><span class="n">vq_params</span><span class="p">),</span>
+    <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s2">&quot;No Swinger&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">build_model</span><span class="p">([</span><span class="n">vg</span> <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vgs</span> <span class="k">if</span> <span class="n">vg</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="s1">&#39;swinger&#39;</span><span class="p">]),</span> <span class="o">**</span><span class="n">vq_params</span><span class="p">),</span>
+    <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s2">&quot;All categories&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">),</span> <span class="o">**</span><span class="n">vq_params</span><span class="p">),</span>
+    <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s2">&quot;threesomes allowed&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="n">threesomes</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">**</span><span class="n">vq_params</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="p">[</span><span class="n">grouped_delay</span><span class="p">,</span> <span class="n">StepsDone</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "73a298e98f804bca932bbe35801b11b6", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Swingers&#39;: {&#39;grouped_delay&#39;: {&#39;swinger&#39;: 43048.157124944},
+  &#39;steps_done&#39;: 1000000000},
+ &#39;Helpfuls&#39;: {&#39;grouped_delay&#39;: {&#39;autarkic&#39;: 4.162427954,
+   &#39;swinger&#39;: 10.752904849000002},
+  &#39;steps_done&#39;: 1000000000},
+ &#39;No Swinger&#39;: {&#39;grouped_delay&#39;: {&#39;autarkic&#39;: 0.005289561,
+   &#39;helpless&#39;: 55012.48222187699},
+  &#39;steps_done&#39;: 1000000000},
+ &#39;All categories&#39;: {&#39;grouped_delay&#39;: {&#39;autarkic&#39;: 0.0011420769999999998,
+   &#39;helpless&#39;: 49526.04985507099,
+   &#39;swinger&#39;: 10186.265578822002},
+  &#39;steps_done&#39;: 1000000000},
+ &#39;threesomes allowed&#39;: {&#39;grouped_delay&#39;: {&#39;autarkic&#39;: 265.46645575099996,
+   &#39;helpless&#39;: 21061.442134908,
+   &#39;swinger&#39;: 7806.321084564999},
+  &#39;steps_done&#39;: 1000000000}}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Stairway-to-Stability">
+<h2>Stairway to Stability<a class="headerlink" href="#Stairway-to-Stability" title="Link to this heading">#</a></h2>
+<section id="Safety-valves">
+<h3>Safety valves<a class="headerlink" href="#Safety-valves" title="Link to this heading">#</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="p">,</span> <span class="n">relaxed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s1">&#39;simulator&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;virtual_queue&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">kernel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kernels of a graph with 64 nodes and 415 edges.
+Node dimension is 0.
+Edge dimension is 351
+Type: Surjective-only
+Node kernel:
+[]
+Edge kernel:
+[[-6.66392973e-02  1.46326644e-01 -7.22319972e-03 ... -3.38870783e-04
+  -1.48396032e-03 -1.14508953e-03]
+ [-9.99357307e-02  1.29482979e-01 -1.12844994e-02 ... -1.31766036e-03
+  -2.37050539e-03 -1.05284503e-03]
+ [-2.67131450e-02  1.58095770e-01 -2.74271795e-03 ... -3.87754635e-04
+  -1.69770748e-03 -1.30995284e-03]
+ ...
+ [ 1.23332381e-02 -3.49292348e-02 -3.68281453e-03 ...  9.33285059e-01
+  -6.02510432e-02  6.46389731e-03]
+ [-4.70729024e-03  1.05815809e-02 -7.12851020e-04 ... -5.92526383e-02
+   8.18992064e-01 -1.21755297e-01]
+ [-1.70405283e-02  4.55108156e-02  2.96996352e-03 ...  7.46230223e-03
+  -1.20756893e-01  8.71780805e-01]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stabilizable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_params</span><span class="p">[</span><span class="s1">&#39;max_queue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20000</span>
+<span class="n">forbidden_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">vgs</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">auto_compatible</span><span class="p">]</span>
+<span class="n">xp</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s1">&#39;discarding&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+           <span class="n">iterator</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">)]),</span>
+           <span class="n">forbidden_edges</span><span class="o">=</span><span class="n">forbidden_edges</span><span class="p">,</span> <span class="o">**</span><span class="n">base_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">,</span> <span class="n">grouped_delay</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9cc6ca7a29934dabb0b5f7b3f23de03b", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;discarding&#39;</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;regret&#39;</span><span class="p">]</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;grouped_delay&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">yy</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="k">for</span> <span class="n">yy</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Regret (wasted ghouls indicator)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay (average queue size)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">.00001</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplot2tikz</span>
+<span class="n">matplot2tikz</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;waste.tex&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_realist_vampires_65_0.png" src="../_images/companion_realist_vampires_65_0.png" />
+</div>
+</div>
+</section>
+<section id="Humans">
+<h3>Humans<a class="headerlink" href="#Humans" title="Link to this heading">#</a></h3>
+<p>We now incorporate some amount of <em>humans</em> (vampire-free pre-ghouls) into the mix.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mix_model</span><span class="p">(</span><span class="n">α</span> <span class="o">=</span> <span class="mf">.001</span><span class="p">):</span>
+    <span class="n">μc</span> <span class="o">=</span> <span class="n">arrival_rates</span><span class="p">(</span><span class="n">vgs</span><span class="p">)</span>
+    <span class="n">μd</span> <span class="o">=</span> <span class="n">arrival_rates</span><span class="p">(</span><span class="n">humans</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="o">-</span><span class="n">α</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">μc</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">μc</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="n">α</span><span class="o">*</span><span class="n">p</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">μd</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">μd</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="n">vgs</span><span class="o">+</span><span class="n">humans</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">μ</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If we try to numerically compute the minimum proportion of humans that allows the system to be stable, one gets a positive value. This is due to the numerical margin of error of the best positive solution. For highly skewed problems, it can be difficult to distinguish a zeroed edge from a barely positive one.</p>
+<p>Yet, the value found has its own interest: it gives us a bound below which stability may be difficult to observe.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">find_threshold</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="o">+</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">mix_model</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">stabilizable</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">u</span><span class="o">+</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">find_threshold</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.0004916191101074219
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xp</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">XP</span><span class="p">(</span><span class="s1">&#39;humanities&#39;</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">Iterator</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span><span class="o">*</span><span class="mf">.0005</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">)],</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">mix_model</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="o">**</span><span class="n">base_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="p">[</span><span class="n">grouped_delay</span><span class="p">],</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "105b7f251a5249d3b396246e3cba9b83", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;humanities&#39;</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;grouped_delay&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Proportion $</span><span class="se">\\</span><span class="s1">alpha$ of participating human volunteers&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Delay (average queue size)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">.0005</span><span class="p">,</span> <span class="mf">.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">matplot2tikz</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;humans.tex&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/companion_realist_vampires_73_0.png" src="../_images/companion_realist_vampires_73_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hypergraph_candy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Online Stochastic Matchings: Stability on Hypergraphs</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../reference/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Preliminaries">Preliminaries</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Basic-Blood-Types">Basic Blood Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Vampire/Ghoul-Types">Vampire/Ghoul Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Human-types">Human types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Blood-type-distribution">Blood type distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Instability-study">Instability study</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Swingers-only">Swingers-only</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Helpless-excluded">Helpless-excluded</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#All-categories">All categories</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Threesomes">Threesomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Queue-sizes-on-different-setups">Queue sizes on different setups</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Stairway-to-Stability">Stairway to Stability</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Safety-valves">Safety valves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Humans">Humans</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/companion/realist_vampires.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2022, Fabien Mathieu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
