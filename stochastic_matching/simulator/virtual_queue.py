@@ -17,6 +17,7 @@ def vq_core(
     edge_queue,
     forbidden_edges,
     k,
+    imbalance,
 ):  # Longest specific arguments
     """
     Jitted function for virtual-queue policy.
@@ -43,6 +44,11 @@ def vq_core(
         Edges that are disabled.
     k: :class:`int`, optional
         Queue size above which forbidden edges become available again.
+    imbalance: :class:`~numpy.ndarray`, optional
+        Integer weights per node. If set, forbidden edges become available again when the weighted sum of
+        the *virtual* queues (arrivals minus virtual activations) reaches `k` in absolute value, the test being
+        made on the state before the arrival (imbalance trigger of k-filtering), instead of when a physical
+        queue reaches `k`.
 
     Returns
     -------
@@ -64,9 +70,17 @@ def vq_core(
 
     infinity = edge_queue.infinity
 
+    # Imbalance trigger: imb = <imbalance, virtual queue>, kept up to date (virtual queue starts at 0).
+    imb = 0
+
     for age in range(n_steps):
         # Draw an arrival
         node = arrivals.draw()
+        # The mode of the imbalance trigger is decided by the virtual state before the arrival.
+        restrain_w = True
+        if imbalance is not None:
+            restrain_w = abs(imb) < k
+            imb += imbalance[node]
         queue_size[node] += 1
         if queue_size[node] == max_queue:
             return None
@@ -85,12 +99,15 @@ def vq_core(
                     ready_edges[e] = True
 
         if has_forbidden:
-            restrain = True
-            if k is not None:
-                for v in range(n):
-                    if queue_size[v] >= k:
-                        restrain = False
-                        break
+            if imbalance is not None:
+                restrain = restrain_w
+            else:
+                restrain = True
+                if k is not None:
+                    for v in range(n):
+                        if queue_size[v] >= k:
+                            restrain = False
+                            break
         else:
             restrain = False
 
@@ -113,6 +130,8 @@ def vq_core(
             # for each node of the edge, lower scores of all adjacent edges by one
             for v in graph.nodes(best_edge):
                 scores[graph.edges(v)] -= 1
+                if imbalance is not None:
+                    imb -= imbalance[v]
 
         # Can a virtual edge be popped?
         best_edge = -1
@@ -145,6 +164,11 @@ class VirtualQueue(ExtendedSimulator):
     max_edge_queue: :class:`int`, optional
         In some extreme situation, the default allocated space for the edge virtual queue may be too small.
         If that happens someday, use this parameter to increase the VQ allocated memory.
+    imbalance: :class:`list` or :class:`~numpy.ndarray`, optional
+        Integer weights per node. With `forbidden_edges` and `k`, the interdiction is lifted when the weighted
+        sum of the virtual queues (a certificate of the target vertex) reaches `k` in absolute value, the mode
+        being decided by the virtual state before the arrival; without it, the interdiction is lifted when a
+        physical queue reaches `k`.
     **kwargs
         Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
 
@@ -359,8 +383,9 @@ class VirtualQueue(ExtendedSimulator):
 
     name = "virtual_queue"
 
-    def __init__(self, model, max_edge_queue=None, **kwargs):
+    def __init__(self, model, max_edge_queue=None, imbalance=None, **kwargs):
         self.max_edge_queue = max_edge_queue
+        self.imbalance = None if imbalance is None else np.array(imbalance, dtype=np.int64)
         super().__init__(model, **kwargs)
 
     def set_internal(self):
@@ -370,6 +395,7 @@ class VirtualQueue(ExtendedSimulator):
         if meq is None:
             meq = 10 * self.max_queue
         self.internal["edge_queue"] = MultiQueue(self.model.m, max_queue=meq)
+        self.internal["imbalance"] = self.imbalance
 
     def run(self):
         vq_core(logs=self.logs, **self.internal)

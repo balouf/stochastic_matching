@@ -1,5 +1,15 @@
 # History
 
+## 0.4.1 (unreleased): Imbalance trigger for k-filtering
+
+* `Longest` accepts an `imbalance` option (signs per node): with `forbidden_edges` and `k`, the
+  interdiction is lifted when the signed sum of the queues reaches `k` in absolute value (the mode
+  being decided by the state before the arrival), instead of when a queue reaches `k`. This is the
+  imbalance-triggered k-filtering policy analyzed in the k-filtering paper.
+* `VirtualQueue` accepts the same `imbalance` option (integer weights per node), the weighted sum
+  being taken on the virtual queue (arrivals minus virtual activations): k-filtering of a vertex of
+  the hypergraph polytope along its critical direction.
+
 ## 0.4.0 (2025-09-26): Major revision
 
 The objective of this update is to support a major revision of https://hal.archives-ouvertes.fr/hal-03502084

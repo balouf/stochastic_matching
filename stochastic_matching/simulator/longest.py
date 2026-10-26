@@ -14,6 +14,7 @@ def longest_core(
     scores,
     forbidden_edges,
     k,
+    imbalance,
 ):
     """
     Jitted function for policies based on longest-queue first.
@@ -36,6 +37,10 @@ def longest_core(
         Edges that are disabled.
     k: :class:`int`, optional
         Queue size above which forbidden edges become available again.
+    imbalance: :class:`~numpy.ndarray`, optional
+        Signs (+1, -1 or 0) per node. If set, forbidden edges become available again when the signed
+        sum of the queues reaches `k` in absolute value, the test being made on the state before the
+        arrival (imbalance trigger of k-filtering), instead of when a queue reaches `k`.
 
     Returns
     -------
@@ -55,9 +60,20 @@ def longest_core(
         if np.min(scores) > -1:
             greedy = True
 
+    # Imbalance trigger: imb = <imbalance, queue_size>, kept up to date.
+    imb = 0
+    if imbalance is not None:
+        for v in range(n):
+            imb += imbalance[v] * queue_size[v]
+
     for age in range(n_steps):
         # Draw an arrival
         node = arrivals.draw()
+        # The mode of the imbalance trigger is decided by the state before the arrival.
+        restrain_w = True
+        if imbalance is not None:
+            restrain_w = abs(imb) < k
+            imb += imbalance[node]
         queue_size[node] += 1
         if queue_size[node] == max_queue:
             return None
@@ -68,6 +84,8 @@ def longest_core(
             # Should we activate edge restriction?
             if greedy:
                 restrain = False
+            elif imbalance is not None:
+                restrain = restrain_w
             else:
                 restrain = True
                 if k is not None:
@@ -95,6 +113,9 @@ def longest_core(
 
             if best_edge > -1:
                 queue_size[graph.nodes(best_edge)] -= 1
+                if imbalance is not None:
+                    for v in graph.nodes(best_edge):
+                        imb -= imbalance[v]
 
         logs.update(queue_size=queue_size, node=node, edge=best_edge)
 
@@ -117,6 +138,11 @@ class Longest(ExtendedSimulator):
         which makes the policy greedy. However, if negative rewards are added into the mix, this is not True anymore.
         Setting shift_rewards to True ensures that default edge scores are non-negative so reward-based selection
         is greedy. Setting it to False enables a non-greedy reward-based selection.
+    imbalance: :class:`list` or :class:`~numpy.ndarray`, optional
+        Signs (+1, -1 or 0) per node. With `forbidden_edges` and `k`, the interdiction is lifted when the
+        signed sum of the queues (the imbalance of a bipartite support) reaches `k` in absolute value, the
+        mode being decided by the state before the arrival; without it, the interdiction is lifted when
+        a queue reaches `k`.
     **kwargs
         Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
 
@@ -231,6 +257,16 @@ class Longest(ExtendedSimulator):
     >>> diamond.simulation
     array([0.108, 0.93 , 0.966, 0.93 , 0.024])
 
+    The exceptions can be triggered by the imbalance between the two parts of the support (here the
+    path 0-2-1-3, with parts {0, 1} and {2, 3}) instead of the longest queue: the forbidden edges are
+    allowed when the signed sum of the queues reaches `k` in absolute value.
+
+    >>> diamond.run('longest', forbidden_edges=[0, 4], imbalance=[1, 1, -1, -1], seed=42,
+    ...                            k=10, n_steps=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([0.132, 0.918, 0.966, 0.918, 0.036])
+
     Having no relaxation usually leads to large, possibly overflowing, queues.
     However, this doesn't show on small simulations.
 
@@ -296,14 +332,16 @@ class Longest(ExtendedSimulator):
 
     name = "longest"
 
-    def __init__(self, model, shift_rewards=True, **kwargs):
+    def __init__(self, model, shift_rewards=True, imbalance=None, **kwargs):
         self.shift_rewards = shift_rewards
+        self.imbalance = None if imbalance is None else np.array(imbalance, dtype=np.int64)
         super().__init__(model, **kwargs)
 
     def set_internal(self):
         super().set_internal()
         if self.shift_rewards:
             self.internal["scores"] -= np.min(self.internal["scores"])
+        self.internal["imbalance"] = self.imbalance
 
     def run(self):
         longest_core(logs=self.logs, **self.internal)
