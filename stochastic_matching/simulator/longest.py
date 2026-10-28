@@ -78,7 +78,7 @@ def longest_core(
         if imbalance is not None:
             restrain_w = abs(imb) < k
             if restrain_w and safety_k is not None:
-                for v in range(n):
+                for v in range(len(queue_size)):
                     if queue_size[v] >= safety_k:
                         restrain_w = False
                         break

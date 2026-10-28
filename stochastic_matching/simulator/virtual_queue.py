@@ -76,8 +76,9 @@ def vq_core(
 
     # Imbalance trigger: imb = <imbalance, virtual queue>, kept up to date (virtual queue starts at 0).
     imb = 0
-    # Virtual queue, for the safety net.
-    vq = np.zeros(n, dtype=np.int64)
+    # Virtual queue, for the safety net (sized on queue_size: wrappers like EFiltering run this core on an
+    # expanded model whose logs keep the original number of classes).
+    vq = np.zeros(len(queue_size), dtype=np.int64)
 
     for age in range(n_steps):
         # Draw an arrival
@@ -87,7 +88,7 @@ def vq_core(
         if imbalance is not None:
             restrain_w = abs(imb) < k
             if restrain_w and safety_k is not None:
-                for v in range(n):
+                for v in range(len(vq)):
                     if vq[v] >= safety_k:
                         restrain_w = False
                         break
