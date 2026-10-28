@@ -15,6 +15,7 @@ def longest_core(
     forbidden_edges,
     k,
     imbalance,
+    safety_k,
 ):
     """
     Jitted function for policies based on longest-queue first.
@@ -41,6 +42,9 @@ def longest_core(
         Signs (+1, -1 or 0) per node. If set, forbidden edges become available again when the signed
         sum of the queues reaches `k` in absolute value, the test being made on the state before the
         arrival (imbalance trigger of k-filtering), instead of when a queue reaches `k`.
+    safety_k: :class:`int`, optional
+        With `imbalance`, forbidden edges also become available when a queue reaches `safety_k`, the test
+        being made on the state before the arrival (safety net of the imbalance trigger).
 
     Returns
     -------
@@ -73,6 +77,11 @@ def longest_core(
         restrain_w = True
         if imbalance is not None:
             restrain_w = abs(imb) < k
+            if restrain_w and safety_k is not None:
+                for v in range(n):
+                    if queue_size[v] >= safety_k:
+                        restrain_w = False
+                        break
             imb += imbalance[node]
         queue_size[node] += 1
         if queue_size[node] == max_queue:
@@ -143,6 +152,10 @@ class Longest(ExtendedSimulator):
         signed sum of the queues (the imbalance of a bipartite support) reaches `k` in absolute value, the
         mode being decided by the state before the arrival; without it, the interdiction is lifted when
         a queue reaches `k`.
+    safety_k: :class:`int`, optional
+        With `imbalance`, the interdiction is also lifted when a queue reaches `safety_k` (state before the
+        arrival): the longest queue acts as a safety net of the imbalance trigger. A null `imbalance` (no
+        certificate) with `safety_k` gives the longest-queue trigger decided before the arrival.
     **kwargs
         Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
 
@@ -267,6 +280,24 @@ class Longest(ExtendedSimulator):
     >>> diamond.simulation
     array([0.132, 0.918, 0.966, 0.918, 0.036])
 
+    With `safety_k`, a queue reaching `safety_k` also lifts the interdiction: the longest queue is a safety
+    net of the imbalance trigger. On a correct support it rarely opens (here never, the run is unchanged).
+
+    >>> diamond.run('longest', forbidden_edges=[0, 4], imbalance=[1, 1, -1, -1], safety_k=10, seed=42,
+    ...                            k=10, n_steps=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([0.132, 0.918, 0.966, 0.918, 0.036])
+
+    A null imbalance (no certificate, e.g. at a bijective vertex) leaves the safety net alone, which is the
+    longest-queue trigger decided before the arrival.
+
+    >>> diamond.run('longest', forbidden_edges=[0, 4], imbalance=[0, 0, 0, 0], safety_k=10, seed=42,
+    ...                            k=10, n_steps=1000, max_queue=1000)
+    True
+    >>> diamond.simulation
+    array([0.102, 0.936, 0.966, 0.936, 0.018])
+
     Having no relaxation usually leads to large, possibly overflowing, queues.
     However, this doesn't show on small simulations.
 
@@ -332,9 +363,10 @@ class Longest(ExtendedSimulator):
 
     name = "longest"
 
-    def __init__(self, model, shift_rewards=True, imbalance=None, **kwargs):
+    def __init__(self, model, shift_rewards=True, imbalance=None, safety_k=None, **kwargs):
         self.shift_rewards = shift_rewards
         self.imbalance = None if imbalance is None else np.array(imbalance, dtype=np.int64)
+        self.safety_k = safety_k
         super().__init__(model, **kwargs)
 
     def set_internal(self):
@@ -342,6 +374,7 @@ class Longest(ExtendedSimulator):
         if self.shift_rewards:
             self.internal["scores"] -= np.min(self.internal["scores"])
         self.internal["imbalance"] = self.imbalance
+        self.internal["safety_k"] = self.safety_k
 
     def run(self):
         longest_core(logs=self.logs, **self.internal)

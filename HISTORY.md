@@ -9,6 +9,10 @@
 * `VirtualQueue` accepts the same `imbalance` option (integer weights per node), the weighted sum
   being taken on the virtual queue (arrivals minus virtual activations): k-filtering of a vertex of
   the hypergraph polytope along its critical direction.
+* `Longest` and `VirtualQueue` accept a `safety_k` option: with `imbalance`, the interdiction is also
+  lifted when a queue (a virtual queue for `VirtualQueue`) reaches `safety_k`, the test being made on the
+  state before the arrival. The longest queue is then a safety net of the imbalance trigger; a null
+  `imbalance` (no certificate, at a bijective vertex) leaves the net alone.
 
 ## 0.4.0 (2025-09-26): Major revision
 

@@ -18,6 +18,7 @@ def vq_core(
     forbidden_edges,
     k,
     imbalance,
+    safety_k,
 ):  # Longest specific arguments
     """
     Jitted function for virtual-queue policy.
@@ -49,6 +50,9 @@ def vq_core(
         the *virtual* queues (arrivals minus virtual activations) reaches `k` in absolute value, the test being
         made on the state before the arrival (imbalance trigger of k-filtering), instead of when a physical
         queue reaches `k`.
+    safety_k: :class:`int`, optional
+        With `imbalance`, forbidden edges also become available when a *virtual* queue reaches `safety_k`,
+        the test being made on the virtual state before the arrival (safety net of the imbalance trigger).
 
     Returns
     -------
@@ -72,6 +76,8 @@ def vq_core(
 
     # Imbalance trigger: imb = <imbalance, virtual queue>, kept up to date (virtual queue starts at 0).
     imb = 0
+    # Virtual queue, for the safety net.
+    vq = np.zeros(n, dtype=np.int64)
 
     for age in range(n_steps):
         # Draw an arrival
@@ -80,7 +86,13 @@ def vq_core(
         restrain_w = True
         if imbalance is not None:
             restrain_w = abs(imb) < k
+            if restrain_w and safety_k is not None:
+                for v in range(n):
+                    if vq[v] >= safety_k:
+                        restrain_w = False
+                        break
             imb += imbalance[node]
+        vq[node] += 1
         queue_size[node] += 1
         if queue_size[node] == max_queue:
             return None
@@ -130,6 +142,7 @@ def vq_core(
             # for each node of the edge, lower scores of all adjacent edges by one
             for v in graph.nodes(best_edge):
                 scores[graph.edges(v)] -= 1
+                vq[v] -= 1
                 if imbalance is not None:
                     imb -= imbalance[v]
 
@@ -169,6 +182,9 @@ class VirtualQueue(ExtendedSimulator):
         sum of the virtual queues (a certificate of the target vertex) reaches `k` in absolute value, the mode
         being decided by the virtual state before the arrival; without it, the interdiction is lifted when a
         physical queue reaches `k`.
+    safety_k: :class:`int`, optional
+        With `imbalance`, the interdiction is also lifted when a virtual queue reaches `safety_k` (virtual
+        state before the arrival): the longest virtual queue acts as a safety net of the imbalance trigger.
     **kwargs
         Keyword parameters of :class:`~stochastic_matching.simulator.extended.ExtendedSimulator`.
 
@@ -379,13 +395,32 @@ class VirtualQueue(ExtendedSimulator):
     array([  0,   0, 961, 342, 691,   0, 105])
     >>> sim.avg_queues
     array([2.731     , 0.69633333, 0.22266667, 0.052     ])
+
+    With other rates, the vertex supported by the hyperedges 2, 4 and 6 is degenerate, with certificate
+    (1, -1, 0, 1). k-filtering along that certificate, with the longest virtual queue as safety net:
+
+    >>> stol.rates = [2, 4, 3, 2]
+    >>> sim = VirtualQueue(stol, forbidden_edges=[0, 1, 3, 5], imbalance=[1, -1, 0, 1], k=10, safety_k=10,
+    ...                    n_steps=3000, seed=42, max_queue=300)
+    >>> sim.run()
+    >>> sim.logs.traffic.astype(int)
+    array([ 49,  30, 303,  40, 512,   5, 511])
+
+    The net did not open in that run; at a low level it does:
+
+    >>> sim = VirtualQueue(stol, forbidden_edges=[0, 1, 3, 5], imbalance=[1, -1, 0, 1], k=10, safety_k=3,
+    ...                    n_steps=3000, seed=42, max_queue=300)
+    >>> sim.run()
+    >>> sim.logs.traffic.astype(int)
+    array([ 36,  52, 338,  74, 525,   5, 477])
     """
 
     name = "virtual_queue"
 
-    def __init__(self, model, max_edge_queue=None, imbalance=None, **kwargs):
+    def __init__(self, model, max_edge_queue=None, imbalance=None, safety_k=None, **kwargs):
         self.max_edge_queue = max_edge_queue
         self.imbalance = None if imbalance is None else np.array(imbalance, dtype=np.int64)
+        self.safety_k = safety_k
         super().__init__(model, **kwargs)
 
     def set_internal(self):
@@ -396,6 +431,7 @@ class VirtualQueue(ExtendedSimulator):
             meq = 10 * self.max_queue
         self.internal["edge_queue"] = MultiQueue(self.model.m, max_queue=meq)
         self.internal["imbalance"] = self.imbalance
+        self.internal["safety_k"] = self.safety_k
 
     def run(self):
         vq_core(logs=self.logs, **self.internal)
