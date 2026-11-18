@@ -1,0 +1,1171 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "d0c9c1d0-ee11-48e5-9415-90d10b24d1fb",
+   "metadata": {},
+   "source": [
+    "# First Steps"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "04e625a1-530d-4330-887b-aa9d4f364e81",
+   "metadata": {},
+   "source": [
+    "## Categorizing graphs by kernel"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "db0a37bc-e51d-4463-b44e-991191bcbc43",
+   "metadata": {},
+   "source": [
+    "A matching model is primarly defined by its compatibility graph $G$.\n",
+    "\n",
+    "[Stochastic Matching](https://balouf.github.io/stochastic_matching/index.html) can categorize the type of graph by looking at the kernels of its incidence matrix. One can check the four categories from the paper."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5d9b041f-3807-4e76-98c3-68171ddf2b28",
+   "metadata": {},
+   "source": [
+    ":::note\n",
+    "A model graph can be built using the adjacency or incidence matrix, for graphs and hypergraphs respectively.\n",
+    "\n",
+    "[Stochastic Matching](https://balouf.github.io/stochastic_matching/index.html) also provide a graph library.\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8ff1eb6e-67a5-4588-8e6c-55531144b45d",
+   "metadata": {},
+   "source": [
+    "### Bijective case"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "743488b3-fe38-40d2-80ce-10a50588f9aa",
+   "metadata": {},
+   "source": [
+    ":::tip\n",
+    "The method `show_graph` represents the nodes with their label, which default to their indices (integers).\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "75d09de6-0b8d-484f-a0e4-40f2d46b2601",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:32.652267Z",
+     "iopub.status.busy": "2025-09-23T08:36:32.650968Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.800145Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.800145Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:32.652267Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"9e7bfec8-2902-4186-b624-99e018539dd9\"></div>\n",
+       "<a href=\"#\" id=\"fit-9e7bfec8-2902-4186-b624-99e018539dd9\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"\", \"from\": 2, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('9e7bfec8-2902-4186-b624-99e018539dd9');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-9e7bfec8-2902-4186-b624-99e018539dd9').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import stochastic_matching as sm\n",
+    "pan = sm.Tadpole()\n",
+    "pan.show_graph()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ea30908b-f4a1-449d-b586-f1ad0024c067",
+   "metadata": {},
+   "source": [
+    ":::tip\n",
+    "The display of the graphs is managed by [VisJS Network](https://visjs.github.io/vis-network/docs/network/). Sometimes, the result is not convincing (graph not centered, skewed, ...). Refreshing the graph usually fixes the issue.\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "2e2f591e-ddcf-4014-8db9-b813f620a0cb",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.801151Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.801151Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.804337Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.804337Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.801151Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Kernels of a graph with 4 nodes and 4 edges.\n",
+       "Node dimension is 0.\n",
+       "Edge dimension is 0\n",
+       "Type: Bijective\n",
+       "Node kernel:\n",
+       "[]\n",
+       "Edge kernel:\n",
+       "[]"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pan.kernel"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bd0f257b-cf93-4c93-ad8b-f067d915b16e",
+   "metadata": {},
+   "source": [
+    "### Surjective-only case"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "4121570f-6890-4163-8a8f-3b4de50a50e1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.805348Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.804337Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.813692Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.813692Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.805348Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"ada4d06e-6d6e-4019-95c6-4d429b8ddfae\"></div>\n",
+       "<a href=\"#\" id=\"fit-ada4d06e-6d6e-4019-95c6-4d429b8ddfae\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (1, 3)\", \"label\": \"\", \"from\": 1, \"to\": 3}, {\"title\": \"4: (2, 3)\", \"label\": \"\", \"from\": 2, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('ada4d06e-6d6e-4019-95c6-4d429b8ddfae');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-ada4d06e-6d6e-4019-95c6-4d429b8ddfae').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "diamond = sm.CycleChain()\n",
+    "diamond.show_graph()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "5638b4db-028c-4da2-a331-b85ca5d8438b",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.814850Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.813692Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.818338Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.818338Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.814850Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Kernels of a graph with 4 nodes and 5 edges.\n",
+       "Node dimension is 0.\n",
+       "Edge dimension is 1\n",
+       "Type: Surjective-only\n",
+       "Node kernel:\n",
+       "[]\n",
+       "Edge kernel:\n",
+       "[[ 1 -1  0 -1  1]]"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "diamond.kernel"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5f640cbd-dd53-4d15-9c47-59c4d285bb7c",
+   "metadata": {},
+   "source": [
+    "### Injective-only case"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "83624ede-5311-4de3-b27e-ca11dfc16d7c",
+   "metadata": {},
+   "source": [
+    ":::tip\n",
+    "If you have custom labels, the indices can be accessed by hovering over nodes.\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "4172d307-3fad-45e1-bcc8-22dcae36a23d",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.818338Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.818338Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.824672Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.824672Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.818338Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"92ce0541-c7ab-4556-94c6-d5e7a9838223\"></div>\n",
+       "<a href=\"#\" id=\"fit-92ce0541-c7ab-4556-94c6-d5e7a9838223\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"R\", \"title\": \"0: R\"}, {\"id\": 1, \"label\": \"L1\", \"title\": \"1: L1\"}, {\"id\": 2, \"label\": \"L2\", \"title\": \"2: L2\"}, {\"id\": 3, \"label\": \"L3\", \"title\": \"3: L3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (R, L1)\", \"label\": \"\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (R, L2)\", \"label\": \"\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (R, L3)\", \"label\": \"\", \"from\": 0, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('92ce0541-c7ab-4556-94c6-d5e7a9838223');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-92ce0541-c7ab-4556-94c6-d5e7a9838223').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "star = sm.Star(names=[\"R\", \"L1\", \"L2\", \"L3\"])\n",
+    "star.show_graph()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "f949f75d-0fe6-40e3-b23d-8c8ec3733f40",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.825677Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.825677Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.829325Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.829325Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.825677Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Kernels of a graph with 4 nodes and 3 edges.\n",
+       "Node dimension is 1.\n",
+       "Edge dimension is 0\n",
+       "Type: Injective-only\n",
+       "Node kernel:\n",
+       "[[-1]\n",
+       " [ 1]\n",
+       " [ 1]\n",
+       " [ 1]]\n",
+       "Edge kernel:\n",
+       "[]"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "star.kernel"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "650014f9-e22f-4116-8f98-019e86720781",
+   "metadata": {},
+   "source": [
+    "### *Nonjective* case (not surjective, not injective)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "0ea32a12-f0b1-43e2-aebd-8ce4342388d3",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.829325Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.829325Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.836420Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.836420Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.829325Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"0cfb64a6-6cd7-4d4a-a253-e4744f37456f\"></div>\n",
+       "<a href=\"#\" id=\"fit-0cfb64a6-6cd7-4d4a-a253-e4744f37456f\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"0\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"1\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"2\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 3)\", \"label\": \"\", \"from\": 0, \"to\": 3}, {\"title\": \"2: (1, 2)\", \"label\": \"\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"\", \"from\": 2, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('0cfb64a6-6cd7-4d4a-a253-e4744f37456f');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-0cfb64a6-6cd7-4d4a-a253-e4744f37456f').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "cycle = sm.Cycle(n=4)\n",
+    "cycle.show_graph()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "10684e51-49ae-4ed0-9ea0-9592ff82290e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.837428Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.837428Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.842533Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.842533Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.837428Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Kernels of a graph with 4 nodes and 4 edges.\n",
+       "Node dimension is 1.\n",
+       "Edge dimension is 1\n",
+       "Type: Nonjective\n",
+       "Node kernel:\n",
+       "[[ 1]\n",
+       " [-1]\n",
+       " [ 1]\n",
+       " [-1]]\n",
+       "Edge kernel:\n",
+       "[[ 1 -1 -1  1]]"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "cycle.kernel"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3f533de4-67ad-467e-8cf2-3191a305c814",
+   "metadata": {},
+   "source": [
+    "## Rate solutions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ca4151be-5d39-4f59-b826-38ff3ac9b6d7",
+   "metadata": {},
+   "source": [
+    ":::note\n",
+    "Achievable matching rates $\\mu$ depends on the arrival rates $\\lambda$.\n",
+    "\n",
+    "While the [paper](https://hal.science/hal-03502084) sometimes gives the matching rates $\\mu$ as a generic function of the arrival rates $\\lambda$, [Stochastic Matching](https://balouf.github.io/stochastic_matching/index.html) requires a numeric values of $\\lambda$.\n",
+    "\n",
+    "Arrival rates can be defined when the model is instanciated, or afterwards.\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "43afb4fa-8610-47a3-8406-929e8dc04d9f",
+   "metadata": {},
+   "source": [
+    "### Bijective case"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "624cc9a1-b348-4029-a76f-bdd18aff38bc",
+   "metadata": {},
+   "source": [
+    ":::note\n",
+    "When a flow is specified, ```show_kernel``` displays on edges the possible matching rates.\n",
+    "\n",
+    "The nodes show their arrival rates.\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "58a68f90-4671-4105-a430-3ae644ed1ae6",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.843538Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.842533Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.849571Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.849571Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.843538Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"42325b20-1c64-4a83-b8cd-6610fb741310\"></div>\n",
+       "<a href=\"#\" id=\"fit-42325b20-1c64-4a83-b8cd-6610fb741310\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"3\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"4\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"5\", \"title\": \"2\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"1\", \"color\": \"black\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"2\", \"color\": \"black\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"3\", \"color\": \"black\", \"from\": 1, \"to\": 2}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('42325b20-1c64-4a83-b8cd-6610fb741310');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-42325b20-1c64-4a83-b8cd-6610fb741310').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "triangle = sm.Cycle(n=3)\n",
+    "triangle.rates = [3, 4, 5]\n",
+    "triangle.show_kernel(disp_flow=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "6dbb2dda-7203-4670-95ff-87fecc046371",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.850579Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.850579Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.855472Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.855472Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.850579Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"1bef3e9c-f669-4538-ae2f-8156e8b1f2c7\"></div>\n",
+       "<a href=\"#\" id=\"fit-1bef3e9c-f669-4538-ae2f-8156e8b1f2c7\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"4\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"5\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"5\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"2\", \"title\": \"3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"3\", \"color\": \"black\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"1\", \"color\": \"black\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"2\", \"color\": \"black\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"2\", \"color\": \"black\", \"from\": 2, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('1bef3e9c-f669-4538-ae2f-8156e8b1f2c7');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-1bef3e9c-f669-4538-ae2f-8156e8b1f2c7').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "pan.rates = [4, 5, 5, 2]\n",
+    "pan.show_kernel(disp_flow=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "80cbaaef-85f5-4566-9d10-2160233c2aee",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.856477Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.855472Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.861841Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.861841Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.856477Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"23e0b392-ac8f-4271-a215-b73b756de9d3\"></div>\n",
+       "<a href=\"#\" id=\"fit-23e0b392-ac8f-4271-a215-b73b756de9d3\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"2\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"3\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"4\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"4\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"3\", \"title\": \"4\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"1\", \"color\": \"black\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 4)\", \"label\": \"1\", \"color\": \"black\", \"from\": 0, \"to\": 4}, {\"title\": \"2: (1, 2)\", \"label\": \"2\", \"color\": \"black\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"2\", \"color\": \"black\", \"from\": 2, \"to\": 3}, {\"title\": \"4: (3, 4)\", \"label\": \"2\", \"color\": \"black\", \"from\": 3, \"to\": 4}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('23e0b392-ac8f-4271-a215-b73b756de9d3');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-23e0b392-ac8f-4271-a215-b73b756de9d3').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "pentagon = sm.Cycle(n=5, rates=[2, 3, 4, 4, 3])\n",
+    "pentagon.show_kernel(disp_flow=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2228cde3-9289-4500-afaa-28513cfe68b7",
+   "metadata": {},
+   "source": [
+    ":::note\n",
+    "A *puppet* graph is just one frying pan and two stars glued together!\n",
+    ":::"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "a8283f91-023a-4f75-9a7e-7801a8f0d34b",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.862848Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.862848Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.871256Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.871256Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.862848Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"40d12afe-054d-43b4-b2af-f6cae5b000af\"></div>\n",
+       "<a href=\"#\" id=\"fit-40d12afe-054d-43b4-b2af-f6cae5b000af\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"3\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"4\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"6\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"5\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"1\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"2\", \"title\": \"5\"}, {\"id\": 6, \"label\": \"4\", \"title\": \"6\"}, {\"id\": 7, \"label\": \"2\", \"title\": \"7\"}, {\"id\": 8, \"label\": \"1\", \"title\": \"8\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"1\", \"color\": \"black\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"2\", \"color\": \"black\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"3\", \"color\": \"black\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"1\", \"color\": \"black\", \"from\": 2, \"to\": 3}, {\"title\": \"4: (3, 4)\", \"label\": \"1\", \"color\": \"black\", \"from\": 3, \"to\": 4}, {\"title\": \"5: (3, 5)\", \"label\": \"2\", \"color\": \"black\", \"from\": 3, \"to\": 5}, {\"title\": \"6: (3, 6)\", \"label\": \"1\", \"color\": \"black\", \"from\": 3, \"to\": 6}, {\"title\": \"7: (6, 7)\", \"label\": \"2\", \"color\": \"black\", \"from\": 6, \"to\": 7}, {\"title\": \"8: (6, 8)\", \"label\": \"1\", \"color\": \"black\", \"from\": 6, \"to\": 8}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('40d12afe-054d-43b4-b2af-f6cae5b000af');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-40d12afe-054d-43b4-b2af-f6cae5b000af').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "puppet = sm.concatenate([sm.Tadpole(), sm.Star(), sm.Star(n=3)], \n",
+    "                        rates=[3, 4, 6, 5, 1, 2, 4, 2, 1])\n",
+    "puppet.show_kernel(disp_flow=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "56ad9af4-9503-4eef-8708-c38846f7220b",
+   "metadata": {},
+   "source": [
+    "### Surjective-only case"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "0d85e94a-01c1-465b-b74a-f686ef1d23b1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.872263Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.872263Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.876386Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.876386Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.872263Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"766310ec-f6d3-47d5-9266-6fae97000e91\"></div>\n",
+       "<a href=\"#\" id=\"fit-766310ec-f6d3-47d5-9266-6fae97000e91\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"7\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"9\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"7\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"5\", \"title\": \"3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"4+\\u03b11\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"3-\\u03b11\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"2\", \"color\": \"black\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (1, 3)\", \"label\": \"3-\\u03b11\", \"from\": 1, \"to\": 3}, {\"title\": \"4: (2, 3)\", \"label\": \"2+\\u03b11\", \"from\": 2, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('766310ec-f6d3-47d5-9266-6fae97000e91');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-766310ec-f6d3-47d5-9266-6fae97000e91').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "diamond.rates=[7, 9, 7, 5]\n",
+    "diamond.show_kernel(disp_flow=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "ac8b3ea6-7ac5-4d42-ad35-e39c49bb028b",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.877397Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.877397Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.885530Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.885530Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.877397Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"5d372db7-78ea-4640-aef8-00a7e81be564\"></div>\n",
+       "<a href=\"#\" id=\"fit-5d372db7-78ea-4640-aef8-00a7e81be564\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"3\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"4\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"5\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"3\", \"title\": \"3\"}, {\"id\": 4, \"label\": \"4\", \"title\": \"4\"}, {\"id\": 5, \"label\": \"5\", \"title\": \"5\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"1+\\u03b11\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 2)\", \"label\": \"2-\\u03b11\", \"from\": 0, \"to\": 2}, {\"title\": \"2: (1, 2)\", \"label\": \"3-\\u03b11\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"+2\\u03b11\", \"from\": 2, \"to\": 3}, {\"title\": \"4: (3, 4)\", \"label\": \"1-\\u03b11\", \"from\": 3, \"to\": 4}, {\"title\": \"5: (3, 5)\", \"label\": \"2-\\u03b11\", \"from\": 3, \"to\": 5}, {\"title\": \"6: (4, 5)\", \"label\": \"3+\\u03b11\", \"from\": 4, \"to\": 5}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('5d372db7-78ea-4640-aef8-00a7e81be564');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-5d372db7-78ea-4640-aef8-00a7e81be564').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "kayak = sm.KayakPaddle(rates=[3, 4, 5, 3, 4, 5])\n",
+    "kayak.show_kernel(flow=kayak.optimize_edge(3, -1))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7fc5cec7-ebf3-4d02-aa52-5b7cff1787fc",
+   "metadata": {},
+   "source": [
+    "### Bipartite case"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "f9f94cd4-d227-416e-a7a6-e66bec5b7675",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-09-23T08:36:33.885530Z",
+     "iopub.status.busy": "2025-09-23T08:36:33.885530Z",
+     "iopub.status.idle": "2025-09-23T08:36:33.891366Z",
+     "shell.execute_reply": "2025-09-23T08:36:33.891366Z",
+     "shell.execute_reply.started": "2025-09-23T08:36:33.885530Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "<div class=\"sm-graph\">\n",
+       "<div id=\"73cf5f91-e049-4511-8a72-0afbad9ce130\"></div>\n",
+       "<a href=\"#\" id=\"fit-73cf5f91-e049-4511-8a72-0afbad9ce130\"\n",
+       "  style=\"position: absolute; left: 10px; bottom: 10px; text-decoration: none; color: #888; font-size: min(2vw, 10px);\n",
+       "  z-index: 10; pointer-events: auto;\"\n",
+       "> Refresh\n",
+       "</a>\n",
+       "<style>\n",
+       ".sm-graph {\n",
+       "position: relative;\n",
+       "width: 100%;\n",
+       "height: 50vh !important;\n",
+       "max-width: 100vw;\n",
+       "max-height: 100vh !important;\n",
+       "}\n",
+       ".sm-graph > div {\n",
+       "  height: 100%;   /* Make the inner div fill the parent */\n",
+       "}\n",
+       "</style>\n",
+       "</div>\n",
+       "<script type=\"module\">\n",
+       "import { DataSet, Network } from \"https://unpkg.com/vis-network/standalone/esm/vis-network.min.js\";\n",
+       "// CSS will be automatically injected into the page.\n",
+       "function render () {\n",
+       "    const nodes = new DataSet([{\"id\": 0, \"label\": \"2\", \"title\": \"0\"}, {\"id\": 1, \"label\": \"2\", \"title\": \"1\"}, {\"id\": 2, \"label\": \"1\", \"title\": \"2\"}, {\"id\": 3, \"label\": \"1\", \"title\": \"3\"}]);\n",
+       "    const edges = new DataSet([{\"title\": \"0: (0, 1)\", \"label\": \"1+\\u03b11\", \"from\": 0, \"to\": 1}, {\"title\": \"1: (0, 3)\", \"label\": \"1-\\u03b11\", \"from\": 0, \"to\": 3}, {\"title\": \"2: (1, 2)\", \"label\": \"1-\\u03b11\", \"from\": 1, \"to\": 2}, {\"title\": \"3: (2, 3)\", \"label\": \"+\\u03b11\", \"from\": 2, \"to\": 3}]);\n",
+       "    const data = {\n",
+       "            nodes: nodes,\n",
+       "            edges: edges,\n",
+       "    };\n",
+       "    const options = {\"interaction\": {\"navigationButtons\": false}, \"width\": \"100%\", \"height\": \"100%\"};\n",
+       "    const container = document.getElementById('73cf5f91-e049-4511-8a72-0afbad9ce130');\n",
+       "    const network = new Network(container, data, options);\n",
+       "    network.fit({maxZoomLevel: 10});\n",
+       "    network.redraw();\n",
+       "}\n",
+       "\n",
+       "render();\n",
+       "document.getElementById('fit-73cf5f91-e049-4511-8a72-0afbad9ce130').addEventListener('click', function(event) {\n",
+       "    event.preventDefault();  // Prevent page jump\n",
+       "    render(); // Adjust zoom limit as needed\n",
+       "});\n",
+       "</script>\n"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "cycle.rates=[2, 2, 1, 1]\n",
+    "cycle.show_kernel(flow=cycle.optimize_edge(1))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
